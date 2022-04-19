@@ -1,0 +1,88 @@
+.container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+.bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-color: hsl(0, 0%, 0%, 0.9);
+}
+.bg .bgimg1 {
+  width: 100vw;
+  height: 99vh;
+  object-position: 65%;
+  object-fit: cover;
+}
+.content {
+  position: absolute;
+  left: 10%;
+  top: 25%;
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: left;
+  gap: 1rem;
+  color: white;
+  /* margin-left: 10%; */
+  /* border: 1px solid red; */
+}
+.content .desc {
+  flex: 0.5;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  /* height: max-content; */
+}
+.content .lbtn button {
+  flex: 0.5;
+  width: max-content;
+  padding: 0.8rem 1rem;
+  font-size: clamp(1.1rem, 3vw, 1.3rem);
+
+  color: white !important;
+  background: hsl(283, 90%, 32%, 1);
+  border: none;
+  box-shadow: 0px 0px 3px rgba(255, 255, 255, 0.6);
+  border-radius: 5px;
+}
+.content .lbtn button:hover {
+  background: white;
+  color: hsl(283, 90%, 32%, 1) !important;
+}
+.content .lbtn button:active {
+  transform: scale(0.97);
+  transform-origin: right bottom;
+}
+
+/* LOADING STATE */
+.container .l_loader {
+  position: absolute;
+  inset: 0;
+  background: hsl(0, 0%, 0%, 0.9);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+.status {
+  color: white;
+}
+
+@media (max-width: 600px) {
+  .bg .bgimg1 {
+    object-position: 75%;
+    object-fit: cover;
+  }
+  .content {
+    position: absolute;
+    left: 5%;
+    top: 25%;
+    width: min(90%, 50vh);
+    backdrop-filter: blur(1px);
+    gap: 1rem;
+    color: white;
+    /* margin-left: 10%; */
+  }
+}

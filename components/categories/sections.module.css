@@ -1,0 +1,46 @@
+/* Section 2 */
+.two {
+  position: relative;
+  width: 100%;
+  min-height: 80vh;
+  background: var(--primary);
+  padding-bottom: 3rem;
+}
+
+/* Carousel section */
+.c_section {
+  /* border:1px solid red; */
+  margin: 0 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-bottom: max(2rem, 3%);
+}
+.c_section > .head {
+  position: relative;
+  left: 6%;
+  margin-bottom: -1rem;
+  width: max-content;
+
+  font-weight: 300;
+  text-transform: capitalize;
+  font-size: clamp(1.3rem, 5vw, 2.3rem);
+  color: var(--font-primary);
+  border-left: 0.5rem solid var(--secondary);
+  line-height: 80%;
+}
+
+.c_section > .head .name {
+  position: relative;
+  left: 0.4rem;
+  bottom: 0;
+}
+/* .c_section > .head .name::before{
+    content: '';
+    position: absolute;
+    left:-.6rem;
+    transform: translateY(30%);
+    width:.4rem;
+    height: 70%;
+    background: var(--secondary);
+} */

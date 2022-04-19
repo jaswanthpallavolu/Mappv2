@@ -1,0 +1,109 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap");
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: "Open sans", sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.content .m_card {
+  margin: 0.5rem;
+}
+
+/* MOVIE CARD */
+.m_card.medium #card_title {
+  font-size: clamp(0.8rem, 5vw, 1.25rem);
+}
+.m_card.medium #card_more {
+  font-size: clamp(0.8rem, 5vw, 0.9rem);
+}
+
+.m_card.small #card_title {
+  font-size: clamp(0.8rem, 5vw, 1.1rem);
+}
+.m_card.small #card_more {
+  font-size: clamp(0.8rem, 5vw, 0.8rem);
+}
+
+@media (max-width: 480px) {
+  #movie_card {
+    --card-width: min(10rem, 35vw) !important;
+    --card-height: calc(var(--card-width) * 1.5) !important;
+  }
+}
+@media (min-width: 481px) and (max-width: 600px) {
+  #movie_card {
+    --card-width: min(8rem, 35vw) !important;
+    --card-height: calc(var(--card-width) * 1.5) !important;
+  }
+}
+/* END OF MOVIE CARD */
+
+/* CUSTOM CAROUSEL */
+.slick-list,
+.slick-track {
+  -ms-touch-action: pan-y;
+  touch-action: pan-y;
+}
+.carousel.small .slick-list {
+  width: 100%;
+}
+.carousel .slick-list {
+  margin-left: 1%;
+  height: max-content;
+}
+.slick-arrow.slick-prev,
+.slick-arrow.slick-next {
+  opacity: 0 !important;
+}
+.carousel:hover .slick-arrow.slick-prev,
+.carousel:hover .slick-arrow.slick-next {
+  opacity: 1 !important;
+}
+
+.carousel .slick-track {
+  margin-left: 0;
+}
+.carousel .slick-arrow.slick-prev::before {
+  font-family: "Font Awesome 5 Free";
+  content: "\f053" !important;
+  color: var(--font-primary) !important;
+  font-weight: 900;
+  font-size: clamp(1.2rem, 4vw, 2rem);
+}
+
+.carousel .slick-arrow.slick-next::before {
+  font-family: "Font Awesome 5 Free";
+  content: "\f054" !important;
+  color: var(--font-primary) !important;
+  font-weight: 900;
+  font-size: clamp(1.2rem, 4vw, 2rem);
+}
+.carousel .wrapper {
+  padding: 1rem 0;
+}
+
+/* RESPONSIVE SLIDER */
+
+@media (max-width: 600px) {
+  /* .carousel .slick-list{
+    height: max(30vh,12rem);
+  } */
+  .carousel .slick-prev,
+  .carousel .slick-next {
+    opacity: 1 !important;
+  }
+  .carousel .wrapper {
+    padding: 0.3rem 0;
+  }
+}
