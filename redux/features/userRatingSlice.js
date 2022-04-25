@@ -7,7 +7,7 @@ export const addMovieData = createAsyncThunk(
   async (obj, thunkAPI) => {
     var data;
     await axios
-      .post(`${process.env.NEXT_PUBLIC_DATA_SERVER}/user/add/movie`, obj)
+      .post(`${process.env.NEXT_PUBLIC_USER_DATA_SERVER}/user/add/movie`, obj)
       .then((res) => (data = res.data))
       .catch((err) => console.log(err));
     return data;
@@ -19,7 +19,9 @@ export const deleteMovieData = createAsyncThunk(
   async ({ uid, mid }, thunkAPI) => {
     var data;
     await axios
-      .delete(`${process.env.NEXT_PUBLIC_DATA_SERVER}/user/${uid}/movie/${mid}`)
+      .delete(
+        `${process.env.NEXT_PUBLIC_USER_DATA_SERVER}/user/${uid}/movie/${mid}`
+      )
       .then((res) => {
         data = res.data;
       })
@@ -34,7 +36,7 @@ export const updateMovieData = createAsyncThunk(
   async ({ uid, mid, data }) => {
     await axios
       .put(
-        `${process.env.NEXT_PUBLIC_DATA_SERVER}/user/${uid}/movie/${mid}`,
+        `${process.env.NEXT_PUBLIC_USER_DATA_SERVER}/user/${uid}/movie/${mid}`,
         data
       )
       .catch((err) => console.log(err));
@@ -47,7 +49,9 @@ export const getMovie = createAsyncThunk(
   async (uid, mid) => {
     var data;
     await axios
-      .get(`${process.env.NEXT_PUBLIC_DATA_SERVER}/user/${uid}/movie/${mid}`)
+      .get(
+        `${process.env.NEXT_PUBLIC_USER_DATA_SERVER}/user/${uid}/movie/${mid}`
+      )
       .then((res) => (data = res.data));
     return data;
   }
@@ -59,7 +63,7 @@ export const fetchMovies = createAsyncThunk(
   async (uid) => {
     var data;
     await axios
-      .get(`${process.env.NEXT_PUBLIC_DATA_SERVER}/user/${uid}/movies`)
+      .get(`${process.env.NEXT_PUBLIC_USER_DATA_SERVER}/user/${uid}/movies`)
       .then((res) => (data = res.data));
     return data;
   }

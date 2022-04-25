@@ -56,8 +56,8 @@ export function Recommend({ name }) {
       .catch((err) => console.log(err));
   };
   const getSimilar = async () => {
-    setTitle(`beacause you watched, ${queryList[0]}`);
-    var id = queryList[0];
+    setTitle(`beacause you watched, ${queryList[0][1]}`);
+    var id = queryList[0][0];
     await axios
       .get(
         `${process.env.NEXT_PUBLIC_MOVIE_SERVER}/recommend/contentbased/${id}`
@@ -70,7 +70,7 @@ export function Recommend({ name }) {
   };
 
   const recommendMovies = () => {
-    if (queryList) {
+    if (queryList.length) {
       setLoading(true);
       if (name === "collaborative") getRecommendations();
       else if (name === "watched") getSimilar();
@@ -92,8 +92,7 @@ export function Recommend({ name }) {
       }
       if (name === "watched") {
         var mlist = movies.filter((i) => i.watched);
-        mlist = mlist.map((i) => i.movieId).reverse();
-        // console.log(mlist);
+        mlist = mlist.map((i) => [i.movieId, i.title]).reverse();
       }
 
       if (JSON.stringify(queryList) !== JSON.stringify(mlist))

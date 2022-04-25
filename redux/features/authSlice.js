@@ -41,14 +41,14 @@ export const logout = createAsyncThunk("auth/logout", async () => {
 export const getAllUsers = createAsyncThunk("auth/allUsers", async () => {
   var data;
   await axios
-    .get(`${process.env.NEXT_PUBLIC_DATA_SERVER}/user/all`)
+    .get(`${process.env.NEXT_PUBLIC_USER_DATA_SERVER}/user/all`)
     .then((res) => (data = res.data.users));
   return data;
 });
 //add to database
 export const addToDB = createAsyncThunk("auth/addUser", async (user) => {
   await axios
-    .post(`${process.env.NEXT_PUBLIC_DATA_SERVER}/user/add`, user)
+    .post(`${process.env.NEXT_PUBLIC_USER_DATA_SERVER}/user/add`, user)
     .then((res) => console.log("new User"));
 });
 
