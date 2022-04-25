@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components'
+import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyles = createGlobalStyle`
 
@@ -16,5 +16,7 @@ body{
 
      --card-shadow:${({ theme }) => theme.cardShadow};
      --button-shadow:${({ theme }) => theme.buttonShadow};
+
+     --skeleton-color:${({ theme }) => theme.skeletonColor}
 }
-`
+`;

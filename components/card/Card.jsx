@@ -2,17 +2,17 @@ import React, { useState, useEffect } from "react";
 import styles from "./card.module.css";
 import axios from "axios";
 import styled from "styled-components";
-import { Skeleton } from "@mui/material";
-import Image from "next/image";
+import Skeleton from "../../utils/skeleton/Skeleton";
+// import Image from "next/image";
 
 import { useSelector, useDispatch } from "react-redux";
 import {
   addMovieData,
   deleteMovieData,
   updateMovieData,
-} from "../../redux/features/userDataSlice";
-// import { fetchMovies } from '../../redux/features/userDataSlice'
+} from "../../redux/features/userRatingSlice";
 import { setOpen, setMovieDetails } from "../../redux/features/movieSlice";
+import { useRouter } from "next/router";
 
 const MCard = styled.div.attrs((props) => ({
   className: `m_card ${props.size}`,
@@ -37,37 +37,14 @@ const MCard = styled.div.attrs((props) => ({
     `}
 `;
 export default function Card({ id, size }) {
+  const router = useRouter();
+
   const [details, setDetais] = useState();
   const [loading, setLoading] = useState(true);
-  const [inList, setInList] = useState();
 
   const dispatch = useDispatch();
-  const uid = useSelector((state) => state.currentUser.user.uid);
-  const movies = useSelector((state) => state.userData.movies);
-  const [myList, setMyList] = useState([]);
-  // const moviesInfo = useSelector(state => state.userData.myList)
-  const loadStatus = useSelector((state) => state.userData.status);
 
   //   useEffect(() => {}, []);
-  useEffect(() => {
-    if (loadStatus !== "loading") {
-      var list = movies.filter((i) => i.myList === true);
-      //   list = list?.map((i) => i.movieId)?.reverse();
-      if (JSON.stringify(list) !== JSON.stringify(myList)) setMyList(list);
-    }
-  }, [loadStatus]); //eslint-disable-line react-hooks/exhaustive-deps
-  // const status = useSelector(state => state.userData.status)
-
-  const [status, setStatus] = useState(false);
-  const fix = async () => {
-    const mIfo = await myList.find((i) => i.movieId === details.movieId);
-    if (mIfo) {
-      setInList(mIfo.myList);
-    } else {
-      setInList(false);
-    }
-    setStatus(false);
-  };
   const fetchMovie = async (signal) => {
     setLoading(true);
     await axios
@@ -95,6 +72,75 @@ export default function Card({ id, size }) {
       controller.abort();
     };
   }, []); //eslint-disable-line react-hooks/exhaustive-deps
+  return (
+    <MCard className={styles.m_card} id="movie_card" size={size}>
+      {!loading && details ? (
+        <>
+          <div className={styles.image}>
+            {/* <Image objectFit='cover' layout='fill' className={styles.poster} src={details.poster} priority alt="name1" /> */}
+            <img
+              className={styles.poster}
+              src={details.poster}
+              alt="img not loaded"
+            />
+          </div>
+          <Header details={details} />
+          <div
+            className={styles.info}
+            onClick={() => {
+              router.push(`/movies/${details.movieId}`);
+              dispatch(setMovieDetails(details));
+              dispatch(setOpen(true));
+            }}
+          >
+            <div className={styles.title} id="card_title">
+              {String(details.title).substring(0, 40)}
+            </div>
+            <div className={styles.more} id="card_more">
+              <div className={styles.durt}>{details.runtime}</div>
+              {/* <span></span>
+                        <div className={styles.rate}>{details.Rated}</div> */}
+              <span></span>
+              <div className={styles.year}>{details.year}</div>
+            </div>
+          </div>
+          {/* <div className="details">View</div> */}
+        </>
+      ) : (
+        <Skeleton />
+      )}
+    </MCard>
+  );
+}
+
+// this component handles all logic of add to/remove from  mylist operations
+export const Header = ({ details }) => {
+  const dispatch = useDispatch();
+  const [inList, setInList] = useState();
+  const uid = useSelector((state) => state.userAuth.user.uid);
+  const movies = useSelector((state) => state.userRatings.movies);
+  const [myList, setMyList] = useState([]);
+  const loadStatus = useSelector((state) => state.userRatings.status);
+  const authorized = useSelector((state) => state.userAuth.user.authorized);
+
+  useEffect(() => {
+    if (loadStatus !== "loading") {
+      var list = movies.filter((i) => i.myList === true);
+      //   list = list?.map((i) => i.movieId)?.reverse();
+      if (JSON.stringify(list) !== JSON.stringify(myList)) setMyList(list);
+    }
+  }, [loadStatus]); //eslint-disable-line react-hooks/exhaustive-deps
+
+  const [status, setStatus] = useState(false);
+  const fix = async () => {
+    const mIfo = await myList.find((i) => i.movieId === details.movieId);
+    if (mIfo) {
+      setInList(mIfo.myList);
+    } else {
+      setInList(false);
+    }
+    setStatus(false);
+  };
 
   useEffect(() => {
     if (details?.movieId) fix();
@@ -139,79 +185,35 @@ export default function Card({ id, size }) {
       );
   };
   return (
-    <MCard className={styles.m_card} id="movie_card" size={size}>
-      {!loading && details ? (
-        <>
-          <div className={styles.image}>
-            {/* <Image objectFit='cover' layout='fill' className={styles.poster} src={details.poster} priority alt="name1" /> */}
-            <img
-              className={styles.poster}
-              src={details.poster}
-              alt="img not loaded"
-            />
-          </div>
-
-          <div className={styles.top}>
-            <div className={styles.imdb}>
-              {parseFloat(details.imdbRating).toFixed(1)}
-            </div>
-            <div className={styles.options}>
-              {!status ? (
-                <>
-                  {inList ? (
-                    <div
-                      className={styles.tooltip}
-                      onClick={handleDelete}
-                      data-title="remove from list"
-                    >
-                      <img src="/assets/x-mark.png" alt="tick" />
-                    </div>
-                  ) : (
-                    <div
-                      className={styles.tooltip}
-                      onClick={handleAdd}
-                      data-title="add to list"
-                    >
-                      <img src="/assets/plus-circle-thin.png" alt="add" />
-                    </div>
-                  )}
-                </>
-              ) : (
-                <div className={styles.spin}></div>
-              )}
-            </div>
-          </div>
-
-          <div
-            className={styles.info}
-            onClick={() => {
-              dispatch(setMovieDetails(details));
-              dispatch(setOpen(true));
-            }}
-          >
-            <div className={styles.title} id="card_title">
-              {String(details.title).substring(0, 40)}
-            </div>
-            <div className={styles.more} id="card_more">
-              <div className={styles.durt}>{details.runtime}</div>
-              {/* <span></span>
-                        <div className={styles.rate}>{details.Rated}</div> */}
-              <span></span>
-              <div className={styles.year}>{details.year}</div>
-            </div>
-          </div>
-          {/* <div className="details">View</div> */}
-        </>
-      ) : (
-        <Skeleton
-          style={{
-            height: "100%",
-            width: "100%",
-            background: "rgba(255,255,255,.5)",
-          }}
-          animation="wave"
-        />
-      )}
-    </MCard>
+    <div className={styles.top}>
+      <div className={styles.imdb}>
+        {parseFloat(details.imdbRating).toFixed(1)}
+      </div>
+      <div className={styles.options}>
+        {!status ? (
+          <>
+            {inList ? (
+              <div
+                className={styles.tooltip}
+                onClick={() => authorized && handleDelete()}
+                data-title="remove from list"
+              >
+                <img src="/assets/x-mark.png" alt="tick" />
+              </div>
+            ) : (
+              <div
+                className={styles.tooltip}
+                onClick={() => authorized && handleAdd()}
+                data-title="add to list"
+              >
+                <img src="/assets/plus-circle-thin.png" alt="add" />
+              </div>
+            )}
+          </>
+        ) : (
+          <div className={styles.spin}></div>
+        )}
+      </div>
+    </div>
   );
-}
+};

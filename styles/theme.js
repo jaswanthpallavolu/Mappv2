@@ -4,6 +4,7 @@ export const darkTheme = {
   color3: "#FAF8FF",
 
   cardShadow: "rgba(255,255,255,.25)",
+  skeletonColor: "hsl(0, 0%, 16%)",
 
   modal: "hsl(0,0%,0%,.8)",
 
@@ -17,7 +18,9 @@ export const lightTheme = {
   color2: "#86A8E7",
 
   buttonShadow: "rgba(0,0,0,.1)",
-  cardShadow: "rgba(0,0,0,.25)",
+  cardShadow: "rgba(0,0,0,.35)",
+
+  skeletonColor: "hsl(0, 0%, 86%)",
 
   modal: "rgba(255,255,255,.9)",
 

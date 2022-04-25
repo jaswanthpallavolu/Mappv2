@@ -1,0 +1,16 @@
+.container {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(180deg, var(--secondary), var(--primary));
+  overflow: hidden;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+.container h1 {
+  color: var(--font-primary);
+}

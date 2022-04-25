@@ -42,8 +42,8 @@ export function Recommend({ name }) {
   // const [rated, setRated] = useState();
   // const [watched, setWatched] = useState();
   const [result, setResult] = useState();
-  const status = useSelector((state) => state.userData.status);
-  const movies = useSelector((state) => state.userData.movies);
+  const status = useSelector((state) => state.userRatings.status);
+  const movies = useSelector((state) => state.userRatings.movies);
   const getRecommendations = async () => {
     await axios
       .post(`${process.env.NEXT_PUBLIC_MOVIE_SERVER}/recommend/collab/`, {
@@ -145,8 +145,8 @@ export function Recommend({ name }) {
 }
 
 export const Category = ({ name, query }) => {
-  const status = useSelector((state) => state.userData.status);
-  const movies = useSelector((state) => state.userData.movies);
+  const status = useSelector((state) => state.userRatings.status);
+  const movies = useSelector((state) => state.userRatings.movies);
 
   const [loading, setLoading] = useState(true);
   const [result, setResult] = useState();

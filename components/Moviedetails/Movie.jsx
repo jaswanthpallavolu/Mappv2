@@ -6,7 +6,7 @@ import {
   deleteMovieData,
   addMovieData,
   fetchMovies,
-} from "../../redux/features/userDataSlice";
+} from "../../redux/features/userRatingSlice";
 import styles from "./movie.module.css";
 import Carousel from "../carousel/Carousel";
 import { Loader1 } from "../../utils/loaders/Loading";
@@ -134,11 +134,13 @@ export default function Movie() {
   );
 }
 
+// so many conditional statements used on user rating actions
 export function Actions({ mid }) {
-  const movies_status = useSelector((state) => state.userData.status);
-  const allmovies = useSelector((state) => state.userData.movies);
-  const uid = useSelector((state) => state.currentUser.user.uid);
+  const movies_status = useSelector((state) => state.userRatings.status);
+  const allmovies = useSelector((state) => state.userRatings.movies);
+  const uid = useSelector((state) => state.userAuth.user.uid);
   const details = useSelector((state) => state.movie.details);
+  const authorized = useSelector((state) => state.userAuth.user.authorized);
   const [load, setLoad] = useState({
     l1: false,
     l2: false,
@@ -243,11 +245,10 @@ export function Actions({ mid }) {
         {toggle ? (
           <>
             {!load.l1 ? (
-              <>
+              <div onClick={() => authorized && handleLike()}>
                 {toggle.liked === 1 ? (
                   <button
                     data-src="liked"
-                    onClick={handleLike}
                     className={styles.icon}
                     id="like"
                     style={{ opacity: toggle.liked === 1 ? "1" : "" }}
@@ -257,7 +258,6 @@ export function Actions({ mid }) {
                 ) : (
                   <button
                     data-src="like it"
-                    onClick={handleLike}
                     className={styles.icon}
                     id="like"
                     style={{ opacity: toggle.liked === 1 ? "1" : "" }}
@@ -265,17 +265,16 @@ export function Actions({ mid }) {
                     <i className="far fa-thumbs-up"></i>
                   </button>
                 )}
-              </>
+              </div>
             ) : (
               <BtnLoad />
             )}
 
             {!load.l2 ? (
-              <>
+              <div onClick={() => authorized && handleDisLike()}>
                 {toggle.liked === -1 ? (
                   <button
                     data-src="disliked"
-                    onClick={handleDisLike}
                     className={styles.icon}
                     id="dislike"
                     style={{ opacity: toggle.liked === -1 ? "1" : "" }}
@@ -285,7 +284,6 @@ export function Actions({ mid }) {
                 ) : (
                   <button
                     data-src="dislike it"
-                    onClick={handleDisLike}
                     className={styles.icon}
                     id="dislike"
                     style={{ opacity: toggle.liked === -1 ? "1" : "" }}
@@ -293,17 +291,16 @@ export function Actions({ mid }) {
                     <i className="far fa-thumbs-down"></i>
                   </button>
                 )}
-              </>
+              </div>
             ) : (
               <BtnLoad />
             )}
 
             {!load.l3 ? (
-              <>
+              <div onClick={() => authorized && handleWatched()}>
                 {!toggle.watched ? (
                   <button
                     data-src="watched ?"
-                    onClick={handleWatched}
                     className={styles.icon}
                     id="unwatched"
                   >
@@ -312,24 +309,22 @@ export function Actions({ mid }) {
                 ) : (
                   <button
                     data-src="watched"
-                    onClick={handleWatched}
                     className={styles.icon}
                     id="watched"
                   >
                     <i className="fas fa-eye"></i>
                   </button>
                 )}
-              </>
+              </div>
             ) : (
               <BtnLoad />
             )}
 
             {!load.l4 ? (
-              <>
+              <div onClick={() => authorized && handleAddToList()}>
                 {!toggle.myList ? (
                   <button
                     data-src="add to list"
-                    onClick={handleAddToList}
                     className={styles.icon}
                     id="myList"
                   >
@@ -338,14 +333,13 @@ export function Actions({ mid }) {
                 ) : (
                   <button
                     data-src="remove from list"
-                    onClick={handleAddToList}
                     className={styles.icon}
                     id="myList"
                   >
                     <i className="far fa-times-circle"></i>
                   </button>
                 )}
-              </>
+              </div>
             ) : (
               <BtnLoad />
             )}

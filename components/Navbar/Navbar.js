@@ -30,8 +30,10 @@ import LogoutIcon from "@mui/icons-material/Logout";
 
 function Navbar() {
   const theme = useSelector((state) => state.theme.value);
-  const pUrl = useSelector((state) => state.currentUser.user.photoUrl);
-  const username = useSelector((state) => state.currentUser.user.username);
+  const pUrl = useSelector((state) => state.userAuth.user.photoUrl);
+  const username = useSelector((state) => state.userAuth.user.username);
+  const authorized = useSelector((state) => state.userAuth.user.authorized);
+
   const dispatch = useDispatch();
   const searchRef = useRef();
   const router = useRouter();
@@ -48,25 +50,29 @@ function Navbar() {
   };
 
   const [toggleSideNav, setToggleSideNav] = useState(false);
-  const [toggle, setToggle] = useState();
+  const [sIcon, setSIcon] = useState(true); //whether search icon is visible or not
   const [toggleNav, setToggleNav] = useState(false);
-  const handleRoute = () => {
+  const handleRoute = (e) => {
+    e.preventDefault();
+    // if (!sIcon) return;
     var word = searchRef.current.value;
     if (word) {
       // window.localStorage.setItem("s-word", word);
-      router.push(`/home/${word}`, undefined, { shallow: true });
-      setToggle(true);
+      router.push(`/search/${word}`, undefined, { shallow: true });
+      setSIcon(false);
     } else {
       // window.localStorage.setItem("s-word", word);
       router.push(`/home`, undefined, { shallow: true });
-      setToggle(false);
+      // router.back();
+      setSIcon(true);
     }
   };
-  const handleIcon = () => {
+  const goBack = () => {
     searchRef.current.value = "";
-    window.localStorage.removeItem("s-word");
+    // window.localStorage.removeItem("s-word");
     router.push("/home", undefined, { shallow: true });
-    setToggle(false);
+    // router.back();
+    setSIcon(true);
   };
   const changeBackground = () => {
     setToggleSideNav(false);
@@ -76,19 +82,24 @@ function Navbar() {
       setToggleNav(false);
     }
   };
-  useEffect(() => {
-    if (word) {
-      window.localStorage.setItem("s-word", word);
-      searchRef.current.value = word;
-      setToggle(true);
-    } else {
-      searchRef.current.value = "";
-      setToggle(false);
-    }
-  }, [word]);
+
+  // useEffect(() => {
+  //   if (word) {
+  //     window.localStorage.setItem("s-word", word);
+  //     searchRef.current.value = word;
+  //     setToggle(true);
+  //   } else {
+  //     searchRef.current.value = "";
+  //     setToggle(false);
+  //   }
+  // }, [word]);
 
   useEffect(() => {
     changeBackground();
+    if (word) {
+      searchRef.current.value = word;
+      setSIcon(false);
+    }
     const t = window.localStorage.getItem("theme");
     if (t) dispatch(setTheme(t));
     window.addEventListener("scroll", changeBackground);
@@ -110,7 +121,7 @@ function Navbar() {
           <span></span>
           <span></span>
         </div>
-        <div
+        <form
           className={`${styles.search_bar} 
           ${toggleNav && theme === "dark" ? styles.dtbar : styles.bar_default}
           ${toggleNav && theme === "light" ? styles.ltbar : ""}`}
@@ -120,12 +131,13 @@ function Navbar() {
             type="text"
             placeholder="search movie"
             ref={searchRef}
-            onChange={handleRoute}
+            // onChange={handleRoute}
+            // onKeyPress={handleRoute}
           />
-          <button>
-            {toggle ? (
+          <button onClick={handleRoute}>
+            {!sIcon ? (
               <img
-                onClick={handleIcon}
+                onClick={goBack}
                 src="/assets/x-mark-thin.png"
                 alt="hh"
                 style={{ cursor: "pointer" }}
@@ -134,35 +146,45 @@ function Navbar() {
               <img src="/assets/search-thin.png" alt="hh" />
             )}
           </button>
-        </div>
+        </form>
 
-        <div className={styles.profile}>
-          <div className={styles.theme} onClick={handleTheme}>
-            {theme === "dark" ? <WbSunnyIcon /> : <Brightness2Icon />}
-          </div>
-          <div className={styles.name}>{username}</div>
-          <div className={styles.user}>
-            <div className={styles.pic}>
-              <img src={pUrl} alt="profile" />
+        {authorized ? (
+          <div className={styles.profile}>
+            <div className={styles.theme} onClick={handleTheme}>
+              {theme === "dark" ? <WbSunnyIcon /> : <Brightness2Icon />}
             </div>
-            <div className={styles.logout}>
-              <LogoutIcon
-                onClick={() => {
-                  dispatch(logout());
-                }}
-              />
+            <div className={styles.name}>{username}</div>
+            <div className={styles.user}>
+              <div className={styles.pic}>
+                <img src={pUrl} alt="profile" />
+              </div>
+              <div className={styles.logout}>
+                <LogoutIcon
+                  onClick={() => {
+                    dispatch(logout());
+                  }}
+                />
+              </div>
             </div>
           </div>
-        </div>
+        ) : (
+          <div className={styles.login_section}>
+            <button
+              className={styles.login_btn}
+              onClick={() => router.push("/login")}
+            >
+              Login
+            </button>
+          </div>
+        )}
       </div>
 
+      {/* Mobile version NEED to change according to new Design  */}
       <div
         style={{ height: toggleSideNav ? "20vh" : "0" }}
         className={styles.sidenav}
       >
-        {!toggleSideNav ? (
-          ""
-        ) : (
+        {toggleSideNav && authorized ? (
           <div className={styles.sn_profile}>
             <div className={styles.theme} onClick={handleTheme}>
               {theme === "dark" ? <WbSunnyIcon /> : <Brightness2Icon />}
@@ -182,6 +204,8 @@ function Navbar() {
               </div>
             </div>
           </div>
+        ) : (
+          ""
         )}
       </div>
     </nav>

@@ -9,8 +9,8 @@ import LazyLoad from "../../utils/lazyLoad/LazyLoad";
 export default function MyList() {
   // console.log(`fetched:${list?.map(i => i.title)}`)
   const [myList, setMyList] = useState();
-  const movies = useSelector((state) => state.userData.movies);
-  const status = useSelector((state) => state.userData.status);
+  const movies = useSelector((state) => state.userRatings.movies);
+  const status = useSelector((state) => state.userRatings.status);
   const [loading, setLoading] = useState(false);
   // const list = useSelector((state) => state.userData.myList);
 

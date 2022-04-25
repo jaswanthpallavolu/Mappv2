@@ -10,12 +10,13 @@ import { Loader1 } from "../utils/loaders/Loading";
 export default function Login() {
   const router = useRouter();
   const dispatch = useDispatch();
-  const loading1 = useSelector((state) => state.currentUser.status);
-  const access = useSelector((state) => state.currentUser.user.authenticated);
+  const loading1 = useSelector((state) => state.userAuth.status);
+  const authorized = useSelector((state) => state.userAuth.user.authorized);
+
   useEffect(() => {
     // console.log(`login:${access}`);
-    if (access) router.replace("/home", undefined, { shallow: true });
-  }, [access]); //eslint-disable-line react-hooks/exhaustive-deps
+    if (authorized) router.replace("/home", undefined, { shallow: true });
+  }, [authorized]); //eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className={styles.container}>
@@ -52,6 +53,13 @@ export default function Login() {
                 }}
               >
                 SignIn with Google
+              </button>
+              <button
+                onClick={() =>
+                  router.replace("/home", undefined, { shallow: true })
+                }
+              >
+                view as a guest
               </button>
             </div>
           </div>

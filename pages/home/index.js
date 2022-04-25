@@ -3,10 +3,10 @@ import styles from "../../styles/Home.module.css";
 import Categories from "../../components/categories/Categories";
 // import { useSelector } from "react-redux";
 import { useEffect } from "react";
-// import { useRouter } from "next/router";
+import { useRouter } from "next/router";
 
 function Home() {
-  // const router = useRouter();
+  const router = useRouter();
   // const user = useSelector((state) => state.currentUser.user.authenticated);
   // useEffect(() => {
   //   if (!user) router.replace("/login");
@@ -20,12 +20,16 @@ function Home() {
           <div className={styles.heading}>
             <p>Movie</p>
             <p>Recommendation</p>
+            <button onClick={() => router.push("/movies")}>ALL Movies</button>
+            <button onClick={() => router.push("/movies/sampleid")}>
+              movie page
+            </button>
           </div>
 
-          <div
+          {/* <div
             style={{ marginBottom: "10%", maxWidth: "90vw", padding: ".5rem" }}
             className="elfsight-app-d9a75cd2-55d3-4991-8ecd-783c94d527e4"
-          ></div>
+          ></div> */}
         </section>
 
         <Categories />

@@ -12,8 +12,8 @@ function Search() {
   const { word } = router.query;
   const [ids, setIds] = useState();
   const [loading, setLoading] = useState(true);
-  const user = useSelector((state) => state.currentUser.user.authenticated);
-  // const status = useSelector((state) => state.currentUser.status);
+  const user = useSelector((state) => state.userAuth.user.authenticated);
+  // const status = useSelector((state) => state.userAuth.status);
 
   const getAllIds = async (signal) => {
     await axios

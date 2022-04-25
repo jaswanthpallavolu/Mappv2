@@ -54,7 +54,7 @@ export const addToDB = createAsyncThunk("auth/addUser", async (user) => {
 
 const initialState = {
   user: {
-    authenticated: false,
+    authorized: false,
   },
   status: "notloaded",
   error: null,
@@ -67,7 +67,7 @@ const Auth = createSlice({
     setCurrentUser: (state, action) => {
       if (action.payload) {
         state.user = action.payload;
-        state.user.authenticated = true;
+        state.user.authorized = true;
       }
     },
     setUserStatus: (state, action) => {
@@ -83,11 +83,11 @@ const Auth = createSlice({
         state.status = "loading";
       })
       .addCase(logout.pending, (state) => {
-        state.user = { authenticated: false };
+        state.user = { authorized: false };
         state.status = "loading";
       })
       .addCase(logout.fulfilled, (state) => {
-        state.user = { authenticated: false };
+        state.user = { authorized: false };
         state.status = "done";
       })
       .addCase(getAllUsers.fulfilled, (state, action) => {

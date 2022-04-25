@@ -70,7 +70,7 @@ const initialState = {
   status: "idle",
   error: null,
 };
-const userData = createSlice({
+const userRatings = createSlice({
   name: "userData",
   initialState,
   reducers: {
@@ -114,4 +114,4 @@ const userData = createSlice({
 });
 
 // export const { reloadList } = userData.actions
-export default userData.reducer;
+export default userRatings.reducer;

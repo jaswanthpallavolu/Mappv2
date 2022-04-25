@@ -7,8 +7,7 @@ import React from "react";
 import { checkUser } from "../redux/features/authSlice";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { CustomProvider } from "../components/CustomProvider";
-
+import ThemeCustomProvider from "../components/ThemeCustomProvider";
 store.dispatch(checkUser());
 
 function MyApp({ Component, pageProps }) {
@@ -16,7 +15,7 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <Provider store={store}>
-      <CustomProvider>
+      <ThemeCustomProvider>
         <Layout>
           <Head>
             <title>movie app</title>
@@ -36,7 +35,7 @@ function MyApp({ Component, pageProps }) {
 
           <Component {...pageProps} />
         </Layout>
-      </CustomProvider>
+      </ThemeCustomProvider>
     </Provider>
   );
 }

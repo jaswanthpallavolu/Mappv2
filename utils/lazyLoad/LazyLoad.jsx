@@ -8,7 +8,10 @@ export default function LazyLoad({ children }) {
     if (!visible && inView) setVisible(inView);
   }, [inView]);
   return (
-    <div ref={ref} style={{ minHeight: "30vh", minWidth: "60vw" }}>
+    <div
+      ref={ref}
+      style={{ minHeight: !visible && "30vh", minWidth: !visible && "60vw" }}
+    >
       {visible && children}
     </div>
   );

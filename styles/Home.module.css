@@ -20,14 +20,14 @@
   overflow-x: hidden;
 }
 
-.home .one {
+.one {
   position: relative;
   height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.home .one .heading {
+.one .heading {
   height: 80%;
   margin-top: 10vh;
   display: flex;
@@ -40,7 +40,7 @@
   font-weight: 700;
   color: var(--font-primary);
 }
-.home .one .heading p {
+.one .heading p {
   margin: 0;
   line-height: 90%;
 }

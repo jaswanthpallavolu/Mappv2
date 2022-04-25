@@ -1,17 +1,18 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addToDB, setUserStatus } from "../redux/features/authSlice";
-import { fetchMovies } from "../redux/features/userDataSlice";
+import { fetchMovies } from "../redux/features/userRatingSlice";
 import Navbar from "./Navbar/Navbar";
 import MovieModal from "./Moviedetails/MovieModal";
 import { useRouter } from "next/router";
 // import { route } from "next/dist/server/router";
 
 export default function Layout({ children }) {
-  const all = useSelector((state) => state.currentUser.all);
-  const uid = useSelector((state) => state.currentUser.user.uid);
-  const user = useSelector((state) => state.currentUser.user);
-  const status = useSelector((state) => state.currentUser.status);
+  const all = useSelector((state) => state.userAuth.all);
+  const uid = useSelector((state) => state.userAuth.user.uid);
+  const user = useSelector((state) => state.userAuth.user);
+  const status = useSelector((state) => state.userAuth.status);
+  const statusm = useSelector((state) => state.userRatings.status);
   const movieModalState = useSelector((state) => state.movie.open);
   const router = useRouter();
   const dispatch = useDispatch();
@@ -24,7 +25,6 @@ export default function Layout({ children }) {
   //     if (!uid) router.replace("/login");
   //   }, 2000);
   // }, [uid]); //eslint-disable-line react-hooks/exhaustive-deps
-  const statusm = useSelector((state) => state.userData.status);
   // const [loggedIn, setLoggedIn] = useState(false);
   // useEffect(() => {
   //   setTimeout(() => {
@@ -41,7 +41,7 @@ export default function Layout({ children }) {
   useEffect(() => {
     if (status === "succeeded") {
       // console.log(uid);
-      if (!uid) router.replace("/login");
+      // if (!uid) router.replace("/login");
       const a = all.filter((i) => i === uid);
       if (a.length === 0 && uid) {
         dispatch(addToDB(user));
@@ -56,13 +56,11 @@ export default function Layout({ children }) {
     }
   }, [status]); //eslint-disable-line react-hooks/exhaustive-deps
 
-  if (uid) {
-    return (
-      <>
-        {!movieModalState ? <Navbar /> : ""}
-        {children}
-        <MovieModal />
-      </>
-    );
-  } else return "";
+  return (
+    <>
+      {!movieModalState ? <Navbar /> : ""}
+      {children}
+      <MovieModal />
+    </>
+  );
 }
