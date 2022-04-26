@@ -61,7 +61,7 @@ const initialState = {
   all: [],
 };
 const Auth = createSlice({
-  name: "auth",
+  name: "Auth",
   initialState,
   reducers: {
     setCurrentUser: (state, action) => {
@@ -88,7 +88,7 @@ const Auth = createSlice({
       })
       .addCase(logout.fulfilled, (state) => {
         state.user = { authorized: false };
-        state.status = "done";
+        state.status = "loggedout";
       })
       .addCase(getAllUsers.fulfilled, (state, action) => {
         state.all = action.payload;

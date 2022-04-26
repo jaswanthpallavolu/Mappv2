@@ -75,9 +75,13 @@ const initialState = {
   error: null,
 };
 const userRatings = createSlice({
-  name: "userData",
+  name: "userRatings",
   initialState,
   reducers: {
+    setEmpty: (state) => {
+      state.movies = [];
+      state.status = "succeeded";
+    },
     // reloadList: (state) => {
     //     state.myList = state.movies.filter(i => i.myList === true)
     //     state.status = 'listLoaded'
@@ -117,5 +121,5 @@ const userRatings = createSlice({
   },
 });
 
-// export const { reloadList } = userData.actions
+export const { setEmpty } = userRatings.actions;
 export default userRatings.reducer;

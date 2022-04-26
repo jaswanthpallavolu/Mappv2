@@ -32,29 +32,27 @@ export default function MyList() {
   return (
     <>
       {myList?.length > 0 ? (
-        <LazyLoad>
-          <div className={styles.mylist}>
-            <div className={styles.head}>
-              <span></span>
-              <div className={styles.name}>mylist</div>
-            </div>
-
-            {!loading ? (
-              <Carousel list={myList} />
-            ) : (
-              <div
-                style={{
-                  height: "min(50vh,30rem)",
-                  display: "grid",
-                  placeItems: "center",
-                  alignItems: "center",
-                }}
-              >
-                <Loader1 />
-              </div>
-            )}
+        <div className={styles.mylist}>
+          <div className={styles.head}>
+            <span></span>
+            <div className={styles.name}>mylist</div>
           </div>
-        </LazyLoad>
+
+          {!loading ? (
+            <Carousel list={myList} />
+          ) : (
+            <div
+              style={{
+                height: "min(50vh,30rem)",
+                display: "grid",
+                placeItems: "center",
+                alignItems: "center",
+              }}
+            >
+              <Loader1 />
+            </div>
+          )}
+        </div>
       ) : (
         ""
       )}

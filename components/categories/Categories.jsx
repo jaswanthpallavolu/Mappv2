@@ -15,22 +15,38 @@ export default function Categories() {
     { name: "romance & drama", genres: ["Romance", "Drama"] },
     { name: "oscar Nominee", genres: ["Nominee"] },
     { name: "animation", genres: ["Animation"] },
-    { name: "watched" },
     { name: "horror", genres: ["Horror", "Thriller"] },
     { name: "based on true story", genres: ["Biography"] },
-    { name: "rated movies" },
   ];
+  // { name: "rated movies" },
+  // { name: "watched" },
+  const authorized = useSelector((state) => state.userAuth.user.authorized);
   return (
     <div className={styles.two}>
-      <Recommend name="collaborative" />
+      <Recommend key={Math.random() * 3.1423423} name="collaborative" />
       <MyList />
-      <Recommend name="watched" />
-
+      <Recommend key={Math.random() * 3.1423423} name="watched" />
       {categories.map((catg) => (
         <LazyLoad key={Math.random() * 3.1423423}>
           <Category name={catg.name} query={{ genres: catg?.genres }} />
         </LazyLoad>
       ))}
+      {authorized ? (
+        <>
+          <Category
+            key={Math.random() * 3.1423423}
+            name="watched"
+            query={{ genres: undefined }}
+          />
+          <Category
+            key={Math.random() * 3.1423423}
+            name="rated movies"
+            query={{ genres: undefined }}
+          />
+        </>
+      ) : (
+        ""
+      )}
     </div>
   );
 }
@@ -126,7 +142,7 @@ export function Recommend({ name }) {
         ""
       )}
 
-      {!result?.length && name === "collaborative" ? (
+      {!result?.length && name === "collaborative" && status !== "loading" ? (
         <h2
           style={{
             color: "var(--font-primary)",

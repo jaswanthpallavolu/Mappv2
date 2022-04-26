@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addToDB, setUserStatus } from "../redux/features/authSlice";
-import { fetchMovies } from "../redux/features/userRatingSlice";
+import { fetchMovies, setEmpty } from "../redux/features/userRatingSlice";
 import Navbar from "./Navbar/Navbar";
 import MovieModal from "./Moviedetails/MovieModal";
 import { useRouter } from "next/router";
@@ -31,13 +31,14 @@ export default function Layout({ children }) {
   //     if (!uid) router.replace("/login");
   //   }, 1000);
   // }, [uid]);
-  useEffect(() => {
-    if (statusm === "succeeded") {
-      // setLoggedIn(true);
-      dispatch(fetchMovies(uid));
-    }
-    // if (statusm === "loaded") dispatch(reloadList());
-  }, [statusm, uid]); //eslint-disable-line react-hooks/exhaustive-deps
+  // useEffect(() => {
+  //   if (statusm === "succeeded") {
+  //     // setLoggedIn(true);
+  //     dispatch(fetchMovies(uid));
+  //   }
+  //   // if (statusm === "loaded") dispatch(reloadList());
+  // }, [statusm, uid]); //eslint-disable-line react-hooks/exhaustive-deps
+
   useEffect(() => {
     if (status === "succeeded") {
       // console.log(uid);
@@ -49,10 +50,13 @@ export default function Layout({ children }) {
         dispatch(setUserStatus("idle"));
         // console.log('old User')
       }
-      dispatch(fetchMovies(uid));
+      if (uid) dispatch(fetchMovies(uid));
       // setTimeout(() => {
       //   dispatch(fetchMovies(uid));
       // }, 300);
+    }
+    if (status === "loggedout") {
+      dispatch(setEmpty());
     }
   }, [status]); //eslint-disable-line react-hooks/exhaustive-deps
 

@@ -169,6 +169,9 @@ function Navbar() {
           </div>
         ) : (
           <div className={styles.login_section}>
+            <div className={styles.theme} onClick={handleTheme}>
+              {theme === "dark" ? <WbSunnyIcon /> : <Brightness2Icon />}
+            </div>
             <button
               className={styles.login_btn}
               onClick={() => router.push("/login")}
