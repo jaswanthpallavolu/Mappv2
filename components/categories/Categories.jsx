@@ -23,11 +23,25 @@ export default function Categories() {
   const authorized = useSelector((state) => state.userAuth.user.authorized);
   return (
     <div className={styles.two}>
-      <Recommend key={Math.random() * 3.1423423} name="collaborative" />
-      <MyList />
-      <Recommend key={Math.random() * 3.1423423} name="watched" />
-      {categories.map((catg) => (
-        <LazyLoad key={Math.random() * 3.1423423}>
+      {authorized ? (
+        <>
+          <Recommend key={Math.random() * 3.1423423} name="collaborative" />
+          <MyList />
+          <Recommend key={Math.random() * 3.1423423} name="watched" />
+        </>
+      ) : (
+        <h2
+          style={{
+            color: "var(--font-primary)",
+            textAlign: "center",
+            margin: "5%",
+          }}
+        >
+          &quot; Login and rate movies to get Recommendations &quot;
+        </h2>
+      )}
+      {categories.map((catg, index) => (
+        <LazyLoad key={index}>
           <Category name={catg.name} query={{ genres: catg?.genres }} />
         </LazyLoad>
       ))}
