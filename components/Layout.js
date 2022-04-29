@@ -12,7 +12,7 @@ export default function Layout({ children }) {
   const uid = useSelector((state) => state.userAuth.user.uid);
   const user = useSelector((state) => state.userAuth.user);
   const status = useSelector((state) => state.userAuth.status);
-  const statusm = useSelector((state) => state.userRatings.status);
+  const userRatingStatus = useSelector((state) => state.userRatings.status);
   const movieModalState = useSelector((state) => state.movie.open);
   const router = useRouter();
   const dispatch = useDispatch();
@@ -31,13 +31,13 @@ export default function Layout({ children }) {
   //     if (!uid) router.replace("/login");
   //   }, 1000);
   // }, [uid]);
-  // useEffect(() => {
-  //   if (statusm === "succeeded") {
-  //     // setLoggedIn(true);
-  //     dispatch(fetchMovies(uid));
-  //   }
-  //   // if (statusm === "loaded") dispatch(reloadList());
-  // }, [statusm, uid]); //eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    if (userRatingStatus === "succeeded") {
+      // setLoggedIn(true);
+      if (uid) dispatch(fetchMovies(uid));
+    }
+    // if (userRatingsStatus === "loaded") dispatch(reloadList());
+  }, [userRatingStatus]); //eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (status === "succeeded") {

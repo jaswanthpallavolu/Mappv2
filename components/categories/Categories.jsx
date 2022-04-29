@@ -239,7 +239,7 @@ export const Category = ({ name, query }) => {
 
   return (
     <>
-      {result?.length ? (
+      {result?.length && !loading ? (
         <div className={styles.c_section}>
           <div className={styles.head}>
             <div className={styles.name}>{name}</div>
