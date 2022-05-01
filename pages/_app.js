@@ -26,8 +26,9 @@ function MyApp({ Component, pageProps }) {
               content="width=device-width, initial-scale=1"
             />
           </Head>
+          {/* Version -6  */}
           <Script
-            src="https://kit.fontawesome.com/2ceb233dee.js"
+            src="https://kit.fontawesome.com/dafaabb6b4.js"
             crossOrigin="anonymous"
             strategy="lazyOnload"
           />

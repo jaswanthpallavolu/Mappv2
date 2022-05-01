@@ -54,15 +54,9 @@ export default function Categories() {
           <Recommend key={Math.random() * 3.1423423} name="watched" />
         </>
       ) : (
-        <h2
-          style={{
-            color: "var(--font-primary)",
-            textAlign: "center",
-            margin: "5%",
-          }}
-        >
+        <p className={styles.suggest_text}>
           &quot; Login and rate movies to get Recommendations &quot;
-        </h2>
+        </p>
       )}
       {!loading &&
         tags.map((tag, index) => (
@@ -79,20 +73,17 @@ export default function Categories() {
       {/* NEED TO REMOVE This */}
       {authorized ? (
         <>
-          <LazyLoad key={Math.random() * 100}>
-            <Category
-              key={Math.random() * 3.1423423}
-              name="watched"
-              query={{ genres: undefined }}
-            />
-          </LazyLoad>
-          <LazyLoad key={Math.random() * 100}>
-            <Category
-              key={Math.random() * 3.1423423}
-              name="rated movies"
-              query={{ genres: undefined }}
-            />
-          </LazyLoad>
+          <Category
+            key={Math.random() * 3.1423423}
+            name="watched"
+            query={{ genres: undefined }}
+          />
+
+          <Category
+            key={Math.random() * 3.1423423}
+            name="rated movies"
+            query={{ genres: undefined }}
+          />
         </>
       ) : (
         ""
@@ -125,7 +116,9 @@ export function Recommend({ name }) {
       .catch((err) => console.log(err));
   };
   const getSimilar = async () => {
-    setTitle(`beacause you watched, ${queryList[0][1]}`);
+    if (window.innerWidth > 600)
+      setTitle(`beacause you watched, ${queryList[0][1]}`);
+    else setTitle(`you watched, ${queryList[0][1]}`);
     var id = queryList[0][0];
     await axios
       .get(
@@ -196,15 +189,9 @@ export function Recommend({ name }) {
       )}
 
       {!result?.length && name === "collaborative" && status !== "loading" ? (
-        <h2
-          style={{
-            color: "var(--font-primary)",
-            textAlign: "center",
-            margin: "5%",
-          }}
-        >
+        <p className={styles.suggest_text}>
           &quot; rate movies to get Recommendations &quot;
-        </h2>
+        </p>
       ) : (
         ""
       )}

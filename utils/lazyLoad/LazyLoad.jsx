@@ -25,7 +25,7 @@ export default function LazyLoad({ children }) {
     <div
       ref={ref}
       style={{
-        minHeight: "30vh",
+        minHeight: window.innerWidth > 360 ? "30vh" : "20vh",
         minWidth: "60vw",
       }}
     >

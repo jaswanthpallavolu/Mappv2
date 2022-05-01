@@ -5,18 +5,24 @@
   min-height: 80vh;
   background: var(--primary);
   padding-bottom: 1.5rem;
+
+  /* FONT SIZES */
+  --suggestSize: clamp(0.9rem, 3vw, 1.4rem);
+  --tagSize: clamp(1.1rem, 5vw, 1.9rem);
 }
 
 /* Carousel section */
 .c_section {
   /* border:1px solid red; */
   margin: 0 0.5rem;
-  margin-bottom: max(1.5rem, 2%);
+  margin-top: min(2rem, 10%);
+  /* margin-bottom: 10rem !important; */
+  /* margin-bottom: min(3rem, 20%); */
   display: flex;
   flex-direction: column;
   gap: 2rem;
 
-  animation: animate1 0.8s linear 1;
+  animation: animate1 0.35s linear 1;
 }
 @keyframes animate1 {
   0% {
@@ -31,28 +37,40 @@
 .c_section > .head {
   position: relative;
   left: 6%;
-  margin-bottom: -1rem;
-  width: max-content;
+  margin-bottom: min(-2%, -1rem);
+  /* width: max-content; */
+  width: 80vw;
 
   font-weight: 300;
   text-transform: capitalize;
-  font-size: clamp(1.5rem, 8vw, 1.9rem);
+  font-size: var(--tagSize);
   color: var(--font-primary);
-  border-left: 0.5rem solid var(--secondary);
-  line-height: 80%;
+  border-left: 0.25em solid var(--secondary);
+  line-height: 120%;
 }
 
 .c_section > .head .name {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   position: relative;
   left: 0.4rem;
   bottom: 0;
 }
-/* .c_section > .head .name::before{
-    content: '';
-    position: absolute;
-    left:-.6rem;
-    transform: translateY(30%);
-    width:.4rem;
-    height: 70%;
-    background: var(--secondary);
-} */
+
+.suggest_text {
+  color: var(--font-primary);
+  text-align: center;
+  width: min(80%, 40rem);
+  margin: 0 auto;
+  margin-bottom: min(2rem, 20%);
+  padding: 0.5rem 0.5rem;
+  font-size: var(--suggestSize);
+  border: 1px solid var(--secondary);
+}
+
+@media (max-width: 1200px) {
+  .c_section > .head {
+    left: 3%;
+  }
+}

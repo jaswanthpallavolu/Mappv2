@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./card.module.css";
 import axios from "axios";
-import styled from "styled-components";
+// import styled from "styled-components";
 import Skeleton from "../../utils/skeleton/Skeleton";
 // import Image from "next/image";
 
@@ -14,28 +14,6 @@ import {
 import { setOpen, setMovieDetails } from "../../redux/features/movieSlice";
 import { useRouter } from "next/router";
 
-const MCard = styled.div.attrs((props) => ({
-  className: `m_card ${props.size}`,
-}))`
-  ${(props) =>
-    props.size === "large" &&
-    `
-    --card-width:15rem;
-    --card-height:22rem;
-    `}
-  ${(props) =>
-    props.size === "medium" &&
-    `
-    --card-width:12rem;
-    --card-height:18rem;
-    `}
-    ${(props) =>
-    props.size === "small" &&
-    `
-    --card-width:10rem;
-    --card-height:15rem;
-    `}
-`;
 export default function Card({ id, size }) {
   const router = useRouter();
 
@@ -73,7 +51,12 @@ export default function Card({ id, size }) {
     };
   }, []); //eslint-disable-line react-hooks/exhaustive-deps
   return (
-    <MCard className={styles.m_card} id="movie_card" size={size}>
+    <div
+      className={`${styles.m_card} ${size === "small" ? styles.small : ""} ${
+        size === "medium" ? styles.medium : ""
+      } ${!size || size === "large" ? styles.large : ""}`}
+      id="movie_card"
+    >
       {!loading && details ? (
         <>
           <div className={styles.image}>
@@ -93,10 +76,10 @@ export default function Card({ id, size }) {
               dispatch(setOpen(true));
             }}
           >
-            <div className={styles.title} id="card_title">
+            <div className={styles.title}>
               {String(details.title).substring(0, 40)}
             </div>
-            <div className={styles.more} id="card_more">
+            <div className={styles.more}>
               <div className={styles.durt}>{details.runtime}</div>
               {/* <span></span>
                         <div className={styles.rate}>{details.Rated}</div> */}
@@ -109,7 +92,7 @@ export default function Card({ id, size }) {
       ) : (
         <Skeleton />
       )}
-    </MCard>
+    </div>
   );
 }
 

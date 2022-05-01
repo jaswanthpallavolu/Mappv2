@@ -17,39 +17,6 @@ a {
   box-sizing: border-box;
 }
 
-.content .m_card {
-  margin: 0.5rem;
-}
-
-/* MOVIE CARD */
-.m_card.medium #card_title {
-  font-size: clamp(0.8rem, 5vw, 1.25rem);
-}
-.m_card.medium #card_more {
-  font-size: clamp(0.8rem, 5vw, 0.9rem);
-}
-
-.m_card.small #card_title {
-  font-size: clamp(0.8rem, 5vw, 1.1rem);
-}
-.m_card.small #card_more {
-  font-size: clamp(0.8rem, 5vw, 0.8rem);
-}
-
-@media (max-width: 480px) {
-  #movie_card {
-    --card-width: min(10rem, 35vw) !important;
-    --card-height: calc(var(--card-width) * 1.5) !important;
-  }
-}
-@media (min-width: 481px) and (max-width: 600px) {
-  #movie_card {
-    --card-width: min(8rem, 35vw) !important;
-    --card-height: calc(var(--card-width) * 1.5) !important;
-  }
-}
-/* END OF MOVIE CARD */
-
 /* CUSTOM CAROUSEL */
 .slick-list,
 .slick-track {
@@ -63,10 +30,10 @@ a {
   margin-left: 1%;
   height: max-content;
 }
-.slick-arrow.slick-prev.slick-disabled,
+/* .slick-arrow.slick-prev.slick-disabled,
 .slick-arrow.slick-next.slick-disabled {
   display: none !important;
-}
+} */
 
 .slick-arrow.slick-prev,
 .slick-arrow.slick-next {
@@ -86,6 +53,7 @@ a {
   color: var(--font-primary) !important;
   font-weight: 900;
   font-size: clamp(1.2rem, 4vw, 2rem);
+  box-shadow: 0px 0px 4px white;
 }
 
 .carousel .slick-arrow.slick-next::before {
@@ -94,13 +62,33 @@ a {
   color: var(--font-primary) !important;
   font-weight: 900;
   font-size: clamp(1.2rem, 4vw, 2rem);
+  box-shadow: 0px 0px 4px white;
 }
 .carousel .wrapper {
   padding: 1rem 0;
 }
 
 /* RESPONSIVE SLIDER */
-
+@media (min-width: 1099px) and (max-width: 1200px) {
+  .carousel .slick-arrow.slick-prev::before {
+    margin-left: 100% !important;
+  }
+  .carousel .slick-arrow.slick-next::before {
+    margin-left: -300% !important;
+    /* z-index: 5; */
+    /* color: white !important; */
+  }
+}
+@media (min-width: 820px) and (max-width: 1100px) {
+  .carousel .slick-arrow.slick-prev::before {
+    margin-left: 100% !important;
+  }
+  .carousel .slick-arrow.slick-next::before {
+    margin-left: -600% !important;
+    /* z-index: 5; */
+    color: white !important;
+  }
+}
 @media (max-width: 600px) {
   /* .carousel .slick-list{
     height: max(30vh,12rem);

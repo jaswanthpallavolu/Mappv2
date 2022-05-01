@@ -1,13 +1,14 @@
 .mylist {
   /* border:1px solid red; */
-  margin: 0.5rem 0.5rem;
-  margin-bottom: max(1.5rem, 3%);
+  margin: 0rem 0.5rem;
+  margin-top: min(2rem, 10%);
+  /* margin-bottom: max(1.5rem, 3%); */
   /* height:max(70vh,30rem); */
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   gap: 0.5rem;
-  animation: animate1 1s linear 1;
+  animation: animate1 0.35s linear 1;
 }
 @keyframes animate1 {
   0% {
@@ -28,7 +29,7 @@
   align-items: center;
   gap: 0.5rem;
   font-weight: 300;
-  font-size: clamp(1.5rem, 8vw, 1.9rem);
+  font-size: clamp(1.1rem, 4vw, 1.9rem);
   color: var(--font-primary);
 }
 
