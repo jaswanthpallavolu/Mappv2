@@ -8,19 +8,43 @@ import { useSelector } from "react-redux";
 import LazyLoad from "../../utils/lazyLoad/LazyLoad";
 
 export default function Categories() {
-  const categories = [
-    { name: "top rated" },
-    { name: "action & Thriller", genres: ["Action", "Thriller"] },
-    { name: "oscar winner", genres: ["Winner"] },
-    { name: "romance & drama", genres: ["Romance", "Drama"] },
-    { name: "oscar Nominee", genres: ["Nominee"] },
-    { name: "animation", genres: ["Animation"] },
-    { name: "horror", genres: ["Horror", "Thriller"] },
-    { name: "based on true story", genres: ["Biography"] },
-  ];
+  // const categories = [
+  //   { name: "top rated" },
+  //   { name: "action & Thriller", genres: ["Action", "Thriller"] },
+  //   { name: "oscar winner", genres: ["Winner"] },
+  //   { name: "romance & drama", genres: ["Romance", "Drama"] },
+  //   { name: "oscar Nominee", genres: ["Nominee"] },
+  //   { name: "animation", genres: ["Animation"] },
+  //   { name: "horror", genres: ["Horror", "Thriller"] },
+  //   { name: "based on true story", genres: ["Biography"] },
+  // ];
   // { name: "rated movies" },
   // { name: "watched" },
+  const [tags, setTags] = useState([]);
+  const [loading, setLoading] = useState(true);
   const authorized = useSelector((state) => state.userAuth.user.authorized);
+  const fetchTags = async (signal) => {
+    const url = `${process.env.NEXT_PUBLIC_MOVIE_SERVER}/movies/tags/`;
+    if (url) {
+      await axios
+        .get(url, { signal: signal })
+        .then((res) => {
+          setTags(res.data.tagNames);
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.log(err);
+          setLoading(false);
+        });
+    }
+  };
+  useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
+    setLoading(true);
+    fetchTags(signal);
+    return () => controller.abort();
+  }, []);
   return (
     <div className={styles.two}>
       {authorized ? (
@@ -40,23 +64,35 @@ export default function Categories() {
           &quot; Login and rate movies to get Recommendations &quot;
         </h2>
       )}
-      {categories.map((catg, index) => (
+      {!loading &&
+        tags.map((tag, index) => (
+          <LazyLoad key={index}>
+            <Tag tagname={tag} />
+          </LazyLoad>
+        ))}
+      {/* {categories.map((catg, index) => (
         <LazyLoad key={index}>
           <Category name={catg.name} query={{ genres: catg?.genres }} />
         </LazyLoad>
-      ))}
+      ))} */}
+
+      {/* NEED TO REMOVE This */}
       {authorized ? (
         <>
-          <Category
-            key={Math.random() * 3.1423423}
-            name="watched"
-            query={{ genres: undefined }}
-          />
-          <Category
-            key={Math.random() * 3.1423423}
-            name="rated movies"
-            query={{ genres: undefined }}
-          />
+          <LazyLoad key={Math.random() * 100}>
+            <Category
+              key={Math.random() * 3.1423423}
+              name="watched"
+              query={{ genres: undefined }}
+            />
+          </LazyLoad>
+          <LazyLoad key={Math.random() * 100}>
+            <Category
+              key={Math.random() * 3.1423423}
+              name="rated movies"
+              query={{ genres: undefined }}
+            />
+          </LazyLoad>
         </>
       ) : (
         ""
@@ -76,9 +112,12 @@ export function Recommend({ name }) {
   const movies = useSelector((state) => state.userRatings.movies);
   const getRecommendations = async () => {
     await axios
-      .post(`${process.env.NEXT_PUBLIC_MOVIE_SERVER}/recommend/collab/`, {
-        movies: queryList,
-      })
+      .post(
+        `${process.env.NEXT_PUBLIC_MOVIE_SERVER}/recommend/collaborative/`,
+        {
+          movies: queryList,
+        }
+      )
       .then((res) => {
         setResult(res.data.result);
         setLoading(false);
@@ -111,7 +150,7 @@ export function Recommend({ name }) {
     }
   };
   useEffect(() => {
-    recommendMovies();
+    if (queryList) recommendMovies();
   }, [queryList]); //eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (status !== "loading") {
@@ -172,6 +211,78 @@ export function Recommend({ name }) {
     </>
   );
 }
+
+export const Tag = ({ tagname }) => {
+  // const status = useSelector((state) => state.userRatings.status);
+  // const movies = useSelector((state) => state.userRatings.movies);
+
+  const [loading, setLoading] = useState(true);
+  const [result, setResult] = useState([]);
+
+  useEffect(() => {
+    if (!result) {
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+      }, 100);
+    }
+  }, [result]);
+
+  const fetchMoviesByTag = async (signal) => {
+    const url = `${
+      process.env.NEXT_PUBLIC_MOVIE_SERVER
+    }/movies/tags/${tagname.replace(" ", "+")}`;
+    if (url) {
+      await axios
+        .get(url, { signal: signal })
+        .then((res) => {
+          setResult(res.data.movies);
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.log(err);
+          setLoading(false);
+        });
+    }
+  };
+
+  useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
+    setLoading(true);
+    fetchMoviesByTag(signal);
+    return () => controller.abort();
+  }, []); //eslint-disable-line react-hooks/exhaustive-deps
+  // list={result?.sort(() => .5 - Math.random())}
+
+  return (
+    <>
+      {result?.length ? (
+        <div className={styles.c_section}>
+          <div className={styles.head}>
+            <div className={styles.name}>{tagname}</div>
+          </div>
+          {!loading ? (
+            <Carousel list={result} />
+          ) : (
+            <div
+              style={{
+                height: "20vh",
+                display: "grid",
+                placeItems: "center",
+                alignItems: "center",
+              }}
+            >
+              <Loader1 />
+            </div>
+          )}
+        </div>
+      ) : (
+        ""
+      )}
+    </>
+  );
+};
 
 export const Category = ({ name, query }) => {
   const status = useSelector((state) => state.userRatings.status);

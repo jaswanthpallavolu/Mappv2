@@ -53,7 +53,7 @@ export default function Card({ id, size }) {
       })
       .then((data) => {
         const res = data.data;
-        setDetais(res);
+        setDetais(res.details);
         setLoading(false);
       })
       .catch((err) => {
@@ -80,8 +80,8 @@ export default function Card({ id, size }) {
             {/* <Image objectFit='cover' layout='fill' className={styles.poster} src={details.poster} priority alt="name1" /> */}
             <img
               className={styles.poster}
-              src={details.poster}
-              alt="img not loaded"
+              src={details?.poster1 ? details?.poster1 : details?.largeImage}
+              alt={details.title}
             />
           </div>
           <Header details={details} />
@@ -194,7 +194,8 @@ export const Header = ({ details }) => {
           <>
             {inList ? (
               <div
-                className={styles.tooltip}
+                title="remove from list"
+                // className={styles.tooltip}
                 onClick={() => authorized && handleDelete()}
                 data-title="remove from list"
               >
@@ -202,7 +203,8 @@ export const Header = ({ details }) => {
               </div>
             ) : (
               <div
-                className={styles.tooltip}
+                title="add to list"
+                // className={styles.tooltip}
                 onClick={() => authorized && handleAdd()}
                 data-title="add to list"
               >

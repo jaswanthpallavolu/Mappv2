@@ -32,6 +32,7 @@
   position: relative;
   width: var(--card-width);
   height: var(--card-height);
+  color: var(--font-primary);
 }
 .m_card .image .poster {
   width: var(--card-width);

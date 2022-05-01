@@ -28,7 +28,7 @@ export default function Movie() {
     setTimeout(() => {
       setPosterLoad(false);
     }, 200);
-  }, [details?.poster]);
+  }, [details?.poster1, details?.largeImage]);
 
   return (
     <div className={styles.movie} style={{ color: "var(--font-primary)" }}>
@@ -39,8 +39,10 @@ export default function Movie() {
               {!posterLoad ? (
                 <img
                   className={styles.main_img}
-                  src={details?.poster}
-                  alt="error"
+                  src={
+                    details?.poster1 ? details?.poster1 : details?.largeImage
+                  }
+                  alt={details.title}
                 />
               ) : (
                 <img

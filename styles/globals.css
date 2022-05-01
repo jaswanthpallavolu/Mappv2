@@ -63,6 +63,11 @@ a {
   margin-left: 1%;
   height: max-content;
 }
+.slick-arrow.slick-prev.slick-disabled,
+.slick-arrow.slick-next.slick-disabled {
+  display: none !important;
+}
+
 .slick-arrow.slick-prev,
 .slick-arrow.slick-next {
   opacity: 0 !important;

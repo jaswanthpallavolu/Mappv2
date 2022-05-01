@@ -48,6 +48,7 @@ export default function Login() {
             </div>
             <div className={styles.lbtn}>
               <button
+                className={styles.signin}
                 onClick={() => {
                   dispatch(loginWithGoogle());
                 }}
@@ -55,9 +56,8 @@ export default function Login() {
                 SignIn with Google
               </button>
               <button
-                onClick={() =>
-                  router.replace("/home", undefined, { shallow: true })
-                }
+                className={styles.guest}
+                onClick={() => router.push("/home")}
               >
                 view as a guest
               </button>
