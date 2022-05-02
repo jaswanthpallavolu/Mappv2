@@ -82,8 +82,8 @@ export default function Card({ id, size }) {
             <div className={styles.more}>
               <div className={styles.durt}>{details.runtime}</div>
               {/* <span></span>
-                        <div className={styles.rate}>{details.Rated}</div> */}
-              <span></span>
+                        <div className={styles.rate}>{details.Rated}</div>
+              <span></span> */}
               <div className={styles.year}>{details.year}</div>
             </div>
           </div>
@@ -108,14 +108,15 @@ export const Header = ({ details }) => {
 
   useEffect(() => {
     if (loadStatus !== "loading") {
+      // setTimeout(() => {
       var list = movies.filter((i) => i.myList === true);
-      //   list = list?.map((i) => i.movieId)?.reverse();
       if (JSON.stringify(list) !== JSON.stringify(myList)) setMyList(list);
+      // }, 100);
     }
   }, [loadStatus]); //eslint-disable-line react-hooks/exhaustive-deps
 
   const [status, setStatus] = useState(false);
-  const fix = async () => {
+  const checkCard = async () => {
     const mIfo = await myList.find((i) => i.movieId === details.movieId);
     if (mIfo) {
       setInList(mIfo.myList);
@@ -126,11 +127,13 @@ export const Header = ({ details }) => {
   };
 
   useEffect(() => {
-    if (details?.movieId) fix();
-  }, [myList, details]); //eslint-disable-line react-hooks/exhaustive-deps
+    if (details?.movieId && authorized) checkCard(); //check whether it is in mylist
+  }, [myList]); //eslint-disable-line react-hooks/exhaustive-deps
 
   const handleAdd = () => {
-    setStatus(true);
+    setInList(true);
+    // setStatus(true);
+
     var obj = {
       uid: uid,
       movieId: details.movieId,
@@ -141,6 +144,15 @@ export const Header = ({ details }) => {
     };
     const mIfo = myList.find((i) => i.movieId === details.movieId);
     if (!mIfo) dispatch(addMovieData(obj));
+    // else if (mIfo?.myList === true) {
+    //   dispatch(
+    //     updateMovieData({
+    //       uid,
+    //       mid: details.movieId,
+    //       data: { ...mIfo, myList: false },
+    //     })
+    //   );
+    // }
     else
       dispatch(
         updateMovieData({
@@ -149,15 +161,28 @@ export const Header = ({ details }) => {
           data: { ...mIfo, myList: true },
         })
       );
+
     // console.log(`added:${obj.title}`);
 
-    // setTimeout(() => { fix() }, 1000)
+    // setTimeout(() => { checkCard() }, 1000)
   };
   const handleDelete = async () => {
-    setStatus(true);
-    const mIfo = await myList.find((i) => i.movieId === details.movieId);
-    if (mIfo.liked === 0 && !mIfo.watched)
+    setInList(false);
+    // setStatus(true);
+
+    const mIfo = myList.find((i) => i.movieId === details.movieId);
+    if (mIfo?.liked === 0 && !mIfo.watched)
       dispatch(deleteMovieData({ uid, mid: details.movieId }));
+    // need to improve
+    //   else if (mIfo?.myList === false) {
+    //   dispatch(
+    //     updateMovieData({
+    //       uid,
+    //       mid: details.movieId,
+    //       data: { ...mIfo, myList: true },
+    //     })
+    //   );
+    // }
     else
       dispatch(
         updateMovieData({
@@ -173,31 +198,37 @@ export const Header = ({ details }) => {
         {parseFloat(details.imdbRating).toFixed(1)}
       </div>
       <div className={styles.options}>
-        {!status ? (
-          <>
-            {inList ? (
-              <div
-                title="remove from list"
-                // className={styles.tooltip}
-                onClick={() => authorized && handleDelete()}
-                data-title="remove from list"
-              >
-                <img src="/assets/x-mark.png" alt="tick" />
-              </div>
-            ) : (
-              <div
-                title="add to list"
-                // className={styles.tooltip}
-                onClick={() => authorized && handleAdd()}
-                data-title="add to list"
-              >
-                <img src="/assets/plus-circle-thin.png" alt="add" />
-              </div>
-            )}
-          </>
+        {/* {!status ? (
+          <> */}
+        {inList ? (
+          <div
+            key={Math.random() * 999}
+            title="remove from list"
+            // className={styles.tooltip}
+            onClick={() => authorized && handleDelete()}
+            data-title="remove from list"
+          >
+            {/* <i className="fa-solid fa-bookmark"></i> */}
+            {/* <img src="/assets/x-mark.png" alt="tick" /> */}
+            <img src="/assets/bmark_selected.png" alt="tick" />
+          </div>
+        ) : (
+          <div
+            key={Math.random() * 999}
+            title="add to list"
+            // className={styles.tooltip}
+            onClick={() => authorized && handleAdd()}
+            data-title="add to list"
+          >
+            {/* <i className="fa-regular fa-bookmark"></i> */}
+            {/* <img src="/assets/plus-circle-thin.png" alt="add" /> */}
+            <img src="/assets/bookmark-thin.png" alt="add" />
+          </div>
+        )}
+        {/* </>
         ) : (
           <div className={styles.spin}></div>
-        )}
+        )} */}
       </div>
     </div>
   );

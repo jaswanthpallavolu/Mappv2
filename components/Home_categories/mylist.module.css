@@ -1,12 +1,12 @@
 .mylist {
-  /* border:1px solid red; */
+  /* border: 1px solid red; */
   margin: 0rem 0.5rem;
   margin-top: min(2rem, 10%);
   /* margin-bottom: max(1.5rem, 3%); */
-  /* height:max(70vh,30rem); */
+
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  /* justify-content: flex-start; */
   gap: 0.5rem;
   animation: animate1 0.35s linear 1;
 }
@@ -23,8 +23,9 @@
 .mylist > .head {
   position: relative;
   left: 7%;
-
-  width: max-content;
+  /* margin-bottom: min(-2%, -1rem); */
+  width: 80vw;
+  /* width: max-content; */
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -37,6 +38,7 @@
   position: relative;
   left: 0;
   bottom: 0;
+  text-transform: capitalize;
 }
 /* .mylist > .head .name::before{
     content: '';
@@ -50,14 +52,43 @@
 .mylist > .head span {
   width: 0;
   height: 0;
-  border-top: 2.5vh solid transparent;
-  border-bottom: 2.5vh solid transparent;
-  border-left: 2.5vh solid var(--secondary);
+  border-top: min(1.4rem, 2.58vw) solid transparent;
+  border-bottom: min(1.4rem, 2.58vw) solid transparent;
+  border-left: min(1.4rem, 2.58vw) solid var(--secondary);
+}
+
+.emptyList {
+  height: 60vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* border: 1px solid red; */
+}
+.suggest_text {
+  color: var(--font-primary);
+  text-align: center;
+  width: min(80%, 40rem);
+  margin: 0 auto;
+  /* margin-bottom: min(2rem, 20%); */
+  padding: 0.5rem 0.5rem;
+  font-size: var(--suggestSize);
+  border: 1px solid var(--secondary);
+}
+@media (max-width: 1200px) {
+  .mylist > .head {
+    left: 3%;
+  }
 }
 
 @media (max-width: 600px) {
-  .mylist {
+  /* .mylist {
     margin-bottom: 10%;
+  } */
+  .emptyList {
+    height: 30vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .mylist > .head .name::after {
     border-top: 2vh solid transparent;

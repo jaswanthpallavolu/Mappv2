@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import Carousel from "../carousel/Carousel";
 import styles from "./mylist.module.css";
 import { Loader1 } from "../../utils/loaders/Loading";
-import LazyLoad from "../../utils/lazyLoad/LazyLoad";
+// import LazyLoad from "../../utils/lazyLoad/LazyLoad";
 
 export default function MyList() {
   // console.log(`fetched:${list?.map(i => i.title)}`)
@@ -43,7 +43,8 @@ export default function MyList() {
           ) : (
             <div
               style={{
-                height: "min(50vh,30rem)",
+                minHeight: window.innerWidth > 360 ? "min(20vh,30rem)" : "20vh",
+                // height: "min(50vh,30rem)",
                 display: "grid",
                 placeItems: "center",
                 alignItems: "center",
@@ -54,7 +55,9 @@ export default function MyList() {
           )}
         </div>
       ) : (
-        ""
+        <div className={styles.emptyList}>
+          <p className={styles.suggest_text}> MyList is Empty</p>
+        </div>
       )}
     </>
   );

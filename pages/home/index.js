@@ -1,31 +1,31 @@
 import Layout from "../../components/Layout";
 import styles from "../../styles/Home.module.css";
-import Categories from "../../components/categories/Categories";
-// import { useSelector } from "react-redux";
+import Categories from "../../components/Home_categories/Categories";
+import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
-
+import MyList from "../../components/Home_categories/MyList";
 function Home() {
   const router = useRouter();
   // const user = useSelector((state) => state.currentUser.user.authenticated);
   // useEffect(() => {
   //   if (!user) router.replace("/login");
   // }, [user]); //eslint-disable-line react-hooks/exhaustive-deps
-
+  const authorized = useSelector((state) => state.userAuth.user.authorized);
   return (
     <div className={styles.home}>
       <Notch />
       <div className={styles.container}>
         <section className={styles.one}>
           <div className={styles.heading}>
-            <p>Movie</p>
-            <p>Recommendation</p>
-            <button onClick={() => router.push("/movies")}>ALL Movies</button>
+            <p>Movie Recommendation</p>
+            <p></p>
+            {/* <button onClick={() => router.push("/movies")}>ALL Movies</button>
             <button onClick={() => router.push("/movies/sampleid")}>
               movie page
-            </button>
+            </button> */}
           </div>
-
+          {authorized ? <MyList /> : ""}
           {/* <div
             style={{ marginBottom: "10%", maxWidth: "90vw", padding: ".5rem" }}
             className="elfsight-app-d9a75cd2-55d3-4991-8ecd-783c94d527e4"

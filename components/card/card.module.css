@@ -68,6 +68,14 @@
   .m_card .more {
     font-size: clamp(0.8rem, 3vw, 0.9rem) !important;
   }
+  .m_card .top {
+    top: 1%;
+  }
+  .options img {
+    padding: 2%;
+    width: 1.5rem !important;
+    aspect-ratio: 1/1;
+  }
 }
 @media (max-width: 240px) {
   .m_card {
@@ -120,22 +128,26 @@
   transition: opacity 0.5s ease;
   position: absolute;
   top: 2%;
+  /* top: min(0.3rem, 0%); */
   z-index: 3;
 
   padding: 0.5rem;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   width: 100%;
   color: white;
   text-transform: capitalize;
 }
 .m_card .top .imdb {
+  margin-left: 3%;
   position: relative;
   background: black;
   /* background: var(--secondary); */
   border-radius: 25px;
-  padding: 3%;
+  padding: min(0.4rem, 4%);
+  font-size: clamp(0.75rem, 3vw, 1rem);
+  /* width: min(2rem, 10vw); */
 }
 .m_card .top .imdb::after {
   content: "";
@@ -147,13 +159,24 @@
   background: linear-gradient(180deg, var(--secondary), var(--third) 100%);
 }
 
-.m_card .top .options img {
+.options {
+  margin-right: 3%;
+}
+.options i {
   cursor: pointer;
-  width: 2rem;
+
+  font-size: clamp(0.95rem, 3vw, 1.5rem);
+  font-weight: 100;
+  /* width: 2rem; */
   aspect-ratio: 1/1;
 }
-.m_card .top .options img:active {
-  transform: scale(0.8);
+.options img {
+  cursor: pointer;
+  width: 1.8rem;
+  aspect-ratio: 1/1;
+}
+.options img:active {
+  transform: scale(0.95);
 }
 /* TOOL TIP */
 .m_card .top .options .tooltip {

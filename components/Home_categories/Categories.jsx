@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Carousel from "../carousel/Carousel";
 import axios from "axios";
 import styles from "./sections.module.css";
@@ -46,11 +46,11 @@ export default function Categories() {
     return () => controller.abort();
   }, []);
   return (
-    <div className={styles.two}>
+    <div className={styles.home_categories}>
       {authorized ? (
         <>
           <Recommend key={Math.random() * 3.1423423} name="collaborative" />
-          <MyList />
+          {/* <MyList /> */}
           <Recommend key={Math.random() * 3.1423423} name="watched" />
         </>
       ) : (
@@ -72,19 +72,21 @@ export default function Categories() {
 
       {/* NEED TO REMOVE This */}
       {authorized ? (
-        <>
-          <Category
-            key={Math.random() * 3.1423423}
-            name="watched"
-            query={{ genres: undefined }}
-          />
+        <LazyLoad>
+          <>
+            <Category
+              key={Math.random() * 3.1423423}
+              name="watched"
+              query={{ genres: undefined }}
+            />
 
-          <Category
-            key={Math.random() * 3.1423423}
-            name="rated movies"
-            query={{ genres: undefined }}
-          />
-        </>
+            <Category
+              key={Math.random() * 3.1423423}
+              name="rated movies"
+              query={{ genres: undefined }}
+            />
+          </>
+        </LazyLoad>
       ) : (
         ""
       )}
@@ -146,7 +148,7 @@ export function Recommend({ name }) {
     if (queryList) recommendMovies();
   }, [queryList]); //eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => {
-    if (status !== "loading") {
+    if (status !== "loading" && status) {
       if (name === "collaborative") {
         var mlist = movies.filter((i) => i.liked != 0);
         mlist = mlist.map((i) => [i.movieId, i.liked]);
@@ -271,69 +273,81 @@ export const Tag = ({ tagname }) => {
   );
 };
 
-export const Category = ({ name, query }) => {
+export const Category = ({ name }) => {
   const status = useSelector((state) => state.userRatings.status);
   const movies = useSelector((state) => state.userRatings.movies);
 
   const [loading, setLoading] = useState(true);
   const [result, setResult] = useState();
+  const mountedRef = useRef(true);
 
-  useEffect(() => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 100);
-  }, [result]);
+  // useEffect(() => {
+  //   if (mountedRef.current) {
+  //   }
+  // }, [result]);
 
   const getUserMovies = () => {
     var mlist = [];
     if (name === "rated movies") mlist = movies?.filter((i) => i.liked != 0);
     else if (name === "watched") mlist = movies?.filter((i) => i.watched);
     mlist = mlist.map((i) => [i.movieId]).reverse();
-    if (JSON.stringify(mlist) !== JSON.stringify(result)) setResult(mlist);
+    if (JSON.stringify(mlist) !== JSON.stringify(result)) {
+      setResult(mlist);
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+      }, 100);
+    }
     // setLoading(false);
   };
 
-  const fetchGenre = async (signal) => {
-    const domain = process.env.NEXT_PUBLIC_MOVIE_SERVER;
-    if (name === "top rated") {
-      const url = `${domain}/movies/toprated/`;
-      await axios
-        .get(url, { signal: signal })
-        .then((res) => {
-          setResult(res.data.result);
-          setLoading(false);
-        })
-        .catch((err) => console.log(err));
-    }
-    //  else if (name === "rated movies") {
-    //   getUserMovies();
-    // }
-    else if (query.genres) {
-      const url = `${domain}/movies/genres/`;
-      await axios
-        .post(url, { genre: query.genres }, { signal: signal })
-        .then((res) => {
-          setResult(res.data[0].result);
-          setLoading(false);
-        })
-        .catch((err) => console.log(err));
-    }
-  };
+  // const fetchGenre = async (signal) => {
+  //   const domain = process.env.NEXT_PUBLIC_MOVIE_SERVER;
+  //   if (name === "top rated") {
+  //     const url = `${domain}/movies/toprated/`;
+  //     await axios
+  //       .get(url, { signal: signal })
+  //       .then((res) => {
+  //         setResult(res.data.result);
+  //         setLoading(false);
+  //       })
+  //       .catch((err) => console.log(err));
+  //   }
+  //   //  else if (name === "rated movies") {
+  //   //   getUserMovies();
+  //   // }
+  //   else if (query.genres) {
+  //     const url = `${domain}/movies/genres/`;
+  //     await axios
+  //       .post(url, { genre: query.genres }, { signal: signal })
+  //       .then((res) => {
+  //         setResult(res.data[0].result);
+  //         setLoading(false);
+  //       })
+  //       .catch((err) => console.log(err));
+  //   }
+  // };
 
-  useEffect(() => {
-    const controller = new AbortController();
-    const signal = controller.signal;
-    setLoading(true);
-    fetchGenre(signal);
-    return () => controller.abort();
-  }, []); //eslint-disable-line react-hooks/exhaustive-deps
+  // useEffect(() => {
+  //   const controller = new AbortController();
+  //   const signal = controller.signal;
+  //   setLoading(true);
+  //   fetchGenre(signal);
+  //   return () => controller.abort();
+  // }, []); //eslint-disable-line react-hooks/exhaustive-deps
   // list={result?.sort(() => .5 - Math.random())}
   useEffect(() => {
-    if (status === "loaded" && !query?.genres && name !== "top rated") {
+    if (status === "loaded" && mountedRef.current && name) {
       getUserMovies();
     }
   }, [status]); //eslint-disable-line react-hooks/exhaustive-deps
+
+  //clean up function
+  useEffect(() => {
+    return () => {
+      mountedRef.current = false;
+    };
+  }, []);
 
   return (
     <>

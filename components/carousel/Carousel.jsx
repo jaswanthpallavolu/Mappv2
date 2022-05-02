@@ -2,12 +2,12 @@ import React from "react";
 import Slider from "react-slick";
 import Card from "../card/Card";
 import styles from "./carousel.module.css";
-import { v4 } from "uuid";
-import styled from "styled-components";
+// import { v4 } from "uuid";
+// import styled from "styled-components";
 
-const Div = styled.div.attrs((props) => ({
-  className: `carousel ${props.size}`,
-}))``;
+// const Div = styled.div.attrs((props) => ({
+//   className: `carousel ${props.size}`,
+// }))``;
 
 export default function Carousel({ list, size }) {
   const settings = {
@@ -81,10 +81,10 @@ export default function Carousel({ list, size }) {
     ],
   };
   return (
-    <Div className={styles.m_carousel} size={size}>
-      <Slider {...settings}>
-        {list?.map((i) => (
-          <div className={styles.wrapper} key={v4()}>
+    <div className={styles.m_carousel} id="carousel">
+      <Slider {...settings} dir="ltr">
+        {list?.map((i, index) => (
+          <div className={styles.wrapper} key={index}>
             <Card
               id={i}
               style={{ margin: "auto" }}
@@ -93,6 +93,6 @@ export default function Carousel({ list, size }) {
           </div>
         ))}
       </Slider>
-    </Div>
+    </div>
   );
 }

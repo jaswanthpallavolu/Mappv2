@@ -9,8 +9,8 @@
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: linear-gradient(180deg, var(--secondary), var(--primary));
-  overflow: hidden;
+
+  /* overflow: hidden; */
 }
 .home .container {
   position: relative;
@@ -22,88 +22,60 @@
 
 .one {
   position: relative;
-  height: 100vh;
+  min-height: 150vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  /* border: 1px solid red; */
+  background: linear-gradient(180deg, var(--secondary), var(--primary));
+  padding-bottom: min(5vh, 5rem);
 }
 .one .heading {
-  height: 80%;
+  margin: 0 auto;
   margin-top: 10vh;
+  /* height: 50vh; */
+  width: 90%;
+  aspect-ratio: 3/1;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 0;
 
-  font-size: clamp(1.2rem, 8vw, 7rem);
-  font-weight: 700;
+  font-size: clamp(1.2rem, 5vw, 3rem);
+  font-weight: 400;
   color: var(--font-primary);
+  border: 1px dashed var(--font-primary);
 }
 .one .heading p {
   margin: 0;
-  line-height: 90%;
+  /* line-height: 100%; */
+  text-align: center;
 }
-
-/* .home .one .categories{
-    position: absolute;
-    bottom: 15%;
-    left:5%;
-    z-index:0;
-    
-
-    display: flex;
-    flex-wrap: wrap;
-    gap:1rem;
-} */
-/* .home .one .categories button
-{   
-    width:min(40vw,12rem);
-    height:min(8vh,4rem);
-    border: none;
-    font-size:clamp(1rem,5vw,1.8rem);
-    font-weight: 600;
-    border-radius: 5px;
-    box-shadow: 0 0 10px var(--button-shadow);
-}
-.home .one .categories button{
-    background: var(--secondary);
-    color: var(--font-primary);
-}
-.home .one .categories .ml{
-    background: white;
-    color: var(--secondary);
-} */
 
 .notch {
   position: fixed;
   bottom: 1rem;
   right: 2vw;
   z-index: 3;
-  font-size: 2.5rem;
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
   color: var(--font-primary);
   cursor: pointer;
   transition: all ease 0.2s;
+  /* stroke: 1px solid red; */
+  /* border: 1px solid red; */
 }
 .notch:active {
-  transform: scale(0.9) !important;
+  transform: scale(0.95) !important;
 }
 
 @media (max-width: 600px) {
-  .home {
-    height: 50vh;
-  }
   .home .one {
     position: relative;
-    height: 50vh !important;
+    min-height: 50vh;
   }
   .home .one .heading {
-    height: 80%;
-    margin-top: 25%;
-    display: flex;
-    font-size: clamp(1rem, 7vw, 5rem);
-  }
-  .notch {
-    font-size: 2rem;
+    margin-top: 12vh;
+    width: 98%;
+    font-size: clamp(1rem, 6vw, 5rem);
   }
 }
