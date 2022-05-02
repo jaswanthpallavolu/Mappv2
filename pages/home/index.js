@@ -16,7 +16,9 @@ function Home() {
     <div className={styles.home}>
       <Notch />
       <div className={styles.container}>
-        <section className={styles.one}>
+        <section
+          className={`${styles.one} ${!authorized ? styles.notlogged : ""}`}
+        >
           <div className={styles.heading}>
             <p>Movie Recommendation</p>
             <p></p>

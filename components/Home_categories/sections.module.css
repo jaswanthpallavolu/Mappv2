@@ -1,7 +1,7 @@
 /* Section 2 */
 .home_categories {
+  /* border: 1px solid red; */
   position: relative;
-  width: 100%;
   min-height: 80vh;
   background: var(--primary);
   padding-bottom: 1.5rem;

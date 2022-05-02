@@ -41,15 +41,7 @@ export default function MyList() {
           {!loading ? (
             <Carousel list={myList} />
           ) : (
-            <div
-              style={{
-                minHeight: window.innerWidth > 360 ? "min(20vh,30rem)" : "20vh",
-                // height: "min(50vh,30rem)",
-                display: "grid",
-                placeItems: "center",
-                alignItems: "center",
-              }}
-            >
+            <div className={styles.mylistLoader}>
               <Loader1 />
             </div>
           )}

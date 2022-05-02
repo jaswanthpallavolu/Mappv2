@@ -22,12 +22,16 @@
 
 .one {
   position: relative;
-  min-height: 150vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
+  /* justify-content: center; */
   /* border: 1px solid red; */
   background: linear-gradient(180deg, var(--secondary), var(--primary));
   padding-bottom: min(5vh, 5rem);
+}
+.one.notlogged {
+  min-height: 60vh !important;
 }
 .one .heading {
   margin: 0 auto;
@@ -67,15 +71,17 @@
 .notch:active {
   transform: scale(0.95) !important;
 }
-
 @media (max-width: 600px) {
   .home .one {
-    position: relative;
-    min-height: 50vh;
+    min-height: 70vh;
+  }
+  .one.notlogged {
+    min-height: 50vh !important;
   }
   .home .one .heading {
     margin-top: 12vh;
     width: 98%;
+    aspect-ratio: 2/1;
     font-size: clamp(1rem, 6vw, 5rem);
   }
 }

@@ -58,7 +58,7 @@
 }
 
 .emptyList {
-  height: 60vh;
+  height: 30vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -74,6 +74,14 @@
   font-size: var(--suggestSize);
   border: 1px solid var(--secondary);
 }
+
+.mylistLoader {
+  min-height: min(55vh, 35rem);
+  display: grid;
+  align-items: center;
+  place-items: center;
+}
+
 @media (max-width: 1200px) {
   .mylist > .head {
     left: 3%;
