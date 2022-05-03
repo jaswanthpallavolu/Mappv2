@@ -127,8 +127,8 @@ function Navbar() {
         </div> */}
         <div className={styles.navlinks}>
           <ul>
-            <li className={styles.home}><Link href="home">Home</Link></li>
-            <li className={styles.movies}><Link href="movies">Movies</Link></li>
+            <li className={styles.home}><Link href="/home">Home</Link></li>
+            <li className={styles.movies}><Link href="/movies">Movies</Link></li>
           </ul>
         </div>
         <form
