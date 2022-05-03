@@ -13,7 +13,7 @@
   height: 4rem;
   width: 100vw;
   display: grid;
-  grid-template-columns: 0.2fr minmax(300px, 0.5fr) minmax(400px, 2.5fr) 1.5fr;
+  grid-template-columns: 0.2fr minmax(150px, 1fr) minmax(250px, 1.5fr) 1.25fr;
   align-items: center;
 }
 
@@ -28,14 +28,15 @@
   list-style-type: none;
   margin: 0;
   padding: 0;
+  display: flex;
+  justify-content: center;
   overflow: hidden;
   text-align: center;
   /* border: 1px solid red; */
 }
 
 .topnav ul li {
-  float: left;
-  padding-left: 5rem;
+  
 }
 
 .topnav ul li a {

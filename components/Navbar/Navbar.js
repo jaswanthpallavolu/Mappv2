@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import styles from "./Navbar.module.css";
+import Link from 'next/link';
 import { useDispatch, useSelector } from "react-redux";
 import { toDark, toLight, setTheme } from "../../redux/features/themeSlice";
 import { logout } from "../../redux/features/authSlice";
@@ -126,8 +127,8 @@ function Navbar() {
         </div> */}
         <div className={styles.navlinks}>
           <ul>
-            <li className={styles.home}><a href="home">Home</a></li>
-            <li className={styles.movies}><a href="movies">Movies</a></li>
+            <li className={styles.home}><Link href="home">Home</Link></li>
+            <li className={styles.movies}><Link href="movies">Movies</Link></li>
           </ul>
         </div>
         <form
