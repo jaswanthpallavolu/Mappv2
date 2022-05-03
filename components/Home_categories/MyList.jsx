@@ -11,15 +11,8 @@ export default function MyList() {
   const [myList, setMyList] = useState();
   const movies = useSelector((state) => state.userRatings.movies);
   const status = useSelector((state) => state.userRatings.status);
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   // const list = useSelector((state) => state.userData.myList);
-
-  useEffect(() => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 100);
-  }, [myList]);
   useEffect(() => {
     if (status !== "loading") {
       var list = movies.filter((i) => i.myList === true);
@@ -30,7 +23,7 @@ export default function MyList() {
   }, [status]);
 
   return (
-    <>
+    <div className={styles.list_section}>
       {myList?.length > 0 ? (
         <div className={styles.mylist}>
           <div className={styles.head}>
@@ -38,7 +31,7 @@ export default function MyList() {
             <div className={styles.name}>mylist</div>
           </div>
 
-          {!loading ? (
+          {status !== "loading" ? (
             <Carousel list={myList} />
           ) : (
             <div className={styles.mylistLoader}>
@@ -47,10 +40,8 @@ export default function MyList() {
           )}
         </div>
       ) : (
-        <div className={styles.emptyList}>
-          <p className={styles.suggest_text}> MyList is Empty</p>
-        </div>
+        <p className={styles.suggest_text}> MyList is Empty</p>
       )}
-    </>
+    </div>
   );
 }

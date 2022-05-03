@@ -22,16 +22,16 @@
 
 .one {
   position: relative;
-  min-height: 100vh;
+  /* min-height: 100vh; */
   display: flex;
   flex-direction: column;
   /* justify-content: center; */
   /* border: 1px solid red; */
   background: linear-gradient(180deg, var(--secondary), var(--primary));
-  padding-bottom: min(5vh, 5rem);
+  /* padding-bottom: min(5vh, 5rem); */
 }
 .one.notlogged {
-  min-height: 60vh !important;
+  /* min-height: 60vh !important; */
 }
 .one .heading {
   margin: 0 auto;
@@ -73,10 +73,10 @@
 }
 @media (max-width: 600px) {
   .home .one {
-    min-height: 70vh;
+    /* min-height: 70vh; */
   }
   .one.notlogged {
-    min-height: 50vh !important;
+    /* min-height: 50vh !important; */
   }
   .home .one .heading {
     margin-top: 12vh;
