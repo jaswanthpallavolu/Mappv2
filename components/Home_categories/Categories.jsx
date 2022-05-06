@@ -298,7 +298,7 @@ export const Category = ({ name }) => {
     if (name === "rated movies") mlist = movies?.filter((i) => i.liked != 0);
     else if (name === "watched") mlist = movies?.filter((i) => i.watched);
     mlist = mlist.map((i) => [i.movieId]).reverse();
-    if (name=="recently viewed") mlist = JSON.parse(localStorage.getItem("recent"));
+    if (name=="recently viewed") mlist = JSON.parse(window.localStorage.getItem("recent"));
     if (JSON.stringify(mlist) !== JSON.stringify(result)) {
       setResult(mlist);
       setLoading(true);
