@@ -328,8 +328,17 @@ export function Actions({ details }) {
         })
       );
   };
+  const addRecent = ()=>{
+    let recent = JSON.parse(localStorage.getItem("recent")) || []
+    if (recent.includes(details.movieId)){
+      recent = recent.filter(i=>i!=details.movieId)
+    }
+    recent.unshift(details.movieId)
+    localStorage.setItem("recent",JSON.stringify(recent))
+  }
   useEffect(() => {
     dispatch(fetchMovies(uid));
+    addRecent()
   }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
