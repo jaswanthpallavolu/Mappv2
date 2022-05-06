@@ -47,13 +47,11 @@ export default function Categories() {
   }, []);
   return (
     <div className={styles.home_categories}>
-      {JSON.parse(localStorage.getItem("recent")) ?
         <Category
           key={Math.random() * 3.1423423}
           name="recently viewed"
           query={{ genres: undefined }}
         />
-      : ""}
       {authorized ? (
         <>
           <Recommend key={Math.random() * 3.1423423} name="collaborative" />
