@@ -4,7 +4,7 @@ import { useEffect } from "react";
 export default function Index() {
   const router = useRouter();
   useEffect(() => {
-    router.push("/login", undefined, { shallow: true });
+    router.push("/home");
   }, []); //eslint-disable-line react-hooks/exhaustive-deps
   return <></>;
 }

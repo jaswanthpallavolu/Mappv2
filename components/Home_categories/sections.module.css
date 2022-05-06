@@ -63,7 +63,6 @@
   text-align: center;
   width: min(80%, 40rem);
   margin: 0 auto;
-  margin-top: 5%;
   margin-bottom: min(2rem, 20%);
   padding: 0.5rem 0.5rem;
   font-size: var(--suggestSize);

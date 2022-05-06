@@ -1,6 +1,6 @@
 export const darkTheme = {
-  color1: "hsl(0,0%,0%,.9)",
-  color2: "hsl(283,90%,32%,1)",
+  color1: "hsl(0,90%,0%)",
+  color2: "hsl(283,90%,32%)",
   color3: "#FAF8FF",
 
   cardShadow: "rgba(255,255,255,.25)",

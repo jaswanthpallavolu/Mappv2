@@ -1,15 +1,7 @@
-.list_section {
-  border: 1px solid red;
-  height: max(50vh, 30rem);
-  display: grid;
-  align-items: flex-start;
-  /* justify-content: center; */
-}
 .mylist {
   /* border: 1px solid red; */
   margin: 0rem 0.5rem;
   margin-top: min(2rem, 10%);
-
   /* margin-bottom: max(1.5rem, 3%); */
 
   display: flex;
@@ -60,16 +52,23 @@
 .mylist > .head span {
   width: 0;
   height: 0;
-  border-top: min(1.4rem, 2.58vw) solid transparent !important;
-  border-bottom: min(1.4rem, 2.58vw) solid transparent !important;
-  border-left: min(1.4rem, 2.58vw) solid var(--secondary) !important;
+  border-top: min(1.4rem, 2.58vw) solid transparent;
+  border-bottom: min(1.4rem, 2.58vw) solid transparent;
+  border-left: min(1.4rem, 2.58vw) solid var(--secondary);
 }
 
+.emptyList {
+  height: 30vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* border: 1px solid red; */
+}
 .suggest_text {
   color: var(--font-primary);
   text-align: center;
-  width: 30%;
-  margin: auto;
+  width: min(80%, 40rem);
+  margin: 0 auto;
   /* margin-bottom: min(2rem, 20%); */
   padding: 0.5rem 0.5rem;
   font-size: var(--suggestSize);
@@ -77,10 +76,7 @@
 }
 
 .mylistLoader {
-  border: 1px solid red;
-  height: 30vh;
-  width: 90%;
-  margin: 0 auto;
+  min-height: min(55vh, 35rem);
   display: grid;
   align-items: center;
   place-items: center;
@@ -90,29 +86,21 @@
   .mylist > .head {
     left: 3%;
   }
-  .list_section {
-    height: max(58vh, 24rem);
-  }
 }
 
-/* MOBILE */
 @media (max-width: 600px) {
-  .suggest_text {
-    color: var(--font-primary);
-    text-align: center;
-    width: 80%;
+  /* .mylist {
+    margin-bottom: 10%;
+  } */
+  .emptyList {
+    height: 30vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
-  .list_section {
-    height: min(40vh, 20rem);
-  }
-}
-@media (max-width: 340px) {
-  .suggest_text {
-    color: var(--font-primary);
-    text-align: center;
-    width: 80%;
-  }
-  .list_section {
-    height: max(15vh, 15rem);
+  .mylist > .head .name::after {
+    border-top: 2vh solid transparent;
+    border-bottom: 2vh solid transparent;
+    border-left: 2vh solid var(--third);
   }
 }

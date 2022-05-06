@@ -36,7 +36,6 @@
 }
 
 .topnav ul li {
-  
 }
 
 .topnav ul li a {
@@ -47,17 +46,17 @@
   padding: 8px;
 }
 
-.navlinks{
+.navlinks {
   grid-column: 2/3;
   display: grid;
 }
 
-.home:hover{
+.home:hover {
   text-decoration: underline;
   cursor: pointer;
 }
 
-.movies:hover{
+.movies:hover {
   text-decoration: underline;
   cursor: pointer;
 }
@@ -127,7 +126,7 @@
 
 /* togglers for sign in  button*/
 .btn_default {
-  background: var(--third)
+  background: var(--third);
 }
 .dtbtn {
   background: var(--secondary);
@@ -154,12 +153,12 @@
   justify-content: center;
   align-items: center;
   height: 30px;
-  border:none;
-  border-radius:5px;
+  border: none;
+  border-radius: 5px;
   font-size: 15px;
   font-weight: 100;
-  border-radius: 20px;;
-  cursor:pointer;
+  border-radius: 20px;
+  cursor: pointer;
 }
 
 /* PROFILE */
@@ -186,7 +185,7 @@
   transform: scale(0.95);
 }
 
-.mylist{
+.mylist {
   color: var(--font-primary);
   padding-top: 0.5rem;
   cursor: pointer;
@@ -198,7 +197,7 @@
   cursor: pointer;
 }
 
-.friends{
+.friends {
   color: var(--font-primary);
   padding-top: 0.5rem;
   cursor: pointer;
@@ -262,12 +261,13 @@
 
 @media (max-width: 600px) {
   .navbar {
-    padding: 0.5rem;
+    padding: 0.5rem 0;
   }
   .topnav {
     grid-template-columns: 0.1fr 0.8fr;
     place-content: center;
     grid-column-gap: 1rem;
+    height: 3rem;
   }
   /* BURGER */
   /* .navbar .burger {

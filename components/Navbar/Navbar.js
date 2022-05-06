@@ -1,14 +1,14 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import styles from "./Navbar.module.css";
-import Link from 'next/link';
+import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { toDark, toLight, setTheme } from "../../redux/features/themeSlice";
 import { logout } from "../../redux/features/authSlice";
 
-import Brightness2Icon from "@mui/icons-material/Brightness2";
-import WbSunnyIcon from "@mui/icons-material/WbSunny";
-import LogoutIcon from "@mui/icons-material/Logout";
+// import Brightness2Icon from "@mui/icons-material/Brightness2";
+// import WbSunnyIcon from "@mui/icons-material/WbSunny";
+// import LogoutIcon from "@mui/icons-material/Logout";
 // import styled from "styled-components";
 
 // const Nav = styled.div.attrs((props) => ({
@@ -127,8 +127,12 @@ function Navbar() {
         </div> */}
         <div className={styles.navlinks}>
           <ul>
-            <li className={styles.home}><Link href="/home">Home</Link></li>
-            <li className={styles.movies}><Link href="/movies">Movies</Link></li>
+            <li className={styles.home}>
+              <Link href="/home">Home</Link>
+            </li>
+            <li className={styles.movies}>
+              <Link href="/movies">Movies</Link>
+            </li>
           </ul>
         </div>
         <form
@@ -161,33 +165,52 @@ function Navbar() {
         {authorized ? (
           <div className={styles.profile}>
             <div className={styles.theme} onClick={handleTheme}>
-              {theme === "dark" ? <ion-icon name="sunny-outline"></ion-icon> : <ion-icon name="moon-outline"></ion-icon>}
+              {theme === "dark" ? (
+                <ion-icon name="sunny-outline"></ion-icon>
+              ) : (
+                <ion-icon name="moon-outline"></ion-icon>
+              )}
             </div>
             {/* <div className={styles.name}>{username}</div> */}
-            <div className={styles.mylist}><ion-icon name="bookmark-outline"></ion-icon></div>
-            <div className={styles.notification}><ion-icon name="notifications-outline"></ion-icon></div>
-            <div className={styles.friends}><ion-icon name="people-outline"></ion-icon></div>
+            <div className={styles.mylist}>
+              <ion-icon name="bookmark-outline"></ion-icon>
+            </div>
+            <div className={styles.notification}>
+              <ion-icon name="notifications-outline"></ion-icon>
+            </div>
+            <div className={styles.friends}>
+              <ion-icon name="people-outline"></ion-icon>
+            </div>
             <div className={styles.user}>
               <div className={styles.pic}>
                 <img src={pUrl} alt="profile" />
               </div>
             </div>
             <div className={styles.logout}>
-              <LogoutIcon
+              <ion-icon
+                name="log-out-outline"
                 onClick={() => {
                   dispatch(logout());
                 }}
-              />
+              ></ion-icon>
             </div>
           </div>
         ) : (
           <div className={styles.login_section}>
             <div className={styles.theme} onClick={handleTheme}>
-              {theme === "dark" ? <ion-icon name="sunny-outline"></ion-icon> : <ion-icon name="moon-outline"></ion-icon>}
+              {theme === "dark" ? (
+                <ion-icon name="sunny-outline"></ion-icon>
+              ) : (
+                <ion-icon name="moon-outline"></ion-icon>
+              )}
             </div>
             <button
               className={`${styles.login_btn}
-              ${toggleNav && theme === "dark" ? styles.dtbtn : styles.btn_default}
+              ${
+                toggleNav && theme === "dark"
+                  ? styles.dtbtn
+                  : styles.btn_default
+              }
               ${toggleNav && theme === "light" ? styles.ltbtn : ""}`}
               id="sign-in"
               onClick={() => router.push("/login")}
@@ -206,7 +229,11 @@ function Navbar() {
         {toggleSideNav && authorized ? (
           <div className={styles.sn_profile}>
             <div className={styles.theme} onClick={handleTheme}>
-              {theme === "dark" ? <ion-icon name="sunny-outline"></ion-icon> : <ion-icon name="moon-outline"></ion-icon>}
+              {theme === "dark" ? (
+                <ion-icon name="sunny-outline"></ion-icon>
+              ) : (
+                <ion-icon name="moon-outline"></ion-icon>
+              )}
             </div>
             <div className={styles.name}>{username}</div>
             <div className={styles.user}>
@@ -214,12 +241,12 @@ function Navbar() {
                 <img src={pUrl} alt="profile" />
               </div>
               <div className={styles.logout}>
-                <LogoutIcon
+                <ion-icon
+                  name="log-out-outline"
                   onClick={() => {
                     dispatch(logout());
-                    // router.replace("/login");
                   }}
-                />
+                ></ion-icon>
               </div>
             </div>
           </div>

@@ -3,8 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { addToDB, setUserStatus } from "../redux/features/authSlice";
 import { fetchMovies, setEmpty } from "../redux/features/userRatingSlice";
 import Navbar from "./Navbar/Navbar";
-import MovieModal from "./Moviedetails/MovieModal";
-import { useRouter } from "next/router";
+// import { useRouter } from "next/router";
 // import { route } from "next/dist/server/router";
 
 export default function Layout({ children }) {
@@ -13,8 +12,8 @@ export default function Layout({ children }) {
   const user = useSelector((state) => state.userAuth.user);
   const status = useSelector((state) => state.userAuth.status);
   const userRatingStatus = useSelector((state) => state.userRatings.status);
-  const movieModalState = useSelector((state) => state.movie.open);
-  const router = useRouter();
+  // const movieModalState = useSelector((state) => state.movie.open);
+  // const router = useRouter();
   const dispatch = useDispatch();
 
   // domain/home/:word for word in the search bar
@@ -62,9 +61,8 @@ export default function Layout({ children }) {
 
   return (
     <>
-      {!movieModalState ? <Navbar /> : ""}
+      <Navbar />
       {children}
-      <MovieModal />
     </>
   );
 }

@@ -6,6 +6,7 @@ body {
   margin: 0;
   font-family: "Open sans", sans-serif;
   font-size: 16px;
+
   user-select: none; /* supported by Chrome and Opera */
   -webkit-user-select: none; /* Safari */
   -khtml-user-select: none; /* Konqueror HTML */
@@ -21,16 +22,16 @@ a {
 * {
   box-sizing: border-box;
 }
-
+#nprogress .bar {
+  background: var(--secondary) !important;
+}
 /* CUSTOM CAROUSEL */
 /* .slick-list,
 .slick-track {
   -ms-touch-action: pan-y;
   touch-action: pan-y;
 } */
-/* #carousel {
-  border: 1px solid red;
-} */
+
 #carousel .slick-list {
   margin-left: 1% !important;
   height: max-content;

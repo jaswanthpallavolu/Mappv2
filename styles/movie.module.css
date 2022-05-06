@@ -1,0 +1,79 @@
+.movie {
+  --cHeight: 100vh;
+  --cWidth: 100vw;
+  position: relative;
+  width: var(--cWidth);
+  height: var(--cHeight);
+  /* overflow-y: hidden; */
+
+  /* background-color: var(--primary); */
+  /* FONT-SIZE */
+  --title: clamp(1.6rem, 4vw, 5rem);
+  --description: clamp(1rem, 2.5vw, 1.25rem);
+  --imdb-txt: clamp(1.1rem, 2vw, 1.25rem);
+  --btn-text: clamp(0.9rem, 2vw, 1.25rem);
+
+  --header1: clamp(0.9rem, 2.5vw, 1.2rem);
+  --header1-value: clamp(1rem, 2.5vw, 1.4rem);
+
+  --pad-bottom: clamp(0.4rem, 2vw, 0.8rem);
+
+  --title-color: rgba(255, 255, 255, 0.9);
+  --header-color: rgb(167, 167, 167);
+  --header-value-color: rgba(255, 255, 255, 1);
+  --btn-color1: rgba(255, 255, 255, 1);
+
+  --card-width: max(9rem, 10vw);
+  --card-height: calc(var(--card-width) * 1.5);
+}
+
+.notfound {
+  height: var(--cHeight);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(180deg, var(--secondary), var(--primary));
+  color: var(--font-primary);
+}
+
+@media (min-width: 1600px) {
+  .movie {
+    /* FONT-SIZE */
+    --title: clamp(1.6rem, 4vw, 5rem);
+    --description: clamp(1rem, 3vw, 1.85rem);
+    --imdb-txt: clamp(1.1rem, 3vw, 1.85rem);
+    --btn-text: clamp(0.9rem, 3vw, 1.85rem);
+
+    --header1: clamp(0.9rem, 3vw, 1.8rem);
+    --header1-value: clamp(1rem, 3vw, 2rem);
+
+    --pad-bottom: clamp(0.4rem, 3vw, 1rem);
+  }
+}
+@media (max-width: 600px) {
+  .movie {
+    /* overflow-y: visible; */
+    height: 100%;
+    min-height: 100vh;
+    --card-width: max(6rem, 29vw);
+    --card-height: calc(var(--card-width) * 1.5);
+
+    /* FONT-SIZE */
+    --title: clamp(1.25rem, 8vw, 1.8rem);
+    --description: clamp(1rem, 2.5vw, 1.25rem);
+    --imdb-txt: clamp(0.9rem, 2.5vw, 1.25rem);
+    --btn-text: clamp(1rem, 2vw, 1.25rem);
+
+    --header1: clamp(0.9rem, 2.5vw, 1.2rem);
+    --header1-value: clamp(1rem, 2.5vw, 1.4rem);
+
+    --pad-bottom: clamp(0.4rem, 2vw, 0.8rem);
+  }
+}
+
+@media (max-width: 320px) {
+  .movie {
+    --card-width: max(6rem, 45vw);
+    --card-height: calc(var(--card-width) * 1.5);
+  }
+}

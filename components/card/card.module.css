@@ -10,6 +10,19 @@
   margin: 0 0.5rem;
   overflow: hidden;
 }
+/* .m_card:hover:active {
+  transform: scale(0.85);
+} */
+.title_block {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  border: 1px solid hsl(0, 0%, 50%);
+  padding: 0.3rem;
+  /* backdrop-filter: blur(10px); */
+}
+
 .m_card.large {
   --card-width: 15rem;
   --card-height: 22rem;
@@ -21,6 +34,11 @@
 .m_card.small {
   --card-width: 10rem;
   --card-height: 15rem;
+}
+
+.m_card.extra_small {
+  --card-width: 8rem;
+  --card-height: 10rem;
 }
 .m_card:hover {
   transform: scale(1.05);
@@ -41,8 +59,14 @@
 .m_card.small .title {
   font-size: clamp(0.8rem, 5vw, 1.1rem);
 }
+.m_card.extra_small .title {
+  font-size: clamp(0.5rem, 3vw, 0.8rem);
+}
 .m_card.small .more {
   font-size: clamp(0.8rem, 5vw, 0.8rem);
+}
+.m_card.extra_small .more {
+  font-size: clamp(0.5rem, 2vw, 0.5rem);
 }
 
 @media (min-width: 720px) and (max-width: 1080px) {
@@ -239,6 +263,9 @@
   opacity: 0;
   cursor: pointer;
 }
+/* .m_card:hover:active .info {
+  transform: scale(0.98);
+} */
 .m_card:hover .info {
   opacity: 1;
   transition: opacity 1s ease;
@@ -261,6 +288,15 @@
   margin-bottom: 0.3rem;
   font-weight: 600;
   font-size: clamp(1.2rem, 5vw, 1.4rem);
+  /* white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; */
+}
+.m_card .info .extra_small_title {
+  width: 95%;
+  margin-bottom: 0.3rem;
+  font-weight: 300;
+  font-size: clamp(0.8rem, 3vw, 1rem);
   /* white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis; */

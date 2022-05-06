@@ -11,13 +11,13 @@ import {
   deleteMovieData,
   updateMovieData,
 } from "../../redux/features/userRatingSlice";
-import { setOpen, setMovieDetails } from "../../redux/features/movieSlice";
+// import { setOpen, setMovieDetails } from "../../redux/features/movieSlice";
 import { useRouter } from "next/router";
 
 export default function Card({ id, size }) {
   const router = useRouter();
 
-  const [details, setDetais] = useState();
+  const [details, setDetails] = useState();
   const [loading, setLoading] = useState(true);
 
   const dispatch = useDispatch();
@@ -31,7 +31,7 @@ export default function Card({ id, size }) {
       })
       .then((data) => {
         const res = data.data;
-        setDetais(res.details);
+        setDetails(res.details);
         setLoading(false);
       })
       .catch((err) => {
@@ -50,9 +50,16 @@ export default function Card({ id, size }) {
       controller.abort();
     };
   }, []); //eslint-disable-line react-hooks/exhaustive-deps
+
+  function GetPoster(details) {
+    if (details.poster1 !== "") return details.poster1;
+    else if (details.poster2 !== "") return details.poster2;
+    else if (details?.small_Image !== "") return details?.small_Image;
+    else return details.largeImage;
+  }
   return (
     <div
-      className={`${styles.m_card} ${size === "small" ? styles.small : ""} ${
+      className={`${styles.m_card} ${size === "small" ? styles.small : ""}  ${
         size === "medium" ? styles.medium : ""
       } ${!size || size === "large" ? styles.large : ""}`}
       id="movie_card"
@@ -61,22 +68,27 @@ export default function Card({ id, size }) {
         <>
           <div className={styles.image}>
             {/* <Image objectFit='cover' layout='fill' className={styles.poster} src={details.poster} priority alt="name1" /> */}
-            <img
-              className={styles.poster}
-              src={details?.poster1 ? details?.poster1 : details?.largeImage}
-              alt={details.title}
-            />
+
+            {GetPoster(details) !== "" ? (
+              <img
+                className={styles.poster}
+                src={GetPoster(details)}
+                alt={details.title}
+              />
+            ) : (
+              <div className={styles.title_block}>{details.title}</div>
+            )}
           </div>
           <Header details={details} />
           <div
             className={styles.info}
             onClick={() => {
               router.push(`/movies/${details.movieId}`);
-              dispatch(setMovieDetails(details));
-              dispatch(setOpen(true));
+              // dispatch(setMovieDetails(details));
+              // dispatch(setOpen(true));
             }}
           >
-            <div className={styles.title}>
+            <div className={`${styles.title}`}>
               {String(details.title).substring(0, 40)}
             </div>
             <div className={styles.more}>
@@ -110,12 +122,13 @@ export const Header = ({ details }) => {
     if (loadStatus !== "loading") {
       // setTimeout(() => {
       var list = movies.filter((i) => i.myList === true);
+      // setMyList(list);
       if (JSON.stringify(list) !== JSON.stringify(myList)) setMyList(list);
       // }, 100);
     }
   }, [loadStatus]); //eslint-disable-line react-hooks/exhaustive-deps
 
-  const [status, setStatus] = useState(false);
+  // const [status, setStatus] = useState(false);
   const checkCard = async () => {
     const mIfo = await myList.find((i) => i.movieId === details.movieId);
     if (mIfo) {
@@ -123,7 +136,7 @@ export const Header = ({ details }) => {
     } else {
       setInList(false);
     }
-    setStatus(false);
+    // setStatus(false);
   };
 
   useEffect(() => {

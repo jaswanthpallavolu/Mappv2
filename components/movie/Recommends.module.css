@@ -1,0 +1,78 @@
+.rec_container {
+  /* padding: 0.5rem 0.5rem; */
+  /* border-radius: 1rem; */
+  /* background-color: RGB(40, 40, 40); */
+  margin: 0;
+  list-style: none;
+  padding: 0;
+  /* border: 1px solid red; */
+  list-style: none;
+  color: white;
+}
+
+.cards {
+  margin: 0;
+  list-style: none;
+  padding: 0.6rem 0.2rem;
+  /* padding-top: 1rem; */
+  width: 100%;
+  max-height: 50vh;
+
+  /* display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 0.5fr)); */
+  display: flex;
+  justify-content: center;
+  /* align-content: center; */
+  flex-wrap: wrap;
+
+  gap: 0.6rem;
+  overflow-y: scroll;
+}
+
+.card_container {
+  position: relative;
+  width: var(--card-width);
+  height: var(--card-height);
+}
+.pcard {
+  position: absolute;
+  inset: 0;
+  cursor: pointer;
+  /* border: 1px solid red; */
+}
+.pcard:active {
+  transform: scale(0.98);
+}
+.pcard img {
+  width: var(--card-width);
+  height: var(--card-height);
+  object-fit: cover;
+  object-position: center;
+}
+.pcard:hover img {
+  border: 1px solid var(--secondary);
+}
+.title {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  border: 1px solid var(--title-color);
+  padding: 0 0.3rem;
+  backdrop-filter: blur(10px);
+  overflow-x: hidden;
+}
+
+@media (max-width: 600px) {
+  .cards {
+    padding: var(--mleft) 0;
+    max-height: 60vh;
+    justify-content: left;
+    gap: 0.5rem;
+    /* border: 1px solid red; */
+  }
+  .title {
+    border: 1px solid var(--font-primary);
+    color: var(--font-primary);
+  }
+}
