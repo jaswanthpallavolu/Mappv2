@@ -28,7 +28,7 @@ export default function Movies() {
     s[1] = parseInt(s[1])
     final_query["sort"] = s
 
-    await axios.post('http://127.0.0.1:8000/movies/filter/',{"query":final_query}).then(res=>{setResult(res.data);setLoading(false)})
+    await axios.post(`${process.env.NEXT_PUBLIC_MOVIE_SERVER}/movies/filter/`,{"query":final_query}).then(res=>{setResult(res.data);setLoading(false)})
   }
 
   useEffect(()=>{
