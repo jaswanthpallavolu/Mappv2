@@ -13,13 +13,57 @@
   height: 4rem;
   width: 100vw;
   display: grid;
-  grid-template-columns: 1.5fr minmax(400px, 1.2fr) 1.5fr;
+  grid-template-columns: 0.2fr minmax(150px, 1fr) minmax(250px, 1.5fr) 1.25fr;
   align-items: center;
+}
+
+.logo {
+  margin-left: 1em;
+  /* border: 1px solid red; */
+  display: grid;
+  grid-column: 1/2;
+}
+
+.topnav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  text-align: center;
+  /* border: 1px solid red; */
+}
+
+.topnav ul li {
+  
+}
+
+.topnav ul li a {
+  color: var(--font-primary);
+  font-size: 17px;
+  font-weight: 100;
+  display: block;
+  padding: 8px;
+}
+
+.navlinks{
+  grid-column: 2/3;
+  display: grid;
+}
+
+.home:hover{
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.movies:hover{
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .sidenav {
   /* display: none; */
-
   display: block;
   position: absolute;
   left: 0;
@@ -35,20 +79,20 @@
 
 /* SEARCH BAR */
 .navbar .search_bar {
-  grid-column: 2/3;
+  grid-column: 3/4;
   justify-self: center;
   width: max-content;
   display: flex;
   align-items: center;
   gap: 1rem;
-
+  border-radius: 20px;
   padding: 0.2rem 0.5rem;
+  /* border: 1px solid red; */
 }
 
 .navbar .search_bar input {
   width: min(30vw, 25rem);
   height: 2rem;
-
   text-align: center;
   font-size: 1.1rem;
   background: none;
@@ -67,6 +111,7 @@
 .navbar .search_bar img {
   width: 1.3rem;
   aspect-ratio: 1/1;
+  cursor: pointer;
 }
 
 /* togglers for search bar */
@@ -80,58 +125,98 @@
   background-color: var(--secondary);
 }
 
+/* togglers for sign in  button*/
+.btn_default {
+  background: var(--third)
+}
+.dtbtn {
+  background: var(--secondary);
+}
+.ltbtn {
+  background-color: var(--secondary);
+}
+
 /* LOGIN BUTTON */
 .login_section {
-  grid-column: 3/4;
+  grid-column: 4/5;
   display: flex;
   justify-content: center;
   align-items: center;
   /* border: 1px solid red; */
   width: 80%;
-  margin-left: 10%;
+  /* margin-left: 10%; */
+  gap: 5rem;
 }
 .login_btn {
   /* z-index: -1; */
   width: max-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+  border:none;
+  border-radius:5px;
+  font-size: 15px;
+  font-weight: 100;
+  border-radius: 20px;;
+  cursor:pointer;
 }
 
 /* PROFILE */
 .topnav .profile {
-  grid-column: 3/4;
+  grid-column: 4/5;
   display: flex;
   justify-self: center;
   align-items: center;
-  gap: 1rem;
+  gap: 1.5rem;
+  /* border: 1px solid red; */
 }
 .theme {
   margin-right: 2%;
   width: 2.5rem;
   aspect-ratio: 1/1;
-
-  background: var(--third);
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.25);
+  color: var(--font-primary);
   border-radius: 5px;
   cursor: pointer;
   display: grid;
   place-items: center;
-  font-size: 1.6rem;
+  font-size: 2rem;
 }
 .theme:active {
   transform: scale(0.95);
 }
 
+.mylist{
+  color: var(--font-primary);
+  padding-top: 0.5rem;
+  cursor: pointer;
+}
+
+.notification {
+  color: var(--font-primary);
+  padding-top: 0.5rem;
+  cursor: pointer;
+}
+
+.friends{
+  color: var(--font-primary);
+  padding-top: 0.5rem;
+  cursor: pointer;
+}
+
 .profile .user {
   display: flex;
   gap: 1rem;
+  cursor: pointer;
 }
 
 .pic img {
   display: grid;
   place-content: center;
-  width: 3rem;
-  height: 3rem;
-  border-radius: 5px;
-  box-shadow: 0 0 0px 3px var(--card-shadow);
+  width: 2rem;
+  height: 2rem;
+  border-radius: 30px;
+  /* box-shadow: 0 0 0px 3px var(--card-shadow); */
 }
 .name {
   width: 8rem;
