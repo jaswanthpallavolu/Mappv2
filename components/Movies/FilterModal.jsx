@@ -28,6 +28,11 @@ export default function FilterModal({setQuery,setModal}){
         document.body.style.overflow = 'auto'
     }
 
+    const handleclear = ()=>{
+        setyear()
+        setGenre([])
+        setrate()
+    }
     useEffect(()=>{
         document.body.style.overflow = 'hidden'
     },[])
@@ -45,7 +50,7 @@ export default function FilterModal({setQuery,setModal}){
                 <form onChange={handlefilter}>
                     {filter_json['released'].map(i=>
                         <div className={styles.option} key={Object.keys(i)}>
-                        <input type='radio' name="year" value={Object.values(i)}/>
+                        <input type='radio' name="year" value={Object.values(i)} checked={Object.values(i)==year} onChange={()=>{}}/>
                         <span>{Object.keys(i)}</span>
                         </div>
                     )}
@@ -56,7 +61,7 @@ export default function FilterModal({setQuery,setModal}){
                 <form onChange={handlefilter}>
                     {filter_json['rating'].map(i=>
                         <div className={styles.option} key={Object.keys(i)}>
-                        <input type='radio' name="rate" value={Object.values(i)}/>
+                        <input type='radio' name="rate" value={Object.values(i)} checked={Object.values(i)==rate} onChange={()=>{}}/>
                         <span>{Object.keys(i)}</span>
                         </div>
                     )}
@@ -68,7 +73,10 @@ export default function FilterModal({setQuery,setModal}){
                     {filter_json['genres'].map(i=><button className={genre.includes(i) ? styles.active : styles.optionsbutton} onClick={handleGenre} value={i} key={i}>{i}</button>)}
                 </div>
             </div>
-            <button className={styles.apply} onClick={handleapply}>Apply</button>
+            <div className={styles.btns}>
+                <button className={styles.apply} onClick={handleclear}>Clear</button>
+                <button className={styles.apply} onClick={handleapply}>Apply</button>
+            </div>
         </div>
     </div>
     )

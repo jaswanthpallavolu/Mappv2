@@ -16,6 +16,23 @@
 .container h1 {
   color: var(--font-primary);
 }
+.container .items
+{
+  position: relative;
+  width: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.title{
+  position: relative;
+  font-size: clamp(1.1rem, 2vw, 3rem);
+  color: white;
+  font-weight: 500;
+  text-shadow: 0px 2px 10px rgba(0, 0, 0, 0.527);
+  margin: 0%;
+  width: 100%;
+}
 .movies
 {
   position: relative;
@@ -23,7 +40,7 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  gap: 4rem;
+  gap: 2rem;
   grid-template-columns: repeat(auto-fit, minmax(200px, 0.1fr));
 }
 .page_back
@@ -85,5 +102,8 @@
   }
   .filter{
     flex-direction: row;
+  }
+  .items{
+    flex-direction: column;
   }
 }

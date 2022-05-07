@@ -8,6 +8,7 @@ import Card from "../../components/card/Card";
 import { Pagination } from "@mui/material";
 import filter_json from '../../components/Movies/filter.json'
 import { FilterAltOutlined, SortOutlined } from "@mui/icons-material";
+import { Loader1 } from "../../utils/loaders/Loading";
 
 export default function Movies() {
   const router = useRouter();
@@ -45,15 +46,19 @@ export default function Movies() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.options}>
-        <button className={styles.filter} onClick={()=>setModal(!modal)}><FilterAltOutlined className={styles.icons}/>Filter</button>
-        <div className={styles.sort_content}>
-        <SortOutlined className={styles.icons}/>
-          <select name="sort" className={styles.sort} onChange={(e)=>setSortby((e.target.value).split(','))}>
-            {filter_json["sortby"].map(i=><option value={Object.values(i)} key={Object.keys(i)}>{Object.keys(i)}</option>)}
-          </select>
+      {loading ? <Loader1 /> :<>
+      <div className={styles.items}>
+        <p className={styles.title}>{(query["genre"].length==0 && query["released"]==2020 && query["range"]==3) ? "All Movies" : "Filtered Result"}</p>
+        <div className={styles.options}>
+          <button className={styles.filter} onClick={()=>setModal(!modal)}><FilterAltOutlined className={styles.icons}/>Filter</button>
+          <div className={styles.sort_content}>
+          <SortOutlined className={styles.icons}/>
+            <select name="sort" className={styles.sort} onChange={(e)=>setSortby((e.target.value).split(','))}>
+              {filter_json["sortby"].map(i=><option value={Object.values(i)} key={Object.keys(i)}>{Object.keys(i)}</option>)}
+            </select>
+          </div>
         </div>
-      </div>
+       </div>
       {result ?
         <div className={styles.page_back}>
           <Pagination count={Math.ceil(result["total_movies"]/20)} onChange={(e,v)=>setPage(v)} color={"secondary"} className={styles.pagination} page={page}/>
@@ -69,6 +74,7 @@ export default function Movies() {
           <Pagination count={Math.ceil(result["total_movies"]/20)} onChange={(e,v)=>setPage(v)} color={"secondary"} className={styles.pagination} page={page}/>
         </div>
       :""}
+      </>}
     </div>
   );
 }
