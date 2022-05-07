@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import styles from './modal.module.css'
 import filter_json from './filter.json'
 
-export default function FilterModal({setQuery,setModal}){
-    const [year,setyear] = useState()
-    const [rate,setrate] = useState()
-    const [genre,setGenre] = useState([])
+export default function FilterModal({setQuery,setModal,query}){
+    const [year,setyear] = useState(query["released"])
+    const [rate,setrate] = useState(query["range"])
+    const [genre,setGenre] = useState(query["genre"] || [])
 
     const handlefilter = (e)=>{
         if (e.target.name=="year") setyear(e.target.value)

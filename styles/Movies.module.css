@@ -1,17 +1,20 @@
 .container {
   position: relative;
-  z-index: 1;
   width: 100%;
   min-height: 100vh;
-  background: linear-gradient(180deg, var(--secondary), var(--primary));
   overflow: hidden;
-  padding-top: 5rem;
 
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   gap: 1rem;
+}
+.container::before {
+  content: "";
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(180deg, var(--secondary), var(--primary) 90%);
 }
 .container h1 {
   color: var(--font-primary);
@@ -23,6 +26,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: 5rem;
 }
 .title{
   position: relative;
@@ -38,10 +42,10 @@
   position: relative;
   display: grid;
   justify-content: center;
-  align-items: center;
-  width: 100%;
-  gap: 2rem;
+  justify-items: center;
   grid-template-columns: repeat(auto-fit, minmax(200px, 0.1fr));
+  grid-gap: 2rem;
+  width: 100%;
 }
 .page_back
 {
@@ -86,14 +90,15 @@
   gap:3px;
   cursor: pointer;
 }
+.msg
+{
+  position: relative;
+  margin-top: 10%;
+}
 @media (max-width: 600px) {
   .page_back{
     padding: 0.5rem;
     transform: scale(0.8);
-  }
-  .movies{
-    grid-gap: 0.4rem;
-    grid-template-columns: repeat(auto-fit, minmax(32%, 0.2fr));
   }
   .options{
     transform: scale(0.7);
@@ -105,5 +110,39 @@
   }
   .items{
     flex-direction: column;
+  }
+}
+@media (max-width: 740px) {
+  .movies {
+    grid-gap: 0.2rem;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 0.1fr));
+  }
+  .msg{
+    margin-top: 50%;
+  }
+}
+@media (max-width: 600px) {
+  .movies {
+    grid-gap: 0.2rem;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 0.1fr));
+  }
+  .msg{
+    margin-top: 70%;
+  }
+}
+/* @media (max-width: 400px) {
+  .
+} */
+@media (max-width: 420px) {
+  .movies {
+    grid-template-columns: repeat(auto-fit, minmax(32%, 0.2fr));
+  }
+  .msg{
+    margin-top: 90%;
+  }
+}
+@media (max-width: 240px) {
+  .movies {
+    grid-template-columns: repeat(auto-fit, minmax(45%, 0.2fr));
   }
 }

@@ -13,10 +13,11 @@ import { Loader1 } from "../../utils/loaders/Loading";
 export default function Movies() {
   const router = useRouter();
   const [modal,setModal] = useState(false)
-  const [query,setQuery] = useState({"genre":[],"released":2020,"range":3,"sort":["year",0],"page":1,"nof":20})
+  const [query,setQuery] = useState({"genre":[],"released":2020,"range":3,"sort":["year",0],"page":1,"nof":24})
   const [result,setResult] = useState()
+  const [result_len,setResultLen] = useState()
   const [page,setPage] = useState(1)
-  const [moviesperpage,setMoviesperPage] = useState(20)
+  const [moviesperpage,setMoviesperPage] = useState(24)
   const [sortby,setSortby] = useState(["year",0])
   const [loading,setLoading] = useState(false)
 
@@ -29,7 +30,7 @@ export default function Movies() {
     s[1] = parseInt(s[1])
     final_query["sort"] = s
 
-    await axios.post(`${process.env.NEXT_PUBLIC_MOVIE_SERVER}/movies/filter/`,{"query":final_query}).then(res=>{setResult(res.data);setLoading(false)})
+    await axios.post(`${process.env.NEXT_PUBLIC_MOVIE_SERVER}/movies/filter/`,{"query":final_query}).then(res=>{setResult(res.data.movies);setResultLen(res.data.total_movies);setLoading(false)})
   }
 
   useEffect(()=>{
@@ -46,7 +47,6 @@ export default function Movies() {
 
   return (
     <div className={styles.container}>
-      {loading ? <Loader1 /> :<>
       <div className={styles.items}>
         <p className={styles.title}>{(query["genre"].length==0 && query["released"]==2020 && query["range"]==3) ? "All Movies" : "Filtered Result"}</p>
         <div className={styles.options}>
@@ -59,22 +59,26 @@ export default function Movies() {
           </div>
         </div>
        </div>
-      {result ?
-        <div className={styles.page_back}>
-          <Pagination count={Math.ceil(result["total_movies"]/20)} onChange={(e,v)=>setPage(v)} color={"secondary"} className={styles.pagination} page={page}/>
-        </div>
-      :""}
-      {!loading ?
-        <div className={styles.movies}>
-          {result ? result["movies"].map(i=><Card id={i} size={"medium"} key={i}/>):""}
-        </div>:""}
-      {modal ? <FilterModal setQuery={setQuery} setModal={setModal}/> : ""}
-      {result ?
-        <div className={styles.page_back}>
-          <Pagination count={Math.ceil(result["total_movies"]/20)} onChange={(e,v)=>setPage(v)} color={"secondary"} className={styles.pagination} page={page}/>
-        </div>
-      :""}
-      </>}
+      {loading ? <Loader1 /> : (<>
+        {result?.length > 0 ?
+          <>
+            <div className={styles.page_back}>
+              <Pagination count={Math.ceil(result_len/20)} onChange={(e,v)=>setPage(v)} color={"secondary"} className={styles.pagination} page={page}/>
+            </div>
+            {!loading ?
+              <div className={styles.movies}>
+                {result ? result.map(i=><Card id={i} size={"medium"} key={i}/>):""}
+              </div>:""}
+            <div className={styles.page_back}>
+              <Pagination count={Math.ceil(result_len/20)} onChange={(e,v)=>setPage(v)} color={"secondary"} className={styles.pagination} page={page}/>
+            </div>
+          </>:(
+            <div className={styles.msg}>
+              <h1>No Result Found</h1>
+            </div>
+          )}
+        </>)}
+        {modal ? <FilterModal setQuery={setQuery} setModal={setModal} query={query}/> : ""}
     </div>
   );
 }
