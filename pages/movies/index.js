@@ -50,7 +50,7 @@ export default function Movies() {
       <div className={styles.items}>
         <p className={styles.title}>{(query["genre"].length==0 && query["released"]==2020 && query["range"]==3) ? "All Movies" : "Filtered Result"}</p>
         <div className={styles.options}>
-          <button className={styles.filter} onClick={()=>setModal(!modal)}><FilterAltOutlined className={styles.icons}/>Filter</button>
+          <button className={(query["genre"].length==0 && query["released"]==2020 && query["range"]==3) ? styles.filter_off : styles.filter} onClick={()=>setModal(!modal)}><FilterAltOutlined className={styles.icons}/>Filter</button>
           <div className={styles.sort_content}>
           <SortOutlined className={styles.icons}/>
             <select name="sort" className={styles.sort} onChange={(e)=>setSortby((e.target.value).split(','))}>
@@ -63,14 +63,14 @@ export default function Movies() {
         {result?.length > 0 ?
           <>
             <div className={styles.page_back}>
-              <Pagination count={Math.ceil(result_len/20)} onChange={(e,v)=>setPage(v)} color={"secondary"} className={styles.pagination} page={page}/>
+              <Pagination count={Math.ceil(result_len/moviesperpage)} onChange={(e,v)=>setPage(v)} color={"secondary"} className={styles.pagination} page={page}/>
             </div>
             {!loading ?
               <div className={styles.movies}>
                 {result ? result.map(i=><Card id={i} size={"medium"} key={i}/>):""}
               </div>:""}
             <div className={styles.page_back}>
-              <Pagination count={Math.ceil(result_len/20)} onChange={(e,v)=>setPage(v)} color={"secondary"} className={styles.pagination} page={page}/>
+              <Pagination count={Math.ceil(result_len/moviesperpage)} onChange={(e,v)=>setPage(v)} color={"secondary"} className={styles.pagination} page={page}/>
             </div>
           </>:(
             <div className={styles.msg}>

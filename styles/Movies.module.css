@@ -56,6 +56,10 @@
 {
   color: var(--font-primary) !important;
 }
+.pagination li div
+{
+  color: var(--font-primary);
+}
 .options{
   display: flex;
   justify-content: flex-end;
@@ -70,6 +74,7 @@
   border: none;
 }
 .filter{
+  position: relative;
   padding: 7px 15px;
   font-size: 1.25rem;
   border-radius: 5px;
@@ -77,6 +82,28 @@
   align-items: center;
   gap:3px;
   cursor: pointer;
+}
+.filter_off{
+  position: relative;
+  padding: 7px 15px;
+  font-size: 1.25rem;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  gap:3px;
+  cursor: pointer;
+}
+.filter::before
+{
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0.7rem;
+  height: 0.7rem;
+  background-color: red;
+  border-radius: 50%;
+  margin: -3%;
 }
 .sort{
   font-size: 1.15rem;
