@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import styles from "./Navbar.module.css";
+import styles2 from "./mobnav.module.css";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { toDark, toLight, setTheme } from "../../redux/features/themeSlice";
@@ -130,7 +131,6 @@ function Navbar() {
           <div className={styles.logo}>
             <img src="/assets/nav-logo.png" alt="logo" />
           </div>
-
           <ul className={styles.navlinks}>
             <li
               className={`${styles.navlink} ${
@@ -278,47 +278,31 @@ export const MobileNavbar = ({ prop }) => {
         <div className={styles.logo}>
           <img src="/assets/nav-logo.png" alt="logo" />
         </div>
-        {!openNav ? (
-          <form
-            className={`${styles.search_bar} 
-          ${toggleNav && theme === "dark" ? styles.dtbar : styles.bar_default}
-          ${toggleNav && theme === "light" ? styles.ltbar : ""}`}
-            id="search_bar"
-          >
-            <input
-              type="text"
-              placeholder="search movie"
-              ref={searchRef}
-              // onChange={handleRoute}
-              // onKeyPress={handleRoute}
-            />
-            <button onClick={handleRoute}>
-              {!sIcon ? (
-                <img
-                  onClick={goBack}
-                  src="/assets/x-mark-thin.png"
-                  alt="hh"
-                  style={{ cursor: "pointer" }}
-                />
-              ) : (
-                <img src="/assets/search-thin.png" alt="hh" />
-              )}
-            </button>
-          </form>
-        ) : (
+        {/* {!openNav ? (
+          
           ""
-        )}
-
-        <div
+        )} */}
+        <div className={styles.mobnav_icons}>
+          <div className={`${styles.mobnav_nicon} ${styles.notify}`}>
+            <ion-icon name="bookmark-outline"></ion-icon>
+          </div>
+          <div className={styles.mobnav_nicon}>
+            <ion-icon name="notifications-outline"></ion-icon>
+          </div>
+          <div className={styles.mobnav_nicon}>
+            <ion-icon name="people-outline"></ion-icon>
+          </div>
+          <div
           onClick={() => setOpenNav(!openNav)}
           className={`${styles.burger} ${
             openNav ? styles.opened : styles.notopened
           }`}
-        >
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+            </div>
+          </div> 
       </div>
 
       <div
@@ -327,74 +311,53 @@ export const MobileNavbar = ({ prop }) => {
         <ul className={styles.navlinks}>
           <li
             onClick={() => setOpenNav(!openNav)}
-            className={`${styles.navlink} ${
+            className={`${styles.mob_navlink} ${
               router.pathname === "/home" ? styles.navactive : ""
             }`}
           >
-            <Link href="/home">
-              <a><ion-icon name="home-outline"></ion-icon>  Home</a>
+            <Link href="/home" className={styles.home}>
+              <div className={styles.mobnav_icons}>
+              <ion-icon name="home-outline"></ion-icon>  
+              <h4> Home</h4>
+              </div>
             </Link>
           </li>
           <li
             onClick={() => setOpenNav(!openNav)}
-            className={`${styles.navlink} ${
+            className={`${styles.mob_navlink} ${
               router.pathname === "/movies" ? styles.navactive : ""
             }`}
           >
-            <Link href="/movies">
-              <a><ion-icon name="videocam-outline"></ion-icon>  Movies</a>
-            </Link>
-          </li>
-          <li
-            onClick={() => setOpenNav(!openNav)}
-            className={`${styles.navlink} ${
-              router.pathname === "/mylist" ? styles.navactive : ""
-            }`}
-          >
-            <Link href="/mylist">
-              <a><ion-icon name="bookmark-outline"></ion-icon>  Mylist</a>
-            </Link>
-          </li>
-          <li
-            onClick={() => setOpenNav(!openNav)}
-            className={`${styles.navlink} ${
-              router.pathname === "/friends" ? styles.navactive : ""
-            }`}
-          >
-            <Link href="/friends">
-              <a><ion-icon name="people-outline"></ion-icon>  Friends</a>
-            </Link>
-          </li>
-          <li
-            onClick={() => setOpenNav(!openNav)}
-            className={`${styles.navlink} ${
-              router.pathname === "/notification" ? styles.navactive : ""
-            }`}
-          >
-            <Link href="/notification">
-              <a><ion-icon name="notifications-outline"></ion-icon>  Notifications</a>
-            </Link>
-          </li>
-          <li>
-            <div className={styles.theme} onClick={handleTheme}>
-              {theme === "dark" ? (
-                <ion-icon name="sunny-outline"></ion-icon>
-              ) : (
-                <ion-icon name="moon-outline"></ion-icon>
-              )}
-            </div>
-          </li>
-          <li>
-            <div className={styles.profile}>
-              
-            </div>
-          </li>
-          <li>
-            <div className={styles.logout}>
-              <a><ion-icon name="log-out-outline"></ion-icon> Log out</a>
-            </div>
+            <Link href="/movies" className={styles.movies}>
+              <div className={styles.mobnav_icons}>
+              <ion-icon name="videocam-outline"></ion-icon> 
+              <h4>  Movies</h4>
+              </div>
+            </Link>   
           </li>
         </ul>
+        <div className={styles.theme} onClick={handleTheme}>
+            {theme === "dark" ? (
+              <div className={styles.mobnav_icons}>
+                <ion-icon name="sunny-outline"></ion-icon> 
+                <h4>  Dark theme</h4> 
+              </div>
+            ) : (
+              <div className={styles.mobnav_icons}>
+                <ion-icon name="moon-outline"></ion-icon> 
+                <h4>  Light theme</h4>
+              </div>
+            )}
+        </div>
+        <div className={styles.mob_profile}>
+          <div className={styles.mob_user}>
+              <img src="/assets/user.png" alt="user" />
+              <h4>My Account</h4>
+          </div>
+          <div className={`${styles.mob_logout} ${styles.mobnav_icons}`}>
+            <ion-icon name="log-out-outline"></ion-icon> <h4>Log out</h4> 
+          </div>
+        </div>
       </div>
       {openNav ? (
         <div onClick={() => setOpenNav(false)} className={styles.closenav} />
