@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import FilterModal from "../../components/Movies/FilterModal";
 import axios from "axios";
 import Card from "../../components/card/Card";
-import { Pagination } from "@mui/material";
+import { Pagination, PaginationItem } from "@mui/material";
 import filter_json from '../../components/Movies/filter.json'
 import { FilterAltOutlined, SortOutlined } from "@mui/icons-material";
 import { Loader1 } from "../../utils/loaders/Loading";
@@ -59,18 +59,26 @@ export default function Movies() {
           </div>
         </div>
        </div>
-      {loading ? <Loader1 /> : (<>
+      {loading ? <div className={styles.loader}><Loader1 /></div> : (<>
         {result?.length > 0 ?
           <>
             <div className={styles.page_back}>
-              <Pagination count={Math.ceil(result_len/moviesperpage)} onChange={(e,v)=>setPage(v)} color={"secondary"} className={styles.pagination} page={page}/>
+              <Pagination count={Math.ceil(result_len/moviesperpage)} onChange={(e,v)=>setPage(v)} color={"secondary"}  className={styles.pagination} renderItem={(item)=>(
+                <PaginationItem {...item}
+                sx= {{"&.Mui-selected":{backgroundColor: "green"}}}
+                />
+              )} page={page}/>
             </div>
             {!loading ?
               <div className={styles.movies}>
                 {result ? result.map(i=><Card id={i} size={"medium"} key={i}/>):""}
               </div>:""}
             <div className={styles.page_back}>
-              <Pagination count={Math.ceil(result_len/moviesperpage)} onChange={(e,v)=>setPage(v)} color={"secondary"} className={styles.pagination} page={page}/>
+              <Pagination count={Math.ceil(result_len/moviesperpage)} onChange={(e,v)=>setPage(v)} color={"secondary"}  className={styles.pagination} renderItem={(item)=>(
+                  <PaginationItem {...item}
+                  sx= {{"&.Mui-selected":{backgroundColor: "green"}}}
+                  />
+                )} page={page}/>
             </div>
           </>:(
             <div className={styles.msg}>
