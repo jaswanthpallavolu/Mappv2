@@ -1,13 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import styles from "./Navbar.module.css";
+import styles2 from "./mobnav.module.css";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { toDark, toLight, setTheme } from "../../redux/features/themeSlice";
 import { logout } from "../../redux/features/authSlice";
-
-// import Brightness2Icon from "@mui/icons-material/Brightness2";
-// import WbSunnyIcon from "@mui/icons-material/WbSunny";
 // import LogoutIcon from "@mui/icons-material/Logout";
 // import styled from "styled-components";
 
@@ -50,9 +48,14 @@ function Navbar() {
     }
   };
 
-  const [toggleSideNav, setToggleSideNav] = useState(false);
   const [sIcon, setSIcon] = useState(true); //whether search icon is visible or not
   const [toggleNav, setToggleNav] = useState(false);
+  const [whiteIcons, setWhiteIcons] = useState();
+  const [isMobile, setIsMobile] = useState();
+  const checkWidth = () => {
+    if (window.innerWidth > 600) setIsMobile(false);
+    else setIsMobile(true);
+  };
   const handleRoute = (e) => {
     e.preventDefault();
     // if (!sIcon) return;
@@ -76,7 +79,7 @@ function Navbar() {
     setSIcon(true);
   };
   const changeBackground = () => {
-    setToggleSideNav(false);
+    // setToggleSideNav(false);
     if (window.scrollY >= 80) {
       setToggleNav(true);
     } else {
@@ -94,6 +97,10 @@ function Navbar() {
   //     setToggle(false);
   //   }
   // }, [word]);
+  useEffect(() => {
+    if (router.pathname === "/movies/[id]") setWhiteIcons(true);
+    else setWhiteIcons(false);
+  }, [router.pathname]);
 
   useEffect(() => {
     changeBackground();
@@ -103,142 +110,95 @@ function Navbar() {
     }
     const t = window.localStorage.getItem("theme");
     if (t) dispatch(setTheme(t));
+    checkWidth();
+    window.addEventListener("resize", checkWidth);
     window.addEventListener("scroll", changeBackground);
-    return () => window.removeEventListener("scroll", changeBackground);
+    return () => {
+      window.removeEventListener("scroll", changeBackground);
+      window.removeEventListener("resize", checkWidth);
+    };
   }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <nav
-      className={`${styles.navbar} ${toggleNav ? styles.navstyle2 : ""}`}
-      // active={toggleNav}
-      theme={theme}
+      className={`${styles.navbar} ${toggleNav ? styles.navstyle2 : ""} ${
+        whiteIcons ? styles.makeWhite : ""
+      }`}
+      // theme={theme}
     >
-      <div className={styles.topnav}>
-        <div className={styles.logo}>
-          <img src="/assets/nav-logo.png" alt="logo" />
-        </div>
-        {/* <div
-          onClick={() => setToggleSideNav(!toggleSideNav)}
-          className={styles.burger}
-        >
-          <span></span>
-          <span></span>
-          <span></span>
-        </div> */}
-        <div className={styles.navlinks}>
-          <ul>
-            <li className={styles.home}>
+      {!isMobile ? (
+        <div className={styles.topnav}>
+          <div className={styles.logo}>
+            <img src="/assets/nav-logo.png" alt="logo" />
+          </div>
+          <ul className={styles.navlinks}>
+            <li
+              className={`${styles.navlink} ${
+                router.pathname === "/home" ? styles.navactive : ""
+              }`}
+            >
               <Link href="/home">Home</Link>
             </li>
-            <li className={styles.movies}>
+            <li
+              className={`${styles.navlink} ${
+                router.pathname === "/movies" ? styles.navactive : ""
+              }`}
+            >
               <Link href="/movies">Movies</Link>
             </li>
           </ul>
-        </div>
-        <form
-          className={`${styles.search_bar} 
+
+          <form
+            className={`${styles.search_bar} 
           ${toggleNav && theme === "dark" ? styles.dtbar : styles.bar_default}
           ${toggleNav && theme === "light" ? styles.ltbar : ""}`}
-          id="search_bar"
-        >
-          <input
-            type="text"
-            placeholder="search movie"
-            ref={searchRef}
-            // onChange={handleRoute}
-            // onKeyPress={handleRoute}
-          />
-          <button onClick={handleRoute}>
-            {!sIcon ? (
-              <img
-                onClick={goBack}
-                src="/assets/x-mark-thin.png"
-                alt="hh"
-                style={{ cursor: "pointer" }}
-              />
-            ) : (
-              <img src="/assets/search-thin.png" alt="hh" />
-            )}
-          </button>
-        </form>
-
-        {authorized ? (
-          <div className={styles.profile}>
-            <div className={styles.theme} onClick={handleTheme}>
-              {theme === "dark" ? (
-                <ion-icon name="sunny-outline"></ion-icon>
+            id="search_bar"
+          >
+            <input
+              type="text"
+              placeholder="search movie"
+              ref={searchRef}
+              // onChange={handleRoute}
+              // onKeyPress={handleRoute}
+            />
+            <button onClick={handleRoute}>
+              {!sIcon ? (
+                <img
+                  onClick={goBack}
+                  src="/assets/x-mark-thin.png"
+                  alt="hh"
+                  style={{ cursor: "pointer" }}
+                />
               ) : (
-                <ion-icon name="moon-outline"></ion-icon>
+                <img src="/assets/search-thin.png" alt="hh" />
               )}
-            </div>
-            {/* <div className={styles.name}>{username}</div> */}
-            <div className={styles.mylist}>
-              <ion-icon name="bookmark-outline"></ion-icon>
-            </div>
-            <div className={styles.notification}>
-              <ion-icon name="notifications-outline"></ion-icon>
-            </div>
-            <div className={styles.friends}>
-              <ion-icon name="people-outline"></ion-icon>
-            </div>
-            <div className={styles.user}>
-              <div className={styles.pic}>
-                <img src={pUrl} alt="profile" />
-              </div>
-            </div>
-            <div className={styles.logout}>
-              <ion-icon
-                name="log-out-outline"
-                onClick={() => {
-                  dispatch(logout());
-                }}
-              ></ion-icon>
-            </div>
-          </div>
-        ) : (
-          <div className={styles.login_section}>
-            <div className={styles.theme} onClick={handleTheme}>
-              {theme === "dark" ? (
-                <ion-icon name="sunny-outline"></ion-icon>
-              ) : (
-                <ion-icon name="moon-outline"></ion-icon>
-              )}
-            </div>
-            <button
-              className={`${styles.login_btn}
-              ${
-                toggleNav && theme === "dark"
-                  ? styles.dtbtn
-                  : styles.btn_default
-              }
-              ${toggleNav && theme === "light" ? styles.ltbtn : ""}`}
-              id="sign-in"
-              onClick={() => router.push("/login")}
-            >
-              Sign in
             </button>
-          </div>
-        )}
-      </div>
+          </form>
 
-      {/* Mobile version NEED to change according to new Design  */}
-      <div
-        style={{ height: toggleSideNav ? "20vh" : "0" }}
-        className={styles.sidenav}
-      >
-        {toggleSideNav && authorized ? (
-          <div className={styles.sn_profile}>
-            <div className={styles.theme} onClick={handleTheme}>
-              {theme === "dark" ? (
-                <ion-icon name="sunny-outline"></ion-icon>
-              ) : (
-                <ion-icon name="moon-outline"></ion-icon>
-              )}
-            </div>
-            <div className={styles.name}>{username}</div>
-            <div className={styles.user}>
-              <div className={styles.pic}>
-                <img src={pUrl} alt="profile" />
+          {authorized ? (
+            <div className={styles.profile}>
+              <div className={styles.theme} onClick={handleTheme}>
+                {theme === "dark" ? (
+                  <ion-icon name="sunny-outline"></ion-icon>
+                ) : (
+                  <ion-icon name="moon-outline"></ion-icon>
+                )}
+              </div>
+              {/* <div className={styles.name}>{username}</div> */}
+              <div className={styles.mylist}>
+                <ion-icon name="bookmark-outline"></ion-icon>
+                <div className={styles.box}></div>
+              </div>
+              <div className={styles.notification}>
+                <ion-icon name="notifications-outline"></ion-icon>
+              </div>
+              <div className={styles.friends}>
+                <ion-icon name="people-outline"></ion-icon>
+              </div>
+              <div className={styles.user}>
+                <div className={styles.pic}>
+                  <img src={pUrl} alt="profile" />
+                </div>
               </div>
               <div className={styles.logout}>
                 <ion-icon
@@ -249,13 +209,161 @@ function Navbar() {
                 ></ion-icon>
               </div>
             </div>
-          </div>
-        ) : (
-          ""
-        )}
-      </div>
+          ) : (
+            <div className={styles.login_section}>
+              <div className={styles.theme} onClick={handleTheme}>
+                {theme === "dark" ? (
+                  <ion-icon name="sunny-outline"></ion-icon>
+                ) : (
+                  <ion-icon name="moon-outline"></ion-icon>
+                )}
+              </div>
+              <button
+                className={`${styles.login_btn}
+              ${
+                toggleNav && theme === "dark"
+                  ? styles.dtbtn
+                  : styles.btn_default
+              }
+              ${toggleNav && theme === "light" ? styles.ltbtn : ""}`}
+                id="sign-in"
+                onClick={() => router.push("/login")}
+              >
+                Sign in
+              </button>
+            </div>
+          )}
+        </div>
+      ) : (
+        <MobileNavbar
+          prop={{
+            toggleNav,
+            handleRoute,
+            goBack,
+            handleTheme,
+            searchRef,
+            sIcon,
+            theme,
+            router,
+          }}
+        />
+      )}
+
+      {/* Mobile version NEED to change according to new Design  */}
     </nav>
   );
 }
 
 export default Navbar;
+
+export const MobileNavbar = ({ prop }) => {
+  const [openNav, setOpenNav] = useState(false);
+  const dispatch = useDispatch();
+  const pUrl = useSelector((state) => state.userAuth.user.photoUrl);
+  const {
+    toggleNav,
+    router,
+    handleRoute,
+    handleTheme,
+    goBack,
+    searchRef,
+    sIcon,
+    theme,
+  } = prop;
+  return (
+    <>
+      <div
+        className={`${styles.mobilenav} ${!openNav ? styles.notopened : ""}`}
+      >
+        <div className={styles.logo}>
+          <img src="/assets/nav-logo.png" alt="logo" />
+        </div>
+        {/* {!openNav ? (
+          
+          ""
+        )} */}
+        <div className={styles.mobnav_icons}>
+          <div className={`${styles.mobnav_nicon} ${styles.notify}`}>
+            <ion-icon name="bookmark-outline"></ion-icon>
+          </div>
+          <div className={styles.mobnav_nicon}>
+            <ion-icon name="notifications-outline"></ion-icon>
+          </div>
+          <div className={styles.mobnav_nicon}>
+            <ion-icon name="people-outline"></ion-icon>
+          </div>
+          <div
+          onClick={() => setOpenNav(!openNav)}
+          className={`${styles.burger} ${
+            openNav ? styles.opened : styles.notopened
+          }`}
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+            </div>
+          </div> 
+      </div>
+
+      <div
+        className={`${styles.mobileNavItems} ${openNav ? styles.opened : ""}`}
+      >
+        <ul className={styles.navlinks}>
+          <li
+            onClick={() => setOpenNav(!openNav)}
+            className={`${styles.mob_navlink} ${
+              router.pathname === "/home" ? styles.navactive : ""
+            }`}
+          >
+            <Link href="/home" className={styles.home}>
+              <div className={styles.mobnav_icons}>
+              <ion-icon name="home-outline"></ion-icon>  
+              <h4> Home</h4>
+              </div>
+            </Link>
+          </li>
+          <li
+            onClick={() => setOpenNav(!openNav)}
+            className={`${styles.mob_navlink} ${
+              router.pathname === "/movies" ? styles.navactive : ""
+            }`}
+          >
+            <Link href="/movies" className={styles.movies}>
+              <div className={styles.mobnav_icons}>
+              <ion-icon name="videocam-outline"></ion-icon> 
+              <h4>  Movies</h4>
+              </div>
+            </Link>   
+          </li>
+        </ul>
+        <div className={styles.theme} onClick={handleTheme}>
+            {theme === "dark" ? (
+              <div className={styles.mobnav_icons}>
+                <ion-icon name="sunny-outline"></ion-icon> 
+                <h4>  Dark theme</h4> 
+              </div>
+            ) : (
+              <div className={styles.mobnav_icons}>
+                <ion-icon name="moon-outline"></ion-icon> 
+                <h4>  Light theme</h4>
+              </div>
+            )}
+        </div>
+        <div className={styles.mob_profile}>
+          <div className={styles.mob_user}>
+              <img src="/assets/user.png" alt="user" />
+              <h4>My Account</h4>
+          </div>
+          <div className={`${styles.mob_logout} ${styles.mobnav_icons}`}>
+            <ion-icon name="log-out-outline"></ion-icon> <h4>Log out</h4> 
+          </div>
+        </div>
+      </div>
+      {openNav ? (
+        <div onClick={() => setOpenNav(false)} className={styles.closenav} />
+      ) : (
+        ""
+      )}
+    </>
+  );
+};
