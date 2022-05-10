@@ -11,7 +11,7 @@ import {
 import styles from "./MovieDetails.module.css";
 import styles2 from "./moviemobile.module.css";
 import CastANDcrew from "./CastANDcrew";
-import Recommends from "./Recommends";
+import SimilarMovies from "./SimilarMovies";
 import TrailerModal from "./TrailerModal";
 
 export default function MovieDetails({ details }) {
@@ -45,12 +45,34 @@ export default function MovieDetails({ details }) {
 }
 
 export const MovieMobile = ({ details, setOpenTrailer }) => {
+  const [indicate, setIndicate] = useState(false);
+  const checkScroll = () => {
+    const imgcon = document.getElementById("imgcont");
+    // console.log(imgcon);
+    if (!imgcon) return;
+    if (imgcon?.offsetHeight * 0.3 < window.scrollY) setIndicate(true);
+    else setIndicate(false);
+  };
+  useEffect(() => {
+    checkScroll();
+    window.addEventListener("scroll", checkScroll);
+    return () => window.addEventListener("scroll", checkScroll);
+  }, []);
   return (
     <div className={styles2.movie_page}>
+      <div className={`${styles2.movie_nav} ${indicate ? styles2.active : ""}`}>
+        <span>
+          <h4>{details.title}</h4>
+          <small>{details.year}</small>
+        </span>
+        <div className={styles2.imdb}>
+          {parseFloat(details.imdbRating).toFixed(1)}
+        </div>
+      </div>
       <div className={styles2.imgbg}>
         {details?.largeImage ? <img src={details?.largeImage} /> : ""}
       </div>
-      <div className={styles2.img_content}>
+      <div className={styles2.img_content} id="imgcont">
         <div className={`${styles.genre} ${styles2.top}`}>
           <h6 className={styles.sec_header}>GENRE</h6>
           <div className={styles.genre_values}>
@@ -80,7 +102,7 @@ export const MovieMobile = ({ details, setOpenTrailer }) => {
             </li>
             <li>
               <i className="fa fa-clock-o" aria-hidden="true"></i>
-              <small>Duration :</small> <strong>2hr 30min</strong>
+              <small>Duration :</small> <strong>{details?.runtime}</strong>
             </li>
             <li>
               <i className="fa fa-calendar-o" aria-hidden="true"></i>
@@ -111,7 +133,7 @@ export const MovieMobile = ({ details, setOpenTrailer }) => {
           </div>
           <Actions details={details} />
           <CastANDcrew directors={details.directors} actors={details.actors} />
-          <Recommends details={details} />
+          <SimilarMovies details={details} />
         </div>
       </div>
     </div>
@@ -160,7 +182,7 @@ export const MovieDesktop = ({ details, setOpenTrailer }) => {
             </li>
             <li>
               <i className="fa fa-clock-o" aria-hidden="true"></i>
-              <small>Duration :</small> <strong>2hr 30min</strong>
+              <small>Duration :</small> <strong>{details?.runtime}</strong>
             </li>
             <li>
               <i className="fa fa-calendar-o" aria-hidden="true"></i>
@@ -194,7 +216,7 @@ export const MovieDesktop = ({ details, setOpenTrailer }) => {
         </div>
         <div className={styles.right_content}>
           <CastANDcrew directors={details.directors} actors={details.actors} />
-          <Recommends details={details} />
+          <SimilarMovies details={details} />
         </div>
       </div>
     </div>
@@ -328,17 +350,8 @@ export function Actions({ details }) {
         })
       );
   };
-  const addRecent = ()=>{
-    let recent = JSON.parse(window.localStorage.getItem("recent")) || []
-    if (recent.includes(details.movieId)){
-      recent = recent.filter(i=>i!=details.movieId)
-    }
-    recent.unshift(details.movieId)
-    window.localStorage.setItem("recent",JSON.stringify(recent))
-  }
   useEffect(() => {
     dispatch(fetchMovies(uid));
-    addRecent()
   }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {

@@ -52,9 +52,11 @@
 .mylist > .head span {
   width: 0;
   height: 0;
-  border-top: min(1.4rem, 2.58vw) solid transparent;
-  border-bottom: min(1.4rem, 2.58vw) solid transparent;
-  border-left: min(1.4rem, 2.58vw) solid var(--secondary);
+  --l: 0.5em;
+  /* --l: min(1.4rem, 2.58vw); */
+  border-top: var(--l) solid transparent;
+  border-bottom: var(--l) solid transparent;
+  border-left: var(--l) solid var(--secondary);
 }
 
 .emptyList {

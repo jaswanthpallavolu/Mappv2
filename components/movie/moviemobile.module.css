@@ -2,6 +2,7 @@
   margin: 0;
   padding: 0;
   --mt: 0;
+  --navbar: 4rem;
   position: absolute;
   inset: 0;
   top: var(--mt);
@@ -29,6 +30,66 @@
   height: var(--img-height);
   z-index: 1;
   background-color: rgba(0, 0, 0);
+}
+.movie_nav {
+  position: fixed;
+  top: var(--navbar);
+  left: 0;
+  width: 100%;
+  min-height: 3rem;
+  background-color: var(--primary);
+  color: var(--font-primary);
+  box-shadow: 0 1px 5px var(--card-shadow);
+  z-index: 5;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 0 var(--mleft);
+
+  transform: scale(1, 0);
+  transform-origin: top;
+  transition: transform 0.2s ease-in-out;
+}
+.movie_nav.active {
+  transform: scale(1, 1);
+}
+.movie_nav span {
+  /* position: relative; */
+  width: 90%;
+  /* border: 1px solid red; */
+}
+.movie_nav h4 {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin: 0;
+  padding: 0;
+  /* align-self: center; */
+}
+.imdb {
+  /* margin-left: 3%; */
+  position: relative;
+  width: max-content;
+  aspect-ratio: 1/1;
+  background: black;
+  color: white;
+  border-radius: 25px;
+  display: grid;
+  place-items: center;
+  padding: 0.35em;
+  margin: auto;
+  font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+}
+.imdb::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  transform: scale(1.15);
+  border-radius: 25px;
+  background-color: var(--secondary);
+  /* background: linear-gradient(180deg, var(--secondary), var(--third) 100%); */
 }
 
 .imgbg {

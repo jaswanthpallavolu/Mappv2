@@ -100,7 +100,14 @@ export const PosterCard = ({ id }) => {
       {!loading && details ? (
         <div
           className={styles.pcard}
-          onClick={() => router.push(`/movies/${id}`)}
+          onClick={() => {
+            router.push(
+              `/movies/${details.movieId}?movie=${details.title.replaceAll(
+                " ",
+                "-"
+              )}&year=${details.year}`
+            );
+          }}
         >
           {GetPoster(details) !== "" ? (
             <img src={GetPoster(details)} alt={details?.title} />

@@ -3,7 +3,7 @@ import { GlobalStyles } from "../styles/global";
 import { darkTheme, lightTheme } from "../styles/theme";
 import { useSelector } from "react-redux";
 export default function ThemeCustomProvider({ children }) {
-  const theme = useSelector((state) => state.theme.value);
+  const theme = useSelector((state) => state.global.theme);
   return (
     <ThemeProvider theme={theme === "dark" ? darkTheme : lightTheme}>
       <GlobalStyles />

@@ -1,11 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import ThemeReducer from "./features/themeSlice";
+import global from "./features/generalSlice";
 import AuthReducer from "./features/authSlice";
 import userRatingSlice from "./features/userRatingSlice";
 import movieSlice from "./features/movieSlice";
 export default configureStore({
   reducer: {
-    theme: ThemeReducer,
+    global: global,
     userAuth: AuthReducer,
     userRatings: userRatingSlice,
     movie: movieSlice,

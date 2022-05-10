@@ -49,8 +49,11 @@
 /*  */
 
 /* MOVIE CARD sizes */
+.m_card.large .title {
+  font-size: clamp(1.2rem, 5vw, 1.4rem);
+}
 .m_card.medium .title {
-  font-size: clamp(0.8rem, 5vw, 1.25rem);
+  font-size: clamp(0.8rem, 5vw, 1rem);
 }
 .m_card.medium .more {
   font-size: clamp(0.8rem, 5vw, 0.9rem);
@@ -287,20 +290,17 @@
   width: 95%;
   margin-bottom: 0.3rem;
   font-weight: 600;
-  font-size: clamp(1.2rem, 5vw, 1.4rem);
   /* white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis; */
 }
-.m_card .info .extra_small_title {
+/* .m_card .info .extra_small_title {
   width: 95%;
   margin-bottom: 0.3rem;
   font-weight: 300;
   font-size: clamp(0.8rem, 3vw, 1rem);
-  /* white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis; */
-}
+  
+} */
 .m_card .info .more {
   width: 100%;
   display: flex;

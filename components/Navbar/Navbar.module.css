@@ -1,20 +1,25 @@
 .navbar {
   position: fixed;
   top: 0;
+  left: 0;
+
   z-index: 10;
   font-size: 2rem;
   transition: all 0.5s ease-out;
+  --icon-size: 1.8rem;
 }
 .navbar.navstyle2 {
   background-color: var(--primary);
-  box-shadow: 0px 2px 4px var(--card-shadow);
+  box-shadow: 0px 2px 5px var(--card-shadow);
 }
+
+/* ---------DESKTOP NAV ------- */
 
 .topnav {
   height: 4rem;
   width: 100vw;
   display: grid;
-  grid-template-columns: 0.2fr minmax(150px, 1fr) minmax(140px, 1.4fr) minmax(
+  grid-template-columns: 0.2fr minmax(120px, 1fr) minmax(120px, 1.4fr) minmax(
       230px,
       1.25fr
     );
@@ -47,9 +52,13 @@
 .navlink.navactive::after {
   transform: scale(1, 1);
 }
-.navlinks li ion-icon{
+.topnav .navlinks li {
+  display: grid;
+  place-items: center;
+}
+.navbar ion-icon {
   text-decoration: none;
-  font-size: 1.5rem;
+  font-size: var(--icon-size);
 }
 .navlink {
   position: relative;
@@ -86,25 +95,12 @@
 
 /* END OF NAV LINKS */
 
-.sidenav {
-  /* display: none; */
-  display: block;
-  position: absolute;
-  left: 0;
-  top: 100%;
-  z-index: -1;
-  width: 100vw;
-  background: var(--font-secondary);
-  transition: all ease 0.4s;
-}
-.sidenav .sn_profile {
-  display: none;
-}
-
 /* SEARCH BAR */
 .navbar .search_bar {
   grid-column: 3/4;
   justify-self: center;
+  /* width: 100%; */
+  width: min(100%, 30rem);
   /* width: max-content; */
   display: flex;
   align-items: center;
@@ -115,7 +111,7 @@
 }
 
 .navbar .search_bar input {
-  width: min(30vw, 25rem);
+  width: min(100%, 30rem);
   height: 2rem;
   text-align: center;
   font-size: 1.1rem;
@@ -194,7 +190,7 @@
   grid-column: 4/5;
   display: flex;
   justify-self: center;
-  align-items: baseline;
+  align-items: center;
   gap: 1rem;
   /* border: 1px solid red; */
 }
@@ -209,7 +205,7 @@
   place-items: center;
   font-size: 2rem;
 }
-.theme:active {
+.topnav .theme:active {
   transform: scale(0.95);
 }
 
@@ -220,18 +216,8 @@
 .mylist {
   position: relative;
   color: var(--font-primary);
-  /* padding-top: 0.5rem; */
   cursor: pointer;
 }
-/* .mylist .box {
-  position: absolute;
-  top: 100%;
-  transform: translateX(-5%);
-
-  width: 20rem;
-  height: 30vh;
-  background-color: aqua;
-} */
 
 .notification {
   color: var(--font-primary);
@@ -246,35 +232,58 @@
 }
 
 .profile .user {
-  display: flex;
-  gap: 1rem;
+  /* display: flex;
+  gap: 1rem; */
   cursor: pointer;
+}
+.pic {
+  display: grid;
+  place-content: center;
 }
 
 .pic img {
-  display: grid;
-  place-content: center;
-  width: 2rem;
-  height: 2rem;
-  border-radius: 30px;
-  /* box-shadow: 0 0 0px 3px var(--card-shadow); */
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 25px;
+  /* border: 2px solid var(--secondary); */
+  box-shadow: 0 2px 5px var(--secondary);
 }
-.name {
+/* .name {
   width: 8rem;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: clip;
   font-size: 1.4rem;
   color: var(--font-primary);
-}
+} */
 .logout {
   cursor: pointer;
   color: var(--font-primary);
 }
-/* .navbar .profile .logout:hover{color:var(--font-secondary);} */
-/* .burger {
-  display: none;
-} */
+@media (max-width: 600px) {
+  .navbar {
+    --icon-size: 1.5rem;
+  }
+  .search_bar {
+    display: flex;
+    gap: 0 !important;
+    height: 2rem;
+  }
+  .navbar .search_bar input {
+    width: min(0vw, 5rem);
+    font-size: 0.9rem;
+  }
+  .logo {
+    margin: 0;
+    margin-left: var(--mleft);
+  }
+  .logo img {
+    width: 2rem;
+  }
+}
+/* ---------END OF DESKTOP NAV ------- */
+
+/* ---------MOBILE NAV ------- */
 
 /* MOBILE NAVBAR SECTION */
 .mobilenav {
@@ -286,7 +295,7 @@
   align-items: center;
   justify-content: space-between;
 }
-.mobnav_nicons{
+.mobnav_nicons {
   position: relative;
   display: flex;
   gap: 0.8rem;
@@ -297,7 +306,7 @@
   top: 0;
   z-index: -1;
   --icon-text: 1.5rem;
-  height: max(70vh, 22rem);
+  height: max(50vh, 22rem);
   width: 100vw;
   background: var(--primary);
   /* border-radius: 0 0 0 100%; */
@@ -306,10 +315,12 @@
   transition: all 0.3s ease-in-out;
   box-shadow: 0px 1px 5px var(--card-shadow);
 }
-.mobileNavItems .theme{
+.mobileNavItems .theme {
+  position: absolute;
+  bottom: 6rem;
   color: var(--font-primary);
   margin: 0.5rem;
-  padding-top: 6rem;
+  /* padding-top: 6rem; */
 }
 .mobileNavItems.opened {
   border-radius: 0;
@@ -328,13 +339,16 @@
   width: max-content;
   padding: 0;
 }
-.mobileNavItems .navlinks li ion-icon {
-  color: var(--font-primary);
+
+.mobileNavItems .navlinks li ion-icon,
+.mobileNavItems .theme ion-icon,
+.makeWhite.navstyle2 ion-icon {
+  color: var(--font-primary) !important;
 }
 .mobnav_nicon.notify ion-icon:before {
   content: "";
   position: absolute;
-  background-color: #FA3E3E;
+  background-color: #fa3e3e;
   top: 0;
   right: 0;
   width: 0.7rem;
@@ -343,29 +357,14 @@
   border-radius: 50%;
 }
 
-
-/* .mobilenav .mobnav_icons .mobnav_search form{
-    position: relative;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-    transition: all 1s;
-    width: 50px;
-    height: 50px;
-    background: white;
-    box-sizing: border-box;
-    border-radius: 25px;
-    border: 4px solid white;
-    padding: 5px;
-} */
 .mobileNavItems li.theme ion-icon {
-  color: var(--font-primary) !important;
+  color: var(--font-primary);
 }
-.mob_navlink h4{
+.mob_navlink h4 {
   /* border: 1px solid red; */
   position: relative;
 }
-.mob_navlink h4::after{
+.mob_navlink h4::after {
   content: "";
   position: absolute;
   left: 0;
@@ -377,14 +376,15 @@
   transform-origin: center;
   transition: transform 0.35s ease-in-out;
 }
-.mob_navlink.navactive h4::after{
-  transform: scale(1,1);
+.mob_navlink.navactive h4::after {
+  transform: scale(1, 1);
 }
-.mobnav_icons{
+.mobnav_icons {
   display: flex;
   width: max-content;
   align-items: center;
   gap: 0.5rem;
+  margin-right: var(--mleft);
 }
 .mobnav_icons h4 {
   color: var(--font-primary);
@@ -404,8 +404,9 @@
   width: 100%;
   bottom: 0;
   /* border: 1px solid red; */
-  background: grey;
+  background: var(--secondary);
   padding: 0.5rem;
+  height: 6rem;
 }
 .mob_user {
   display: flex;
@@ -413,14 +414,13 @@
   align-items: center;
   margin-bottom: 1rem;
   /* margin: 0.5rem; */
-  /* border: 1px solid red; */
 }
 .mob_user h4 {
   color: var(--font-primary);
   font-size: var(--icon-text);
   font-weight: 600;
 }
-.mob_logout ion-icon{
+.mob_logout ion-icon {
   font-size: 1.8rem;
   color: var(--font-primary);
 }
@@ -439,13 +439,13 @@
 /* BURGER  */
 .navbar .burger {
   display: block;
-  margin-right: var(--mleft);
+  /* margin-right: var(--mleft); */
   /* margin-left: 5%; */
   position: relative;
   width: 1.8rem;
   height: 1.6rem;
   transition: transform 1s ease-in-out;
-  /* border: 1px solid red; */
+  border: 1px solid transparent;
 }
 
 .closenav {
@@ -496,63 +496,3 @@
   transform: rotate(-45deg) translate(30%, -200%);
 }
 /* END OF BURGER  */
-
-
-@media (max-width: 600px) {
-  .search_bar {
-    display: flex;
-    gap: 0 !important;
-    height: 2rem;
-  }
-  .navbar .search_bar input {
-    width: min(0vw, 5rem);
-    font-size: 0.9rem;
-  }
-  .logo {
-    margin: 0;
-    margin-left: var(--mleft);
-  }
-  .logo img {
-    width: 2.1rem;
-  }
-
-  /*  
-  .sidenav {
-    display: block;
-    position: absolute;
-    left: 0;
-    top: 100%;
-    z-index: -1;
-    width: 100vw;
-    background: var(--font-secondary);
-    transition: all ease 0.4s;
-  }
-
-  .user {
-    display: flex;
-    gap: 10%;
-  }
-  .sn_profile {
-    height: 100%;
-    display: flex !important;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-  }
-  .sn_profile .theme,
-  .sn_profile .pic img,
-  .sn_profile .name,
-  .sn_profile .name p,
-  .logout {
-    animation: fade 0.5s ease-in;
-  }
-  @keyframes fade {
-    0% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
-  } */
-}

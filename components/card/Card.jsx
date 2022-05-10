@@ -20,9 +20,6 @@ export default function Card({ id, size }) {
   const [details, setDetails] = useState();
   const [loading, setLoading] = useState(true);
 
-  const dispatch = useDispatch();
-
-  //   useEffect(() => {}, []);
   const fetchMovie = async (signal) => {
     setLoading(true);
     await axios
@@ -83,17 +80,21 @@ export default function Card({ id, size }) {
           <div
             className={styles.info}
             onClick={() => {
-              router.push(`/movies/${details.movieId}`);
-              // dispatch(setMovieDetails(details));
-              // dispatch(setOpen(true));
+              router.push(
+                `/movies/${details.movieId}?movie=${details.title.replaceAll(
+                  " ",
+                  "-"
+                )}&year=${details.year}`
+              );
             }}
           >
             <div className={`${styles.title}`}>
-              {String(details.title).substring(0, 40)}
+              {String(details.title).substring(0, 50)}
             </div>
             <div className={styles.more}>
               <div className={styles.durt}>{details.runtime}</div>
-              {/* <span></span>
+              <span></span>
+              {/* 
                         <div className={styles.rate}>{details.Rated}</div>
               <span></span> */}
               <div className={styles.year}>{details.year}</div>
