@@ -173,10 +173,8 @@
 }
 .login_btn {
   width: max-content;
-
   padding: 0.5em 0.8em;
   border: none;
-
   font-size: 15px;
   font-weight: 100;
   border-radius: 20px;
@@ -385,6 +383,28 @@
   align-items: center;
   gap: 0.5rem;
   margin-right: var(--mleft);
+}
+
+/* togglers for mobile sign in  button*/
+.mob_default {
+  background: var(--third);
+  color: var(--font-secondary);
+}
+.mob_dtbtn,
+.mob_ltbtn {
+  background-color: var(--secondary) !important;
+  color: var(--font-primary) !important;
+}
+
+.mobnav_icons .mob_login {
+  width: max-content;
+  padding: 0.5em 0.8em;
+  border: none;
+  font-size: 15px;
+  font-weight: 100;
+  border-radius: 20px;
+  background-color: var(--font-secondary);
+  color: var(--font-primary);
 }
 .mobnav_icons h4 {
   color: var(--font-primary);

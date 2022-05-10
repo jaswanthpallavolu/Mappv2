@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 import { logout } from "../../redux/features/authSlice";
@@ -8,8 +8,10 @@ import { useRouter } from "next/router";
 
 const MobileNavbar = ({ prop }) => {
   const [navOpened, setNavOpened] = useState(false);
+  const [navScrollTheme, setNavScrollTheme] = useState(false);
   const router = useRouter();
   const dispatch = useDispatch();
+  const { word } = router.query;
   const {
     handleRoute,
     handleTheme,
@@ -19,6 +21,32 @@ const MobileNavbar = ({ prop }) => {
     theme,
     profileUrl,
   } = prop;
+
+  // const changeBackground = () => {
+  //   // setToggleSideNav(false);
+  //   if (window.scrollY >= 80) {
+  //     setNavScrollTheme(true);
+  //   } else {
+  //     setNavScrollTheme(false);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   changeBackground();
+  //   if (word) {
+  //     searchRef.current.value = word;
+  //     setSIcon(false);
+  //   }
+  //   const t = window.localStorage.getItem("theme");
+  //   if (t) dispatch(setTheme(t));
+  //   checkWidth();
+  //   window.addEventListener("resize", checkWidth);
+  //   window.addEventListener("scroll", changeBackground);
+  //   return () => {
+  //     window.removeEventListener("scroll", changeBackground);
+  //     window.removeEventListener("resize", checkWidth);
+  //   };
+  // }, []); //eslint-disable-line react-hooks/exhaustive-deps
   return (
     <>
       <div
@@ -49,7 +77,19 @@ const MobileNavbar = ({ prop }) => {
                   </div>
                 </>
               ) : (
-                <button onClick={() => router.push("/login")}>Signin</button>
+              <button
+                className={`${styles.mob_login} ${navScrollTheme ? styles.navstyle2 : ""}
+                ${
+                  navScrollTheme && theme === "dark"
+                    ? styles.mob_dtbtn
+                    : styles.mob_default
+                }
+                ${navScrollTheme && theme === "light" ? styles.mob_ltbtn : ""}`}
+                  id="sign-in"
+                  onClick={() => router.push("/login")}
+                >
+                  Sign in
+              </button>
               )}
             </>
           ) : (
