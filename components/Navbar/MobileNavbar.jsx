@@ -5,18 +5,20 @@ import { logout } from "../../redux/features/authSlice";
 import styles from "./Navbar.module.css";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { SearchBar } from "./Navbar";
 
 const MobileNavbar = ({ prop }) => {
   const [navOpened, setNavOpened] = useState(false);
+  const [searchOpened, setSearchOpened] = useState(false);
   const router = useRouter();
   const dispatch = useDispatch();
   const {
-    handleRoute,
     handleTheme,
-    goBack,
-    searchRef,
-    authorized,
+    navScrollTheme,
     theme,
+    isMobile,
+    authorized,
+
     profileUrl,
   } = prop;
   return (
@@ -31,9 +33,12 @@ const MobileNavbar = ({ prop }) => {
         </div>
 
         <div className={styles.mobnav_icons}>
-          {!navOpened ? (
+          {!navOpened && (
             <>
-              <div className={styles.mobnav_nicon}>
+              <div
+                className={styles.mobnav_nicon}
+                onClick={() => setSearchOpened(true)}
+              >
                 <ion-icon name="search-outline"></ion-icon>
               </div>
               {authorized ? (
@@ -52,8 +57,6 @@ const MobileNavbar = ({ prop }) => {
                 <button onClick={() => router.push("/login")}>Signin</button>
               )}
             </>
-          ) : (
-            ""
           )}
           <div
             onClick={() => setNavOpened(!navOpened)}
@@ -66,6 +69,15 @@ const MobileNavbar = ({ prop }) => {
             <span></span>
           </div>
         </div>
+      </div>
+
+      <div
+        className={`${styles.mob_searchbar} ${
+          searchOpened ? styles.opened : ""
+        }`}
+      >
+        <SearchBar prop={{ navScrollTheme, theme, isMobile }} />
+        <button onClick={() => setSearchOpened(false)}>cancel</button>
       </div>
 
       <div
@@ -104,17 +116,17 @@ const MobileNavbar = ({ prop }) => {
           {theme === "dark" ? (
             <div className={styles.mobnav_icons}>
               <ion-icon name="sunny-outline"></ion-icon>
-              <h4> Dark theme</h4>
+              <h4>Light theme</h4>
             </div>
           ) : (
             <div className={styles.mobnav_icons}>
               <ion-icon name="moon-outline"></ion-icon>
-              <h4> Light theme</h4>
+              <h4>Dark theme</h4>
             </div>
           )}
         </div>
 
-        {authorized ? (
+        {authorized && (
           <div className={styles.mob_profile}>
             <div className={styles.mob_user}>
               <div className={styles.pic}>
@@ -132,14 +144,10 @@ const MobileNavbar = ({ prop }) => {
               <h4>Log out</h4>
             </div>
           </div>
-        ) : (
-          ""
         )}
       </div>
-      {navOpened ? (
+      {navOpened && (
         <div onClick={() => setNavOpened(false)} className={styles.closenav} />
-      ) : (
-        ""
       )}
     </>
   );

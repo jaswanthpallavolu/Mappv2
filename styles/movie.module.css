@@ -69,6 +69,11 @@
 
     --pad-bottom: clamp(0.4rem, 2vw, 0.8rem);
   }
+  .movie i,
+  .movie button,
+  .movie ion-icon {
+    cursor: default !important;
+  }
 }
 
 @media (max-width: 320px) {

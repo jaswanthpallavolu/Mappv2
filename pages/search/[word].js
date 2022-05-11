@@ -12,7 +12,7 @@ function Search() {
   const { word } = router.query;
   const [ids, setIds] = useState();
   const [loading, setLoading] = useState(true);
-  const user = useSelector((state) => state.userAuth.user.authenticated);
+  // const user = useSelector((state) => state.userAuth.user.authenticated);
   // const status = useSelector((state) => state.userAuth.status);
 
   const getAllIds = async (signal) => {
@@ -48,6 +48,12 @@ function Search() {
           </div>
         ) : (
           <>
+            <div className={styles.header}>
+              <p>
+                <small>search results for :</small> <b>{word}</b>
+              </p>
+            </div>
+
             {ids?.length > 0 ? (
               <div className={styles.content}>
                 {ids.map((id) => (

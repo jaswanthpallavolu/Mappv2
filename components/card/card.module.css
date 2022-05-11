@@ -93,15 +93,20 @@
     font-size: clamp(0.7rem, 4vw, 0.9rem) !important;
   }
   .m_card .more {
-    font-size: clamp(0.8rem, 3vw, 0.9rem) !important;
+    font-size: clamp(0.5rem, 3vw, 0.9rem) !important;
   }
   .m_card .top {
     top: 1%;
   }
   .options img {
     padding: 2%;
-    width: 1.5rem !important;
+    width: 1.3em !important;
     aspect-ratio: 1/1;
+  }
+}
+@media (max-width: 310px) {
+  .m_card .title {
+    font-size: clamp(0.6rem, 4vw, 0.7rem) !important;
   }
 }
 @media (max-width: 240px) {
@@ -326,64 +331,3 @@
   background: var(--secondary);
   width: max-content;
 }
-
-/* .m_card.small .title{ font-size: clamp(.5rem,5vw,1.2rem);}
-.m_card.small .more{ font-size: clamp(.3rem,5vw,.75rem)} */
-
-/* 
-600px
-768px
-992px
-1200px
- */
-
-/* @media (max-width: 600px) {
-  .m_card {
-    --card-width: min(40vw, 10rem) !important;
-    --card-height: min(50vh, 15rem) !important;
-  }
-  .m_card .title {
-    font-size: clamp(0.6rem, 10vw, 1.2rem);
-  }
-  .m_card .more {
-    font-size: clamp(0.3rem, 5vw, 0.75rem);
-  }
-
-  .m_card .top .imdb {
-    padding: 0.2rem;
-    font-size: clamp(0.3rem, 5vw, 0.7rem);
-  }
-  .image {
-    font-size: clamp(0.7rem, 3vw, 1.1rem);
-  }
-  .m_card .info .title {
-    width: 95%;
-    margin-bottom: 0.3rem;
-    font-weight: 600;
-    font-size: clamp(0.8rem, 3vw, 1.1rem);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-}
-@media (max-width: 480px) {
-  .m_card {
-    --card-width: min(50vw, 10rem) !important;
-    --card-height: min(80vw, 15rem) !important;
-  }
-  .m_card .top .options img {
-    width: 1.5rem;
-  }
-}
-@media (max-width: 360px) {
-  .m_card {
-    --card-width: min(45vw, 9rem) !important;
-    --card-height: min(80vw, 14rem) !important;
-  }
-  .m_card .title {
-    font-size: clamp(0.6rem, 2vw, 1rem);
-  }
-  .m_card .more {
-    font-size: clamp(0.3rem, 5vw, 0.7rem);
-  }
-} */

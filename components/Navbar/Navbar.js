@@ -33,11 +33,8 @@ function Navbar() {
   const profileUrl = useSelector((state) => state.userAuth.user.photoUrl);
   // const username = useSelector((state) => state.userAuth.user.username);
   const authorized = useSelector((state) => state.userAuth.user.authorized);
-
   const dispatch = useDispatch();
-  const searchRef = useRef();
   const router = useRouter();
-  const { word } = router.query;
 
   const handleTheme = () => {
     if (theme === "dark") {
@@ -49,7 +46,6 @@ function Navbar() {
     }
   };
 
-  const [sIcon, setSIcon] = useState(true); //whether search icon is visible or not
   const [navScrollTheme, setNavScrollTheme] = useState(false);
   const [whiteIcons, setWhiteIcons] = useState();
   const [isMobile, setIsMobile] = useState();
@@ -57,28 +53,7 @@ function Navbar() {
     if (window.innerWidth > 600) setIsMobile(false);
     else setIsMobile(true);
   };
-  const handleRoute = (e) => {
-    e.preventDefault();
-    // if (!sIcon) return;
-    var word = searchRef.current.value;
-    if (word) {
-      // window.localStorage.setItem("s-word", word);
-      router.push(`/search/${word}`, undefined, { shallow: true });
-      setSIcon(false);
-    } else {
-      // window.localStorage.setItem("s-word", word);
-      // router.push(`/home`, undefined, { shallow: true });
-      // router.back();
-      setSIcon(true);
-    }
-  };
-  const goBack = () => {
-    searchRef.current.value = "";
-    // window.localStorage.removeItem("s-word");
-    // router.push("/home", undefined, { shallow: true });
-    // router.back();
-    setSIcon(true);
-  };
+
   const changeBackground = () => {
     // setToggleSideNav(false);
     if (window.scrollY >= 80) {
@@ -95,10 +70,6 @@ function Navbar() {
 
   useEffect(() => {
     changeBackground();
-    if (word) {
-      searchRef.current.value = word;
-      setSIcon(false);
-    }
     const t = window.localStorage.getItem("theme");
     if (t) dispatch(setTheme(t));
     checkWidth();
@@ -138,38 +109,7 @@ function Navbar() {
               <Link href="/movies">Movies</Link>
             </li>
           </ul>
-
-          <form
-            className={`${styles.search_bar} 
-          ${
-            navScrollTheme && theme === "dark"
-              ? styles.dtbar
-              : styles.bar_default
-          }
-          ${navScrollTheme && theme === "light" ? styles.ltbar : ""}`}
-            id="search_bar"
-          >
-            <input
-              type="text"
-              placeholder="search movie"
-              ref={searchRef}
-              // onChange={handleRoute}
-              // onKeyPress={handleRoute}
-            />
-            <button onClick={handleRoute}>
-              {!sIcon ? (
-                <img
-                  onClick={goBack}
-                  src="/assets/x-mark-thin.png"
-                  alt="hh"
-                  style={{ cursor: "pointer" }}
-                />
-              ) : (
-                <img src="/assets/search-thin.png" alt="hh" />
-              )}
-            </button>
-          </form>
-
+          <SearchBar prop={{ navScrollTheme, theme, isMobile }} />
           {authorized ? (
             <div className={styles.profile}>
               <div className={styles.theme} onClick={handleTheme}>
@@ -234,11 +174,9 @@ function Navbar() {
           prop={{
             navScrollTheme,
             profileUrl,
-            handleRoute,
-            goBack,
+            isMobile,
             handleTheme,
-            searchRef,
-            sIcon,
+
             theme,
             authorized,
           }}
@@ -251,3 +189,69 @@ function Navbar() {
 }
 
 export default Navbar;
+
+export const SearchBar = ({ prop }) => {
+  const { navScrollTheme, theme, isMobile } = prop;
+  const searchRef = useRef();
+  const router = useRouter();
+  const { word } = router.query;
+  const [showClear, setShowClear] = useState(true); //whether search icon is visible or not
+  const handleRoute = () => {
+    var word = searchRef.current.value;
+    if (word) router.push(`/search/${word}`);
+  };
+
+  const searchMovie = (e) => {
+    if (e.key === "Enter") handleRoute();
+  };
+  const manageClearIcon = () => {
+    if (searchRef.current.value === "") setShowClear(false);
+    else setShowClear(true);
+  };
+
+  useEffect(() => {
+    if (word) {
+      searchRef.current.value = word;
+      setShowClear(true);
+    } else setShowClear(false);
+  }, [word]);
+  return (
+    <div
+      className={`${styles.search_bar} 
+  ${
+    navScrollTheme || (isMobile && theme === "dark")
+      ? styles.dtbar
+      : styles.bar_default
+  }
+  ${navScrollTheme || (isMobile && theme === "light") ? styles.ltbar : ""}`}
+      id="search_bar"
+      onKeyPress={searchMovie}
+    >
+      <ion-icon className={styles.searchIcon} name="search-outline"></ion-icon>
+      <div className={styles.input}>
+        <input
+          type="text"
+          placeholder="search movie"
+          ref={searchRef}
+          onChange={manageClearIcon}
+        />
+
+        {showClear ? (
+          <div
+            onClick={() => {
+              searchRef.current.value = "";
+              setShowClear(false);
+            }}
+          >
+            <ion-icon
+              className={styles.closeIcon}
+              name="close-outline"
+            ></ion-icon>
+          </div>
+        ) : (
+          ""
+        )}
+      </div>
+    </div>
+  );
+};
