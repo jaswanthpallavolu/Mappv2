@@ -5,7 +5,7 @@ import { logout } from "../../redux/features/authSlice";
 import styles from "./Navbar.module.css";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { SearchBar } from "./Navbar";
+import SearchBar from "./SearchBar/SearchBar";
 
 const MobileNavbar = ({ prop }) => {
   const [navOpened, setNavOpened] = useState(false);

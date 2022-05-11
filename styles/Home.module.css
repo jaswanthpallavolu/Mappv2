@@ -39,23 +39,26 @@
   /* height: 50vh; */
   width: 90%;
   aspect-ratio: 3/1;
+  padding: 0.3rem;
 
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 
-  font-size: clamp(1.2rem, 5vw, 3rem);
   font-weight: 400;
   color: var(--font-primary);
   border: 1px dashed var(--font-primary);
-}
-.one .heading p {
-  margin: 0;
-  /* line-height: 100%; */
+  text-transform: capitalize;
   text-align: center;
 }
-
+.one .heading h3 {
+  margin: 0;
+  font-size: clamp(1rem, 5vw, 3rem);
+}
+.one .heading p {
+  font-size: clamp(0.8rem, 3vw, 1.1rem);
+}
 .notch {
   position: fixed;
   bottom: 1rem;
@@ -65,9 +68,11 @@
   color: var(--font-primary);
   cursor: pointer;
   transition: all ease 0.2s;
+
   /* stroke: 1px solid red; */
   /* border: 1px solid red; */
 }
+
 .notch:active {
   transform: scale(0.95) !important;
 }
@@ -82,6 +87,8 @@
     margin-top: 12vh;
     width: 98%;
     aspect-ratio: 2/1;
+  }
+  .heading h3 {
     font-size: clamp(1rem, 6vw, 5rem);
   }
 }

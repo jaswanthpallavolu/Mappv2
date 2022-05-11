@@ -20,8 +20,8 @@ function Home() {
           className={`${styles.one} ${!authorized ? styles.notlogged : ""}`}
         >
           <div className={styles.heading}>
-            <p>Movie Recommendation</p>
-            <p></p>
+            <h3>Movie Recommendation</h3>
+            <p>this website contains movie data between (1994-2020)</p>
             {/* <button onClick={() => router.push("/movies")}>ALL Movies</button>
             <button onClick={() => router.push("/movies/sampleid")}>
               movie page
