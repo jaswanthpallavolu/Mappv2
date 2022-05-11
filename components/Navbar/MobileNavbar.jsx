@@ -54,7 +54,21 @@ const MobileNavbar = ({ prop }) => {
                   </div>
                 </>
               ) : (
-                <button onClick={() => router.push("/login")}>Signin</button>
+                <button
+                  className={`${styles.mob_login} ${
+                    navScrollTheme ? styles.navstyle2 : ""
+                  }
+                ${
+                  navScrollTheme && theme === "dark"
+                    ? styles.mob_dtbtn
+                    : styles.mob_default
+                }
+                ${navScrollTheme && theme === "light" ? styles.mob_ltbtn : ""}`}
+                  id="sign-in"
+                  onClick={() => router.push("/login")}
+                >
+                  Sign in
+                </button>
               )}
             </>
           )}
@@ -134,13 +148,13 @@ const MobileNavbar = ({ prop }) => {
               </div>
               <h4>My Account</h4>
             </div>
-            <div className={`${styles.mob_logout} ${styles.mobnav_icons}`}>
-              <ion-icon
-                name="log-out-outline"
-                onClick={() => {
-                  dispatch(logout());
-                }}
-              ></ion-icon>{" "}
+            <div
+              onClick={() => {
+                dispatch(logout());
+              }}
+              className={`${styles.mob_logout} ${styles.mobnav_icons}`}
+            >
+              <ion-icon name="log-out-outline"></ion-icon>
               <h4>Log out</h4>
             </div>
           </div>

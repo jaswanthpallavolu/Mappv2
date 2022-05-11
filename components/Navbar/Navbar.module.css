@@ -381,6 +381,28 @@
   transform: scale(1, 1);
   /* transform-origin: top; */
 }
+/* togglers for mobile sign in  button*/
+.mob_default {
+  background: var(--third);
+  color: var(--font-secondary);
+}
+.mob_dtbtn,
+.mob_ltbtn {
+  background-color: var(--secondary) !important;
+  color: var(--font-primary) !important;
+}
+
+.mobnav_icons .mob_login {
+  width: max-content;
+  padding: 0.5em 0.8em;
+  border: none;
+  font-size: 15px;
+  font-weight: 100;
+  border-radius: 20px;
+  background-color: var(--font-secondary);
+  color: var(--font-primary);
+}
+
 /* NAVBR ITEMS */
 .mobileNavItems .navlinks {
   margin: 4rem 0.5rem;
