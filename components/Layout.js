@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addToDB, setUserStatus } from "../redux/features/authSlice";
 import { fetchMovies, setEmpty } from "../redux/features/userRatingSlice";
+import { fetchUserHistory } from "../redux/features/userHistorySlice";
 import Navbar from "./Navbar/Navbar";
 // import { useRouter } from "next/router";
 // import { route } from "next/dist/server/router";
@@ -42,6 +43,10 @@ export default function Layout({ children }) {
     if (status === "succeeded") {
       // console.log(uid);
       // if (!uid) router.replace("/login");
+      if (uid) {
+        dispatch(fetchMovies(uid));
+        dispatch(fetchUserHistory(uid));
+      }
       const a = all.filter((i) => i === uid);
       if (a.length === 0 && uid) {
         dispatch(addToDB(user));
@@ -49,10 +54,6 @@ export default function Layout({ children }) {
         dispatch(setUserStatus("idle"));
         // console.log('old User')
       }
-      if (uid) dispatch(fetchMovies(uid));
-      // setTimeout(() => {
-      //   dispatch(fetchMovies(uid));
-      // }, 300);
     }
     if (status === "loggedout") {
       dispatch(setEmpty());

@@ -114,4 +114,7 @@
     color: white;
     /* margin-left: 10%; */
   }
+  .content .lbtn button {
+    box-shadow: none;
+  }
 }

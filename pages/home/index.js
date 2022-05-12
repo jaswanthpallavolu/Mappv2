@@ -22,10 +22,13 @@ function Home() {
           <div className={styles.heading}>
             <h3>Movie Recommendation</h3>
             <p>this website contains movie data between (1994-2020)</p>
-            {/* <button onClick={() => router.push("/movies")}>ALL Movies</button>
-            <button onClick={() => router.push("/movies/sampleid")}>
-              movie page
-            </button> */}
+            <ul className={styles.features}>
+              <li>
+                <b>Features :-</b>
+              </li>
+              <li>personalized Home page based on user activity,</li>
+              <li>recommendation system</li>
+            </ul>
           </div>
           {authorized ? <MyList /> : ""}
           {/* <div

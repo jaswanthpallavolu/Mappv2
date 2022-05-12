@@ -43,13 +43,19 @@ const MobileNavbar = ({ prop }) => {
               </div>
               {authorized ? (
                 <>
-                  <div className={`${styles.mobnav_nicon} ${styles.notify}`}>
+                  <div
+                    className={`${styles.mobnav_nicon} ${styles.notify} ${styles.disable}`}
+                  >
                     <ion-icon name="bookmark-outline"></ion-icon>
                   </div>
-                  <div className={styles.mobnav_nicon}>
+                  <div
+                    className={`${styles.mobnav_nicon} ${styles.notify} ${styles.disable}`}
+                  >
                     <ion-icon name="notifications-outline"></ion-icon>
                   </div>
-                  <div className={styles.mobnav_nicon}>
+                  <div
+                    className={`${styles.mobnav_nicon} ${styles.notify} ${styles.disable}`}
+                  >
                     <ion-icon name="people-outline"></ion-icon>
                   </div>
                 </>

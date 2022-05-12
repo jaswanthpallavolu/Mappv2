@@ -7,6 +7,7 @@ import {
   addMovieData,
   fetchMovies,
 } from "../../redux/features/userRatingSlice";
+import { updateUserHistory } from "../../redux/features/userHistorySlice";
 
 import styles from "./MovieDetails.module.css";
 import styles2 from "./moviemobile.module.css";
@@ -17,17 +18,37 @@ import TrailerModal from "./TrailerModal";
 export default function MovieDetails({ details }) {
   const [openTrailer, setOpenTrailer] = useState(false);
   const [isMobile, setIsMobile] = useState();
+  const dispatch = useDispatch();
+  const uid = useSelector((state) => state.userAuth.user.uid);
+  const historyStatus = useSelector((state) => state.userHistory.status);
+  const moviesVisited = useSelector(
+    (state) => state.userHistory.history?.moviesVisited
+  );
   const checkWidth = () => {
     if (window.innerWidth > 600) setIsMobile(false);
     else setIsMobile(true);
   };
+  const addToHistory = () => {
+    if (moviesVisited?.map((i) => i.movieId).includes(details.movieId)) return;
+    var data = {
+      uid,
+      movieId: details.movieId,
+      title: details.title,
+      genres: details.genre,
+    };
+    dispatch(updateUserHistory({ data }));
+  };
+  useEffect(() => {
+    if (uid && historyStatus === "loaded") addToHistory();
+  }, [uid, historyStatus]); //eslint-disable-line react-hooks/exhaustive-deps
+
   useEffect(() => {
     checkWidth();
     window.addEventListener("resize", checkWidth);
     return () => {
       window.removeEventListener("resize", checkWidth);
     };
-  }, []);
+  }, []); //eslint-disable-line react-hooks/exhaustive-deps
   return (
     <>
       {!isMobile ? (
@@ -53,6 +74,11 @@ export const MovieMobile = ({ details, setOpenTrailer }) => {
     if (imgcon?.offsetHeight * 0.3 < window.scrollY) setIndicate(true);
     else setIndicate(false);
   };
+  function GetPoster(details) {
+    if (details.largeImage !== "") return details.largeImage;
+    else if (details.poster1 !== "") return details.poster1;
+    else return details.poster2;
+  }
   useEffect(() => {
     checkScroll();
     window.addEventListener("scroll", checkScroll);
@@ -70,7 +96,14 @@ export const MovieMobile = ({ details, setOpenTrailer }) => {
         </div>
       </div>
       <div className={styles2.imgbg}>
-        {details?.largeImage ? <img src={details?.largeImage} /> : ""}
+        <img
+          src={
+            GetPoster(details) !== ""
+              ? GetPoster(details)
+              : "/assets/no-image.png"
+          }
+          alt="no-image"
+        />
       </div>
       <div className={styles2.img_content} id="imgcont">
         <div className={`${styles.genre} ${styles2.top}`}>
@@ -142,13 +175,15 @@ export const MovieMobile = ({ details, setOpenTrailer }) => {
 export const MovieDesktop = ({ details, setOpenTrailer }) => {
   return (
     <div className={styles.movie_page}>
-      {details?.largeImage ? (
-        <div className={styles.imgbg}>
-          <img src={details?.largeImage} />
-        </div>
-      ) : (
-        ""
-      )}
+      <div className={styles.imgbg}>
+        <img
+          src={
+            details?.largeImage ? details?.largeImage : "/assets/no-image.png"
+          }
+          alt="no-image"
+        />
+      </div>
+
       <div className={styles.content}>
         <div className={styles.left_content}>
           <div className={`${styles.genre}`}>
@@ -469,13 +504,5 @@ export function Actions({ details }) {
         ""
       )}
     </>
-  );
-}
-
-export function BtnLoad() {
-  return (
-    <div className={styles.btnloader}>
-      <span></span>
-    </div>
   );
 }

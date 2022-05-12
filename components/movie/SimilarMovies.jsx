@@ -112,7 +112,9 @@ export const PosterCard = ({ id }) => {
           {GetPoster(details) !== "" ? (
             <img src={GetPoster(details)} alt={details?.title} />
           ) : (
-            <div className={styles.title}>{details.title}</div>
+            <div className={styles.title}>
+              {details.title} ({details.year})
+            </div>
           )}
         </div>
       ) : (

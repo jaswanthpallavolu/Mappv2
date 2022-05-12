@@ -73,7 +73,9 @@ export default function Card({ id, size }) {
                 alt={details.title}
               />
             ) : (
-              <div className={styles.title_block}>{details.title}</div>
+              <div className={styles.title_block}>
+                {details.title} ({details.year})
+              </div>
             )}
           </div>
           <Header details={details} />

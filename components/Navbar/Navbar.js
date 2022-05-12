@@ -57,7 +57,7 @@ function Navbar() {
 
   const changeBackground = () => {
     // setToggleSideNav(false);
-    if (window.scrollY >= 80) {
+    if (window.scrollY >= 30) {
       setNavScrollTheme(true);
     } else {
       setNavScrollTheme(false);
@@ -121,14 +121,20 @@ function Navbar() {
                 )}
               </div>
 
-              <div className={`${styles.topnav_icons} ${styles.notify}`}>
+              <div
+                className={`${styles.topnav_icons} ${styles.notify} ${styles.disable}`}
+              >
                 <ion-icon name="bookmark-outline"></ion-icon>
                 <div className={styles.box}></div>
               </div>
-              <div className={styles.topnav_icons}>
+              <div
+                className={`${styles.topnav_icons} ${styles.notify} ${styles.disable}`}
+              >
                 <ion-icon name="notifications-outline"></ion-icon>
               </div>
-              <div className={`${styles.topnav_icons} ${styles.notify}`}>
+              <div
+                className={`${styles.topnav_icons} ${styles.notify} ${styles.disable}`}
+              >
                 <ion-icon name="people-outline"></ion-icon>
               </div>
               <div className={styles.user}>

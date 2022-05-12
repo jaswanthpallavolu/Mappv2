@@ -25,8 +25,11 @@ const SearchBar = ({ prop }) => {
     if (word) {
       searchRef.current.value = word;
       setShowClear(true);
-    } else setShowClear(false);
+    }
   }, [word]);
+  useEffect(() => {
+    setShowClear(false);
+  }, []);
   return (
     <div
       className={`${styles.search_bar} 
@@ -43,11 +46,11 @@ const SearchBar = ({ prop }) => {
       <div className={styles.input}>
         <input
           type="text"
-          placeholder="search movie"
+          placeholder="search movies by title, tags, genres"
           ref={searchRef}
           onChange={manageClearIcon}
         />
-
+        {/* || searchRef.current.value !== "" */}
         {showClear ? (
           <div
             onClick={() => {

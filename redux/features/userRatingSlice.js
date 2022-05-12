@@ -59,7 +59,7 @@ export const getMovie = createAsyncThunk(
 
 //fetch all userMovies
 export const fetchMovies = createAsyncThunk(
-  "userData/fetchall",
+  "userData/fetchMovies",
   async (uid) => {
     var data;
     await axios
@@ -70,7 +70,6 @@ export const fetchMovies = createAsyncThunk(
 );
 const initialState = {
   movies: [],
-  // myList: [],
   status: "idle",
   error: null,
 };

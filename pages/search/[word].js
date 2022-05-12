@@ -5,26 +5,31 @@ import styles from "../../styles/Search.module.css";
 import Card from "../../components/card/Card";
 import { useRouter } from "next/router";
 import { Loader1 } from "../../utils/loaders/Loading";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
+import { Tag } from "../../components/Home_categories/Categories";
+import LazyLoad from "../../utils/lazyLoad/LazyLoad";
 
 function Search() {
   const router = useRouter();
+  const [pageCount, setPageCount] = useState(10);
   const { word } = router.query;
-  const [ids, setIds] = useState();
+  const [result, setResult] = useState([]);
   const [loading, setLoading] = useState(true);
+
   // const user = useSelector((state) => state.userAuth.user.authenticated);
   // const status = useSelector((state) => state.userAuth.status);
 
-  const getAllIds = async (signal) => {
+  const getSearchResult = async (signal) => {
     await axios
       .get(`${process.env.NEXT_PUBLIC_MOVIE_SERVER}/movies/search/${word}`, {
         signal: signal,
       })
-      .then((data) => {
-        setIds(data.data.result);
+      .then((res) => {
+        setResult(res.data);
         setLoading(false);
       })
       .catch((err) => console.log(err));
+    setPageCount(10);
   };
 
   useEffect(() => {
@@ -32,7 +37,7 @@ function Search() {
     const signal = controller.signal;
     // window.localStorage.setItem("s-word", word);
     setLoading(true);
-    getAllIds(signal);
+    getSearchResult(signal);
 
     return () => {
       controller.abort();
@@ -41,34 +46,54 @@ function Search() {
 
   return (
     <div className={styles.search_m}>
-      <div className={styles.container}>
-        {loading ? (
-          <div className={styles.load_bars}>
-            <Loader1 />
-          </div>
-        ) : (
-          <>
-            <div className={styles.header}>
-              <p>
-                <small>search results for :</small> <b>{word}</b>
-              </p>
+      {loading ? (
+        <div className={styles.load_bars}>
+          <Loader1 />
+        </div>
+      ) : (
+        <>
+          {!result?.movies && !result?.tags ? (
+            <div className={styles.msg}>
+              <h4>
+                No Matches for <small>{word}</small>
+              </h4>
             </div>
-
-            {ids?.length > 0 ? (
-              <div className={styles.content}>
-                {ids.map((id) => (
-                  <Card id={id} key={id} size="medium" />
-                ))}
+          ) : (
+            <>
+              <div className={styles.result_container}>
+                <div className={styles.header}>
+                  <p>
+                    <small>search results for :</small> <b>{word}</b>
+                  </p>
+                </div>
+                {result?.movies?.length > 0 && (
+                  <>
+                    <div className={styles.content}>
+                      {result?.movies?.slice(0, pageCount).map((id) => (
+                        <Card id={id} key={id} size="medium" />
+                      ))}
+                    </div>
+                    {pageCount < result?.movies?.length && (
+                      <div className={styles.moreMovies}>
+                        <button onClick={() => setPageCount(pageCount + 5)}>
+                          More
+                        </button>
+                      </div>
+                    )}
+                  </>
+                )}
+                <div className={styles.tags}>
+                  {result?.tags?.map((tag, index) => (
+                    <LazyLoad key={index}>
+                      <Tag tagname={tag} />
+                    </LazyLoad>
+                  ))}
+                </div>
               </div>
-            ) : (
-              <div className={styles.msg}>
-                {" "}
-                <h1>No Matches</h1>
-              </div>
-            )}
-          </>
-        )}
-      </div>
+            </>
+          )}
+        </>
+      )}
     </div>
   );
 }

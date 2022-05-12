@@ -3,31 +3,33 @@ import Carousel from "../carousel/Carousel";
 import axios from "axios";
 import styles from "./sections.module.css";
 import { Loader1 } from "../../utils/loaders/Loading";
-import MyList from "./MyList";
 import { useSelector } from "react-redux";
 import LazyLoad from "../../utils/lazyLoad/LazyLoad";
 
 export default function Categories() {
-  // const categories = [
-  //   { name: "top rated" },
-  //   { name: "action & Thriller", genres: ["Action", "Thriller"] },
-  //   { name: "oscar winner", genres: ["Winner"] },
-  //   { name: "romance & drama", genres: ["Romance", "Drama"] },
-  //   { name: "oscar Nominee", genres: ["Nominee"] },
-  //   { name: "animation", genres: ["Animation"] },
-  //   { name: "horror", genres: ["Horror", "Thriller"] },
-  //   { name: "based on true story", genres: ["Biography"] },
-  // ];
-  // { name: "rated movies" },
-  // { name: "watched" },
   const [tags, setTags] = useState([]);
   const [loading, setLoading] = useState(true);
   const authorized = useSelector((state) => state.userAuth.user.authorized);
+  const historyStatus = useSelector((state) => state.userHistory.status);
+  const genresHistory = useSelector(
+    (state) => state.userHistory?.history?.genres
+  );
   const fetchTags = async (signal) => {
     const url = `${process.env.NEXT_PUBLIC_MOVIE_SERVER}/movies/tags/`;
-    if (url) {
+    if (!genresHistory) {
       await axios
         .get(url, { signal: signal })
+        .then((res) => {
+          setTags(res.data.tagNames);
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.log(err);
+          setLoading(false);
+        });
+    } else if (genresHistory) {
+      await axios
+        .post(url, { userHistory: genresHistory }, { signal: signal })
         .then((res) => {
           setTags(res.data.tagNames);
           setLoading(false);
@@ -42,16 +44,16 @@ export default function Categories() {
     const controller = new AbortController();
     const signal = controller.signal;
     setLoading(true);
-    fetchTags(signal);
+    if (historyStatus === "loaded" || !authorized) fetchTags(signal);
     return () => controller.abort();
-  }, []);
+  }, [historyStatus]);
   return (
     <div className={styles.home_categories}>
-        <Category
-          key={Math.random() * 3.1423423}
-          name="recently viewed"
-          query={{ genres: undefined }}
-        />
+      <Category
+        key={Math.random() * 3.1423423}
+        name="recently viewed"
+        query={{ genres: undefined }}
+      />
       {authorized ? (
         <>
           <Recommend key={Math.random() * 3.1423423} name="collaborative" />
@@ -296,7 +298,8 @@ export const Category = ({ name }) => {
     if (name === "rated movies") mlist = movies?.filter((i) => i.liked != 0);
     else if (name === "watched") mlist = movies?.filter((i) => i.watched);
     mlist = mlist.map((i) => [i.movieId]).reverse();
-    if (name=="recently viewed") mlist = JSON.parse(window.localStorage.getItem("recent"));
+    if (name == "recently viewed")
+      mlist = JSON.parse(window.localStorage.getItem("recent"));
     if (JSON.stringify(mlist) !== JSON.stringify(result)) {
       setResult(mlist);
       setLoading(true);

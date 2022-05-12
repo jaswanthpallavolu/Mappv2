@@ -14,7 +14,12 @@
 }
 
 /* ---------DESKTOP NAV ------- */
-
+.disable {
+  opacity: 0.5;
+}
+.disable ion-icon {
+  cursor: default !important;
+}
 .topnav {
   height: 4rem;
   width: 100vw;
@@ -94,62 +99,6 @@
 }
 
 /* END OF NAV LINKS */
-
-/* SEARCH BAR */
-/* .search_bar {
-  grid-column: 3/4;
-  justify-self: center;
-  
-  width: 80%;
-  
-  display: flex;
-  justify-content: left;
-  align-items: center;
-  gap: 2%;
-  border-radius: 20px;
-  padding: 0.2rem 0.5rem;
- 
-}
-.search_bar ion-icon {
-  cursor: pointer;
-}
-.search_bar ion-icon:first-child {
-  font-size: 1.5rem;
-}
-
-.search_bar .input {
-  position: relative;
-  width: 100%;
-  height: 2rem;
-}
-.search_bar input {
-  position: absolute;
-  width: 100%;
-  height: 2rem;
- 
-  font-size: 1rem;
-  background: none;
-  border: none;
- 
-}
- .search_bar input::placeholder {
-  color: rgba(0, 0, 0, 0.6);
-}
- .search_bar input:focus {
-  outline: none;
-}
-.search_bar ion-icon:last-child {
-  position: absolute;
-  right: 2%;
-  height: 100%;
- 
-  font-size: 1.3rem;
-  
-}
-.navbar .search_bar button {
-  border: none;
-  background: none;
-} */
 
 /* togglers for search bar */
 .bar_default {

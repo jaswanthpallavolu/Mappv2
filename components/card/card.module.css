@@ -103,6 +103,9 @@
     width: 1.3em !important;
     aspect-ratio: 1/1;
   }
+  .title_block {
+    font-size: clamp(0.6rem, 4vw, 1rem);
+  }
 }
 @media (max-width: 310px) {
   .m_card .title {
