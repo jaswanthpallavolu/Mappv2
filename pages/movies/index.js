@@ -60,7 +60,9 @@ export default function Movies() {
   }, [query, sortby]);
 
   useEffect(()=>{
-    window.localStorage.setItem(`filter_${uid}`,JSON.stringify(query))
+    if (typeof window!=="undefined"){
+      window.localStorage.setItem(`filter_${uid}`,JSON.stringify(query))
+    }
   },[uid,query])
 
   useEffect(() => {

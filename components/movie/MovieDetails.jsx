@@ -394,7 +394,9 @@ export function Actions({ details }) {
     }
     recent["movies"].unshift(details.movieId)
     recent["movies"] = recent["movies"].slice(0,5)
-    window.localStorage.setItem(`recent_${uid}`,JSON.stringify(recent))
+    if (typeof window!=="undefined"){
+      window.localStorage.setItem(`recent_${uid}`,JSON.stringify(recent))
+    }
   }
   useEffect(() => {
     dispatch(fetchMovies(uid));
