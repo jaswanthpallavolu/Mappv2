@@ -22,8 +22,7 @@ export default function MoviePage() {
       nof: 24,
     };
 
-    const [query,setQuery] = useState(window ? JSON.parse(window.localStorage.getItem(`filter_${uid}`)) || initalQuery : true)
-
+    const [query,setQuery] = useState()
     const [result, setResult] = useState()
     const [result_len, setResultLen] = useState()
     const [page, setPage] = useState(1)
@@ -51,8 +50,12 @@ export default function MoviePage() {
             })
     }
 
+    useEffect(()=>{
+        setQuery(typeof window!=="undefined" ? JSON.parse(localStorage.getItem(`filter_${uid}`)) || initalQuery : true)
+    },[uid])
+
     useEffect(() => {
-        fetchFilterMovies()
+        query ? fetchFilterMovies() : ""
     }, [query, page, sortby])
 
     useEffect(() => {
@@ -68,9 +71,10 @@ export default function MoviePage() {
       }
     },[uid,query])
 
-
     return (
         <>
+            {query ?
+            <>
             <div className={styles.items}>
                 <p className={styles.title}>
                     {query["genre"].length == 0 &&
@@ -198,6 +202,7 @@ export default function MoviePage() {
             ) : (
                 ""
             )}
+            </>:""}
         </>
     )
 }
