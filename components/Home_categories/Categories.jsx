@@ -40,6 +40,9 @@ export default function Categories() {
         });
     }
   };
+  // useEffect(() => {
+  //   console.log("rendering");
+  // }, []);
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
@@ -49,16 +52,11 @@ export default function Categories() {
   }, [historyStatus]); //eslint-disable-line react-hooks/exhaustive-deps
   return (
     <div className={styles.home_categories}>
-      <Category
-        key={Math.random() * 3.1423423}
-        name="recently viewed"
-        query={{ genres: undefined }}
-      />
+      <Category name="recently viewed" query={{ genres: undefined }} />
       {authorized ? (
         <>
-          <Recommend key={Math.random() * 3.1423423} name="collaborative" />
-          {/* <MyList /> */}
-          <Recommend key={Math.random() * 3.1423423} name="watched" />
+          <Recommend name="collaborative" />
+          <Recommend name="watched" />
         </>
       ) : (
         <p className={styles.suggest_text}>
@@ -71,31 +69,13 @@ export default function Categories() {
             <Tag tagname={tag} />
           </LazyLoad>
         ))}
-      {/* {categories.map((catg, index) => (
-        <LazyLoad key={index}>
-          <Category name={catg.name} query={{ genres: catg?.genres }} />
-        </LazyLoad>
-      ))} */}
 
       {/* NEED TO REMOVE This */}
-      {authorized ? (
+      {authorized && (
         <LazyLoad>
-          <>
-            <Category
-              key={Math.random() * 3.1423423}
-              name="watched"
-              query={{ genres: undefined }}
-            />
-
-            <Category
-              key={Math.random() * 3.1423423}
-              name="rated movies"
-              query={{ genres: undefined }}
-            />
-          </>
+          <Category name="watched" query={{ genres: undefined }} />
+          <Category name="rated movies" query={{ genres: undefined }} />
         </LazyLoad>
-      ) : (
-        ""
       )}
     </div>
   );
@@ -125,8 +105,9 @@ export function Recommend({ name }) {
       .catch((err) => console.log(err));
   };
   const getSimilar = async () => {
+    // console.log("collab");
     if (window.innerWidth > 600)
-      setTitle(`beacause you watched, ${queryList[0][1]}`);
+      setTitle(`because you watched, ${queryList[0][1]}`);
     else setTitle(`you watched, ${queryList[0][1]}`);
     var id = queryList[0][0];
     await axios
@@ -154,6 +135,7 @@ export function Recommend({ name }) {
   useEffect(() => {
     if (queryList) recommendMovies();
   }, [queryList]); //eslint-disable-line react-hooks/exhaustive-deps
+
   useEffect(() => {
     if (status !== "loading" && status) {
       if (name === "collaborative") {
@@ -247,6 +229,7 @@ export const Tag = ({ tagname }) => {
     const signal = controller.signal;
     setLoading(true);
     fetchMoviesByTag(signal);
+
     return () => controller.abort();
   }, []); //eslint-disable-line react-hooks/exhaustive-deps
   // list={result?.sort(() => .5 - Math.random())}
@@ -283,23 +266,37 @@ export const Tag = ({ tagname }) => {
 export const Category = ({ name }) => {
   const status = useSelector((state) => state.userRatings.status);
   const movies = useSelector((state) => state.userRatings.movies);
+  const uid = useSelector((state) => state.userAuth.user.uid);
+  // const authorized = useSelector((state) => state.userAuth.user.authorized);
 
   const [loading, setLoading] = useState(true);
   const [result, setResult] = useState();
   const mountedRef = useRef(true);
 
-  // useEffect(() => {
-  //   if (mountedRef.current) {
-  //   }
-  // }, [result]);
+  const getLocalStorageMovies = () => {
+    var mlist = [];
+    if (name === "recently viewed") {
+      window
+        ? (mlist = JSON.parse(localStorage.getItem(`recent_${uid}`)))
+        : true;
 
+      mlist = mlist ? mlist["movies"] : [];
+      // console.log("rv2", mlist);
+    }
+
+    if (JSON.stringify(mlist) !== JSON.stringify(result)) {
+      setResult(mlist);
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+      }, 100);
+    }
+  };
   const getUserMovies = () => {
     var mlist = [];
     if (name === "rated movies") mlist = movies?.filter((i) => i.liked != 0);
     else if (name === "watched") mlist = movies?.filter((i) => i.watched);
-    mlist = mlist.map((i) => [i.movieId]).reverse();
-    if (name == "recently viewed")
-      mlist = JSON.parse(window.localStorage.getItem("recent"));
+    mlist = mlist?.map((i) => [i.movieId]).reverse();
     if (JSON.stringify(mlist) !== JSON.stringify(result)) {
       setResult(mlist);
       setLoading(true);
@@ -310,47 +307,20 @@ export const Category = ({ name }) => {
     // setLoading(false);
   };
 
-  // const fetchGenre = async (signal) => {
-  //   const domain = process.env.NEXT_PUBLIC_MOVIE_SERVER;
-  //   if (name === "top rated") {
-  //     const url = `${domain}/movies/toprated/`;
-  //     await axios
-  //       .get(url, { signal: signal })
-  //       .then((res) => {
-  //         setResult(res.data.result);
-  //         setLoading(false);
-  //       })
-  //       .catch((err) => console.log(err));
-  //   }
-  //   //  else if (name === "rated movies") {
-  //   //   getUserMovies();
-  //   // }
-  //   else if (query.genres) {
-  //     const url = `${domain}/movies/genres/`;
-  //     await axios
-  //       .post(url, { genre: query.genres }, { signal: signal })
-  //       .then((res) => {
-  //         setResult(res.data[0].result);
-  //         setLoading(false);
-  //       })
-  //       .catch((err) => console.log(err));
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   const controller = new AbortController();
-  //   const signal = controller.signal;
-  //   setLoading(true);
-  //   fetchGenre(signal);
-  //   return () => controller.abort();
-  // }, []); //eslint-disable-line react-hooks/exhaustive-deps
-  // list={result?.sort(() => .5 - Math.random())}
   useEffect(() => {
-    if (status === "loaded" && mountedRef.current && name) {
+    if (
+      status === "loaded" &&
+      mountedRef.current &&
+      name &&
+      name !== "recently viewed"
+    ) {
       getUserMovies();
     }
-  }, [status]); //eslint-disable-line react-hooks/exhaustive-deps
+  }, [status, uid]); //eslint-disable-line react-hooks/exhaustive-deps
 
+  useEffect(() => {
+    if (name === "recently viewed") getLocalStorageMovies();
+  }, [uid]);
   //clean up function
   useEffect(() => {
     return () => {
@@ -363,7 +333,21 @@ export const Category = ({ name }) => {
       {result?.length && !loading ? (
         <div className={styles.c_section}>
           <div className={styles.head}>
-            <div className={styles.name}>{name}</div>
+            {name === "recently viewed" ? (
+              <p className={styles.name}>
+                {name}{" "}
+                <p
+                  onClick={() => {
+                    window?.localStorage.removeItem(`recent_${uid}`);
+                    getLocalStorageMovies();
+                  }}
+                >
+                  clear
+                </p>
+              </p>
+            ) : (
+              <p className={styles.name}>{name}</p>
+            )}
           </div>
           {!loading ? (
             <Carousel list={result} />

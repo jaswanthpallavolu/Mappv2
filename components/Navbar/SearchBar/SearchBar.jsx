@@ -56,11 +56,13 @@ const SearchBar = ({ prop }) => {
             onClick={() => {
               searchRef.current.value = "";
               setShowClear(false);
+              searchRef.current.focus();
             }}
           >
             <ion-icon
               className={styles.closeIcon}
               name="close-outline"
+              title="none"
             ></ion-icon>
           </div>
         ) : (
