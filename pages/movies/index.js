@@ -9,17 +9,20 @@ import { Pagination, PaginationItem } from "@mui/material";
 import filter_json from "../../components/Movies/filter.json";
 import { FilterAltOutlined, SortOutlined } from "@mui/icons-material";
 import { Loader1 } from "../../utils/loaders/Loading";
+import { useSelector } from "react-redux";
 
 export default function Movies() {
+  const uid = useSelector((state)=> state.userAuth.user.uid);
   const [modal, setModal] = useState(false);
-  const [query, setQuery] = useState({
+  const initalQuery = {
     genre: [],
     released: 2020,
     range: 3,
     sort: ["year", 0],
     page: 1,
     nof: 24,
-  });
+  };
+  const [query,setQuery] = useState(JSON.parse(window.localStorage.getItem(`filter_${uid}`)) || initalQuery)
   const [result, setResult] = useState();
   const [result_len, setResultLen] = useState();
   const [page, setPage] = useState(1);
@@ -55,6 +58,10 @@ export default function Movies() {
   useEffect(() => {
     setPage(1);
   }, [query, sortby]);
+
+  useEffect(()=>{
+    window.localStorage.setItem(`filter_${uid}`,JSON.stringify(query))
+  },[uid,query])
 
   useEffect(() => {
     document.body.style.overflow = "auto";

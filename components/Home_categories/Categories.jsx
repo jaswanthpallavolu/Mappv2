@@ -283,6 +283,7 @@ export const Tag = ({ tagname }) => {
 export const Category = ({ name }) => {
   const status = useSelector((state) => state.userRatings.status);
   const movies = useSelector((state) => state.userRatings.movies);
+  const uid = useSelector((state)=> state.userAuth.user.uid);
 
   const [loading, setLoading] = useState(true);
   const [result, setResult] = useState();
@@ -299,7 +300,8 @@ export const Category = ({ name }) => {
     else if (name === "watched") mlist = movies?.filter((i) => i.watched);
     mlist = mlist.map((i) => [i.movieId]).reverse();
     if (name == "recently viewed")
-      mlist = JSON.parse(window.localStorage.getItem("recent"));
+      mlist = JSON.parse(window.localStorage.getItem(`recent_${uid}`))
+      mlist = mlist ? mlist["movies"] : []
     if (JSON.stringify(mlist) !== JSON.stringify(result)) {
       setResult(mlist);
       setLoading(true);

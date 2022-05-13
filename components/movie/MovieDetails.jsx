@@ -385,9 +385,21 @@ export function Actions({ details }) {
         })
       );
   };
+  const addRecent = ()=>{
+    let recent = JSON.parse(window.localStorage.getItem(`recent_${uid}`)) || {}
+    recent["uid"] = uid
+    recent["movies"] = recent["movies"] || []
+    if (recent["movies"].includes(details.movieId)){
+      recent["movies"] = recent["movies"].filter(i=>i!=details.movieId)
+    }
+    recent["movies"].unshift(details.movieId)
+    recent["movies"] = recent["movies"].slice(0,5)
+    window.localStorage.setItem(`recent_${uid}`,JSON.stringify(recent))
+  }
   useEffect(() => {
     dispatch(fetchMovies(uid));
-  }, []); //eslint-disable-line react-hooks/exhaustive-deps
+    addRecent();
+  }, [uid]); //eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (movies_status === "loaded") {
