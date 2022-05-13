@@ -6,6 +6,7 @@ import styles from "./Navbar.module.css";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import SearchBar from "./SearchBar/SearchBar";
+import SecondaryIcons from "./social sections/SecondaryIcons";
 
 const MobileNavbar = ({ prop }) => {
   const [navOpened, setNavOpened] = useState(false);
@@ -42,23 +43,7 @@ const MobileNavbar = ({ prop }) => {
                 <ion-icon name="search-outline"></ion-icon>
               </div>
               {authorized ? (
-                <>
-                  <div
-                    className={`${styles.mobnav_nicon} ${styles.notify} ${styles.disable}`}
-                  >
-                    <ion-icon name="bookmark-outline"></ion-icon>
-                  </div>
-                  <div
-                    className={`${styles.mobnav_nicon} ${styles.notify} ${styles.disable}`}
-                  >
-                    <ion-icon name="notifications-outline"></ion-icon>
-                  </div>
-                  <div
-                    className={`${styles.mobnav_nicon} ${styles.notify} ${styles.disable}`}
-                  >
-                    <ion-icon name="people-outline"></ion-icon>
-                  </div>
-                </>
+                <SecondaryIcons isMobile={isMobile} />
               ) : (
                 <button
                   className={`${styles.mob_login} ${
@@ -110,7 +95,7 @@ const MobileNavbar = ({ prop }) => {
               router.pathname === "/home" ? styles.navactive : ""
             }`}
           >
-            <Link href="/home" className={styles.home}>
+            <Link href="/home" className={styles.home} passHref={true}>
               <div className={styles.mobnav_icons}>
                 <ion-icon name="home-outline"></ion-icon>
                 <h4> Home</h4>
@@ -123,7 +108,7 @@ const MobileNavbar = ({ prop }) => {
               router.pathname === "/movies" ? styles.navactive : ""
             }`}
           >
-            <Link href="/movies" className={styles.movies}>
+            <Link href="/movies" className={styles.movies} passHref={true}>
               <div className={styles.mobnav_icons}>
                 <ion-icon name="videocam-outline"></ion-icon>
                 <h4> Movies</h4>

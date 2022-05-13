@@ -35,7 +35,7 @@ export default function Recommends({ details }) {
     return () => {
       controller.abort();
     };
-  }, [details.movieId]);
+  }, [details.movieId]); //eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>

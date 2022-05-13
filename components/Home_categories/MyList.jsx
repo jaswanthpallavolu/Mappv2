@@ -27,7 +27,7 @@ export default function MyList() {
       if (JSON.stringify(list) !== JSON.stringify(myList)) setMyList(list);
     }
     // console.log("hh");
-  }, [status]);
+  }, [status]); //eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
