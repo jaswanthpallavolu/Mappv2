@@ -61,7 +61,7 @@ export default function Movies() {
 
   useEffect(()=>{
     if (typeof window!=="undefined"){
-      window.localStorage.setItem(`filter_${uid}`,JSON.stringify(query))
+      localStorage.setItem(`filter_${uid}`,JSON.stringify(query))
     }
   },[uid,query])
 
