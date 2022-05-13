@@ -386,7 +386,8 @@ export function Actions({ details }) {
       );
   };
   const addRecent = ()=>{
-    let recent = JSON.parse(window.localStorage.getItem(`recent_${uid}`)) || {}
+    let recent = {}
+    window ? recent = JSON.parse(localStorage.getItem(`recent_${uid}`)) || {} : true
     recent["uid"] = uid
     recent["movies"] = recent["movies"] || []
     if (recent["movies"].includes(details.movieId)){
@@ -394,8 +395,11 @@ export function Actions({ details }) {
     }
     recent["movies"].unshift(details.movieId)
     recent["movies"] = recent["movies"].slice(0,5)
-    if (typeof window!=="undefined"){
-      window.localStorage.setItem(`recent_${uid}`,JSON.stringify(recent))
+    if (window){
+      localStorage.setItem(`recent_${uid}`,JSON.stringify(recent))
+    }
+    else{
+      return true
     }
   }
   useEffect(() => {

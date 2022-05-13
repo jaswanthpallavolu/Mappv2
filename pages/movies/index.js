@@ -22,7 +22,7 @@ export default function Movies() {
     page: 1,
     nof: 24,
   };
-  const [query,setQuery] = useState(JSON.parse(window.localStorage.getItem(`filter_${uid}`)) || initalQuery)
+  const [query,setQuery] = useState(window ? JSON.parse(localStorage.getItem(`filter_${uid}`)) || initalQuery : true)
   const [result, setResult] = useState();
   const [result_len, setResultLen] = useState();
   const [page, setPage] = useState(1);
@@ -60,8 +60,11 @@ export default function Movies() {
   }, [query, sortby]);
 
   useEffect(()=>{
-    if (typeof window!=="undefined"){
+    if (window){
       localStorage.setItem(`filter_${uid}`,JSON.stringify(query))
+    }
+    else{
+      return true;
     }
   },[uid,query])
 
