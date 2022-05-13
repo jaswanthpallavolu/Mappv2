@@ -28,7 +28,7 @@ const MobileNavbar = ({ prop }) => {
           !navOpened ? styles.notopened : styles.opened
         }`}
       >
-        <div className={styles.logo}>
+        <div className={styles.logo} onClick={() => router.push("/home")}>
           <img src="/assets/nav-logo.png" alt="logo" />
         </div>
 

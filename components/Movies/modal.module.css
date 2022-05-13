@@ -14,6 +14,7 @@
 .modal {
   position: relative;
   width: 50%;
+  /* height: 60vh; */
   background-color: rgb(0, 0, 0);
   border-radius: 0.5rem;
   padding: 1rem;
@@ -24,6 +25,7 @@
   gap: 1rem;
   color: white;
   box-shadow: 0rem 0rem 0.5rem rgba(0, 0, 0, 0.5);
+  --mb: 0.5em;
 }
 .modal .close {
   position: absolute;
@@ -36,10 +38,12 @@
   position: relative;
   display: flex;
   flex-direction: column;
+  margin-bottom: calc(var(--mb) * 1.5);
 }
 .modal .category p {
   font-size: 1rem;
   font-weight: 700;
+  margin-bottom: var(--mb);
 }
 .category form {
   display: flex;
@@ -47,10 +51,11 @@
   font-size: 1rem;
   text-transform: capitalize;
   flex-wrap: wrap;
+  row-gap: 0.1em;
 }
 .category form input {
   transform: scale(1.5);
-  margin-right: 0.5rem;
+  margin-right: 0.5em;
 }
 .category .options {
   display: flex;
@@ -85,6 +90,8 @@
 }
 .apply,
 .close_button {
+  height: 2rem;
+  width: max-content;
   padding: 0.5em 1em;
   border-radius: 5px;
   border: 1px solid black;
@@ -95,7 +102,6 @@
   background: none;
   color: white;
   z-index: 999;
-
   display: grid;
   place-items: center;
 }
@@ -105,7 +111,7 @@
 .apply:hover {
   color: white;
   background: black;
-  border: 0.5px solid white;
+  border: 1px solid white;
   cursor: pointer;
 }
 .close_button:hover {

@@ -57,7 +57,7 @@
   font-size: clamp(1rem, 5vw, 3rem);
 }
 .one .heading p {
-  font-size: clamp(0.8rem, 3vw, 1.1rem);
+  font-size: clamp(0.65rem, 3vw, 1.1rem);
 }
 .features {
   padding: 0 0.5rem;
@@ -67,7 +67,7 @@
   gap: 0.5rem;
   row-gap: 0;
   list-style: none;
-  font-size: clamp(0.5rem, 3vw, 1.2rem);
+  font-size: clamp(0.7rem, 3vw, 1.2rem);
 }
 .notch {
   position: fixed;

@@ -91,7 +91,7 @@ function Navbar() {
     >
       {!isMobile ? (
         <div className={styles.topnav}>
-          <div className={styles.logo}>
+          <div className={styles.logo} onClick={() => router.push("/home")}>
             <img src="/assets/nav-logo.png" alt="logo" />
           </div>
           <ul className={styles.navlinks}>
