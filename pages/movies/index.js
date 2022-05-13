@@ -22,7 +22,8 @@ export default function Movies() {
     page: 1,
     nof: 24,
   };
-  const [query,setQuery] = useState(window ? JSON.parse(localStorage.getItem(`filter_${uid}`)) || initalQuery : true)
+  // const [query,setQuery] = useState(window ? JSON.parse(localStorage.getItem(`filter_${uid}`)) || initalQuery : true)
+  const [query,setQuery] = useState(initalQuery)
   const [result, setResult] = useState();
   const [result_len, setResultLen] = useState();
   const [page, setPage] = useState(1);
@@ -59,14 +60,14 @@ export default function Movies() {
     setPage(1);
   }, [query, sortby]);
 
-  useEffect(()=>{
-    if (window){
-      localStorage.setItem(`filter_${uid}`,JSON.stringify(query))
-    }
-    else{
-      return true;
-    }
-  },[uid,query])
+  // useEffect(()=>{
+  //   if (window){
+  //     localStorage.setItem(`filter_${uid}`,JSON.stringify(query))
+  //   }
+  //   else{
+  //     return true;
+  //   }
+  // },[uid,query])
 
   useEffect(() => {
     document.body.style.overflow = "auto";
