@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
+import styles from "./lazyload.module.css";
 
 export default function LazyLoad({ children }) {
   const { ref, inView } = useInView({
@@ -22,13 +23,7 @@ export default function LazyLoad({ children }) {
     // }, 700);
   }, [inView]);
   return (
-    <div
-      ref={ref}
-      style={{
-        minHeight: window.innerWidth > 360 ? "30vh" : "20vh",
-        minWidth: "60vw",
-      }}
-    >
+    <div ref={ref} className={styles.container}>
       {visible && children}
     </div>
   );

@@ -84,7 +84,7 @@ export default function Carousel({ list, size }) {
     <div className={styles.m_carousel} id="carousel">
       <Slider {...settings} dir="ltr">
         {list?.map((i, index) => (
-          <div className={styles.wrapper} key={index}>
+          <div className={styles.wrapper} key={index + i}>
             <Card
               id={i}
               style={{ margin: "auto" }}

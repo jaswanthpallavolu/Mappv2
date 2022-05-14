@@ -1,8 +1,8 @@
 .home {
   position: relative;
   z-index: 1;
-  width: 100%;
-  height: 100vh;
+  /* width: 100%;
+  height: 100vh; */
 }
 .home::before {
   content: "";
@@ -22,20 +22,18 @@
 
 .one {
   position: relative;
-  min-height: 100vh;
+  /* min-height: 100vh; */
   display: flex;
   flex-direction: column;
   /* justify-content: center; */
   /* border: 1px solid red; */
   background: linear-gradient(180deg, var(--secondary), var(--primary));
-  padding-bottom: min(5vh, 5rem);
+  /* padding-bottom: min(5vh, 5rem); */
 }
-.one.notlogged {
-  min-height: 60vh !important;
-}
+
 .one .heading {
   margin: 0 auto;
-  margin-top: 10vh;
+  margin-top: 4.5rem;
   /* height: 50vh; */
   width: 90%;
   aspect-ratio: 3/1;
@@ -87,14 +85,8 @@
   transform: scale(0.95) !important;
 }
 @media (max-width: 600px) {
-  .home .one {
-    min-height: 70vh;
-  }
-  .one.notlogged {
-    min-height: 50vh !important;
-  }
   .home .one .heading {
-    margin-top: 12vh;
+    /* margin-top: 12vh; */
     width: 98%;
     aspect-ratio: 2/1;
   }
