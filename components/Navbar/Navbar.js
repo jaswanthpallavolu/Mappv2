@@ -8,6 +8,7 @@ import { toDark, toLight, setTheme } from "../../redux/features/generalSlice";
 import { logout } from "../../redux/features/authSlice";
 import MobileNavbar from "./MobileNavbar";
 import SearchBar from "./SearchBar/SearchBar";
+import SecondaryIcons from "./social sections/SecondaryIcons";
 // import LogoutIcon from "@mui/icons-material/Logout";
 // import styled from "styled-components";
 
@@ -121,22 +122,8 @@ function Navbar() {
                 )}
               </div>
 
-              <div
-                className={`${styles.topnav_icons} ${styles.notify} ${styles.disable}`}
-              >
-                <ion-icon name="bookmark-outline"></ion-icon>
-                <div className={styles.box}></div>
-              </div>
-              <div
-                className={`${styles.topnav_icons} ${styles.notify} ${styles.disable}`}
-              >
-                <ion-icon name="notifications-outline"></ion-icon>
-              </div>
-              <div
-                className={`${styles.topnav_icons} ${styles.notify} ${styles.disable}`}
-              >
-                <ion-icon name="people-outline"></ion-icon>
-              </div>
+              <SecondaryIcons isMobile={isMobile} />
+
               <div className={styles.user}>
                 <div className={styles.pic}>
                   <img src={profileUrl} alt="profile" />

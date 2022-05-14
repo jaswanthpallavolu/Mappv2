@@ -49,7 +49,7 @@ export default function Categories() {
     setLoading(true);
     if (historyStatus === "loaded" || !authorized) fetchTags(signal);
     return () => controller.abort();
-  }, [historyStatus]);
+  }, [historyStatus]); //eslint-disable-line react-hooks/exhaustive-deps
   return (
     <div className={styles.home_categories}>
       <Category name="recently viewed" query={{ genres: undefined }} />

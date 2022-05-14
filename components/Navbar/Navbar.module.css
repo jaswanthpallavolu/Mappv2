@@ -14,12 +14,7 @@
 }
 
 /* ---------DESKTOP NAV ------- */
-.disable {
-  opacity: 0.5;
-}
-.disable ion-icon {
-  cursor: default !important;
-}
+
 .topnav {
   height: 4rem;
   width: 100vw;
@@ -179,21 +174,6 @@
 .topnav ion-icon {
   display: block;
   cursor: pointer;
-}
-.topnav_icons {
-  position: relative;
-  color: var(--font-primary);
-}
-.topnav_icons.notify ion-icon:before {
-  content: "";
-  position: absolute;
-  background-color: #fa3e3e;
-  top: 0;
-  right: 0;
-  width: 0.35em;
-  aspect-ratio: 1/1;
-
-  border-radius: 50%;
 }
 
 .profile .user {
@@ -368,17 +348,6 @@
 .makeWhite.navstyle2 .mobnav_icons ion-icon {
   color: var(--font-primary) !important;
 }
-.mobnav_nicon.notify ion-icon:before {
-  content: "";
-  position: absolute;
-  background-color: #fa3e3e;
-  top: 0;
-  right: 0;
-  width: 0.35em;
-  aspect-ratio: 1/1;
-
-  border-radius: 50%;
-}
 
 .mobileNavItems li.theme ion-icon {
   color: var(--font-primary);
@@ -523,4 +492,36 @@
   .topnav ion-icon {
     cursor: default !important;
   }
+}
+
+/* SOCIAL ICONS */
+.secondary_icon {
+  position: relative;
+  color: var(--font-primary);
+}
+.secondary_icon.notify ion-icon:before {
+  content: "";
+  position: absolute;
+  background-color: #fa3e3e;
+  top: 0;
+  right: 0;
+  width: 0.35em;
+  aspect-ratio: 1/1;
+
+  border-radius: 50%;
+}
+
+.secondary_icon div:first-child {
+  margin: 0;
+  padding: 0;
+  color: var(--font-primary);
+  height: max-content;
+  display: grid;
+  place-items: center;
+}
+/* .disable {
+} */
+.disable ion-icon {
+  cursor: default !important;
+  opacity: 0.5;
 }

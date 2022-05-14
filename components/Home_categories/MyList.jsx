@@ -27,9 +27,8 @@ export default function MyList() {
       list = list?.map((i) => i.movieId)?.reverse();
       if (JSON.stringify(list) !== JSON.stringify(myList)) setMyList(list);
     }
-    // console.log("hh");
-  }, [status]);
-  // console.dir(cRef);
+  }, [status]); //eslint-disable-line react-hooks/exhaustive-deps
+
   return (
     <>
       {myList?.length > 0 ? (
