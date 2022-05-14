@@ -60,7 +60,8 @@
 }
 
 .emptyList {
-  height: 30vh;
+  margin: 3% 0;
+  /* height: 30vh; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -95,7 +96,7 @@
     margin-bottom: 10%;
   } */
   .emptyList {
-    height: 30vh;
+    /* height: 30vh; */
     display: flex;
     justify-content: center;
     align-items: center;

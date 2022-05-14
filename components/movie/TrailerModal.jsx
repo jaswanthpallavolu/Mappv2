@@ -17,8 +17,10 @@ export default function TrailerModal({ link, setOpenTrailer }) {
         allowFullScreen
       ></iframe>
 
-      <div onClick={() => setOpenTrailer(false)} className={styles.closebg}>
-        <ion-icon name="close"></ion-icon>
+      <div className={styles.closebg}>
+        <div onClick={() => setOpenTrailer(false)}>
+          <ion-icon name="close"></ion-icon>
+        </div>
       </div>
     </div>
   );

@@ -334,8 +334,8 @@ export const Category = ({ name }) => {
         <div className={styles.c_section}>
           <div className={styles.head}>
             {name === "recently viewed" ? (
-              <p className={styles.name}>
-                {name}{" "}
+              <div className={styles.name}>
+                {name}
                 <p
                   onClick={() => {
                     window?.localStorage.removeItem(`recent_${uid}`);
@@ -344,7 +344,7 @@ export const Category = ({ name }) => {
                 >
                   clear
                 </p>
-              </p>
+              </div>
             ) : (
               <p className={styles.name}>{name}</p>
             )}

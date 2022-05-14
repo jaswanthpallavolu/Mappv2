@@ -76,7 +76,7 @@ function Search() {
                     {pageCount < result?.movies?.length && (
                       <div className={styles.moreMovies}>
                         <button onClick={() => setPageCount(pageCount + 5)}>
-                          More
+                          see More
                         </button>
                       </div>
                     )}

@@ -1,0 +1,10 @@
+.container {
+  min-height: 20vh;
+  min-width: 60vw;
+}
+
+@media (min-height: 900px) and (max-width: 600px) {
+  .container {
+    min-height: 15vh;
+  }
+}

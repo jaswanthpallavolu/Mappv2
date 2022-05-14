@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 
 import Carousel from "../carousel/Carousel";
@@ -12,6 +12,7 @@ export default function MyList() {
   const movies = useSelector((state) => state.userRatings.movies);
   const status = useSelector((state) => state.userRatings.status);
   const [loading, setLoading] = useState(false);
+  const cRef = useRef();
   // const list = useSelector((state) => state.userData.myList);
 
   useEffect(() => {
@@ -28,7 +29,7 @@ export default function MyList() {
     }
     // console.log("hh");
   }, [status]);
-
+  // console.dir(cRef);
   return (
     <>
       {myList?.length > 0 ? (
@@ -38,13 +39,15 @@ export default function MyList() {
             <div className={styles.name}>mylist</div>
           </div>
 
-          {!loading ? (
-            <Carousel list={myList} />
-          ) : (
+          {/* {!loading ? ( */}
+          <div ref={cRef}>
+            <Carousel list={myList} key={myList.length} />
+          </div>
+          {/* ) : (
             <div className={styles.mylistLoader}>
               <Loader1 />
             </div>
-          )}
+          )} */}
         </div>
       ) : (
         <div className={styles.emptyList}>

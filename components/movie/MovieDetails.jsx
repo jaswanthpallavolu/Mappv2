@@ -131,7 +131,8 @@ export const MovieMobile = ({ details, setOpenTrailer }) => {
           <ul className={styles.more_details}>
             <li>
               <i className="fa fa-star-o" aria-hidden="true"></i>
-              <small>IMBD :</small> <strong>{details?.imdbRating}</strong>
+              <small>IMBD :</small>
+              <strong>{parseFloat(details.imdbRating).toFixed(1)}</strong>
             </li>
             <li>
               <i className="fa fa-clock-o" aria-hidden="true"></i>
@@ -213,7 +214,8 @@ export const MovieDesktop = ({ details, setOpenTrailer }) => {
           <ul className={styles.more_details}>
             <li>
               <i className="fa fa-star-o" aria-hidden="true"></i>
-              <small>IMBD :</small> <strong>{details?.imdbRating}</strong>
+              <small>IMBD :</small>{" "}
+              <strong>{parseFloat(details.imdbRating).toFixed(1)}</strong>
             </li>
             <li>
               <i className="fa fa-clock-o" aria-hidden="true"></i>
@@ -385,23 +387,24 @@ export function Actions({ details }) {
         })
       );
   };
-  const addRecent = ()=>{
-    let recent = {}
-    window ? recent = JSON.parse(localStorage.getItem(`recent_${uid}`)) || {} : true
-    recent["uid"] = uid
-    recent["movies"] = recent["movies"] || []
-    if (recent["movies"].includes(details.movieId)){
-      recent["movies"] = recent["movies"].filter(i=>i!=details.movieId)
+  const addRecent = () => {
+    let recent = {};
+    window
+      ? (recent = JSON.parse(localStorage.getItem(`recent_${uid}`)) || {})
+      : true;
+    recent["uid"] = uid;
+    recent["movies"] = recent["movies"] || [];
+    if (recent["movies"].includes(details.movieId)) {
+      recent["movies"] = recent["movies"].filter((i) => i != details.movieId);
     }
-    recent["movies"].unshift(details.movieId)
-    recent["movies"] = recent["movies"].slice(0,5)
-    if (window){
-      localStorage.setItem(`recent_${uid}`,JSON.stringify(recent))
+    recent["movies"].unshift(details.movieId);
+    recent["movies"] = recent["movies"].slice(0, 5);
+    if (window) {
+      localStorage.setItem(`recent_${uid}`, JSON.stringify(recent));
+    } else {
+      return true;
     }
-    else{
-      return true
-    }
-  }
+  };
   useEffect(() => {
     dispatch(fetchMovies(uid));
     addRecent();
