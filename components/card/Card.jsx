@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect, useMemo } from "react";
 import styles from "./card.module.css";
 import axios from "axios";
 // import styled from "styled-components";
@@ -122,18 +122,18 @@ export const Header = ({ details }) => {
   const authorized = useSelector((state) => state.userAuth.user.authorized);
 
   useEffect(() => {
-    if (loadStatus !== "loading") {
-      // setTimeout(() => {
+    if (loadStatus === "loaded") {
       var list = movies.filter((i) => i.myList === true);
-      // setMyList(list);
-      if (JSON.stringify(list) !== JSON.stringify(myList)) setMyList(list);
-      // }, 100);
+      // if (JSON.stringify(list) !== JSON.stringify(myList)) {
+      setMyList(list);
+      checkCard(list);
+      // }
     }
   }, [loadStatus]); //eslint-disable-line react-hooks/exhaustive-deps
 
   // const [status, setStatus] = useState(false);
-  const checkCard = async () => {
-    const mIfo = await myList.find((i) => i.movieId === details.movieId);
+  const checkCard = async (list) => {
+    const mIfo = await list.find((i) => i.movieId === details.movieId);
     if (mIfo) {
       setInList(mIfo.myList);
     } else {
@@ -142,9 +142,15 @@ export const Header = ({ details }) => {
     // setStatus(false);
   };
 
-  useEffect(() => {
-    if (details?.movieId && authorized) checkCard(); //check whether it is in mylist
-  }, [myList]); //eslint-disable-line react-hooks/exhaustive-deps
+  // const isInList = useMemo(() => {
+  //   const mIfo = myList.find((i) => i.movieId === details.movieId);
+  //   if (mIfo) return true;
+  //   else return false;
+  // }, [myList]);
+
+  // useEffect(() => {
+  //   if (details?.movieId && authorized) checkCard(); //check whether it is in mylist
+  // }, [myList]); //eslint-disable-line react-hooks/exhaustive-deps
 
   const handleAdd = () => {
     setInList(true);
@@ -218,11 +224,13 @@ export const Header = ({ details }) => {
           <> */}
         {inList ? (
           <div
-            key={Math.random() * 999}
+            // key={Math.random() * 999}
             title="remove from list"
+            id="mylist-action"
             // className={styles.tooltip}
             onClick={() => authorized && handleDelete()}
             data-title="remove from list"
+            data-id={details.movieId}
           >
             {/* <i className="fa-solid fa-bookmark"></i> */}
             {/* <img src="/assets/x-mark.png" alt="tick" /> */}
@@ -230,8 +238,9 @@ export const Header = ({ details }) => {
           </div>
         ) : (
           <div
-            key={Math.random() * 999}
+            // key={Math.random() * 999}
             title="add to list"
+            // id="mylist-action"
             // className={styles.tooltip}
             onClick={() => authorized && handleAdd()}
             data-title="add to list"

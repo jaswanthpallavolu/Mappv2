@@ -498,6 +498,7 @@
 .secondary_icon {
   position: relative;
   color: var(--font-primary);
+  /* border: 1px solid red; */
 }
 .secondary_icon.notify ion-icon:before {
   content: "";
@@ -514,10 +515,12 @@
 .secondary_icon div:first-child {
   margin: 0;
   padding: 0;
+  padding: 0.1em;
   color: var(--font-primary);
   height: max-content;
   display: grid;
   place-items: center;
+  border: 1px solid transparent;
 }
 /* .disable {
 } */

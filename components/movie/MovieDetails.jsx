@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useDefferedValue, useTransition } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   updateMovieData,
@@ -260,7 +260,8 @@ export const MovieDesktop = ({ details, setOpenTrailer }) => {
   );
 };
 export function Actions({ details }) {
-  const movies_status = useSelector((state) => state.userRatings.status);
+  const [isPending, startTransition] = useTransition();
+  // const movies_status = useSelector((state) => state.userRatings.status);
   const allmovies = useSelector((state) => state.userRatings.movies);
   const uid = useSelector((state) => state.userAuth.user.uid);
   //const details = useSelector((state) => state.movie.details);
@@ -358,36 +359,38 @@ export function Actions({ details }) {
       myList: !curr_status,
     });
     // setLoad({ ...load, l4: true });
-    const mIfo = allmovies.find((i) => i.movieId === details.movieId);
-    if (!mIfo)
-      dispatch(
-        addMovieData({
-          ...userData,
-          movieId: details.movieId,
-          uid: uid,
-          myList: true,
-        })
-      );
-    else if (mIfo.myList === false)
-      dispatch(
-        updateMovieData({
-          uid,
-          mid: details.movieId,
-          data: { ...userData, myList: true },
-        })
-      );
-    else if (mIfo.liked === 0 && !mIfo.watched && mIfo.myList === true)
-      dispatch(deleteMovieData({ uid, mid: details.movieId }));
-    else
-      dispatch(
-        updateMovieData({
-          uid,
-          mid: details.movieId,
-          data: { ...userData, myList: false },
-        })
-      );
+    startTransition(() => {
+      const mIfo = allmovies.find((i) => i.movieId === details.movieId);
+      if (!mIfo)
+        dispatch(
+          addMovieData({
+            ...userData,
+            movieId: details.movieId,
+            uid: uid,
+            myList: true,
+          })
+        );
+      else if (mIfo.myList === false)
+        dispatch(
+          updateMovieData({
+            uid,
+            mid: details.movieId,
+            data: { ...userData, myList: true },
+          })
+        );
+      else if (mIfo.liked === 0 && !mIfo.watched && mIfo.myList === true)
+        dispatch(deleteMovieData({ uid, mid: details.movieId }));
+      else
+        dispatch(
+          updateMovieData({
+            uid,
+            mid: details.movieId,
+            data: { ...userData, myList: false },
+          })
+        );
+    });
   };
-  const addRecent = () => {
+  const addToRecentlyViewed = () => {
     let recent = {};
     window
       ? (recent = JSON.parse(localStorage.getItem(`recent_${uid}`)) || {})
@@ -405,28 +408,33 @@ export function Actions({ details }) {
       return true;
     }
   };
+
+  const initialize = () => {
+    const movie = allmovies.find((i) => i.movieId === details.movieId);
+    if (movie) {
+      setUserData(movie);
+    } else {
+      const obj = {
+        title: details.title,
+        liked: 0,
+        watched: false,
+        myList: false,
+      };
+      setUserData(obj);
+    }
+  };
   useEffect(() => {
+    addToRecentlyViewed();
     dispatch(fetchMovies(uid));
-    addRecent();
+    initialize();
   }, [uid]); //eslint-disable-line react-hooks/exhaustive-deps
 
-  useEffect(() => {
-    if (movies_status === "loaded") {
-      const movie = allmovies.find((i) => i.movieId === details.movieId);
-      if (movie) {
-        setUserData(movie);
-      } else {
-        const obj = {
-          title: details.title,
-          liked: 0,
-          watched: false,
-          myList: false,
-        };
-        setUserData(obj);
-      }
-      setLoad({ l1: false, l2: false, l3: false, l4: false });
-    }
-  }, [movies_status, details.movieId]); //eslint-disable-line react-hooks/exhaustive-deps
+  // useEffect(() => {
+  //   // if (movies_status === "loaded") {
+  //   // if(!uid) retun
+  //   // setLoad({ l1: false, l2: false, l3: false, l4: false });
+  //   // }
+  // }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
