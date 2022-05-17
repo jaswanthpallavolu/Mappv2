@@ -53,7 +53,7 @@ export default function MyList() {
         </div>
       ) : (
         <div className={styles.emptyList}>
-          <p className={styles.suggest_text}> MyList is Empty</p>
+          <p className={styles.suggest_text}>MyList is Empty</p>
         </div>
       )}
     </>

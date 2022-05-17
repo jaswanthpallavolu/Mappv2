@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect, useDefferedValue, useTransition } from "react";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   updateMovieData,
@@ -260,7 +260,7 @@ export const MovieDesktop = ({ details, setOpenTrailer }) => {
   );
 };
 export function Actions({ details }) {
-  const [isPending, startTransition] = useTransition();
+  // const [isPending, startTransition] = useTransition();
   // const movies_status = useSelector((state) => state.userRatings.status);
   const allmovies = useSelector((state) => state.userRatings.movies);
   const uid = useSelector((state) => state.userAuth.user.uid);
@@ -359,36 +359,35 @@ export function Actions({ details }) {
       myList: !curr_status,
     });
     // setLoad({ ...load, l4: true });
-    startTransition(() => {
-      const mIfo = allmovies.find((i) => i.movieId === details.movieId);
-      if (!mIfo)
-        dispatch(
-          addMovieData({
-            ...userData,
-            movieId: details.movieId,
-            uid: uid,
-            myList: true,
-          })
-        );
-      else if (mIfo.myList === false)
-        dispatch(
-          updateMovieData({
-            uid,
-            mid: details.movieId,
-            data: { ...userData, myList: true },
-          })
-        );
-      else if (mIfo.liked === 0 && !mIfo.watched && mIfo.myList === true)
-        dispatch(deleteMovieData({ uid, mid: details.movieId }));
-      else
-        dispatch(
-          updateMovieData({
-            uid,
-            mid: details.movieId,
-            data: { ...userData, myList: false },
-          })
-        );
-    });
+
+    const mIfo = allmovies.find((i) => i.movieId === details.movieId);
+    if (!mIfo)
+      dispatch(
+        addMovieData({
+          ...userData,
+          movieId: details.movieId,
+          uid: uid,
+          myList: true,
+        })
+      );
+    else if (mIfo.myList === false)
+      dispatch(
+        updateMovieData({
+          uid,
+          mid: details.movieId,
+          data: { ...userData, myList: true },
+        })
+      );
+    else if (mIfo.liked === 0 && !mIfo.watched && mIfo.myList === true)
+      dispatch(deleteMovieData({ uid, mid: details.movieId }));
+    else
+      dispatch(
+        updateMovieData({
+          uid,
+          mid: details.movieId,
+          data: { ...userData, myList: false },
+        })
+      );
   };
   const addToRecentlyViewed = () => {
     let recent = {};

@@ -13,16 +13,8 @@ export default function MoviePage() {
   const uid = useSelector((state) => state.userAuth.user.uid);
 
   const [modal, setModal] = useState(false);
-  const initalQuery = {
-    genre: [],
-    released: 2020,
-    range: 3,
-    sort: ["year", 0],
-    page: 1,
-    nof: 24,
-  };
 
-  const [query, setQuery] = useState();
+  const [query, setQuery] = useState({});
   const [result, setResult] = useState();
   const [result_len, setResultLen] = useState();
   const [page, setPage] = useState(1);
@@ -33,8 +25,8 @@ export default function MoviePage() {
   const fetchFilterMovies = async () => {
     setLoading(true);
     const final_query = query;
-    final_query["page"] = page;
-    final_query["nof"] = moviesperpage;
+    final_query.page = page;
+    final_query.nof = moviesperpage;
     const s = sortby;
     s[1] = parseInt(s[1]);
     final_query["sort"] = s;
@@ -51,11 +43,27 @@ export default function MoviePage() {
   };
 
   useEffect(() => {
-    setQuery(
-      typeof window !== "undefined"
-        ? JSON.parse(localStorage.getItem(`filter_${uid}`)) || initalQuery
-        : true
-    );
+    if (typeof window !== "undefined") {
+      const initalQuery = {
+        genre: [],
+        released: 2020,
+        range: 3,
+        sort: ["year", 0],
+        page: 1,
+        nof: 24,
+      };
+
+      var data = JSON?.parse(localStorage.getItem(`filter_${uid}`));
+      if (!data) setQuery(initalQuery);
+      else setQuery(data);
+      // console.log(initalQuery, data);
+    }
+    // setQuery(
+    //   typeof window !== "undefined"
+    //     ? JSON.parse(JSON.stringify(localStorage.getItem(`filter_${uid}`))) ||
+    //         initalQuery
+    //     : true
+    // );
   }, [uid]);
 
   useEffect(() => {
@@ -80,18 +88,18 @@ export default function MoviePage() {
         <>
           <div className={styles.items}>
             <p className={styles.title}>
-              {query["genre"].length == 0 &&
-              query["released"] == 2020 &&
-              query["range"] == 3
+              {query?.genre?.length == 0 &&
+              query?.released == 2020 &&
+              query?.range == 3
                 ? "All Movies"
                 : "Filtered Result"}
             </p>
             <div className={styles.options}>
               <button
                 className={
-                  query["genre"].length == 0 &&
-                  query["released"] == 2020 &&
-                  query["range"] == 3
+                  query.genre?.length == 0 &&
+                  query.released == 2020 &&
+                  query.range == 3
                     ? styles.filter_off
                     : styles.filter
                 }
