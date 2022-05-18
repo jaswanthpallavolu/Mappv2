@@ -4,7 +4,7 @@
   left: 0;
 
   z-index: 10;
-  font-size: 2rem;
+  /* font-size: 2rem; */
   transition: all 0.25s ease-out;
   --icon-size: 1.8rem;
 }
@@ -500,7 +500,7 @@
   color: var(--font-primary);
   /* border: 1px solid red; */
 }
-.secondary_icon.notify ion-icon:before {
+.secondary_icon.notify >ion-icon:before {
   content: "";
   position: absolute;
   background-color: #fa3e3e;
@@ -512,7 +512,7 @@
   border-radius: 50%;
 }
 
-.secondary_icon div:first-child {
+.secondary_icon > div:first-child {
   margin: 0;
   padding: 0;
   padding: 0.1em;
@@ -520,7 +520,6 @@
   height: max-content;
   display: grid;
   place-items: center;
-  border: 1px solid transparent;
 }
 /* .disable {
 } */

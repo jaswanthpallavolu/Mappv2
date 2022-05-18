@@ -1,0 +1,68 @@
+.list {
+  /* margin-top: 20px; */
+  /* padding-left: 10px; */
+  padding: 0 var(--margin-l);
+  max-height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  /* gap: 10px; */
+}
+.online,
+.friends {
+  /* text-align: left; */
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--margin-l) * 2);
+  margin-bottom: calc(var(--margin-l) * 2.5);
+}
+.user_container {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 3rem;
+  gap: 1rem;
+
+  border: 1px solid rgb(136, 136, 136);
+}
+
+.you {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.2rem 0.4rem;
+  background-color: var(--you_bg);
+  border-radius: 6px;
+}
+
+.extend {
+  width: 20%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  gap: calc(var(--margin-l) * 2);
+  /* border: 1px solid red; */
+}
+.extend ion-icon {
+  display: grid;
+  place-items: center;
+}
+
+.user_container:hover .extend {
+  display: flex;
+}
+.cursor,
+.component,
+.see_btn {
+  cursor: pointer;
+}
+.see_btn {
+  background: none;
+  outline: none;
+  border: 0;
+  color: var(--see_more);
+  text-align: left;
+  /* padding-left: 10px; */
+  font-size: 0.8rem;
+}
