@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import navstyles from "../Navbar.module.css";
 import styles from "./iconsection.module.css";
 import People from "./people/People";
@@ -18,6 +18,15 @@ export default function SecondaryIcons({ isMobile }) {
       people: false,
     });
   };
+  // useEffect(() => {
+  //   if (
+  //     sectionOpened.mylist ||
+  //     sectionOpened.notification ||
+  //     sectionOpened.people
+  //   ) {
+  //     document.body.style.height = "100vw";
+  //   } else document.body.style.position = "";
+  // }, [sectionOpened]);
   return (
     <>
       <MyListIcon
@@ -72,7 +81,7 @@ export const MyListIcon = ({
           styles.icon
         } ${sectionOpened.mylist ? styles.active : ""} ${
           isMobile ? navstyles.mobnav_nicon : ""
-        }`}
+        } ${navstyles.disable}`}
       >
         <div
           onClick={() => {
@@ -108,7 +117,7 @@ export const NotificationIcon = ({
       <div
         className={`${navstyles.secondary_icon}  ${
           sectionOpened.notification ? styles.active : ""
-        } ${navstyles.notify} ${navstyles.disable}`}
+        } ${navstyles.notify} `}
       >
         <div
           onClick={() => {
@@ -144,7 +153,7 @@ export const PeopleIcon = ({
       <div
         className={`${navstyles.secondary_icon}  ${
           sectionOpened.people ? styles.active : ""
-        } ${navstyles.notify} ${navstyles.disable}`}
+        } ${navstyles.notify}`}
       >
         <div
           onClick={() => {

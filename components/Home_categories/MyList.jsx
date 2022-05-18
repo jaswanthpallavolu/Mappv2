@@ -11,18 +11,21 @@ export default function MyList() {
   const [myList, setMyList] = useState();
   const movies = useSelector((state) => state.userRatings.movies);
   const status = useSelector((state) => state.userRatings.status);
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const cRef = useRef();
   // const list = useSelector((state) => state.userData.myList);
 
+  const handleCount = (e) => {
+    var removeid = e.target.closest("#mylist-action")?.getAttribute("data-id");
+    if (!removeid) return;
+    var filtered = myList.filter((id) => id != removeid);
+    setMyList(filtered);
+  };
+
   useEffect(() => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 100);
-  }, [myList]);
-  useEffect(() => {
-    if (status !== "loading") {
+    // const l = document.querySelector("#mylist_carousel");
+    // console.dir(cRef);
+    if (status === "loaded") {
       var list = movies.filter((i) => i.myList === true);
       list = list?.map((i) => i.movieId)?.reverse();
       if (JSON.stringify(list) !== JSON.stringify(myList)) setMyList(list);
@@ -39,7 +42,7 @@ export default function MyList() {
           </div>
 
           {/* {!loading ? ( */}
-          <div ref={cRef}>
+          <div ref={cRef} onClick={handleCount}>
             <Carousel list={myList} key={myList.length} />
           </div>
           {/* ) : (
@@ -50,7 +53,7 @@ export default function MyList() {
         </div>
       ) : (
         <div className={styles.emptyList}>
-          <p className={styles.suggest_text}> MyList is Empty</p>
+          <p className={styles.suggest_text}>MyList is Empty</p>
         </div>
       )}
     </>

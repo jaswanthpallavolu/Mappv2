@@ -87,7 +87,6 @@ export default function Friends(props) {
               <User
                 uid={uid}
                 className={`${styles.User} ${styles.current}`}
-                my={true}
               />
               <div className={styles.you}>
                 <p>you</p>
@@ -118,7 +117,7 @@ export default function Friends(props) {
             <p>Friends [{friends_list.length}]</p>
             {friends_list.map((item, index) => {
               return (
-                  <User uid={item} className={styles.User} />
+                  <User uid={item} className={styles.User} key={item}/>
               );
             })}
             {friends.length > 5 && (
@@ -132,7 +131,7 @@ export default function Friends(props) {
       {props.searchTerm.length > 0 &&
         searchList.map((item, index) => {
           return (
-              <User uid={item["uid"]} className={styles.User} />
+              <User uid={item["uid"]} className={styles.User} key={item["uid"]}/>
           );
         })}
     </>

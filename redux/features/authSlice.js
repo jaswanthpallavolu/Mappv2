@@ -83,7 +83,7 @@ const Auth = createSlice({
         state.status = "loading";
       })
       .addCase(logout.pending, (state) => {
-        state.user = { authorized: false };
+        // state.user = { authorized: false };
         state.status = "loading";
       })
       .addCase(logout.fulfilled, (state) => {

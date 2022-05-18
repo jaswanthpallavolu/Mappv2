@@ -260,7 +260,8 @@ export const MovieDesktop = ({ details, setOpenTrailer }) => {
   );
 };
 export function Actions({ details }) {
-  const movies_status = useSelector((state) => state.userRatings.status);
+  // const [isPending, startTransition] = useTransition();
+  // const movies_status = useSelector((state) => state.userRatings.status);
   const allmovies = useSelector((state) => state.userRatings.movies);
   const uid = useSelector((state) => state.userAuth.user.uid);
   //const details = useSelector((state) => state.movie.details);
@@ -358,6 +359,7 @@ export function Actions({ details }) {
       myList: !curr_status,
     });
     // setLoad({ ...load, l4: true });
+
     const mIfo = allmovies.find((i) => i.movieId === details.movieId);
     if (!mIfo)
       dispatch(
@@ -387,7 +389,7 @@ export function Actions({ details }) {
         })
       );
   };
-  const addRecent = () => {
+  const addToRecentlyViewed = () => {
     let recent = {};
     window
       ? (recent = JSON.parse(localStorage.getItem(`recent_${uid}`)) || {})
@@ -405,28 +407,33 @@ export function Actions({ details }) {
       return true;
     }
   };
+
+  const initialize = () => {
+    const movie = allmovies.find((i) => i.movieId === details.movieId);
+    if (movie) {
+      setUserData(movie);
+    } else {
+      const obj = {
+        title: details.title,
+        liked: 0,
+        watched: false,
+        myList: false,
+      };
+      setUserData(obj);
+    }
+  };
   useEffect(() => {
+    addToRecentlyViewed();
     dispatch(fetchMovies(uid));
-    addRecent();
+    initialize();
   }, [uid]); //eslint-disable-line react-hooks/exhaustive-deps
 
-  useEffect(() => {
-    if (movies_status === "loaded") {
-      const movie = allmovies.find((i) => i.movieId === details.movieId);
-      if (movie) {
-        setUserData(movie);
-      } else {
-        const obj = {
-          title: details.title,
-          liked: 0,
-          watched: false,
-          myList: false,
-        };
-        setUserData(obj);
-      }
-      setLoad({ l1: false, l2: false, l3: false, l4: false });
-    }
-  }, [movies_status, details.movieId]); //eslint-disable-line react-hooks/exhaustive-deps
+  // useEffect(() => {
+  //   // if (movies_status === "loaded") {
+  //   // if(!uid) retun
+  //   // setLoad({ l1: false, l2: false, l3: false, l4: false });
+  //   // }
+  // }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>

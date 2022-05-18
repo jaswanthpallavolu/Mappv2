@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import styles from "./user.module.css";
 
-function User({uid,my}) {
+function User({uid}) {
   const [user,setUser] = useState()
   const [relation,setRelation] = useState(0)
   const myuid = useSelector((state) => state.userAuth.user.uid)
@@ -38,6 +38,10 @@ function User({uid,my}) {
       await axios.put(`http://localhost:4500/friends/decline?from=${myuid}&to=${uid}`)
       setRelation(0)
     }
+    else if(action==="remove"){
+      await axios.put(`http://localhost:4500/friends/remove?from=${myuid}&to=${uid}`)
+      setRelation(0)
+    }
   }
 
   useEffect(()=>{
@@ -59,14 +63,14 @@ function User({uid,my}) {
           <div className={styles.name}>{user.username}</div>
           <div className={styles.status}>{user.status ? "Online" : "Offline"}</div>
         </div>
-        {!my ?
+        {(uid!==myuid) ?
         <div className={styles.extend}>
           <div className={styles.cursor}>
-            <i class="fa-solid fa-message" title="Message"></i>
+            <i class="fa-solid fa-message" title="Message" style={{opacity:0.7}}></i>
           </div>
           <div className={styles.cursor}>
             {relation===0 ? <i class="fa-solid fa-user-plus" title="Add Friend" onClick={()=>userAction("add")}></i> : ""}
-            {relation===1 ?<i class="fa-solid fa-user-check" title="Friend" onClick={()=>userAction("friend")}></i> : ""}
+            {relation===1 ?<i class="fa-solid fa-user-minus" title="Friend" onClick={()=>userAction("remove")}></i> : ""}
             {relation===-1 ? <i class="fa-solid fa-user-xmark" title="Cancel Request" onClick={()=>userAction("decline")}></i> : ""}
             {relation===-2 ? <i class="fa-solid fa-user-clock" title="Accept Request" onClick={()=>userAction("accept")}></i> : ""}
           </div>
