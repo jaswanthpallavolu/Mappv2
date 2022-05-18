@@ -4,7 +4,7 @@
   left: 0;
 
   z-index: 10;
-  font-size: 2rem;
+  /* font-size: 2rem; */
   transition: all 0.25s ease-out;
   --icon-size: 1.8rem;
 }
@@ -511,14 +511,14 @@
   border-radius: 50%;
 }
 
-.secondary_icon div:first-child {
+/* .secondary_icon div:first-child {
   margin: 0;
   padding: 0;
   color: var(--font-primary);
   height: max-content;
   display: grid;
   place-items: center;
-}
+} */
 /* .disable {
 } */
 .disable ion-icon {

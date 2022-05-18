@@ -2,19 +2,14 @@
   position: absolute;
   z-index: 2;
   top: 3.5rem;
-  width: 20rem;
-  aspect-ratio: 1/1.5;
+  width: 25rem;
+  aspect-ratio: 1/1;
 
   transform: translateX(-50%);
   text-align: center;
   border: 1px solid var(--font-primary);
   background-color: var(--font-secondary);
   color: var(--font-primary);
-}
-.active div:first-child {
-  border: 1px solid var(--font-primary);
-  border-radius: 25px;
-  padding: 0.1em;
 }
 .close_section {
   position: absolute;

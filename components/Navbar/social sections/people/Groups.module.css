@@ -1,0 +1,137 @@
+.people_comp {
+  /* width: 25rem;
+  height: 55vh;
+  min-height: 20rem; */
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg_color);
+  position: absolute;
+  /* top: 6rem; */
+  list-style: none;
+  text-align: start;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 15px 10px;
+
+  --bg_color: black;
+  --online: rgb(3, 255, 3);
+  --offline: grey;
+  --offline_word: rgb(199, 199, 199);
+  --see_more: rgba(255, 183, 0, 0.925);
+  --scroll: rgb(110, 110, 110);
+  --search: aliceblue;
+  --switch: rgba(182, 182, 182, 0.212);
+  --you_bg: rgba(182, 182, 182, 0.212);
+  --notify-color: red;
+
+  --margin-l: 0.25em;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 0 5px;
+}
+
+.list {
+  height: 100%;
+  overflow: auto;
+}
+
+.people_comp::-webkit-scrollbar{
+  /* width */
+  width: 5px;
+}
+
+.people_comp::-webkit-scrollbar-track {
+  /* Track */
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 8px;
+}
+
+.people_comp::-webkit-scrollbar-thumb {
+  /* Handle */
+  background: var(--scroll);
+  border-radius: 10px;
+}
+
+.people_comp::-webkit-scrollbar-thumb:hover {
+  /* Handle on hover */
+  background: var(--scroll);
+}
+
+.people_comp::-webkit-scrollbar-track-piece {
+  /* not handle on */
+  background: var(--bg_color);
+}
+.search{
+  width: 100%;
+  height: 2.3rem;
+  border: 1px solid grey;
+  border-radius: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+
+}
+.bar{
+  background: none;
+  outline: none;
+  border: 0;
+  width: 100%;
+  color: var(--search);
+}
+.icon{
+  cursor: pointer;
+}
+.Toggle {
+  padding: 0.3em;
+}
+.switch {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--margin-l);
+  background-color: var(--switch);
+  padding: 0.25em;
+  border-radius: 20px;
+}
+.left,
+.right {
+  position: relative;
+  padding: 0.25em 1em;
+  border-radius: 20px;
+  cursor: pointer;
+}
+.right.notify::before {
+  content: "";
+  position: absolute;
+  background-color: var(--notify-color);
+  top: 0;
+  right: 20%;
+  width: 0.5em;
+  aspect-ratio: 1/1;
+
+  border-radius: 50%;
+}
+.active {
+  background-color: var(--offline);
+  /* transition: 0.2s; */
+  /* padding: 5px 20px 5px 10px; */
+}
+@media (max-width: 600px) {
+  .people_comp {
+    width: 90vw;
+    max-width: 25rem;
+    align-self: center;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    text-align: center;
+  }
+}

@@ -1,0 +1,94 @@
+.one {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--margin-l);
+
+  font-weight: 500;
+  font-size: larger;
+
+  border: 1px solid red;
+  max-width: 100%;
+  /* padding: 0 var(--margin-l); */
+}
+
+.pic {
+  position: relative;
+  width: 2rem;
+  aspect-ratio: 1/1;
+  display: grid;
+  place-items: center;
+
+  /* padding: 10px 13px; */
+  background-color: rgba(105, 20, 202, 0.822);
+  border-radius: 50%;
+  text-transform: uppercase;
+  position: relative;
+}
+.pic::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  margin: -1%;
+}
+.green::before {
+  background-color: var(--online);
+}
+.grey::before {
+  background-color: var(--offline);
+}
+
+.info {
+  max-width: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* align-items: center; */
+}
+.name {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.status {
+  font-weight: 400;
+  color: var(--offline_word);
+  font-size: 0.65em;
+}
+.user_container {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 3rem;
+  gap: 1rem;
+
+  border: 1px solid rgb(136, 136, 136);
+}
+.extend {
+  width: 20%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  gap: calc(var(--margin-l) * 2);
+  /* border: 1px solid red; */
+}
+.extend ion-icon {
+  display: grid;
+  place-items: center;
+}
+
+.user_container:hover .extend {
+  display: flex;
+}
+.cursor
+{
+  cursor: pointer;
+}
+.extend i{
+  font-size: 1.1rem;
+}
