@@ -66,13 +66,13 @@ function User({uid}) {
         {(uid!==myuid) ?
         <div className={styles.extend}>
           <div className={styles.cursor}>
-            <i class="fa-solid fa-message" title="Message" style={{opacity:0.7}}></i>
+            <i className="fa-solid fa-message" title="Message" style={{opacity:0.7}}></i>
           </div>
           <div className={styles.cursor}>
-            {relation===0 ? <i class="fa-solid fa-user-plus" title="Add Friend" onClick={()=>userAction("add")}></i> : ""}
-            {relation===1 ?<i class="fa-solid fa-user-minus" title="Friend" onClick={()=>userAction("remove")}></i> : ""}
-            {relation===-1 ? <i class="fa-solid fa-user-xmark" title="Cancel Request" onClick={()=>userAction("decline")}></i> : ""}
-            {relation===-2 ? <i class="fa-solid fa-user-clock" title="Accept Request" onClick={()=>userAction("accept")}></i> : ""}
+            {relation===0 ? <i className="fa-solid fa-user-plus" title="Add Friend" onClick={()=>userAction("add")}></i> : ""}
+            {relation===1 ?<i className="fa-solid fa-user-minus" title="Friend" onClick={()=>userAction("remove")}></i> : ""}
+            {relation===-1 ? <i className="fa-solid fa-user-xmark" title="Cancel Request" onClick={()=>userAction("decline")}></i> : ""}
+            {relation===-2 ? <i className="fa-solid fa-user-clock" title="Accept Request" onClick={()=>userAction("accept")}></i> : ""}
           </div>
         </div> : ""}
       </div>: ""}

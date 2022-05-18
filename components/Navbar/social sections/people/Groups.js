@@ -110,7 +110,7 @@ export function RequestSection({searchTerm}) {
 
   return (
     <div>
-      {user && user.map(i=><User uid={i} />)}
+      {user && user.map(i=><User uid={i} key={i}/>)}
     </div>
   )
 }
