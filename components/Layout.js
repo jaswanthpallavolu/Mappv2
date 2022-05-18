@@ -4,8 +4,10 @@ import { addToDB, setUserStatus } from "../redux/features/authSlice";
 import { fetchMovies, setEmpty } from "../redux/features/userRatingSlice";
 import { fetchUserHistory } from "../redux/features/userHistorySlice";
 import Navbar from "./Navbar/Navbar";
+import { io } from "socket.io-client";
 // import { useRouter } from "next/router";
 // import { route } from "next/dist/server/router";
+export const socket = io.connect(process.env.NEXT_PUBLIC_USER_DATA_SERVER);
 
 export default function Layout({ children }) {
   const all = useSelector((state) => state.userAuth.all);
@@ -44,6 +46,7 @@ export default function Layout({ children }) {
       // console.log(uid);
       // if (!uid) router.replace("/login");
       if (uid) {
+        socket.emit("add-user", uid);
         dispatch(fetchMovies(uid));
         dispatch(fetchUserHistory(uid));
       }
