@@ -153,7 +153,7 @@
   display: flex;
   justify-self: center;
   align-items: center;
-  gap: 0.25em;
+  gap: 0.5em;
   /* border: 1px solid red; */
 }
 .topnav .theme {
@@ -244,7 +244,7 @@
   display: flex;
   width: max-content;
   align-items: center;
-  gap: 0.8rem;
+  gap: 1rem;
   margin-right: var(--navleft);
 }
 .mobnav_icons ion-icon {
@@ -500,7 +500,7 @@
   color: var(--font-primary);
   /* border: 1px solid red; */
 }
-.secondary_icon.notify >ion-icon:before {
+.secondary_icon.notify ion-icon:before {
   content: "";
   position: absolute;
   background-color: #fa3e3e;
@@ -521,9 +521,8 @@
   display: grid;
   place-items: center;
 }
-/* .disable {
-} */
+
 .disable ion-icon {
   cursor: default !important;
-  opacity: 0.5;
+  opacity: 0.2;
 }
