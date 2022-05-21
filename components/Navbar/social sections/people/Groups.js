@@ -1,12 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./Groups.module.css";
 import Friends from "./Friends";
-import User from "./User";
+import User, { FriendRequest } from "./User";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { socket } from "../../../Layout";
 
 export default function Groups() {
   const [selectedSection, setSelectedSection] = useState(true);
+
+  const [requser,setRequser] = useState([])
 
   const [search, setSearch] = useState("");
   const searchHandle = (searchterm) => {
@@ -25,7 +28,7 @@ export default function Groups() {
       </div>
       {selectedSection ? (
         <div className={styles.list}>
-          <Friends searchTerm={search} />
+          <Friends dataprops={{requser,setRequser,search}}/>
         </div>
       ) : (
         <RequestSection searchTerm={search}/>
@@ -88,13 +91,13 @@ export function Search(props) {
   )
 }
 
-export function RequestSection({searchTerm}) {
-  const [user,setuser] = useState()
+export function RequestSection({ searchTerm }) {
+  const [requser,setRequser] = useState()
   const uid = useSelector((state) => state.userAuth.user.uid)
 
   const fecthRequests = async(uid)=>{
-    const details = await axios.get(`http://localhost:4500/friends/details?uid=${uid}`)
-    setuser(details.data.send_requests.concat(details.data.receive_requests))
+    const details = await axios.get(`${process.env.NEXT_PUBLIC_USER_DATA_SERVER}/friends/details?uid=${uid}`)
+    setRequser(details.data.receive_requests)
   }
 
   const searchRequests = (word)=>{
@@ -108,9 +111,19 @@ export function RequestSection({searchTerm}) {
     }
   },[uid,searchTerm])
 
+  // useEffect(()=>{
+  //   socket.on("receive-friend-request",(res)=>{
+  //     fecthRequests(uid)
+  //   })
+
+  //   socket.on("notify-request-declined",(res)=>{
+  //     fecthRequests(uid)
+  //   })
+  // },[socket])
+
   return (
     <div>
-      {user && user.map(i=><User uid={i} key={i}/>)}
+      {requser && requser.map(i=><FriendRequest uid={i} key={i}/>)}
     </div>
   )
 }
