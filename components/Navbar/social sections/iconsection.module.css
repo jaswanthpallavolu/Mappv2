@@ -3,13 +3,14 @@
   z-index: 2;
   top: 3.5rem;
   width: 25rem;
-  aspect-ratio: 1/1;
+  aspect-ratio: 1/1.25;
 
   transform: translateX(-50%);
   text-align: center;
-  border: 1px solid var(--font-primary);
+  /* border: 0.1px solid var(--font-primary); */
   background-color: var(--font-secondary);
   color: var(--font-primary);
+  box-shadow: 0 0px 2px var(--font-primary);
 }
 .close_section {
   position: absolute;
@@ -41,10 +42,12 @@
     overflow-y: scroll;
   }
   .mobile_close_sec .icon_section {
-    width: 95vw;
+    top: 4rem;
+
+    width: 98vw;
     height: 80vh;
-    max-width: 20rem;
-    min-height: 30rem;
+    max-width: 25rem;
+    max-height: 30rem;
     aspect-ratio: none;
     transform: translateX(0%);
   }
