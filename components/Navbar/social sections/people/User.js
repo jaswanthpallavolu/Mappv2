@@ -2,6 +2,8 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import styles from "./user.module.css";
 import { socket } from "../../../Layout";
+import { useDispatch, useSelector } from "react-redux";
+import { setFriends, setReceivedRequest } from "../../../../redux/features/peopleSlice";
 
 const fecthUserDetails = async(uid)=>{
   const details = await axios.get(
@@ -10,8 +12,9 @@ const fecthUserDetails = async(uid)=>{
   return details.data
 }
 
-export function User({ uid }) { 
+export function User({ uid }) {
   const [userDetails,setUserDetails] = useState()
+  const myuid = useSelector((state)=> state.userAuth.user.uid)
 
   const fecthNormalUserdetails = async() =>{
     const data = await fecthUserDetails(uid)
@@ -37,51 +40,37 @@ export function User({ uid }) {
   const userAction = async (action) => {
     if (action === "add") {
       socket.emit("send-friend-request",{senderId:myuid,receiverId:uid})
-      addUserRequest(uid)
-      setRelation(-1);
-    } else if (action === "accept") {
-      socket.emit("friend-request-accepted",{senderId:myuid,receiverId:uid})
-      addUserFriend(uid)
-      setRelation(1);
-    } else if (action === "decline") {
-      socket.emit("friend-request-declined",{senderId:myuid,receiverId:uid})
-      removeUserRequest(uid)
-      setRelation(0);
-    } else if (action === "remove") {
-      socket.emit("friend-remove",{senderId:myuid,receiverId:uid})
-      removeUserFriend(uid)
-      setRelation(0);
     }
   };
 
   //listeners
-  useEffect(() => {
+  // useEffect(() => {
 
-    socket.on("receive-friend-request",(res)=>{
-      setRelation(-2)
-      addUserRequest(res.senderId)
-      console.log("request came from ",res.senderId)
-    })
+  //   socket.on("receive-friend-request",(res)=>{
+  //     setRelation(-2)
+  //     addUserRequest(res.senderId)
+  //     console.log("request came from ",res.senderId)
+  //   })
 
-    socket.on("notify-request-accepted",(res)=>{
-      setRelation(1)
-      addUserFriend(res.senderId)
-      console.log("accept came from ",res.sender)
-    })
+  //   socket.on("notify-request-accepted",(res)=>{
+  //     setRelation(1)
+  //     addUserFriend(res.senderId)
+  //     console.log("accept came from ",res.sender)
+  //   })
 
-    socket.on("notify-request-declined",(res)=>{
-      setRelation(0)
-      removeUserRequest(res.senderId)
-      console.log("declined from ",res.sender)
-    })
+  //   socket.on("notify-request-declined",(res)=>{
+  //     setRelation(0)
+  //     removeUserRequest(res.senderId)
+  //     console.log("declined from ",res.sender)
+  //   })
 
-    socket.on("notify-friend-remove",(res)=>{
-      setRelation(0)
-      removeUserFriend(res.senderId)
-      console.log("removed from ",res.sender)
-    })
+  //   socket.on("notify-friend-remove",(res)=>{
+  //     setRelation(0)
+  //     removeUserFriend(res.senderId)
+  //     console.log("removed from ",res.sender)
+  //   })
 
-  }, [socket]);
+  // }, [socket]);
 
   useEffect(()=>{
     fecthNormalUserdetails()
@@ -116,23 +105,7 @@ export function User({ uid }) {
   );
 }
 
-// friend --
-// user -- genral,no status, icons - add friend
-// CurrentUser
-// friendrequest --
-
-export function CurrentUser({ uid }){
-  const [userDetails,setUserDetails] = useState()
-
-  const fecthCurrentUserdetails = async() =>{
-    const data = await fecthUserDetails(uid)
-    setUserDetails(data)
-  }
-
-  useEffect(()=>{
-    fecthCurrentUserdetails()
-  },[uid])
-
+export function CurrentUser({ userDetails }){
   return(
       <div className={styles.user_container}>
         {userDetails && (
@@ -158,17 +131,15 @@ export function CurrentUser({ uid }){
   )
 }
 
-export function Friend({ uid, status }){
-  const [userDetails,setUserDetails] = useState()
+export function Friend({ userDetails, status }){
+  const uid = useSelector((state)=> state.userAuth.user.uid)
+  const friends = useSelector((state)=> state.people.friends)
+  const dispatch = useDispatch()
 
-  const fecthFrienddetails = async() =>{
-    const data = await fecthUserDetails(uid)
-    setUserDetails(data)
+  const removeFriend = ()=>{
+    socket.emit("friend-remove",{senderId:uid,receiverId:userDetails.uid})
+    dispatch(setFriends(friends.filter(i=>i.uid!==userDetails.uid)))
   }
-
-  useEffect(()=>{
-    fecthFrienddetails()
-  },[uid])
 
   return(
     <div className={styles.one}>
@@ -199,7 +170,7 @@ export function Friend({ uid, status }){
             <i
               className="fa-solid fa-user-minus"
               title="Remove Friend"
-              onClick={() => console.log("remove")}
+              onClick={removeFriend}
             ></i>
           </div>
         </div>
@@ -208,17 +179,24 @@ export function Friend({ uid, status }){
   )
 }
 
-export function FriendRequest({ uid }){
-  const [userDetails,setUserDetails] = useState()
+export function FriendRequest({ userDetails }){
+  const uid = useSelector((state)=> state.userAuth.user.uid)
+  const friends = useSelector((state)=> state.people.friends)
+  const receivedRequests = useSelector((state)=> state.people.receivedRequests)
 
-  const fecthRequestdetails = async() =>{
-    const data = await fecthUserDetails(uid)
-    setUserDetails(data)
+  const dispatch = useDispatch()
+
+  const acceptRequest = ()=>{
+    socket.emit("friend-request-accepted",{senderId:uid,receiverId:userDetails.uid})
+    dispatch(setReceivedRequest(receivedRequests.filter(i=>i.uid!==userDetails.uid)))
+
+    dispatch(setFriends([...friends,{uid:userDetails.uid,added:new Date().toLocaleString(),_id:userDetails.uid}]))
   }
 
-  useEffect(()=>{
-    fecthRequestdetails()
-  },[uid])
+  const decineRequest = ()=>{
+    socket.emit("friend-request-declined",{senderId:uid,receiverId:userDetails.uid})
+    dispatch(setReceivedRequest(receivedRequests.filter(i=>i.uid!==userDetails.uid)))
+  }
 
   return(
     <div className={styles.request}>
@@ -226,8 +204,8 @@ export function FriendRequest({ uid }){
         <>
           <div className={styles.name}>{userDetails.username}</div>
           <div className={styles.options}>
-            <button>Accept</button>
-            <button>decline</button>
+            <button onClick={acceptRequest}>Accept</button>
+            <button onClick={decineRequest}>decline</button>
           </div>
         </>
       )}

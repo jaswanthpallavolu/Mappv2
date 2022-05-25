@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./Groups.module.css";
 import Friends from "./Friends";
-import User, { FriendRequest } from "./User";
-import axios from "axios";
-import { useSelector } from "react-redux";
+import { FriendRequest } from "./User";
+import { useDispatch, useSelector } from "react-redux";
+import { setReceivedRequest } from "../../../../redux/features/peopleSlice";
 import { socket } from "../../../Layout";
 
 export default function Groups() {
@@ -94,10 +94,15 @@ export function Search(props) {
 export function RequestSection({ searchTerm }) {
   const [requser,setRequser] = useState()
   const uid = useSelector((state) => state.userAuth.user.uid)
+  const all = useSelector((state)=> state.userAuth.all)
+  const receivedRequests = useSelector((state) => state.people.receivedRequests)
 
-  const fecthRequests = async(uid)=>{
-    const details = await axios.get(`${process.env.NEXT_PUBLIC_USER_DATA_SERVER}/friends/details?uid=${uid}`)
-    setRequser(details.data.receive_requests)
+  const dispatch = useDispatch()
+
+  const fecthRequests = ()=>{
+    const details = receivedRequests.map(i=>{return i.uid})
+    details = all?.filter(i=>details.includes(i.uid))
+    setRequser(details)
   }
 
   const searchRequests = (word)=>{
@@ -105,25 +110,21 @@ export function RequestSection({ searchTerm }) {
   }
 
   useEffect(()=>{
+    socket.on("receive-friend-request",(res)=>{
+      dispatch(setReceivedRequest([...receivedRequests,{uid:res.senderId,sentRequest:false,time:new Date().toLocaleString(),seen:false,_id:res.senderId}]))
+    })
+  },[socket])
+
+  useEffect(()=>{
     fecthRequests(uid)
     if (searchTerm!==""){
       searchRequests(searchTerm)
     }
-  },[uid,searchTerm])
-
-  // useEffect(()=>{
-  //   socket.on("receive-friend-request",(res)=>{
-  //     fecthRequests(uid)
-  //   })
-
-  //   socket.on("notify-request-declined",(res)=>{
-  //     fecthRequests(uid)
-  //   })
-  // },[socket])
+  },[uid,searchTerm,receivedRequests])
 
   return (
     <div>
-      {requser && requser.map(i=><FriendRequest uid={i} key={i}/>)}
+      {requser && requser.map(i=><FriendRequest userDetails={i} key={i.uid}/>)}
     </div>
   )
 }

@@ -2,14 +2,20 @@ import React, { useEffect, useState } from "react";
 import { CurrentUser , Friend, User} from "./User";
 import styles from "./friends.module.css";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { socket } from "../../../Layout";
+import { setFriends } from "../../../../redux/features/peopleSlice";
 
 export default function Friends(props) {
   const {search, requser, setRequser} = props.dataprops
   const uid = useSelector((state) => state.userAuth.user.uid)
+  const all = useSelector((state)=> state.userAuth.all)
+  const friends = useSelector((state)=> state.people.friends)
+
+  const dispatch = useDispatch()
 
   const [searchList, setSearchList] = useState([]);
+  const [onlineusers, setOnlineUsers] = useState([])
   // online
   const [online, setOnline] = useState([]);
   const [dis_online, setDis_online] = useState(true);
@@ -35,21 +41,20 @@ export default function Friends(props) {
   // const friends_list = friends.slice(0, dis_off_list);
 
   const searchusers = async(word,uid)=>{
-    const users = await axios.get(`http://localhost:4500/friends/search?word=${word}&uid=${uid}`)
+    const users = await axios.get(`${process.env.NEXT_PUBLIC_USER_DATA_SERVER}/friends/search?word=${word}&uid=${uid}`)
     setSearchList(users.data)
   }
 
-  const fecthFriends = async(uid)=>{
-    const details = await axios.get(`http://localhost:4500/friends/details?uid=${uid}`)
-    return details.data.friends
-  }
+  const friendsStatus = (online_users)=>{
+    const all_friends = friends.map(i=>{return i["uid"]})
+    console.log(all_friends)
 
-  const friendsStatus = async(online_users)=>{
-    const friends = await fecthFriends(uid)
-    const online_friends = friends?.filter(i=>online_users.includes(i)===true)
+    const online_friends = all_friends?.filter(i=>online_users.includes(i)===true)
+    online_friends = all?.filter(i=>online_friends.includes(i.uid))
     setOnline(online_friends)
 
-    const offline_friends = friends?.filter(i=>online_users.includes(i)===false)
+    const offline_friends = all_friends?.filter(i=>online_users.includes(i)===false)
+    offline_friends = all?.filter(i=>offline_friends.includes(i.uid))
     setFriends_list(offline_friends)
   }
 
@@ -58,11 +63,22 @@ export default function Friends(props) {
       const online_users = res.users?.map(i=>{
           return i["userId"]
       })
-      friendsStatus(online_users)
+      setOnlineUsers(online_users)
     })
 
+    socket.on("notify-request-accepted",(res)=>{
+      dispatch(setFriends([...friends,{uid:res.senderId,added:new Date().toLocaleString(),_id:res.receiverId}]))
+    })
+
+    socket.on("notify-friend-remove",(res)=>{
+      dispatch(setFriends(friends.filter(i=>i.uid!==res.senderId)))
+    })
   },[socket])
 
+  useEffect(()=>{
+    friendsStatus(onlineusers)
+  },[onlineusers,friends])
+  
   useEffect(() => {
     // if (search !== "") {
     //   const newList = userList.filter((item) => {
@@ -79,17 +95,17 @@ export default function Friends(props) {
     else if(search.length === 0){
       socket.emit("get-online-users", uid)
     }
-  }, [uid,search]); //eslint-disable-line react-hooks/exhaustive-deps
+  }, [uid,search,friends]); //eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
-      {(search.length === 0 && uid) && (
+      {(search.length === 0 && friends) && (
         <div className={styles.list}>
           <div className={styles.online}>
             <p>Online [{online.length+1}]</p>
-            <CurrentUser uid={uid} />
+            <CurrentUser userDetails={all.filter(i=>i.uid===uid)[0]} />
             {online?.map((item, index) =>
-                <Friend uid={item} status={true} key={item}/>
+                <Friend userDetails={item} status={true} key={item.uid}/>
             )}
             {online.length > 5 && (
               <button onClick={dis_on_listHandle} className={styles.see_btn}>
@@ -101,7 +117,7 @@ export default function Friends(props) {
             <p>Friends [{friends_list.length}]</p>
             {friends_list.map((item, index) => {
               return (
-                  <Friend uid={item} status={false} key={item}/>
+                  <Friend userDetails={item} status={false} key={item.uid}/>
               );
             })}
             {friends_list.length > 5 && (
