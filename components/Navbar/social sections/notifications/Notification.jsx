@@ -46,6 +46,7 @@ export const Section = ({ name, dropdown }) => {
     (state) => state.userNotifications.notifications
   );
   const [dropdownOpened, setDropdownOpened] = useState(dropdown);
+  const [more, setMore] = useState(3);
   const toggleDropdown = () => {
     setDropdownOpened(!dropdownOpened);
   };
@@ -61,16 +62,25 @@ export const Section = ({ name, dropdown }) => {
     var hr = Math.floor(
       (new Date().getTime() - new Date(timeStamp).getTime()) / oneHour
     );
+
     if (hr === 0) {
-      return `${Math.floor(
+      var min = Math.floor(
         (new Date().getTime() - new Date(timeStamp).getTime()) / (60 * 1000)
-      )} mins`;
+      );
+      if (min === 0) {
+        var sec = Math.floor(
+          (new Date().getTime() - new Date(timeStamp).getTime()) / 1000
+        );
+        return `${sec} sec`;
+      }
+      return `${min} mins`;
     }
+
     return `${hr} hrs`;
   };
   const convertTimeInResult = (result) => {
     var res;
-    if (name === "earlier") {
+    if (name === "earlier" || name === "new") {
       res = result.map((i) => ({
         ...i,
         timeElapsed: getHours(i.timeStamp),
@@ -88,9 +98,11 @@ export const Section = ({ name, dropdown }) => {
   };
   const [notifs, setNotifs] = useState([]);
 
-  const Earlier = (earlier) => {
+  const Earlier = (upperLimit, LowerLimit) => {
     var result = notifications.filter(
-      (n) => new Date(n.timeStamp).getTime() >= earlier
+      (n) =>
+        new Date(n.timeStamp).getTime() <= upperLimit &&
+        new Date(n.timeStamp).getTime() > LowerLimit
     );
     // console.log(convertTimeInResult(result));
 
@@ -119,13 +131,17 @@ export const Section = ({ name, dropdown }) => {
 
   const fetchNotifs = () => {
     const hrs = 24 * 60 * 60 * 1000;
+    var newLimit = new Date().setTime(new Date().getTime() - 15 * 60 * 1000);
     var earlier = new Date().setTime(new Date().getTime() - hrs);
     var thisweek = new Date(
       new Date().setDate(new Date().getDate() - 7)
     ).getTime();
     switch (name) {
+      case "new":
+        Earlier(new Date().getTime(), newLimit);
+        break;
       case "earlier":
-        Earlier(earlier);
+        Earlier(newLimit, earlier);
         break;
       case "this week":
         thisWeek(earlier, thisweek);
@@ -164,13 +180,19 @@ export const Section = ({ name, dropdown }) => {
         </div>
         {dropdownOpened && (
           <div className={notifStyles.section_notifications}>
-            {notifs?.map((notif) => {
+            {notifs?.slice(0, more).map((notif) => {
               if (notif.type === "req-acpt")
                 return <RequestAccepted key={notif.id} info={notif} />;
               else return "";
             })}
-            {/* <RequestAccepted notify={true} />
-          <RequestAccepted /> */}
+            {more < notifs.length && (
+              <button
+                className={notifStyles.more}
+                onClick={() => setMore(more + 4)}
+              >
+                more
+              </button>
+            )}
           </div>
         )}
       </div>
@@ -179,6 +201,7 @@ export const Section = ({ name, dropdown }) => {
   );
 };
 
+//notifaction types
 export const RequestAccepted = ({ info }) => {
   const dispatch = useDispatch();
   const notifications = useSelector(
@@ -186,9 +209,8 @@ export const RequestAccepted = ({ info }) => {
   );
   const markAsRead = () => {
     var filtered = notifications.filter((i) => i.id !== info.id);
-    // var f = [...filtered, { ...info, unRead: false }]
-
     dispatch(setNotifications([...filtered, { ...info, unRead: false }]));
+    //backend put request
   };
   return (
     <div
@@ -206,7 +228,12 @@ export const RequestAccepted = ({ info }) => {
       <div className={notifStyles.details}>
         <div className={notifStyles.msg}>
           <p>
-            <b>{info.sender}</b> <small>{"accepted your friend request"}</small>
+            <b>
+              {info.sender.length > 20
+                ? info.sender.slice(0, 20) + "..."
+                : info.sender}
+            </b>{" "}
+            <small>{"accepted your friend request"}</small>
           </p>
         </div>
         <small>{info.timeElapsed}</small>

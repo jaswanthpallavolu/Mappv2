@@ -118,6 +118,27 @@ export const NotificationIcon = ({
   );
   const allNotifs = [
     {
+      id: "0",
+      type: "req-acpt",
+      unRead: true,
+      sender: "jaswanthugueg8hg8ew78we8hgwe8f",
+      timeStamp: new Date().setTime(new Date().getTime() - 45 * 1000),
+    },
+    {
+      id: "123",
+      type: "req-acpt",
+      unRead: true,
+      sender: "jaswanth g8ew78we8hgwe8f",
+      timeStamp: new Date().setTime(new Date().getTime() - 5 * 1000),
+    },
+    {
+      id: "12ew2",
+      type: "req-acpt",
+      unRead: false,
+      sender: "jas e8f",
+      timeStamp: new Date().setTime(new Date().getTime() - 15 * 60 * 1000),
+    },
+    {
       id: "1",
       type: "req-acpt",
       unRead: false,

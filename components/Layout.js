@@ -50,7 +50,7 @@ export default function Layout({ children }) {
         dispatch(fetchMovies(uid));
         dispatch(fetchUserHistory(uid));
       }
-      const a = all.filter((i) => i === uid);
+      const a = all.filter((i) => i.uid === uid);
       if (a.length === 0 && uid) {
         dispatch(addToDB(user));
       } else if (uid) {

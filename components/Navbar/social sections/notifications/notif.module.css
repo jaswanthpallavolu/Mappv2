@@ -35,6 +35,7 @@
   text-transform: capitalize;
 
   cursor: pointer;
+  width: 95%;
 }
 .dropdown i {
   transition: transform 0.25s ease-in-out;
@@ -44,6 +45,9 @@
 }
 
 .section_notifications {
+  margin-top: var(--margin-top);
+}
+.more {
   margin-top: var(--margin-top);
 }
 
@@ -83,6 +87,9 @@
 .msg p {
   font-size: var(--msg-text);
 }
+/* .msg p b {
+  border: 1px solid red;
+} */
 .details {
   text-align: left;
 }

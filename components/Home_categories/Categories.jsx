@@ -18,7 +18,7 @@ export default function Categories() {
     const url = `${process.env.NEXT_PUBLIC_MOVIE_SERVER}/movies/tags/`;
     if (!genresHistory) {
       await axios
-        .get(url, { signal: signal })
+        .get(url, { signal })
         .then((res) => {
           setTags(res.data.tagNames);
           setLoading(false);
@@ -29,7 +29,7 @@ export default function Categories() {
         });
     } else if (genresHistory) {
       await axios
-        .post(url, { userHistory: genresHistory }, { signal: signal })
+        .post(url, { userHistory: genresHistory }, { signal })
         .then((res) => {
           setTags(res.data.tagNames);
           setLoading(false);
@@ -90,13 +90,14 @@ export function Recommend({ name }) {
   const [result, setResult] = useState();
   const status = useSelector((state) => state.userRatings.status);
   const movies = useSelector((state) => state.userRatings.movies);
-  const getRecommendations = async () => {
+  const getRecommendations = async (signal) => {
     await axios
       .post(
         `${process.env.NEXT_PUBLIC_MOVIE_SERVER}/recommend/collaborative/`,
         {
           movies: queryList,
-        }
+        },
+        { signal }
       )
       .then((res) => {
         setResult(res.data.result);
@@ -104,7 +105,7 @@ export function Recommend({ name }) {
       })
       .catch((err) => console.log(err));
   };
-  const getSimilar = async () => {
+  const getSimilar = async (signal) => {
     // console.log("collab");
     if (window.innerWidth > 600)
       setTitle(`because you watched, ${queryList[0][1]}`);
@@ -112,7 +113,8 @@ export function Recommend({ name }) {
     var id = queryList[0][0];
     await axios
       .get(
-        `${process.env.NEXT_PUBLIC_MOVIE_SERVER}/recommend/contentbased/${id}`
+        `${process.env.NEXT_PUBLIC_MOVIE_SERVER}/recommend/contentbased/${id}`,
+        { signal }
       )
       .then((res) => {
         setResult(res.data.result);
@@ -121,11 +123,11 @@ export function Recommend({ name }) {
       .catch((err) => console.log(err));
   };
 
-  const recommendMovies = () => {
+  const recommendMovies = (signal) => {
     if (queryList.length) {
       setLoading(true);
-      if (name === "collaborative") getRecommendations();
-      else if (name === "watched") getSimilar();
+      if (name === "collaborative") getRecommendations(signal);
+      else if (name === "watched") getSimilar(signal);
       // }
     } else {
       setResult([]);
@@ -133,7 +135,9 @@ export function Recommend({ name }) {
     }
   };
   useEffect(() => {
-    if (queryList) recommendMovies();
+    const controller = new AbortController();
+    if (queryList) recommendMovies(controller.signal);
+    return () => controller.abort();
   }, [queryList]); //eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
@@ -197,22 +201,14 @@ export const Tag = ({ tagname }) => {
   const [loading, setLoading] = useState(true);
   const [result, setResult] = useState([]);
 
-  useEffect(() => {
-    if (!result) {
-      setLoading(true);
-      setTimeout(() => {
-        setLoading(false);
-      }, 100);
-    }
-  }, [result]);
-
   const fetchMoviesByTag = async (signal) => {
+    setLoading(true);
     const url = `${
       process.env.NEXT_PUBLIC_MOVIE_SERVER
     }/movies/tags/${tagname.replace(" ", "+")}`;
     if (url) {
       await axios
-        .get(url, { signal: signal })
+        .get(url, { signal })
         .then((res) => {
           setResult(res.data.movies);
           setLoading(false);
@@ -227,7 +223,7 @@ export const Tag = ({ tagname }) => {
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
-    setLoading(true);
+
     fetchMoviesByTag(signal);
 
     return () => controller.abort();

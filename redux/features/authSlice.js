@@ -42,7 +42,10 @@ export const getAllUsers = createAsyncThunk("auth/allUsers", async () => {
   var data;
   await axios
     .get(`${process.env.NEXT_PUBLIC_USER_DATA_SERVER}/user/all`)
-    .then((res) => (data = res.data.users));
+    .then((res) => {
+      data = res.data.users;
+    })
+    .catch((err) => console.log(err));
   return data;
 });
 //add to database
@@ -56,9 +59,9 @@ const initialState = {
   user: {
     authorized: false,
   },
+  all: [],
   status: "notloaded",
   error: null,
-  all: [],
 };
 const Auth = createSlice({
   name: "Auth",
