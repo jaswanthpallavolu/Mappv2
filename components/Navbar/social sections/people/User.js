@@ -205,7 +205,7 @@ export function FriendRequest({ userDetails, receive }){
           <div className={styles.name}>{userDetails.username}</div>
           <div className={styles.options}>
             {receive && <button onClick={acceptRequest}>Accept</button>}
-            <button onClick={decineRequest}>decline</button>
+            <button onClick={decineRequest}>{receive ? "decline" : "cancel"}</button>
           </div>
         </>
       )}
