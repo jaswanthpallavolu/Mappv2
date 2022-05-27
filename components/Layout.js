@@ -5,6 +5,7 @@ import { fetchMovies, setEmpty } from "../redux/features/userRatingSlice";
 import { fetchUserHistory } from "../redux/features/userHistorySlice";
 import Navbar from "./Navbar/Navbar";
 import { io } from "socket.io-client";
+import { fetchFriends, setFriends, setSentRequest, setReceivedRequest } from "../redux/features/peopleSlice";
 // import { useRouter } from "next/router";
 // import { route } from "next/dist/server/router";
 export const socket = io.connect(process.env.NEXT_PUBLIC_USER_DATA_SERVER);
@@ -33,6 +34,13 @@ export default function Layout({ children }) {
   //     if (!uid) router.replace("/login");
   //   }, 1000);
   // }, [uid]);
+  const dispathFriends = async(uid)=>{
+    const details = await dispatch(fetchFriends(uid))
+    dispatch(setFriends(details.payload.friends))
+    dispatch(setSentRequest(details.payload.sentRequests))
+    dispatch(setReceivedRequest(details.payload.receivedRequests))
+  }
+
   useEffect(() => {
     if (userRatingStatus === "succeeded") {
       // setLoggedIn(true);
@@ -49,6 +57,7 @@ export default function Layout({ children }) {
         socket.emit("add-user", uid);
         dispatch(fetchMovies(uid));
         dispatch(fetchUserHistory(uid));
+        dispathFriends(uid)
       }
       const a = all.filter((i) => i.uid === uid);
       if (a.length === 0 && uid) {
