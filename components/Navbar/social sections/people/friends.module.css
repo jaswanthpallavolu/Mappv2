@@ -27,15 +27,6 @@
   border: 1px solid rgb(136, 136, 136);
 }
 
-.you {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0.2rem 0.4rem;
-  background-color: var(--you_bg);
-  border-radius: 6px;
-}
-
 .extend {
   width: 20%;
   display: none;

@@ -4,7 +4,6 @@ import Groups from "./Groups"
 export default function People() {
     return(
     <div className={styles.icon_section}>
-      People
       <Groups />
     </div>
     )

@@ -11,6 +11,14 @@
   max-width: 100%;
   /* padding: 0 var(--margin-l); */
 }
+.you {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.2rem 0.4rem;
+  background-color: var(--you_bg);
+  border-radius: 6px;
+}
 
 .pic {
   position: relative;
@@ -91,4 +99,13 @@
 }
 .extend i{
   font-size: 1.1rem;
+}
+.request {
+  margin-bottom: calc(var(--margin-l) * 2);
+  border: 1px solid rgb(132, 132, 132);
+}
+.options {
+  margin-top: var(--margin-l);
+  display: flex;
+  gap: var(--margin-l);
 }
