@@ -26,6 +26,8 @@
   --notify-color: red;
 
   --margin-l: 0.25em;
+
+  --username-size: clamp(0.8rem, 3vw, 1rem);
 }
 
 .menu {
@@ -33,7 +35,7 @@
   flex-direction: column;
   align-items: center;
   gap: 10px;
-  padding: 0 5px;
+  /* padding: 0 5px; */
 }
 
 .list {
@@ -41,7 +43,7 @@
   overflow: auto;
 }
 
-.people_comp::-webkit-scrollbar{
+.people_comp::-webkit-scrollbar {
   /* width */
   width: 5px;
 }
@@ -67,25 +69,24 @@
   /* not handle on */
   background: var(--bg_color);
 }
-.search{
+.search {
   width: 100%;
   height: 2.3rem;
   border: 1px solid grey;
-  border-radius: 20px;
+  border-radius: 3px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-
 }
-.bar{
+.bar {
   background: none;
   outline: none;
   border: 0;
   width: 100%;
-  color: var(--search);
+  color: var(--font-primary);
 }
-.icon{
+.icon {
   cursor: pointer;
 }
 .Toggle {
