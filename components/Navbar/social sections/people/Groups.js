@@ -124,7 +124,7 @@ export function RequestSection({ searchTerm }) {
 
   return (
     <div>
-      {requser && requser.map(i=><FriendRequest userDetails={i} key={i.uid}/>)}
+      {requser && requser.map(i=><FriendRequest userDetails={i} receive={true} key={i.uid}/>)}
     </div>
   )
 }

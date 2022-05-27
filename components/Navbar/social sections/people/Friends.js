@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { CurrentUser , Friend, User} from "./User";
+import { CurrentUser , Friend, FriendRequest, User} from "./User";
 import styles from "./friends.module.css";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,7 +14,7 @@ export default function Friends(props) {
 
   const dispatch = useDispatch()
 
-  const [searchList, setSearchList] = useState([]);
+  const [searchList, setSearchList] = useState();
   const [onlineusers, setOnlineUsers] = useState([])
   // online
   const [online, setOnline] = useState([]);
@@ -47,7 +47,6 @@ export default function Friends(props) {
 
   const friendsStatus = (online_users)=>{
     const all_friends = friends.map(i=>{return i["uid"]})
-    console.log(all_friends)
 
     const online_friends = all_friends?.filter(i=>online_users.includes(i)===true)
     online_friends = all?.filter(i=>online_friends.includes(i.uid))
@@ -70,7 +69,7 @@ export default function Friends(props) {
       dispatch(setFriends([...friends,{uid:res.senderId,added:new Date().toLocaleString(),_id:res.receiverId}]))
     })
 
-    socket.on("notify-friend-remove",(res)=>{
+    socket.on("friend-removed",(res)=>{
       dispatch(setFriends(friends.filter(i=>i.uid!==res.senderId)))
     })
   },[socket])
@@ -78,7 +77,7 @@ export default function Friends(props) {
   useEffect(()=>{
     friendsStatus(onlineusers)
   },[onlineusers,friends])
-  
+
   useEffect(() => {
     // if (search !== "") {
     //   const newList = userList.filter((item) => {
@@ -128,12 +127,30 @@ export default function Friends(props) {
           </div>
         </div>
       )}
-      {search.length > 0 &&
-        searchList.map((item, index) => {
+      {search.length > 0 && (
+        <>
+        {searchList?.friends.map((item, index) => {
           return (
-              <User uid={item["uid"]} key={item["uid"]} />
-          );
+              <Friend userDetails={item} status={false} key={item["uid"]} />
+          )
         })}
+        {searchList?.sendRequests.map((item,index)=>{
+          return (
+              <FriendRequest userDetails={item} receive={false} key={item.uid} />
+          )
+        })}
+        {searchList?.receivedRequests.map((item,index)=>{
+          return (
+              <FriendRequest userDetails={item} receive={true} key={item.uid} />
+          )
+        })}
+        {searchList?.normal.map((item,index)=>{
+          return (
+              <User uid={item.uid} key={item.uid} />
+          )
+        })}
+        </>
+      )}
     </>
   );
 }

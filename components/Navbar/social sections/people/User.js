@@ -115,7 +115,7 @@ export function CurrentUser({ userDetails }){
               styles.green
             }`}
           >
-            {userDetails["photo"] ? <img src={userDetails["photo"]} className={styles.pic}/> : userDetails.username[0]}
+            {userDetails["photoUrl"] ? <img src={userDetails["photoUrl"]} className={styles.pic}/> : userDetails.username[0]}
           </div>
           <div className={styles.info}>
             <div className={styles.name}>{userDetails.username}</div>
@@ -150,7 +150,7 @@ export function Friend({ userDetails, status }){
             (status) ? styles.green : styles.grey
           }`}
         >
-          {userDetails["photo"] ? <img src={userDetails["photo"]} className={styles.pic}/> : userDetails.username[0]}
+          {userDetails["photoUrl"] ? <img src={userDetails["photoUrl"]} className={styles.pic}/> : userDetails.username[0]}
         </div>
         <div className={styles.info}>
           <div className={styles.name}>{userDetails.username}</div>
@@ -179,7 +179,7 @@ export function Friend({ userDetails, status }){
   )
 }
 
-export function FriendRequest({ userDetails }){
+export function FriendRequest({ userDetails, receive }){
   const uid = useSelector((state)=> state.userAuth.user.uid)
   const friends = useSelector((state)=> state.people.friends)
   const receivedRequests = useSelector((state)=> state.people.receivedRequests)
@@ -204,7 +204,7 @@ export function FriendRequest({ userDetails }){
         <>
           <div className={styles.name}>{userDetails.username}</div>
           <div className={styles.options}>
-            <button onClick={acceptRequest}>Accept</button>
+            {receive && <button onClick={acceptRequest}>Accept</button>}
             <button onClick={decineRequest}>decline</button>
           </div>
         </>
