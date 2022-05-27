@@ -500,7 +500,7 @@
   color: var(--font-primary);
   /* border: 1px solid red; */
 }
-.secondary_icon.notify ion-icon:before {
+.secondary_icon.notify > div > ion-icon:before {
   content: "";
   position: absolute;
   background-color: #fa3e3e;
