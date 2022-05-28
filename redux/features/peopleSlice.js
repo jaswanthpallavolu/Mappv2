@@ -17,7 +17,7 @@ export const fetchFriends = createAsyncThunk("fetchFriends", async (uid) => {
 });
 export const searchUsers = createAsyncThunk(
   "searchUsers",
-  async (name, uid) => {
+  async ({name, uid}) => {
     var data = [];
     await axios
       .get(
