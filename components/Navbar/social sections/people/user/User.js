@@ -8,13 +8,6 @@ import {
   setReceivedRequest,
 } from "../../../../../redux/features/peopleSlice";
 
-const fecthUserDetails = async (uid) => {
-  const details = await axios.get(
-    `${process.env.NEXT_PUBLIC_USER_DATA_SERVER}/friends/details?uid=${uid}`
-  );
-  return details.data;
-};
-
 export function CurrentUser({ userDetails }) {
   return (
     <div className={styles.user_container}>
@@ -44,76 +37,27 @@ export function CurrentUser({ userDetails }) {
   );
 }
 
-// both User AND FRIEND SHOULD BE combined into one component
-export function User({ uid }) {
-  const [userDetails, setUserDetails] = useState();
-  const myuid = useSelector((state) => state.userAuth.user.uid);
+// both User AND sendRequest SHOULD BE combined into one component
+export function User({ userDetails, type }) {
+  const uid = useSelector((state) => state.userAuth.user.uid);
+  const [typel,setType] = useState(type)
 
-  const fecthNormalUserdetails = async () => {
-    const data = await fecthUserDetails(uid);
-    setUserDetails(data);
-  };
-
-  const addUserRequest = (receiverId) => {
-    setRequser((requser) => [...requser, receiverId]);
-  };
-
-  const removeUserRequest = (receiverId) => {
-    setRequser(requser?.filter((i) => i !== receiverId));
-  };
-
-  const addUserFriend = (receiverId) => {
-    setFriends_list((friends_list) => [...friends_list, receiverId]);
-  };
-
-  const removeUserFriend = (receiverId) => {
-    setFriends_list(friends_list?.filter((i) => i !== receiverId));
-  };
-
-  const userAction = async (action) => {
+  const userAction = (action) => {
     if (action === "add") {
-      socket.emit("send-friend-request", { senderId: myuid, receiverId: uid });
+      socket.emit("send-friend-request",{senderId:uid,receiverId:userDetails.uid})
+      setType("send")
+    }
+    if(action==="cancel") {
+      socket.emit("friend-request-declined",{senderId:uid,receiverId:userDetails.uid})
+      setType("normal")
     }
   };
-
-  //listeners
-  // useEffect(() => {
-
-  //   socket.on("receive-friend-request",(res)=>{
-  //     setRelation(-2)
-  //     addUserRequest(res.senderId)
-  //     console.log("request came from ",res.senderId)
-  //   })
-
-  //   socket.on("notify-request-accepted",(res)=>{
-  //     setRelation(1)
-  //     addUserFriend(res.senderId)
-  //     console.log("accept came from ",res.sender)
-  //   })
-
-  //   socket.on("notify-request-declined",(res)=>{
-  //     setRelation(0)
-  //     removeUserRequest(res.senderId)
-  //     console.log("declined from ",res.sender)
-  //   })
-
-  //   socket.on("notify-friend-remove",(res)=>{
-  //     setRelation(0)
-  //     removeUserFriend(res.senderId)
-  //     console.log("removed from ",res.sender)
-  //   })
-
-  // }, [socket]);
-
-  useEffect(() => {
-    fecthNormalUserdetails();
-  }, [uid]);
 
   return (
     <div className={styles.user_container}>
       {userDetails && (
         <div className={styles.main_details}>
-          <div className={`${styles.pic} ${styles.indi} ${styles.green}`}>
+          <div className={`${styles.pic} ${styles.indi}`}>
             {userDetails["photoUrl"] ? (
               <img
                 src={userDetails["photoUrl"]}
@@ -131,11 +75,18 @@ export function User({ uid }) {
       )}
       <div className={styles.extend}>
         <div className={styles.cursor}>
-          <i
-            className="fa-solid fa-user-plus"
-            title="Add Friend"
-            onClick={() => userAction("add")}
-          ></i>
+          {typel==="normal" &&
+            <i
+              className="fa-solid fa-user-plus"
+              title="Add Friend"
+              onClick={() => userAction("add")}
+            ></i>}
+          {typel==="send" &&
+            <i
+            className="fa-solid fa-user-xmark"
+            title="Remove Request"
+            onClick={() => userAction("cancel")}
+          ></i>}
         </div>
       </div>
     </div>
@@ -196,7 +147,7 @@ export function Friend({ userDetails, status }) {
   );
 }
 
-export function FriendRequest({ userDetails, receive }) {
+export function FriendRequest({ userDetails }) {
   const uid = useSelector((state) => state.userAuth.user.uid);
   const friends = useSelector((state) => state.people.friends);
   const receivedRequests = useSelector(
@@ -246,10 +197,8 @@ export function FriendRequest({ userDetails, receive }) {
         <>
           <div className={styles.name}>{userDetails.username}</div>
           <div className={styles.options}>
-            {receive && <button onClick={acceptRequest}>Accept</button>}
-            <button onClick={decineRequest}>
-              {receive ? "decline" : "cancel"}
-            </button>
+            <button onClick={acceptRequest}>Accept</button>
+            <button onClick={decineRequest}>Decline</button>
           </div>
         </>
       )}

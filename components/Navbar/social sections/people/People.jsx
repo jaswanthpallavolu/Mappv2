@@ -131,6 +131,9 @@ export function RequestSection({ searchTerm }) {
         ])
       );
     });
+    socket.on("request-declined",(res)=>{
+      dispatch(setReceivedRequest(receivedRequests.filter(i=>i.uid!==res.senderId)))
+    })
   }, [socket]);
 
   useEffect(() => {
@@ -144,7 +147,7 @@ export function RequestSection({ searchTerm }) {
     <div>
       {requser &&
         requser.map((i) => (
-          <FriendRequest userDetails={i} receive={true} key={i.uid} />
+          <FriendRequest userDetails={i} key={i.uid} />
         ))}
     </div>
   );

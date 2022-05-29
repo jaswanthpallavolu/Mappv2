@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { CurrentUser, Friend, FriendRequest, User } from "./user/User";
 import styles from "./friends.module.css";
-import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { socket } from "../../../Layout";
-import { setFriends } from "../../../../redux/features/peopleSlice";
+import { searchUsers, setFriends } from "../../../../redux/features/peopleSlice";
 
 export default function Friends(props) {
   const { search } = props.dataprops;
@@ -40,11 +39,9 @@ export default function Friends(props) {
   // const online_list = online.slice(0, dis_on_list);
   // const friends_list = friends.slice(0, dis_off_list);
 
-  const searchusers = async (word, uid) => {
-    const users = await axios.get(
-      `${process.env.NEXT_PUBLIC_USER_DATA_SERVER}/friends/search?word=${word}&uid=${uid}`
-    );
-    setSearchList(users.data);
+  const searchusers = async (name, uid) => {
+    const users = await dispatch(searchUsers({name,uid}))
+    setSearchList(users.payload);
   };
 
   const friendsStatus = (online_users) => {
@@ -73,7 +70,7 @@ export default function Friends(props) {
       setOnlineUsers(online_users);
     });
 
-    socket.on("notify-request-accepted", (res) => {
+    socket.on("request-accepted", (res) => {
       dispatch(
         setFriends([
           ...friends,
@@ -114,7 +111,7 @@ export default function Friends(props) {
 
   return (
     <>
-      {search.length === 0 && friends && (
+      {(search.length === 0 && friends) && (
         <div className={styles.friends}>
           <div className={styles.online}>
             <p>Online [{online.length + 1}]</p>
@@ -143,29 +140,44 @@ export default function Friends(props) {
           </div>
         </div>
       )}
-      {search.length > 0 && <SearchResult searchList={searchList} />}
+      {search.length > 0 && <SearchResult searchList={searchList} onlineFriends={online} offlineFriends={friends_list} />}
     </>
   );
 }
 
-export function SearchResult({ searchList }) {
+export function SearchResult({ searchList, onlineFriends, offlineFriends }) {
+  const [onlineSearchFriends,setOnlineSearchFriends] = useState([])
+  const [offlineSearchFriends,setOfflineSearchFriends] = useState([])
+
+  const friendsStatus = ()=>{
+    setOnlineSearchFriends(searchList?.friends.filter(i=>(onlineFriends?.map(j=>{return j.uid}).includes(i.uid))))
+    setOfflineSearchFriends(searchList?.friends.filter(i=>(offlineFriends?.map(j=>{return j.uid}).includes(i.uid))))
+  }
+
+  useEffect(()=>{
+    friendsStatus()
+  },[searchList, onlineFriends, offlineFriends])
+
   return (
     <div className={styles.searchList}>
-      {searchList?.friends.map((item, index) => {
-        return <Friend userDetails={item} status={false} key={item["uid"]} />;
+      {onlineSearchFriends?.map((item, index) => {
+        return <Friend userDetails={item} status={true} key={item["uid"]} />;
       })}
-      {searchList?.sendRequests.map((item, index) => {
-        return (
-          <FriendRequest userDetails={item} receive={false} key={item.uid} />
-        );
+      {offlineSearchFriends?.map((item, index) => {
+        return <Friend userDetails={item} status={false} key={item["uid"]} />;
       })}
       {searchList?.receivedRequests.map((item, index) => {
         return (
-          <FriendRequest userDetails={item} receive={true} key={item.uid} />
+          <FriendRequest userDetails={item} key={item.uid} />
+        );
+      })}
+      {searchList?.sendRequests.map((item, index) => {
+        return (
+          <User userDetails={item} type={"send"} key={item.uid} />
         );
       })}
       {searchList?.normal.map((item, index) => {
-        return <User uid={item.uid} key={item.uid} />;
+        return <User userDetails={item} type={"normal"} key={item.uid} />;
       })}
     </div>
   );
