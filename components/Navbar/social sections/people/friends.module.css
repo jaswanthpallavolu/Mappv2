@@ -12,7 +12,7 @@
 
 .online,
 .offline {
-  /* text-align: left; */
+  text-align: left;
   display: flex;
   flex-direction: column;
   gap: calc(var(--margin-l) * 2);

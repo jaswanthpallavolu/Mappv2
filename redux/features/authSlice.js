@@ -16,7 +16,7 @@ export const checkUser = createAsyncThunk(
 
         thunkAPI.dispatch(setCurrentUser(data));
       } else thunkAPI.dispatch(setCurrentUser(""));
-      thunkAPI.dispatch(getAllUsers());
+      // thunkAPI.dispatch(getAllUsers());
     });
   }
 );

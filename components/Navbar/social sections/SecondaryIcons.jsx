@@ -20,15 +20,16 @@ export default function SecondaryIcons({ isMobile }) {
       people: false,
     });
   };
-  // useEffect(() => {
-  //   if (
-  //     sectionOpened.mylist ||
-  //     sectionOpened.notification ||
-  //     sectionOpened.people
-  //   ) {
-  //     document.body.style.height = "100vw";
-  //   } else document.body.style.position = "";
-  // }, [sectionOpened]);
+  useEffect(() => {
+    if (
+      (sectionOpened.mylist ||
+        sectionOpened.notification ||
+        sectionOpened.people) &&
+      isMobile
+    ) {
+      document.body.style.overflow = "hidden";
+    } else document.body.style.overflow = "visible";
+  }, [sectionOpened, isMobile]);
   return (
     <>
       <MyListIcon
@@ -118,85 +119,106 @@ export const NotificationIcon = ({
   );
   const allNotifs = [
     {
-      id: "0",
-      type: "req-acpt",
+      id: "079igifiw4",
+      type: "movie-suggestion",
       unRead: true,
-      sender: "jaswanthugueg8hg8ew78we8hgwe8f",
+      sender: "Rolf Crawford",
+      movieId: "tt2250912",
+      title: "Spider-Man: Homecoming",
+      year: "2017",
+      timeStamp: new Date().setTime(new Date().getTime() - 2 * 1000),
+    },
+    {
+      id: "079ithfiw4",
+      type: "movie-suggestion",
+      unRead: true,
+      sender: "Rolf Crawford",
+      movieId: "tt7286456",
+      title: "Joker",
+      year: "2019",
+      timeStamp: new Date().setDate(new Date().getDate() - 5),
+    },
+
+    {
+      id: "0",
+      type: "request-accepted",
+      unRead: true,
+      sender: "jaswanth8ew78we8hgwe8f",
       timeStamp: new Date().setTime(new Date().getTime() - 45 * 1000),
     },
     {
       id: "123",
-      type: "req-acpt",
+      type: "request-accepted",
       unRead: true,
       sender: "jaswanth g8ew78we8hgwe8f",
       timeStamp: new Date().setTime(new Date().getTime() - 5 * 1000),
     },
     {
       id: "12ew2",
-      type: "req-acpt",
+      type: "request-accepted",
       unRead: false,
       sender: "jas e8f",
       timeStamp: new Date().setTime(new Date().getTime() - 15 * 60 * 1000),
     },
     {
       id: "1",
-      type: "req-acpt",
+      type: "request-accepted",
       unRead: false,
       sender: "jaswanth",
       timeStamp: new Date().setTime(new Date().getTime() - 30 * 60 * 1000),
     },
     {
       id: "2",
-      type: "req-acpt",
+      type: "request-accepted",
       unRead: true,
       sender: "jaswanth",
       timeStamp: "Fri May 20 2022 4:06:43 GMT+0530",
     },
     {
       id: "3",
-      type: "req-acpt",
+      type: "request-accepted",
       unRead: true,
       sender: "jaswanth",
       timeStamp: "Wed May 04 2022 09:36:35 GMT+0530",
     },
     {
       id: "4",
-      type: "req-acpt",
+      type: "request-accepted",
       unRead: false,
       sender: "Olivia Jensen",
       timeStamp: "Sun May 15 2022 15:59:30 GMT+0530",
     },
     {
       id: "5",
-      type: "req-acpt",
+      type: "request-accepted",
       unRead: false,
       sender: "Bianca Jordan",
       timeStamp: "Thu May 05 2022 00:50:57 GMT+0530",
     },
     {
       id: "6",
-      type: "req-acpt",
+      type: "request-accepted",
       unRead: true,
       sender: "Jamie Silva",
       timeStamp: "Sat May 07 2022 15:10:02 GMT+0530",
     },
     {
       id: "7",
-      type: "req-acpt",
+      type: "request-accepted",
       unRead: false,
       sender: "Jamie Silva",
       timeStamp: "Thu May 05 2022 05:18:14 GMT+0530",
     },
     {
       id: "8",
-      type: "req-acpt",
+      type: "request-accepted",
       unRead: false,
       sender: "Jamie Silva",
       timeStamp: "Wed May 11 2022 02:26:16 GMT+0530",
     },
     {
       id: "9",
-      type: "req-acpt",
+      type: "request-accepted",
       unRead: false,
       sender: "jaswanth",
       timeStamp: "Mon May 16 2022 16:56:25 GMT+0530",

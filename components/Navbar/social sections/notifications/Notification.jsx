@@ -3,6 +3,8 @@ import styles from "../iconsection.module.css";
 import notifStyles from "./notif.module.css";
 import { setNotifications } from "../../../../redux/features/notificationSlice";
 import { useSelector, useDispatch } from "react-redux";
+import { useRouter } from "next/dist/client/router";
+
 export default function Notification() {
   function randomDate(start, end) {
     return new Date(
@@ -42,6 +44,7 @@ export default function Notification() {
 }
 
 export const Section = ({ name, dropdown }) => {
+  const router = useRouter();
   const notifications = useSelector(
     (state) => state.userNotifications.notifications
   );
@@ -181,8 +184,22 @@ export const Section = ({ name, dropdown }) => {
         {dropdownOpened && (
           <div className={notifStyles.section_notifications}>
             {notifs?.slice(0, more).map((notif) => {
-              if (notif.type === "req-acpt")
-                return <RequestAccepted key={notif.id} info={notif} />;
+              if (notif.type === "request-accepted")
+                return (
+                  <RequestAccepted
+                    key={notif.id}
+                    info={notif}
+                    router={router}
+                  />
+                );
+              else if (notif.type === "movie-suggestion")
+                return (
+                  <MovieSuggestion
+                    key={notif.id}
+                    info={notif}
+                    router={router}
+                  />
+                );
               else return "";
             })}
             {more < notifs.length && (
@@ -201,8 +218,12 @@ export const Section = ({ name, dropdown }) => {
   );
 };
 
+const ellipsisFormat = (name) => {
+  return name.length > 20 ? name.slice(0, 20) + "..." : name;
+};
+
 //notifaction types
-export const RequestAccepted = ({ info }) => {
+export const RequestAccepted = ({ info, router }) => {
   const dispatch = useDispatch();
   const notifications = useSelector(
     (state) => state.userNotifications.notifications
@@ -228,12 +249,55 @@ export const RequestAccepted = ({ info }) => {
       <div className={notifStyles.details}>
         <div className={notifStyles.msg}>
           <p>
-            <b>
-              {info.sender.length > 20
-                ? info.sender.slice(0, 20) + "..."
-                : info.sender}
+            <b
+            // onClik={()=> router.push(`/${info.sender}`)}
+            >
+              {ellipsisFormat(info.sender)}
             </b>{" "}
             <small>{"accepted your friend request"}</small>
+          </p>
+        </div>
+        <small>{info.timeElapsed}</small>
+      </div>
+    </div>
+  );
+};
+
+export const MovieSuggestion = ({ info, router }) => {
+  const dispatch = useDispatch();
+  const notifications = useSelector(
+    (state) => state.userNotifications.notifications
+  );
+  const markAsRead = () => {
+    var filtered = notifications.filter((i) => i.id !== info.id);
+    dispatch(setNotifications([...filtered, { ...info, unRead: false }]));
+    //backend update request
+  };
+  const moviepath = `/movies/${info.movieId}?movie=${info.title.replaceAll(
+    " ",
+    "-"
+  )}&year=${info.year}`;
+  return (
+    <div
+      onMouseEnter={() => info.unRead && markAsRead()}
+      className={`${notifStyles.notification} ${
+        info.unRead ? notifStyles.notify : ""
+      }`}
+    >
+      <img
+        src={
+          "https://thumbs.dreamstime.com/b/profile-picture-vector-perfect-social-media-other-web-use-125320944.jpg"
+        }
+        alt="p"
+      />
+      <div className={notifStyles.details}>
+        <div className={notifStyles.msg}>
+          <p>
+            <b>{ellipsisFormat(info.sender)}</b>{" "}
+            <small>{"suggested a movie"}</small>{" "}
+            <b onClick={() => router.push(moviepath)}>
+              {ellipsisFormat(info.title)}
+            </b>
           </p>
         </div>
         <small>{info.timeElapsed}</small>
