@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import styles from "./user.module.css";
-import { socket } from "../../../../Layout";
+import socket from "../../../../../socket.connect";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  setFriends,
-  setReceivedRequest,
-  setSentRequest,
+  addFriend,
+  addSentRequest,
+  removeFriend,
+  removeReceivedRequest,
+  removeSentRequest,
 } from "../../../../../redux/features/peopleSlice";
 
 export function CurrentUser({ userDetails }) {
@@ -40,7 +42,6 @@ export function CurrentUser({ userDetails }) {
 // both User AND sendRequest SHOULD BE combined into one component
 export function User({ userDetails, type }) {
   const uid = useSelector((state) => state.userAuth.user.uid);
-  const sentRequests = useSelector((state) => state.people.sentRequests);
 
   const [typel,setType] = useState(type)
 
@@ -49,17 +50,17 @@ export function User({ userDetails, type }) {
   const userAction = (action) => {
     if (action === "add") {
       socket.emit("send-friend-request",{senderId:uid,receiverId:userDetails.uid})
-      dispatch(setSentRequest([...sentRequests,{uid:userDetails.uid,sentRequest:true,time: new Date().toLocaleString(),seen: false,_id:userDetails.uid},]))
+      dispatch(addSentRequest({uid:userDetails.uid,sentRequest:true,time: new Date().toLocaleString(),seen: false,_id:userDetails.uid}))
     }
     if(action==="cancel") {
-      socket.emit("friend-request-declined",{senderId:uid,receiverId:userDetails.uid})
-      dispatch(setSentRequest(sentRequests.filter(i=>i.uid!==userDetails.uid)))
+      socket.emit("decline-friend-request",{senderId:uid,receiverId:userDetails.uid})
+      dispatch(removeSentRequest({senderId : userDetails.uid}))
     }
   };
 
   useEffect(()=>{
-    socket.on("request-declined",(res)=>{
-      setType("normal")
+    socket.on("remove-received-request",(res)=>{
+      dispatch(removeSentRequest({senderId : res.senderId}))
     })
   },[socket])
 
@@ -85,18 +86,20 @@ export function User({ userDetails, type }) {
       )}
       <div className={styles.extend}>
         <div className={styles.cursor}>
-          {typel==="normal" &&
+          {typel === "normal" && (
             <i
               className="fa-solid fa-user-plus"
               title="Add Friend"
               onClick={() => userAction("add")}
-            ></i>}
-          {typel==="send" &&
+            ></i>
+          )}
+          {typel === "send" && (
             <i
-            className="fa-solid fa-user-xmark"
-            title="Remove Request"
-            onClick={() => userAction("cancel")}
-          ></i>}
+              className="fa-solid fa-user-xmark"
+              title="Remove Request"
+              onClick={() => userAction("cancel")}
+            ></i>
+          )}
         </div>
       </div>
     </div>
@@ -105,15 +108,14 @@ export function User({ userDetails, type }) {
 
 export function Friend({ userDetails, status }) {
   const uid = useSelector((state) => state.userAuth.user.uid);
-  const friends = useSelector((state) => state.people.friends);
   const dispatch = useDispatch();
 
-  const removeFriend = () => {
-    socket.emit("friend-remove", {
+  const unFriend = () => {
+    socket.emit("remove-friend", {
       senderId: uid,
       receiverId: userDetails.uid,
     });
-    dispatch(setFriends(friends.filter((i) => i.uid !== userDetails.uid)));
+    dispatch(removeFriend({ uid: userDetails.uid }));
   };
 
   return (
@@ -138,7 +140,7 @@ export function Friend({ userDetails, status }) {
         </div>
       )}
       <div className={styles.extend}>
-        <div className={styles.cursor}>
+        <div className={styles.disable}>
           <i
             className="fa-solid fa-message"
             title="Message"
@@ -149,7 +151,7 @@ export function Friend({ userDetails, status }) {
           <i
             className="fa-solid fa-user-minus"
             title="Remove Friend"
-            onClick={removeFriend}
+            onClick={unFriend}
           ></i>
         </div>
       </div>
@@ -159,46 +161,31 @@ export function Friend({ userDetails, status }) {
 
 export function FriendRequest({ userDetails }) {
   const uid = useSelector((state) => state.userAuth.user.uid);
-  const friends = useSelector((state) => state.people.friends);
-  const receivedRequests = useSelector(
-    (state) => state.people.receivedRequests
-  );
 
   const dispatch = useDispatch();
 
   const acceptRequest = () => {
-    socket.emit("friend-request-accepted", {
+    socket.emit("accept-friend-request", {
       senderId: uid,
       receiverId: userDetails.uid,
     });
-    dispatch(
-      setReceivedRequest(
-        receivedRequests.filter((i) => i.uid !== userDetails.uid)
-      )
-    );
+    dispatch(removeReceivedRequest({ senderId: userDetails.uid }));
 
     dispatch(
-      setFriends([
-        ...friends,
-        {
-          uid: userDetails.uid,
-          added: new Date().toLocaleString(),
-          _id: userDetails.uid,
-        },
-      ])
+      addFriend({
+        uid: userDetails.uid,
+        added: new Date().toLocaleString(),
+        _id: userDetails.uid,
+      })
     );
   };
 
   const decineRequest = () => {
-    socket.emit("friend-request-declined", {
+    socket.emit("decline-friend-request", {
       senderId: uid,
       receiverId: userDetails.uid,
     });
-    dispatch(
-      setReceivedRequest(
-        receivedRequests.filter((i) => i.uid !== userDetails.uid)
-      )
-    );
+    dispatch(removeReceivedRequest({ senderId: userDetails.uid }));
   };
 
   return (

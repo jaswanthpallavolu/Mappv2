@@ -107,6 +107,9 @@
 .cursor {
   cursor: pointer;
 }
+.disable > i {
+  opacity: 0.25 !important;
+}
 .extend i {
   font-size: 1.1rem;
 }

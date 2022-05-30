@@ -16,7 +16,7 @@ export const checkUser = createAsyncThunk(
 
         thunkAPI.dispatch(setCurrentUser(data));
       } else thunkAPI.dispatch(setCurrentUser(""));
-      thunkAPI.dispatch(getAllUsers());
+      // thunkAPI.dispatch(getAllUsers());
     });
   }
 );
@@ -37,17 +37,6 @@ export const logout = createAsyncThunk("auth/logout", async () => {
   return auth.signOut();
 });
 
-//list all users
-export const getAllUsers = createAsyncThunk("auth/allUsers", async () => {
-  var data;
-  await axios
-    .get(`${process.env.NEXT_PUBLIC_USER_DATA_SERVER}/user/all`)
-    .then((res) => {
-      data = res.data.users;
-    })
-    .catch((err) => console.log(err));
-  return data;
-});
 //add to database
 export const addToDB = createAsyncThunk("auth/addUser", async (user) => {
   await axios
@@ -59,7 +48,6 @@ const initialState = {
   user: {
     authorized: false,
   },
-  all: [],
   status: "notloaded",
   error: null,
 };
@@ -72,6 +60,7 @@ const Auth = createSlice({
         state.user = action.payload;
         state.user.authorized = true;
       }
+      state.status = "succeeded";
     },
     setUserStatus: (state, action) => {
       state.status = action.payload;
@@ -82,8 +71,12 @@ const Auth = createSlice({
       .addCase(checkUser.pending, (state) => {
         state.status = "loading";
       })
+
       .addCase(loginWithGoogle.pending, (state) => {
         state.status = "loading";
+      })
+      .addCase(loginWithGoogle.fulfilled, (state) => {
+        state.status = "loaded";
       })
       .addCase(logout.pending, (state) => {
         // state.user = { authorized: false };
@@ -93,10 +86,7 @@ const Auth = createSlice({
         state.user = { authorized: false };
         state.status = "loggedout";
       })
-      .addCase(getAllUsers.fulfilled, (state, action) => {
-        state.all = action.payload;
-        state.status = "succeeded";
-      })
+
       .addCase(addToDB.fulfilled, (state, action) => {
         state.all = action.payload;
         state.status = "idle";

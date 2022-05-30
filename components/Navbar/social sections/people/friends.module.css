@@ -8,15 +8,31 @@
   flex-direction: column;
   justify-content: left;
   /* gap: 10px; */
+  animation: fadeIn 0.35s ease-in-out;
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 .online,
 .offline {
-  /* text-align: left; */
+  text-align: left;
   display: flex;
   flex-direction: column;
   gap: calc(var(--margin-l) * 2);
   margin-bottom: calc(var(--margin-l) * 2.5);
+}
+.noResult,
+.loaderSection {
+  /* border: 1px solid red; */
+  height: 25%;
+  display: grid;
+  justify-content: center;
 }
 
 .cursor,

@@ -5,6 +5,7 @@ import Head from "next/head";
 import Script from "next/script";
 import React from "react";
 import { checkUser } from "../redux/features/authSlice";
+import { getAllUsers } from "../redux/features/peopleSlice";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import ThemeCustomProvider from "../components/ThemeCustomProvider";
@@ -24,6 +25,7 @@ Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
 Router.events.on("routeChangeError", () => NProgress.done());
 
+store.dispatch(getAllUsers());
 store.dispatch(checkUser());
 
 function MyApp({ Component, pageProps }) {
