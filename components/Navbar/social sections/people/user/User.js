@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import styles from "./user.module.css";
 import { socket } from "../../../../Layout";
@@ -6,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   setFriends,
   setReceivedRequest,
+  setSentRequest,
 } from "../../../../../redux/features/peopleSlice";
 
 export function CurrentUser({ userDetails }) {
@@ -40,18 +40,28 @@ export function CurrentUser({ userDetails }) {
 // both User AND sendRequest SHOULD BE combined into one component
 export function User({ userDetails, type }) {
   const uid = useSelector((state) => state.userAuth.user.uid);
+  const sentRequests = useSelector((state) => state.people.sentRequests);
+
   const [typel,setType] = useState(type)
+
+  const dispatch = useDispatch()
 
   const userAction = (action) => {
     if (action === "add") {
       socket.emit("send-friend-request",{senderId:uid,receiverId:userDetails.uid})
-      setType("send")
+      dispatch(setSentRequest([...sentRequests,{uid:userDetails.uid,sentRequest:true,time: new Date().toLocaleString(),seen: false,_id:userDetails.uid},]))
     }
     if(action==="cancel") {
       socket.emit("friend-request-declined",{senderId:uid,receiverId:userDetails.uid})
-      setType("normal")
+      dispatch(setSentRequest(sentRequests.filter(i=>i.uid!==userDetails.uid)))
     }
   };
+
+  useEffect(()=>{
+    socket.on("request-declined",(res)=>{
+      setType("normal")
+    })
+  },[socket])
 
   return (
     <div className={styles.user_container}>

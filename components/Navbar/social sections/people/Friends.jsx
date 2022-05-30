@@ -10,6 +10,8 @@ export default function Friends(props) {
   const uid = useSelector((state) => state.userAuth.user.uid);
   const all = useSelector((state) => state.userAuth.all);
   const friends = useSelector((state) => state.people.friends);
+  const sentRequests = useSelector((state) => state.people.sentRequests);
+  const receivedRequests = useSelector((state) => state.people.receivedRequests);
 
   const dispatch = useDispatch();
 
@@ -107,7 +109,7 @@ export default function Friends(props) {
     } else if (search.length === 0) {
       socket.emit("get-online-users", uid);
     }
-  }, [uid, search, friends]); //eslint-disable-line react-hooks/exhaustive-deps
+  }, [uid, search, friends, sentRequests, receivedRequests]); //eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
