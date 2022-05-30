@@ -22,13 +22,13 @@ function Home() {
           <div className={styles.heading}>
             <h3>Movie Recommendation</h3>
             <p>this website contains movie data between (1994-2020)</p>
-            <div
+            {/* <div
               style={{
                 maxWidth: "90vw",
                 padding: ".5rem",
               }}
               className="elfsight-app-d9a75cd2-55d3-4991-8ecd-783c94d527e4"
-            ></div>
+            ></div> */}
             <ul className={styles.features}>
               <li>
                 <b>Features :-</b>

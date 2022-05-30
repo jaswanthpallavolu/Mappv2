@@ -22,7 +22,7 @@ export default function People() {
       <div className={styles.people_comp}>
         <div className={styles.menu}>
           <SectionMenu states={{ selectedSection, setSelectedSection }} />
-          <Search
+          <SearchBar
             list={selectedSection}
             term={search}
             termHandle={searchHandle}
@@ -41,6 +41,9 @@ export default function People() {
 }
 
 export function SectionMenu(props) {
+  const receivedRequests = useSelector(
+    (state) => state.people.receivedRequests
+  );
   const { selectedSection, setSelectedSection } = props.states;
   const leftHandle = () => setSelectedSection(true);
   const rightHandle = () => setSelectedSection(false);
@@ -63,7 +66,7 @@ export function SectionMenu(props) {
           className={`
             ${styles.right}
             ${!selectedSection ? styles.active : ""}
-            ${styles.notify}`}
+            ${receivedRequests.length ? styles.notify : ""}`}
         >
           <i className="fa-solid fa-user-plus"></i>
         </div>
@@ -72,7 +75,7 @@ export function SectionMenu(props) {
   );
 }
 
-export function Search(props) {
+export function SearchBar(props) {
   const input = useRef("");
   const getTerm = () => {
     props.termHandle(input.current.value);
@@ -95,60 +98,41 @@ export function Search(props) {
 }
 
 export function RequestSection({ searchTerm }) {
-  const [requser, setRequser] = useState();
+  const [requser, setRequser] = useState([]);
   const uid = useSelector((state) => state.userAuth.user.uid);
-  const all = useSelector((state) => state.userAuth.all);
+  const allUsers = useSelector((state) => state.people.allUsers);
   const receivedRequests = useSelector(
     (state) => state.people.receivedRequests
   );
-
-  const dispatch = useDispatch();
-
   const fecthRequests = () => {
     const details = receivedRequests.map((i) => {
       return i.uid;
     });
-    details = all?.filter((i) => details.includes(i.uid));
+    // console.log(details);
+    details = allUsers?.filter((i) => details.includes(i.uid));
     setRequser(details);
   };
 
   const searchRequests = (word) => {
-    console.log(word);
+    // console.log(word);
   };
-
-  useEffect(() => {
-    socket.on("receive-friend-request", (res) => {
-      dispatch(
-        setReceivedRequest([
-          ...receivedRequests,
-          {
-            uid: res.senderId,
-            sentRequest: false,
-            time: new Date().toLocaleString(),
-            seen: false,
-            _id: res.senderId,
-          },
-        ])
-      );
-    });
-    socket.on("request-declined",(res)=>{
-      dispatch(setReceivedRequest(receivedRequests.filter(i=>i.uid!==res.senderId)))
-    })
-  }, [socket]);
 
   useEffect(() => {
     fecthRequests(uid);
     if (searchTerm !== "") {
       searchRequests(searchTerm);
     }
-  }, [uid, searchTerm, receivedRequests]);
+  }, [searchTerm, receivedRequests]);
+
+  useEffect(() => {
+    fecthRequests(uid);
+  }, []);
 
   return (
-    <div>
-      {requser &&
-        requser.map((i) => (
-          <FriendRequest userDetails={i} key={i.uid} />
-        ))}
+    <div key={requser.length}>
+      {requser?.map((i) => (
+        <FriendRequest userDetails={i} key={i.uid} />
+      ))}
     </div>
   );
 }

@@ -40,16 +40,22 @@ export function CurrentUser({ userDetails }) {
 // both User AND sendRequest SHOULD BE combined into one component
 export function User({ userDetails, type }) {
   const uid = useSelector((state) => state.userAuth.user.uid);
-  const [typel,setType] = useState(type)
+  const [typel, setType] = useState(type);
 
   const userAction = (action) => {
     if (action === "add") {
-      socket.emit("send-friend-request",{senderId:uid,receiverId:userDetails.uid})
-      setType("send")
+      socket.emit("send-friend-request", {
+        senderId: uid,
+        receiverId: userDetails.uid,
+      });
+      setType("send");
     }
-    if(action==="cancel") {
-      socket.emit("friend-request-declined",{senderId:uid,receiverId:userDetails.uid})
-      setType("normal")
+    if (action === "cancel") {
+      socket.emit("decline-friend-request", {
+        senderId: uid,
+        receiverId: userDetails.uid,
+      });
+      setType("normal");
     }
   };
 
@@ -75,18 +81,20 @@ export function User({ userDetails, type }) {
       )}
       <div className={styles.extend}>
         <div className={styles.cursor}>
-          {typel==="normal" &&
+          {typel === "normal" && (
             <i
               className="fa-solid fa-user-plus"
               title="Add Friend"
               onClick={() => userAction("add")}
-            ></i>}
-          {typel==="send" &&
+            ></i>
+          )}
+          {typel === "send" && (
             <i
-            className="fa-solid fa-user-xmark"
-            title="Remove Request"
-            onClick={() => userAction("cancel")}
-          ></i>}
+              className="fa-solid fa-user-xmark"
+              title="Remove Request"
+              onClick={() => userAction("cancel")}
+            ></i>
+          )}
         </div>
       </div>
     </div>
@@ -99,7 +107,7 @@ export function Friend({ userDetails, status }) {
   const dispatch = useDispatch();
 
   const removeFriend = () => {
-    socket.emit("friend-remove", {
+    socket.emit("remove-friend", {
       senderId: uid,
       receiverId: userDetails.uid,
     });
@@ -157,7 +165,7 @@ export function FriendRequest({ userDetails }) {
   const dispatch = useDispatch();
 
   const acceptRequest = () => {
-    socket.emit("friend-request-accepted", {
+    socket.emit("accept-friend-request", {
       senderId: uid,
       receiverId: userDetails.uid,
     });
@@ -180,7 +188,7 @@ export function FriendRequest({ userDetails }) {
   };
 
   const decineRequest = () => {
-    socket.emit("friend-request-declined", {
+    socket.emit("decline-friend-request", {
       senderId: uid,
       receiverId: userDetails.uid,
     });

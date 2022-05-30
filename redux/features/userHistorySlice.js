@@ -11,6 +11,7 @@ export const updateUserHistory = createAsyncThunk(
         body
       )
       .then((res) => {
+        // console.log("a", res.data);
         history = res.data;
       })
       .catch((err) => console.log(err));
@@ -24,7 +25,10 @@ export const fetchUserHistory = createAsyncThunk(
     var history;
     await axios
       .get(`${process.env.NEXT_PUBLIC_USER_DATA_SERVER}/userhistory/${uid}`)
-      .then((res) => (history = res.data))
+      .then((res) => {
+        // console.log("b", res.data);
+        history = res.data;
+      })
       .catch((err) => console.log(err));
     return history;
   }

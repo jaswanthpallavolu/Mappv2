@@ -508,8 +508,19 @@
   right: 0;
   width: 0.35em;
   aspect-ratio: 1/1;
-
   border-radius: 50%;
+}
+.secondary_icon.notify_people > div > ion-icon:before {
+  content: attr(data-count);
+  position: absolute;
+  background-color: #fa3e3e;
+  top: 0;
+  right: 0;
+
+  font-size: 0.35em;
+  padding: 0 0.35em;
+  border-radius: 50%;
+  color: white;
 }
 
 .secondary_icon > div:first-child {

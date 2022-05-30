@@ -4,6 +4,7 @@ import notifStyles from "./notif.module.css";
 import { setNotifications } from "../../../../redux/features/notificationSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/dist/client/router";
+import { getUserDetails } from "../../../../redux/features/peopleSlice";
 
 export default function Notification() {
   function randomDate(start, end) {
@@ -53,26 +54,26 @@ export const Section = ({ name, dropdown }) => {
   const toggleDropdown = () => {
     setDropdownOpened(!dropdownOpened);
   };
-  const getDays = (timeStamp) => {
+  const getDays = (createdAt) => {
     var t = 24 * 60 * 60 * 1000;
     return Math.floor(
-      (new Date().getTime() - new Date(timeStamp).getTime()) / t
+      (new Date().getTime() - new Date(createdAt).getTime()) / t
     );
   };
-  const getHours = (timeStamp) => {
+  const getHours = (createdAt) => {
     var oneHour = 60 * 60 * 1000;
 
     var hr = Math.floor(
-      (new Date().getTime() - new Date(timeStamp).getTime()) / oneHour
+      (new Date().getTime() - new Date(createdAt).getTime()) / oneHour
     );
 
     if (hr === 0) {
       var min = Math.floor(
-        (new Date().getTime() - new Date(timeStamp).getTime()) / (60 * 1000)
+        (new Date().getTime() - new Date(createdAt).getTime()) / (60 * 1000)
       );
       if (min === 0) {
         var sec = Math.floor(
-          (new Date().getTime() - new Date(timeStamp).getTime()) / 1000
+          (new Date().getTime() - new Date(createdAt).getTime()) / 1000
         );
         return `${sec} sec`;
       }
@@ -86,16 +87,16 @@ export const Section = ({ name, dropdown }) => {
     if (name === "earlier" || name === "new") {
       res = result.map((i) => ({
         ...i,
-        timeElapsed: getHours(i.timeStamp),
+        timeElapsed: getHours(i.createdAt),
       }));
     } else {
       res = result.map((i) => ({
         ...i,
-        timeElapsed: `${getDays(i.timeStamp)} days ago`,
+        timeElapsed: `${getDays(i.createdAt)} days ago`,
       }));
     }
     res.sort((a, b) => {
-      return new Date(b.timeStamp).getTime() - new Date(a.timeStamp).getTime();
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
     });
     return res;
   };
@@ -104,8 +105,8 @@ export const Section = ({ name, dropdown }) => {
   const Earlier = (upperLimit, LowerLimit) => {
     var result = notifications.filter(
       (n) =>
-        new Date(n.timeStamp).getTime() <= upperLimit &&
-        new Date(n.timeStamp).getTime() > LowerLimit
+        new Date(n.createdAt).getTime() <= upperLimit &&
+        new Date(n.createdAt).getTime() > LowerLimit
     );
     // console.log(convertTimeInResult(result));
 
@@ -116,8 +117,8 @@ export const Section = ({ name, dropdown }) => {
   const thisWeek = (earlier, thisweek) => {
     var result = notifications.filter(
       (n) =>
-        new Date(n.timeStamp).getTime() < earlier &&
-        new Date(n.timeStamp).getTime() >= thisweek
+        new Date(n.createdAt).getTime() < earlier &&
+        new Date(n.createdAt).getTime() >= thisweek
     );
     setNotifs(convertTimeInResult(result));
     // console.log(convertTimeInResult(result));
@@ -126,7 +127,7 @@ export const Section = ({ name, dropdown }) => {
 
   const older = (thisweek) => {
     var result = notifications.filter(
-      (n) => new Date(n.timeStamp).getTime() < thisweek
+      (n) => new Date(n.createdAt).getTime() < thisweek
     );
     setNotifs(convertTimeInResult(result));
     // console.log(convertTimeInResult(result));
@@ -187,7 +188,7 @@ export const Section = ({ name, dropdown }) => {
               if (notif.type === "request-accepted")
                 return (
                   <RequestAccepted
-                    key={notif.id}
+                    key={notif._id}
                     info={notif}
                     router={router}
                   />
@@ -195,7 +196,7 @@ export const Section = ({ name, dropdown }) => {
               else if (notif.type === "movie-suggestion")
                 return (
                   <MovieSuggestion
-                    key={notif.id}
+                    key={notif._id}
                     info={notif}
                     router={router}
                   />
@@ -224,46 +225,52 @@ const ellipsisFormat = (name) => {
 
 //notifaction types
 export const RequestAccepted = ({ info, router }) => {
+  const [userInfo, setUserInfo] = useState({});
   const dispatch = useDispatch();
   const notifications = useSelector(
     (state) => state.userNotifications.notifications
   );
   const markAsRead = () => {
-    var filtered = notifications.filter((i) => i.id !== info.id);
+    var filtered = notifications.filter((i) => i._id !== info._id);
     dispatch(setNotifications([...filtered, { ...info, unRead: false }]));
     //backend put request
   };
+  useEffect(() => {
+    dispatch(getUserDetails(info.senderId)).then((obj) =>
+      setUserInfo(obj.payload)
+    );
+  }, []);
   return (
-    <div
-      onMouseEnter={() => info.unRead && markAsRead()}
-      className={`${notifStyles.notification} ${
-        info.unRead ? notifStyles.notify : ""
-      }`}
-    >
-      <img
-        src={
-          "https://thumbs.dreamstime.com/b/profile-picture-vector-perfect-social-media-other-web-use-125320944.jpg"
-        }
-        alt="p"
-      />
-      <div className={notifStyles.details}>
-        <div className={notifStyles.msg}>
-          <p>
-            <b
-            // onClik={()=> router.push(`/${info.sender}`)}
-            >
-              {ellipsisFormat(info.sender)}
-            </b>{" "}
-            <small>{"accepted your friend request"}</small>
-          </p>
+    <>
+      {userInfo?.username && (
+        <div
+          onMouseEnter={() => info.unRead && markAsRead()}
+          className={`${notifStyles.notification} ${
+            info.unRead ? notifStyles.notify : ""
+          }`}
+        >
+          <img src={userInfo.photoUrl} alt="p" />
+          <div className={notifStyles.details}>
+            <div className={notifStyles.msg}>
+              <p>
+                <b
+                // onClik={()=> router.push(`/${info.sender}`)}
+                >
+                  {ellipsisFormat(userInfo.username)}
+                </b>{" "}
+                <small>{"accepted your friend request"}</small>
+              </p>
+            </div>
+            <small>{info.timeElapsed}</small>
+          </div>
         </div>
-        <small>{info.timeElapsed}</small>
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 
 export const MovieSuggestion = ({ info, router }) => {
+  const [userInfo, setUserInfo] = useState({});
   const dispatch = useDispatch();
   const notifications = useSelector(
     (state) => state.userNotifications.notifications
@@ -277,31 +284,35 @@ export const MovieSuggestion = ({ info, router }) => {
     " ",
     "-"
   )}&year=${info.year}`;
+  useEffect(() => {
+    dispatch(getUserDetails(info.senderId)).then((obj) =>
+      setUserInfo(obj.payload)
+    );
+  }, []);
   return (
-    <div
-      onMouseEnter={() => info.unRead && markAsRead()}
-      className={`${notifStyles.notification} ${
-        info.unRead ? notifStyles.notify : ""
-      }`}
-    >
-      <img
-        src={
-          "https://thumbs.dreamstime.com/b/profile-picture-vector-perfect-social-media-other-web-use-125320944.jpg"
-        }
-        alt="p"
-      />
-      <div className={notifStyles.details}>
-        <div className={notifStyles.msg}>
-          <p>
-            <b>{ellipsisFormat(info.sender)}</b>{" "}
-            <small>{"suggested a movie"}</small>{" "}
-            <b onClick={() => router.push(moviepath)}>
-              {ellipsisFormat(info.title)}
-            </b>
-          </p>
+    <>
+      {userInfo?.username && (
+        <div
+          onMouseEnter={() => info.unRead && markAsRead()}
+          className={`${notifStyles.notification} ${
+            info.unRead ? notifStyles.notify : ""
+          }`}
+        >
+          <img src={userInfo.photoUrl} alt="p" />
+          <div className={notifStyles.details}>
+            <div className={notifStyles.msg}>
+              <p>
+                <b>{ellipsisFormat(userInfo.username)}</b>{" "}
+                <small>{"suggested a movie"}</small>{" "}
+                <b onClick={() => router.push(moviepath)}>
+                  {ellipsisFormat(info.title)}
+                </b>
+              </p>
+            </div>
+            <small>{info.timeElapsed}</small>
+          </div>
         </div>
-        <small>{info.timeElapsed}</small>
-      </div>
-    </div>
+      )}
+    </>
   );
 };

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import styles from "../styles/Login.module.css";
 import { useSelector, useDispatch } from "react-redux";
@@ -10,7 +10,8 @@ import { Loader1 } from "../utils/loaders/Loading";
 export default function Login() {
   const router = useRouter();
   const dispatch = useDispatch();
-  const loading1 = useSelector((state) => state.userAuth.status);
+  const [loading, setLoading] = useState(false);
+  // const loading1 = useSelector((state) => state.userAuth.status);
   const authorized = useSelector((state) => state.userAuth.user.authorized);
 
   useEffect(() => {
@@ -20,7 +21,7 @@ export default function Login() {
 
   return (
     <div className={styles.container}>
-      {loading1 === "loading" ? (
+      {loading ? (
         <div className={styles.l_loader}>
           <Loader1 />
           <div className={styles.status}>Loading please wait..</div>
@@ -51,6 +52,7 @@ export default function Login() {
                 className={styles.signin}
                 onClick={() => {
                   dispatch(loginWithGoogle());
+                  setLoading(true);
                 }}
               >
                 SignIn with Google
