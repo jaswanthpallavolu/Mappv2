@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "../iconsection.module.css";
 import notifStyles from "./notif.module.css";
-import { setNotifications } from "../../../../redux/features/notificationSlice";
+import { updateNotification } from "../../../../redux/features/notificationSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/dist/client/router";
 import { getUserDetails } from "../../../../redux/features/peopleSlice";
@@ -231,8 +231,7 @@ export const RequestAccepted = ({ info, router }) => {
     (state) => state.userNotifications.notifications
   );
   const markAsRead = () => {
-    var filtered = notifications.filter((i) => i._id !== info._id);
-    dispatch(setNotifications([...filtered, { ...info, unRead: false }]));
+    dispatch(updateNotification({ ...info, unRead: false }));
     //backend put request
   };
   useEffect(() => {
@@ -277,7 +276,7 @@ export const MovieSuggestion = ({ info, router }) => {
   );
   const markAsRead = () => {
     var filtered = notifications.filter((i) => i.id !== info.id);
-    dispatch(setNotifications([...filtered, { ...info, unRead: false }]));
+    // dispatch(setNotifications([...filtered, { ...info, unRead: false }]));
     //backend update request
   };
   const moviepath = `/movies/${info.movieId}?movie=${info.title.replaceAll(

@@ -4,16 +4,16 @@ import styles from "./iconsection.module.css";
 import People from "./people/People";
 import Notification from "./notifications/Notification";
 import MyList from "./mylist/MyList";
-import {
-  setNotifications,
-  fetchNotifications,
-} from "../../../redux/features/notificationSlice";
+import { fetchNotifications } from "../../../redux/features/notificationSlice";
 import {
   setOnlineUsers,
-  setReceivedRequest,
-  setFriends,
+  removeReceivedRequest,
+  addReceivedRequest,
+  addFriend,
+  removeFriend,
+  fetchFriends,
 } from "../../../redux/features/peopleSlice";
-import { socket } from "../../Layout";
+import socket from "../../../socket.connect";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function SecondaryIcons({ isMobile }) {
@@ -129,25 +129,32 @@ export const NotificationIcon = ({
   const uid = useSelector((state) => state.userAuth.user.uid);
 
   const addNotification = ({ request }) => {
-    console.log("new-notif");
-    dispatch(setNotifications([...notifications, request]));
+    if (request?._id) {
+      console.log("new-notif", request);
+      dispatch(addNotification(request));
+    }
   };
   const removeNotification = ({ request }) => {
-    console.log("deleted-notif");
-    dispatch(
-      setNotifications(notifications.filter((n) => n._id !== request._id))
-    );
+    if (request?._id) {
+      console.log("deleted-notif", request);
+      dispatch(removeNotification({ id: request._id }));
+    }
     // dispatch(setNotifications([...notifications, { ...res }]));
   };
-  useEffect(() => {
-    socket.on("receive-new-notification", addNotification);
-    socket.on("remove-notification", removeNotification);
-
-    return () => {
-      socket.off("receive-new-notification", addNotification);
-      socket.off("remove-notification", removeNotification);
-    };
-  }, [socket]);
+  // useEffect(() => {
+  //   socket.on("receive-new-notification", ({ request }) => {
+  //     if (request?._id) {
+  //       console.log("new-notif", request);
+  //       dispatch(addNotification(request));
+  //     }
+  //   });
+  //   socket.on("remove-notification", ({ request }) => {
+  //     if (request?._id) {
+  //       console.log("deleted-notif", request);
+  //       dispatch(removeNotification({ id: request._id }));
+  //     }
+  //   });
+  // }, [socket]);
   useEffect(() => {
     dispatch(fetchNotifications(uid));
   }, []);
@@ -195,11 +202,11 @@ export const PeopleIcon = ({
   isMobile,
   closeAll,
 }) => {
-  // const uid = useSelector((state) => state.userAuth.user.uid);
+  const uid = useSelector((state) => state.userAuth.user.uid);
   const receivedRequests = useSelector(
     (state) => state.people.receivedRequests
   );
-  const friends = useSelector((state) => state.people.friends);
+  // const friends = useSelector((state) => state.people.friends);
 
   const dispatch = useDispatch();
 
@@ -212,41 +219,32 @@ export const PeopleIcon = ({
       dispatch(setOnlineUsers(onlineUsers));
     });
     socket.on("receive-friend-request", ({ request }) => {
-      console.log(receivedRequests);
-      const a = [...receivedRequests, { ...request }];
-      console.log(a, "----");
-
-      console.log("received-FR", request.uid, " - ", a.length);
-      dispatch(setReceivedRequest(a));
+      dispatch(addReceivedRequest(request));
     });
 
     socket.on("remove-received-request", (res) => {
-      const a = receivedRequests.filter((req) => req.uid !== res.senderId);
-      console.log("removed-FR", res.senderId, " - ", a.length);
-      dispatch(setReceivedRequest(a));
+      dispatch(removeReceivedRequest(res));
     });
 
     socket.on("request-accepted", (res) => {
-      // console.log("r-acpt", res);
-      console.log("r-acpt", res.senderId);
+      // console.log("r-acpt", res.senderId);
       dispatch(
-        setFriends([
-          ...friends,
-          {
-            uid: res.senderId,
-            added: new Date().toLocaleString(),
-            _id: res.receiverId,
-          },
-        ])
+        addFriend({
+          uid: res.senderId,
+          added: new Date().toLocaleString(),
+          _id: res.receiverId,
+        })
       );
     });
 
-    socket.on("friend-removed", (res) => {
-      const f = friends.filter((i) => i.uid !== res.senderId);
-      console.log("remove f:", f);
-      dispatch(setFriends(f));
+    socket.on("nolonger-friend", (res) => {
+      // console.log(res);
+      dispatch(removeFriend({ uid: res.senderId }));
     });
   }, [socket]);
+  useEffect(() => {
+    dispatch(fetchFriends(uid));
+  }, []);
   // .filter((i) => !i.seen)
   return (
     <>

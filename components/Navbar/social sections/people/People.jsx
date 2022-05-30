@@ -4,8 +4,6 @@ import secStyles from "../iconsection.module.css";
 import Friends from "./Friends";
 import { FriendRequest } from "./user/User";
 import { useDispatch, useSelector } from "react-redux";
-import { setReceivedRequest } from "../../../../redux/features/peopleSlice";
-import { socket } from "../../../Layout";
 
 export default function People() {
   const [selectedSection, setSelectedSection] = useState(true);

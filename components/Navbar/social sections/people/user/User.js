@@ -1,11 +1,11 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styles from "./user.module.css";
-import { socket } from "../../../../Layout";
+import socket from "../../../../../socket.connect";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  setFriends,
-  setReceivedRequest,
+  addFriend,
+  removeFriend,
+  removeReceivedRequest,
 } from "../../../../../redux/features/peopleSlice";
 
 export function CurrentUser({ userDetails }) {
@@ -103,15 +103,14 @@ export function User({ userDetails, type }) {
 
 export function Friend({ userDetails, status }) {
   const uid = useSelector((state) => state.userAuth.user.uid);
-  const friends = useSelector((state) => state.people.friends);
   const dispatch = useDispatch();
 
-  const removeFriend = () => {
+  const unFriend = () => {
     socket.emit("remove-friend", {
       senderId: uid,
       receiverId: userDetails.uid,
     });
-    dispatch(setFriends(friends.filter((i) => i.uid !== userDetails.uid)));
+    dispatch(removeFriend({ uid: userDetails.uid }));
   };
 
   return (
@@ -136,7 +135,7 @@ export function Friend({ userDetails, status }) {
         </div>
       )}
       <div className={styles.extend}>
-        <div className={styles.cursor}>
+        <div className={styles.disable}>
           <i
             className="fa-solid fa-message"
             title="Message"
@@ -147,7 +146,7 @@ export function Friend({ userDetails, status }) {
           <i
             className="fa-solid fa-user-minus"
             title="Remove Friend"
-            onClick={removeFriend}
+            onClick={unFriend}
           ></i>
         </div>
       </div>
@@ -157,10 +156,6 @@ export function Friend({ userDetails, status }) {
 
 export function FriendRequest({ userDetails }) {
   const uid = useSelector((state) => state.userAuth.user.uid);
-  const friends = useSelector((state) => state.people.friends);
-  const receivedRequests = useSelector(
-    (state) => state.people.receivedRequests
-  );
 
   const dispatch = useDispatch();
 
@@ -169,21 +164,14 @@ export function FriendRequest({ userDetails }) {
       senderId: uid,
       receiverId: userDetails.uid,
     });
-    dispatch(
-      setReceivedRequest(
-        receivedRequests.filter((i) => i.uid !== userDetails.uid)
-      )
-    );
+    dispatch(removeReceivedRequest({ senderId: userDetails.uid }));
 
     dispatch(
-      setFriends([
-        ...friends,
-        {
-          uid: userDetails.uid,
-          added: new Date().toLocaleString(),
-          _id: userDetails.uid,
-        },
-      ])
+      addFriend({
+        uid: userDetails.uid,
+        added: new Date().toLocaleString(),
+        _id: userDetails.uid,
+      })
     );
   };
 
@@ -192,11 +180,7 @@ export function FriendRequest({ userDetails }) {
       senderId: uid,
       receiverId: userDetails.uid,
     });
-    dispatch(
-      setReceivedRequest(
-        receivedRequests.filter((i) => i.uid !== userDetails.uid)
-      )
-    );
+    dispatch(removeReceivedRequest({ senderId: userDetails.uid }));
   };
 
   return (
