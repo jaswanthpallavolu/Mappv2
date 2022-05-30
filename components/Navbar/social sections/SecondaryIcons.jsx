@@ -4,7 +4,11 @@ import styles from "./iconsection.module.css";
 import People from "./people/People";
 import Notification from "./notifications/Notification";
 import MyList from "./mylist/MyList";
-import { fetchNotifications } from "../../../redux/features/notificationSlice";
+import {
+  fetchNotifications,
+  addNotification,
+  removeNotification,
+} from "../../../redux/features/notificationSlice";
 import {
   setOnlineUsers,
   removeReceivedRequest,
@@ -128,33 +132,22 @@ export const NotificationIcon = ({
   );
   const uid = useSelector((state) => state.userAuth.user.uid);
 
-  const addNotification = ({ request }) => {
+  const addNotif = ({ request }) => {
     if (request?._id) {
-      console.log("new-notif", request);
+      // console.log("new-notif", request);
       dispatch(addNotification(request));
     }
   };
-  const removeNotification = ({ request }) => {
-    if (request?._id) {
-      console.log("deleted-notif", request);
-      dispatch(removeNotification({ id: request._id }));
-    }
+  const removeNotif = ({ request }) => {
+    // console.log("deleted-notif", request);
+    dispatch(removeNotification({ id: request._id }));
+
     // dispatch(setNotifications([...notifications, { ...res }]));
   };
-  // useEffect(() => {
-  //   socket.on("receive-new-notification", ({ request }) => {
-  //     if (request?._id) {
-  //       console.log("new-notif", request);
-  //       dispatch(addNotification(request));
-  //     }
-  //   });
-  //   socket.on("remove-notification", ({ request }) => {
-  //     if (request?._id) {
-  //       console.log("deleted-notif", request);
-  //       dispatch(removeNotification({ id: request._id }));
-  //     }
-  //   });
-  // }, [socket]);
+  useEffect(() => {
+    socket.on("receive-new-notification", addNotif);
+    socket.on("remove-notification", removeNotif);
+  }, [socket]);
   useEffect(() => {
     dispatch(fetchNotifications(uid));
   }, []);

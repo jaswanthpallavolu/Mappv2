@@ -27,19 +27,13 @@ const notificationSlice = createSlice({
   initialState,
   reducers: {
     addNotification: (state, action) => {
-      // if (action.payload?._id) {
-      console.log("add");
       state.notifications = [...state.notifications, action.payload];
-      // }
     },
     removeNotification: (state, action) => {
-      // if (action.payload?.id) {
-      console.log("r");
       const newNotifs = state.notifications.filter(
         (i) => i._id !== action.payload.id
       );
       state.notifications = newNotifs;
-      // }
     },
     updateNotification: (state, action) => {
       var updatedList = state.notifications.map((i) => {
