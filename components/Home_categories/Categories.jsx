@@ -101,7 +101,7 @@ export function Recommend({ name }) {
       )
       .then((res) => {
         setResult(res.data.result);
-        setLoading(false);
+        // setLoading(false);
       })
       .catch((err) => console.log(err));
   };
@@ -118,20 +118,20 @@ export function Recommend({ name }) {
       )
       .then((res) => {
         setResult(res.data.result);
-        setLoading(false);
+        // setLoading(false);
       })
       .catch((err) => console.log(err));
   };
 
   const recommendMovies = (signal) => {
     if (queryList.length) {
-      setLoading(true);
+      // setLoading(true);
       if (name === "collaborative") getRecommendations(signal);
       else if (name === "watched") getSimilar(signal);
       // }
     } else {
       setResult([]);
-      setLoading(false);
+      // setLoading(false);
     }
   };
   useEffect(() => {
@@ -141,21 +141,21 @@ export function Recommend({ name }) {
   }, [queryList]); //eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (status !== "loading" && status) {
-      if (name === "collaborative") {
-        var mlist = movies.filter((i) => i.liked != 0);
-        mlist = mlist.map((i) => [i.movieId, i.liked]);
-        // console.log(mlist);
-      }
-      if (name === "watched") {
-        var mlist = movies.filter((i) => i.watched);
-        mlist = mlist.map((i) => [i.movieId, i.title]).reverse();
-      }
-
-      if (JSON.stringify(queryList) !== JSON.stringify(mlist))
-        setQueryList(mlist);
+    // if (status !== "loading" && status) {
+    if (name === "collaborative") {
+      var mlist = movies.filter((i) => i.liked != 0);
+      mlist = mlist.map((i) => [i.movieId, i.liked]);
+      // console.log(mlist);
     }
-  }, [status]); //eslint-disable-line react-hooks/exhaustive-deps
+    if (name === "watched") {
+      var mlist = movies.filter((i) => i.watched);
+      mlist = mlist.map((i) => [i.movieId, i.title]).reverse();
+    }
+
+    if (JSON.stringify(queryList) !== JSON.stringify(mlist))
+      setQueryList(mlist);
+    // }
+  }, [movies]); //eslint-disable-line react-hooks/exhaustive-deps
   return (
     <>
       {result?.length ? (
@@ -163,8 +163,8 @@ export function Recommend({ name }) {
           <div className={styles.head}>
             <div className={styles.name}>{title}</div>
           </div>
-
-          {!loading ? (
+          <Carousel list={result} key={result?.length} />
+          {/* {!loading ? (
             <Carousel list={result} />
           ) : (
             <div
@@ -177,13 +177,13 @@ export function Recommend({ name }) {
             >
               <Loader1 />
             </div>
-          )}
+          )} */}
         </div>
       ) : (
         ""
       )}
 
-      {!result?.length && name === "collaborative" && status !== "loading" ? (
+      {!result?.length && name === "collaborative" ? (
         <p className={styles.suggest_text}>
           &quot; rate movies to get Recommendations &quot;
         </p>

@@ -2,22 +2,26 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { auth } from "../../firebase_connect";
 import firebase from "@firebase/app-compat";
 import axios from "axios";
+
 export const checkUser = createAsyncThunk(
   "auth/checkUser",
   async (_, thunkAPI) => {
+    var data;
     auth.onAuthStateChanged((user) => {
       if (user) {
-        const data = {
+        data = {
           username: user.displayName,
           photoUrl: user.photoURL,
           email: user.email,
           uid: user.uid,
         };
-
+        // console.log(data);
         thunkAPI.dispatch(setCurrentUser(data));
-      } else thunkAPI.dispatch(setCurrentUser(""));
-      // thunkAPI.dispatch(getAllUsers());
+        thunkAPI.dispatch(addToDB(data));
+      }
     });
+
+    // return data;
   }
 );
 
@@ -39,9 +43,15 @@ export const logout = createAsyncThunk("auth/logout", async () => {
 
 //add to database
 export const addToDB = createAsyncThunk("auth/addUser", async (user) => {
+  var data;
   await axios
     .post(`${process.env.NEXT_PUBLIC_USER_DATA_SERVER}/user/add`, user)
-    .then((res) => console.log("new User"));
+    .then((res) => {
+      data = res.data;
+      // console.log(data);
+    })
+    .catch((err) => console.log(err));
+  return data;
 });
 
 const initialState = {
@@ -56,11 +66,9 @@ const Auth = createSlice({
   initialState,
   reducers: {
     setCurrentUser: (state, action) => {
-      if (action.payload) {
-        state.user = action.payload;
-        state.user.authorized = true;
-      }
-      state.status = "succeeded";
+      if (action.payload)
+        state.user = { ...state.user, ...action.payload, auth: true };
+      state.status = "suceeded";
     },
     setUserStatus: (state, action) => {
       state.status = action.payload;
@@ -69,7 +77,10 @@ const Auth = createSlice({
   extraReducers(builder) {
     builder
       .addCase(checkUser.pending, (state) => {
-        state.status = "loading";
+        state.status = "saving-user-details";
+      })
+      .addCase(checkUser.fulfilled, (state, action) => {
+        // console.log(action.payload);
       })
 
       .addCase(loginWithGoogle.pending, (state) => {
@@ -79,7 +90,6 @@ const Auth = createSlice({
         state.status = "loaded";
       })
       .addCase(logout.pending, (state) => {
-        // state.user = { authorized: false };
         state.status = "loading";
       })
       .addCase(logout.fulfilled, (state) => {
@@ -87,8 +97,11 @@ const Auth = createSlice({
         state.status = "loggedout";
       })
 
+      .addCase(addToDB.pending, (state) => {
+        state.status = "saving-user-details";
+      })
       .addCase(addToDB.fulfilled, (state, action) => {
-        state.all = action.payload;
+        state.user = { ...action.payload, authorized: true };
         state.status = "idle";
       });
   },

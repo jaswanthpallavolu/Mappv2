@@ -25,7 +25,7 @@ Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
 Router.events.on("routeChangeError", () => NProgress.done());
 
-store.dispatch(getAllUsers());
+// store.dispatch(getAllUsers());
 store.dispatch(checkUser());
 
 function MyApp({ Component, pageProps }) {

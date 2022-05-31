@@ -7,6 +7,8 @@ import {
   addMovieData,
   fetchMovies,
 } from "../../redux/features/userRatingSlice";
+import _ from "lodash";
+
 import { updateUserHistory } from "../../redux/features/userHistorySlice";
 
 import styles from "./MovieDetails.module.css";
@@ -19,7 +21,7 @@ export default function MovieDetails({ details }) {
   const [openTrailer, setOpenTrailer] = useState(false);
   const [isMobile, setIsMobile] = useState();
   const dispatch = useDispatch();
-  const uid = useSelector((state) => state.userAuth.user.uid);
+  const userId = useSelector((state) => state.userAuth.user.uid);
   const historyStatus = useSelector((state) => state.userHistory.status);
   const moviesVisited = useSelector(
     (state) => state.userHistory.history?.moviesVisited
@@ -31,7 +33,7 @@ export default function MovieDetails({ details }) {
   const addToHistory = () => {
     if (moviesVisited?.map((i) => i.movieId).includes(details.movieId)) return;
     var data = {
-      uid,
+      uid: userId,
       movieId: details.movieId,
       title: details.title,
       genres: details.genre,
@@ -39,8 +41,8 @@ export default function MovieDetails({ details }) {
     dispatch(updateUserHistory({ data }));
   };
   useEffect(() => {
-    if (uid && historyStatus === "loaded") addToHistory();
-  }, [uid, historyStatus]); //eslint-disable-line react-hooks/exhaustive-deps
+    if (userId && historyStatus === "loaded") addToHistory();
+  }, [userId, historyStatus]); //eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     checkWidth();
@@ -165,7 +167,7 @@ export const MovieMobile = ({ details, setOpenTrailer }) => {
               <p>{details?.description}</p>
             </div>
           </div>
-          <Actions details={details} />
+          <ActionIcons details={details} />
           <CastANDcrew directors={details.directors} actors={details.actors} />
           <SimilarMovies details={details} />
         </div>
@@ -247,7 +249,7 @@ export const MovieDesktop = ({ details, setOpenTrailer }) => {
             )}
 
             <li>
-              <Actions details={details} />
+              <ActionIcons details={details} />
             </li>
           </ul>
         </div>
@@ -259,11 +261,11 @@ export const MovieDesktop = ({ details, setOpenTrailer }) => {
     </div>
   );
 };
-export function Actions({ details }) {
+export function ActionIcons({ details }) {
   // const [isPending, startTransition] = useTransition();
   // const movies_status = useSelector((state) => state.userRatings.status);
-  const allmovies = useSelector((state) => state.userRatings.movies);
-  const uid = useSelector((state) => state.userAuth.user.uid);
+  const movies = useSelector((state) => state.userRatings.movies);
+  const userId = useSelector((state) => state.userAuth.user.uid);
   //const details = useSelector((state) => state.movie.details);
   const authorized = useSelector((state) => state.userAuth.user.authorized);
   const [load, setLoad] = useState({
@@ -273,128 +275,84 @@ export function Actions({ details }) {
     l4: false,
   });
   const dispatch = useDispatch();
-  const [userData, setUserData] = useState();
+  const [userData, setUserData] = useState({});
 
-  const handleLike = () => {
-    // setLoad({ ...load, l1: true });
+  const toggleLike = () => {
     let a;
     if (userData.liked === 1) a = 0;
     else a = 1;
     setUserData({ ...userData, liked: a });
-
-    const mIfo = allmovies.find((i) => i.movieId === details.movieId);
-    if (!mIfo)
-      dispatch(
-        addMovieData({
-          ...userData,
-          movieId: details.movieId,
-          uid: uid,
-          liked: a,
-        })
-      );
-    else if (mIfo.liked === 1 && !mIfo.watched && mIfo.myList === false)
-      dispatch(deleteMovieData({ uid, mid: details.movieId }));
-    else
-      dispatch(
-        updateMovieData({ uid, mid: details.movieId, data: { liked: a } })
-      );
   };
-  const handleDisLike = () => {
-    // setLoad({ ...load, l2: true });
+
+  const toggleDislike = () => {
     let a;
     if (userData.liked === -1) a = 0;
     else a = -1;
     setUserData({ ...userData, liked: a });
-
-    const mIfo = allmovies.find((i) => i.movieId === details.movieId);
-    if (!mIfo)
-      dispatch(
-        addMovieData({
-          ...userData,
-          movieId: details.movieId,
-          uid: uid,
-          liked: a,
-        })
-      );
-    else if (mIfo.liked === -1 && !mIfo.watched && mIfo.myList === false)
-      dispatch(deleteMovieData({ uid, mid: details.movieId }));
-    else
-      dispatch(
-        updateMovieData({ uid, mid: details.movieId, data: { liked: a } })
-      );
   };
-  const handleWatched = () => {
-    const curr_status = userData.watched;
-    setUserData({
-      ...userData,
-      watched: !userData.watched,
-    });
 
-    setLoad({ ...load, l3: true });
-    const mIfo = allmovies.find((i) => i.movieId === details.movieId);
-    if (!mIfo)
-      dispatch(
-        addMovieData({
-          ...userData,
-          movieId: details.movieId,
-          uid: uid,
-          watched: !curr_status,
-        })
-      );
-    else if (mIfo.liked === 0 && mIfo.watched && mIfo.myList === false)
-      dispatch(deleteMovieData({ uid, mid: details.movieId }));
-    else
+  const toggleWatched = () => {
+    setUserData((prev) => ({ ...prev, watched: !prev.watched }));
+  };
+  const toggleMyList = () => {
+    setUserData((prev) => ({ ...prev, myList: !prev.myList }));
+  };
+
+  const saveToDatabase = () => {
+    const mIfo = movies.find((i) => i.movieId === details.movieId);
+
+    if (mIfo && _.isEqual(mIfo, userData)) {
+      // console.log("no need of update");
+      return;
+    }
+
+    // console.log(newObj);
+    var { liked, movieId, watched, title, uid, myList } = userData;
+    var newObj = {
+      liked,
+      movieId,
+      watched,
+      myList,
+      title,
+      uid,
+    };
+    var initial = {
+      uid: userId,
+      movieId: details.movieId,
+      title: details.title,
+      liked: 0,
+      watched: false,
+      myList: false,
+    };
+    const isInitialObj = _.isEqual(initial, newObj);
+    if (newObj && isInitialObj && mIfo) {
+      // console.log("delete the document");
+      dispatch(deleteMovieData({ uid: userId, mid: details.movieId }));
+    } else if (mIfo && !isInitialObj) {
+      // console.log("upd");
       dispatch(
         updateMovieData({
-          uid,
+          uid: userId,
           mid: details.movieId,
-          data: { watched: !curr_status },
+          data: newObj,
         })
       );
+    } else if (!mIfo && !isInitialObj) {
+      // console.log("add");
+      dispatch(addMovieData({ ...newObj }));
+    }
   };
-  const handleAddToList = () => {
-    const curr_status = userData.myList;
-    setUserData({
-      ...userData,
-      myList: !curr_status,
-    });
-    // setLoad({ ...load, l4: true });
+  useEffect(() => {
+    const timer = setTimeout(() => saveToDatabase(), 450);
+    return () => clearTimeout(timer);
+  }, [userData]);
 
-    const mIfo = allmovies.find((i) => i.movieId === details.movieId);
-    if (!mIfo)
-      dispatch(
-        addMovieData({
-          ...userData,
-          movieId: details.movieId,
-          uid: uid,
-          myList: true,
-        })
-      );
-    else if (mIfo.myList === false)
-      dispatch(
-        updateMovieData({
-          uid,
-          mid: details.movieId,
-          data: { ...userData, myList: true },
-        })
-      );
-    else if (mIfo.liked === 0 && !mIfo.watched && mIfo.myList === true)
-      dispatch(deleteMovieData({ uid, mid: details.movieId }));
-    else
-      dispatch(
-        updateMovieData({
-          uid,
-          mid: details.movieId,
-          data: { ...userData, myList: false },
-        })
-      );
-  };
   const addToRecentlyViewed = () => {
     let recent = {};
     window
-      ? (recent = JSON.parse(localStorage.getItem(`recent_${uid}`)) || {})
+      ? (recent = JSON.parse(localStorage.getItem(`recent_${userId}`)) || {})
       : true;
-    recent["uid"] = uid;
+    recent["uid"] = userId;
     recent["movies"] = recent["movies"] || [];
     if (recent["movies"].includes(details.movieId)) {
       recent["movies"] = recent["movies"].filter((i) => i != details.movieId);
@@ -402,18 +360,19 @@ export function Actions({ details }) {
     recent["movies"].unshift(details.movieId);
     recent["movies"] = recent["movies"].slice(0, 5);
     if (window) {
-      localStorage.setItem(`recent_${uid}`, JSON.stringify(recent));
+      localStorage.setItem(`recent_${userId}`, JSON.stringify(recent));
     } else {
       return true;
     }
   };
-
   const initialize = () => {
-    const movie = allmovies.find((i) => i.movieId === details.movieId);
+    const movie = movies.find((i) => i.movieId === details.movieId);
     if (movie) {
       setUserData(movie);
     } else {
       const obj = {
+        uid: userId,
+        movieId: details.movieId,
         title: details.title,
         liked: 0,
         watched: false,
@@ -422,33 +381,28 @@ export function Actions({ details }) {
       setUserData(obj);
     }
   };
+
   useEffect(() => {
     addToRecentlyViewed();
-    dispatch(fetchMovies(uid));
+    // dispatch(fetchMovies(userId));
     initialize();
-  }, [uid]); //eslint-disable-line react-hooks/exhaustive-deps
-
-  // useEffect(() => {
-  //   // if (movies_status === "loaded") {
-  //   // if(!uid) retun
-  //   // setLoad({ l1: false, l2: false, l3: false, l4: false });
-  //   // }
-  // }, []); //eslint-disable-line react-hooks/exhaustive-deps
+  }, [movies]); //eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
-      {userData ? (
+      {userData && (
         <div className={styles.icons}>
           <div className={styles.action_group} style={{ opacity: ".3" }}>
             <button className={styles.icon}>
-              <i className="fa-solid fa-share-nodes"></i>
+              {/* <i className="fa-solid fa-share-nodes"></i> */}
+              <i className="fa-solid fa-arrow-up-right-from-square"></i>
             </button>
-            <small>share</small>
+            <small>suggest</small>
           </div>
 
           <div
             className={styles.action_group}
-            onClick={() => authorized && handleLike()}
+            onClick={() => authorized && toggleLike()}
           >
             <button
               title="liked"
@@ -468,7 +422,7 @@ export function Actions({ details }) {
 
           <div
             className={styles.action_group}
-            onClick={() => authorized && handleDisLike()}
+            onClick={() => authorized && toggleDislike()}
           >
             <button
               title="disliked"
@@ -488,7 +442,7 @@ export function Actions({ details }) {
 
           <div
             className={styles.action_group}
-            onClick={() => authorized && handleWatched()}
+            onClick={() => authorized && toggleWatched()}
           >
             <button
               title="watched ?"
@@ -508,7 +462,7 @@ export function Actions({ details }) {
 
           <div
             className={styles.action_group}
-            onClick={() => authorized && handleAddToList()}
+            onClick={() => authorized && toggleMyList()}
           >
             <button
               title="add to list"
@@ -528,8 +482,6 @@ export function Actions({ details }) {
             <small>my list</small>
           </div>
         </div>
-      ) : (
-        ""
       )}
     </>
   );

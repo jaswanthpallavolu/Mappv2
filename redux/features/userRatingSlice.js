@@ -34,12 +34,15 @@ export const deleteMovieData = createAsyncThunk(
 export const updateMovieData = createAsyncThunk(
   "userData/updateMovie",
   async ({ uid, mid, data }) => {
+    var data;
     await axios
       .put(
         `${process.env.NEXT_PUBLIC_USER_DATA_SERVER}/user/${uid}/movie/${mid}`,
         data
       )
+      .then((res) => (data = res.data))
       .catch((err) => console.log(err));
+    return data;
   }
 );
 
@@ -81,10 +84,6 @@ const userRatings = createSlice({
       state.movies = [];
       state.status = "succeeded";
     },
-    // reloadList: (state) => {
-    //     state.myList = state.movies.filter(i => i.myList === true)
-    //     state.status = 'listLoaded'
-    // }
   },
   extraReducers(builder) {
     builder
@@ -101,7 +100,8 @@ const userRatings = createSlice({
         state.status = "loading";
       })
       .addCase(addMovieData.fulfilled, (state, action) => {
-        // state.movies.push(action.payload)
+        // console.log(action.payload);
+        state.movies = [...state.movies, action.payload];
         state.status = "succeeded";
       })
 
@@ -109,12 +109,20 @@ const userRatings = createSlice({
         state.status = "loading";
       })
       .addCase(deleteMovieData.fulfilled, (state, action) => {
+        const result = state.movies.filter((i) => i._id !== action.payload._id);
+        state.movies = result;
         state.status = "succeeded";
       })
       .addCase(updateMovieData.pending, (state) => {
         state.status = "loading";
       })
       .addCase(updateMovieData.fulfilled, (state, action) => {
+        // console.log(action.payload);
+        var updatedList = state.movies?.map((i) => {
+          if (i._id === action.payload._id) return action.payload;
+          return i;
+        });
+        state.movies = updatedList ? updatedList : [{ ...action.payload }];
         state.status = "succeeded";
       });
   },

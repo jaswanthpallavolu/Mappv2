@@ -10,27 +10,28 @@ export default function MyList() {
   // console.log(`fetched:${list?.map(i => i.title)}`)
   const [myList, setMyList] = useState();
   const movies = useSelector((state) => state.userRatings.movies);
-  const status = useSelector((state) => state.userRatings.status);
+  // const status = useSelector((state) => state.userRatings.status);
   // const [loading, setLoading] = useState(false);
-  const cRef = useRef();
+  // const cRef = useRef();
   // const list = useSelector((state) => state.userData.myList);
 
-  const handleCount = (e) => {
-    var removeid = e.target.closest("#mylist-action")?.getAttribute("data-id");
-    if (!removeid) return;
-    var filtered = myList.filter((id) => id != removeid);
-    setMyList(filtered);
-  };
+  // const handleCount = (e) => {
+
+  //   var removeid = e.target.closest("#mylist-action")?.getAttribute("data-id");
+  //   if (!removeid) return;
+  //   var filtered = myList.filter((id) => id != removeid);
+  //   setMyList(filtered);
+  // };
 
   useEffect(() => {
     // const l = document.querySelector("#mylist_carousel");
     // console.dir(cRef);
-    if (status === "loaded") {
-      var list = movies.filter((i) => i.myList === true);
-      list = list?.map((i) => i.movieId)?.reverse();
-      if (JSON.stringify(list) !== JSON.stringify(myList)) setMyList(list);
-    }
-  }, [status]); //eslint-disable-line react-hooks/exhaustive-deps
+    // if (status === "loaded") {
+    var list = movies.filter((i) => i.myList === true);
+    list = list?.map((i) => i.movieId)?.reverse();
+    if (JSON.stringify(list) !== JSON.stringify(myList)) setMyList(list);
+    // }
+  }, [movies]); //eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
@@ -42,7 +43,7 @@ export default function MyList() {
           </div>
 
           {/* {!loading ? ( */}
-          <div ref={cRef} onClick={handleCount}>
+          <div>
             <Carousel list={myList} key={myList.length} />
           </div>
           {/* ) : (

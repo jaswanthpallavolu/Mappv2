@@ -11,7 +11,7 @@ export default function Login() {
   const router = useRouter();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
-  // const loading1 = useSelector((state) => state.userAuth.status);
+  const status = useSelector((state) => state.userAuth.status);
   const authorized = useSelector((state) => state.userAuth.user.authorized);
 
   useEffect(() => {
@@ -21,7 +21,7 @@ export default function Login() {
 
   return (
     <div className={styles.container}>
-      {loading ? (
+      {loading || status === "saving-user-details" ? (
         <div className={styles.l_loader}>
           <Loader1 />
           <div className={styles.status}>Loading please wait..</div>

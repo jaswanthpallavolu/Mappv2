@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useLayoutEffect, useMemo } from "react";
 import styles from "./card.module.css";
+import _ from "lodash";
 import axios from "axios";
 // import styled from "styled-components";
 import Skeleton from "../../utils/skeleton/Skeleton";
@@ -114,106 +115,92 @@ export default function Card({ id, size }) {
 // this component handles all logic of add to/remove from  mylist operations
 export const Header = ({ details }) => {
   const dispatch = useDispatch();
-  const [inList, setInList] = useState();
-  const uid = useSelector((state) => state.userAuth.user.uid);
+  // const [inList, setInList] = useState();
+  const userId = useSelector((state) => state.userAuth.user.uid);
   const movies = useSelector((state) => state.userRatings.movies);
-  const [myList, setMyList] = useState([]);
-  const loadStatus = useSelector((state) => state.userRatings.status);
+  // const [myList, setMyList] = useState([]);
+  // const loadStatus = useSelector((state) => state.userRatings.status);
   const authorized = useSelector((state) => state.userAuth.user.authorized);
+  const [toggleIcon, setToggleIcon] = useState(null);
 
   useEffect(() => {
-    if (loadStatus === "loaded") {
-      var list = movies.filter((i) => i.myList === true);
-      // if (JSON.stringify(list) !== JSON.stringify(myList)) {
-      setMyList(list);
-      checkCard(list);
-      // }
-    }
-  }, [loadStatus]); //eslint-disable-line react-hooks/exhaustive-deps
+    // var list = movies.filter((i) => i.myList === true);
 
-  // const [status, setStatus] = useState(false);
-  const checkCard = async (list) => {
-    const mIfo = await list.find((i) => i.movieId === details.movieId);
+    // assignCardIcon(list);
+    const timer = setTimeout(() => assignCardIcon(), 50);
+    return () => clearTimeout(timer);
+  }, [movies]); //eslint-disable-line react-hooks/exhaustive-deps
+
+  const assignCardIcon = async () => {
+    // console.log("checking status..");
+    const mIfo = movies.find((i) => i.movieId === details.movieId);
     if (mIfo) {
-      setInList(mIfo.myList);
+      setToggleIcon(mIfo.myList);
     } else {
-      setInList(false);
+      setToggleIcon(false);
     }
-    // setStatus(false);
   };
 
-  // const isInList = useMemo(() => {
-  //   const mIfo = myList.find((i) => i.movieId === details.movieId);
-  //   if (mIfo) return true;
-  //   else return false;
-  // }, [myList]);
-
-  // useEffect(() => {
-  //   if (details?.movieId && authorized) checkCard(); //check whether it is in mylist
-  // }, [myList]); //eslint-disable-line react-hooks/exhaustive-deps
-
   const handleAdd = () => {
-    setInList(true);
-    // setStatus(true);
+    setToggleIcon(true);
+  };
+  const handleRemove = async () => {
+    setToggleIcon(false);
+  };
+  const handleMyListIcon = async () => {
+    var mIfo = movies.find((i) => i.movieId === details.movieId);
 
-    var obj = {
-      uid: uid,
+    if (mIfo) {
+      // var keys = Object.keys(obj);
+      // mIfo = Object.entries(mIfo).filter(([key, value]) => {
+      //   keys.includes(key);
+      // });
+      var { liked, movieId, watched, title, uid, myList } = mIfo;
+      var newObj = {
+        liked,
+        movieId,
+        watched,
+        myList: toggleIcon,
+        title,
+        uid,
+      };
+      if (_.isEqual({ ...newObj, myList }, newObj)) {
+        // console.log("no need of update");
+        return;
+      }
+    }
+    var initial = {
+      uid: userId,
       movieId: details.movieId,
       title: details.title,
       liked: 0,
       watched: false,
-      myList: true,
+      myList: false,
     };
-    const mIfo = myList.find((i) => i.movieId === details.movieId);
-    if (!mIfo) dispatch(addMovieData(obj));
-    // else if (mIfo?.myList === true) {
-    //   dispatch(
-    //     updateMovieData({
-    //       uid,
-    //       mid: details.movieId,
-    //       data: { ...mIfo, myList: false },
-    //     })
-    //   );
-    // }
-    else
+    const isInitialObj = _.isEqual(initial, newObj);
+    if (newObj && isInitialObj) {
+      // console.log("delete the document");
+      dispatch(deleteMovieData({ uid: userId, mid: details.movieId }));
+    } else if (newObj && !isInitialObj) {
+      // console.log("upd");
       dispatch(
         updateMovieData({
-          uid,
+          uid: userId,
           mid: details.movieId,
-          data: { ...mIfo, myList: true },
+          data: newObj,
         })
       );
-
-    // console.log(`added:${obj.title}`);
-
-    // setTimeout(() => { checkCard() }, 1000)
+    } else if (!newObj && toggleIcon) {
+      // console.log("add");
+      dispatch(addMovieData({ ...initial, myList: toggleIcon }));
+    }
   };
-  const handleDelete = async () => {
-    setInList(false);
-    // setStatus(true);
 
-    const mIfo = myList.find((i) => i.movieId === details.movieId);
-    if (mIfo?.liked === 0 && !mIfo.watched)
-      dispatch(deleteMovieData({ uid, mid: details.movieId }));
-    // need to improve
-    //   else if (mIfo?.myList === false) {
-    //   dispatch(
-    //     updateMovieData({
-    //       uid,
-    //       mid: details.movieId,
-    //       data: { ...mIfo, myList: true },
-    //     })
-    //   );
-    // }
-    else
-      dispatch(
-        updateMovieData({
-          uid,
-          mid: details.movieId,
-          data: { ...mIfo, myList: false },
-        })
-      );
-  };
+  useEffect(() => {
+    const timer = setTimeout(() => handleMyListIcon(), 450);
+    return () => clearTimeout(timer);
+  }, [toggleIcon]);
+
   return (
     <div className={styles.top}>
       <div className={styles.imdb}>
@@ -222,13 +209,13 @@ export const Header = ({ details }) => {
       <div className={styles.options}>
         {/* {!status ? (
           <> */}
-        {inList ? (
+        {toggleIcon ? (
           <div
             // key={Math.random() * 999}
             title="remove from list"
             id="mylist-action"
             // className={styles.tooltip}
-            onClick={() => authorized && handleDelete()}
+            onClick={() => authorized && handleRemove()}
             data-title="remove from list"
             data-id={details.movieId}
           >
