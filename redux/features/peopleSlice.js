@@ -97,6 +97,13 @@ const people = createSlice({
       );
       state.receivedRequests = reqs;
     },
+    addSentRequest: (state,action) => {
+      state.sentRequests = [...state.sentRequests, action.payload];
+    },
+    removeSentRequest: (state, action) => {
+      const reqs = state.sentRequests.filter((i)=> i.uid !== action.payload.senderId);
+      state.sentRequests = reqs;
+    },
     setOnlineUsers: (state, action) => {
       state.onlineUsers = action.payload;
     },
@@ -134,6 +141,8 @@ export const {
   setSentRequest,
   addReceivedRequest,
   removeReceivedRequest,
+  addSentRequest,
+  removeSentRequest,
   setOnlineUsers,
 } = people.actions;
 export default people.reducer;
