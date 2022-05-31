@@ -11,6 +11,8 @@ export default function Friends(props) {
   const onlineUsers = useSelector((state) => state.people.onlineUsers);
   // const pStatus = useSelector((state) => state.people.status);
   const friends = useSelector((state) => state.people.friends);
+  const sentRequests = useSelector((state) => state.people.sentRequests);
+  const receivedRequests = useSelector((state) => state.people.receivedRequests);
 
   const dispatch = useDispatch();
 
@@ -81,7 +83,7 @@ export default function Friends(props) {
       clearTimeout(timer);
       controller.abort();
     };
-  }, [search, friends]); //eslint-disable-line react-hooks/exhaustive-deps
+  }, [search, friends, sentRequests, receivedRequests]); //eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
