@@ -5,7 +5,6 @@ import {
   updateMovieData,
   deleteMovieData,
   addMovieData,
-  fetchMovies,
 } from "../../redux/features/userRatingSlice";
 import _ from "lodash";
 
@@ -66,7 +65,6 @@ export default function MovieDetails({ details }) {
     </>
   );
 }
-
 export const MovieMobile = ({ details, setOpenTrailer }) => {
   const [indicate, setIndicate] = useState(false);
   const checkScroll = () => {

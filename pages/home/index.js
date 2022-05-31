@@ -3,14 +3,7 @@ import styles from "../../styles/Home.module.css";
 import Categories from "../../components/Home_categories/Categories";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
-import { useRouter } from "next/router";
-import MyList from "../../components/Home_categories/MyList";
 function Home() {
-  const router = useRouter();
-  // const user = useSelector((state) => state.currentUser.user.authenticated);
-  // useEffect(() => {
-  //   if (!user) router.replace("/login");
-  // }, [user]); //eslint-disable-line react-hooks/exhaustive-deps
   const authorized = useSelector((state) => state.userAuth.user.authorized);
   return (
     <div className={styles.home}>
@@ -37,7 +30,7 @@ function Home() {
               <li>recommendation system</li>
             </ul>
           </div>
-          {authorized ? <MyList /> : ""}
+          {/* {authorized ? <MyList /> : ""} */}
         </section>
 
         <Categories />

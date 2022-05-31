@@ -11,6 +11,8 @@
   --div-gap: 1rem;
   --trailer-txt: clamp(1.3rem, 5vw, 1.8rem);
   background-color: var(--primary);
+
+  /* overflow-x: hidden; */
 }
 
 .movie_page::before {

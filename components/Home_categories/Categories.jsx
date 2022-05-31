@@ -5,6 +5,7 @@ import styles from "./sections.module.css";
 import { Loader1 } from "../../utils/loaders/Loading";
 import { useSelector } from "react-redux";
 import LazyLoad from "../../utils/lazyLoad/LazyLoad";
+import MyList from "./MyList";
 
 export default function Categories() {
   const [tags, setTags] = useState([]);
@@ -52,6 +53,7 @@ export default function Categories() {
   }, [historyStatus]); //eslint-disable-line react-hooks/exhaustive-deps
   return (
     <div className={styles.home_categories}>
+      {authorized && <MyList />}
       <Category name="recently viewed" query={{ genres: undefined }} />
       {authorized ? (
         <>

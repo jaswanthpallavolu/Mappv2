@@ -5,9 +5,15 @@ export const GlobalStyles = createGlobalStyle`
 body{
     margin:0;
     padding:0;
-    --primary:${({ theme }) => theme.color1};
-    --secondary:${({ theme }) => theme.color2};
-    --third:${({ theme }) => theme.color3};
+
+    --primary:${({ theme }) => theme.primary};
+    --secondary:${({ theme }) => theme.base};
+    --third:${({ theme }) => theme.light};
+
+    --base-color:${({ theme }) => theme.base};
+    --light-shade:${({ theme }) => theme.light};
+    --accent-light:${({ theme }) => theme.accent};
+    --accent-dark:${({ theme }) => theme.accentDark};
 
      --font-primary:${({ theme }) => theme.fontP};
      --font-secondary:${({ theme }) => theme.fontS};
@@ -19,4 +25,5 @@ body{
 
      --skeleton-color:${({ theme }) => theme.skeletonColor}
 }
+
 `;

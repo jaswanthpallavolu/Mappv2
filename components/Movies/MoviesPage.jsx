@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Card from "../card/Card";
-// import { Pagination, PaginationItem } from "@mui/material";
+import { Pagination, PaginationItem } from "@mui/material";
 import filter_json from "./filter.json";
 import { FilterAltOutlined, SortOutlined } from "@mui/icons-material";
 import { Loader1 } from "../../utils/loaders/Loading";
@@ -133,7 +133,7 @@ export default function MoviePage() {
               {result?.length > 0 ? (
                 <>
                   <div className={styles.page_back}>
-                    {/* <Pagination
+                    <Pagination
                       count={Math.ceil(result_len / moviesperpage)}
                       onChange={(e, v) => setPage(v)}
                       color={"secondary"}
@@ -149,7 +149,7 @@ export default function MoviePage() {
                         />
                       )}
                       page={page}
-                    /> */}
+                    />
                   </div>
                   {!loading ? (
                     <div className={styles.movies}>
@@ -163,7 +163,7 @@ export default function MoviePage() {
                     ""
                   )}
                   <div className={styles.page_back}>
-                    {/* <Pagination
+                    <Pagination
                       count={Math.ceil(result_len / moviesperpage)}
                       onChange={(e, v) => setPage(v)}
                       color={"secondary"}
@@ -179,7 +179,7 @@ export default function MoviePage() {
                         />
                       )}
                       page={page}
-                    /> */}
+                    />
                   </div>
                 </>
               ) : (

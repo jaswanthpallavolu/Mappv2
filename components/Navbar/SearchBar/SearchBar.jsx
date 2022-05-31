@@ -32,12 +32,8 @@ const SearchBar = ({ prop }) => {
   }, []);
   return (
     <div
-      className={`${styles.search_bar} 
-    ${
-      (navScrollTheme || isMobile) && theme === "dark"
-        ? styles.dtbar
-        : styles.bar_default
-    }
+      className={`${styles.search_bar}  ${styles.bar_default}
+    ${(navScrollTheme || isMobile) && theme === "dark" ? styles.dtbar : ""}
     ${(navScrollTheme || isMobile) && theme === "light" ? styles.ltbar : ""}`}
       id="search_bar"
       onKeyPress={searchMovie}

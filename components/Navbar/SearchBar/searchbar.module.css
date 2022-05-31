@@ -1,13 +1,22 @@
 .bar_default {
-  background-color: rgba(255, 255, 255, 0.5);
-}
+  --bg-color: var(--light-shade);
+  --place-holder: var(--accent-dark);
+  --text-color: var(--accent-dark);
 
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
 .dtbar {
-  background-color: rgba(255, 255, 255, 0.95);
+  --bg-color: var(--light-shade);
+  --place-holder: var(--accent-dark);
+  --text-color: var(--accent-dark);
 }
 .ltbar {
-  background-color: var(--secondary);
+  --bg-color: var(--base-color);
+  --place-holder: var(--light-shade);
+  --text-color: var(--light-shade);
 }
+
 .search_bar {
   grid-column: 3/4;
   justify-self: center;
@@ -18,12 +27,13 @@
   justify-content: left;
   align-items: center;
   gap: 2%;
-  border-radius: 20px;
+  border-radius: 5px;
   padding: 0.2rem 0.5rem;
 }
 .search_bar ion-icon {
   cursor: pointer;
-  color: black !important;
+  color: var(--text-color) !important;
+  /* color: black !important; */
 }
 .search_bar ion-icon:first-child {
   font-size: 1.5rem;
@@ -42,14 +52,14 @@
   font-size: clamp(0.9rem, 3vw, 1.1rem);
   background: none;
   border: none;
+  color: var(--text-color);
 }
 .search_bar input::placeholder {
+  color: var(--place-holder);
+  opacity: 0.75;
   font-size: clamp(0.7rem, 3vw, 1.1rem);
 }
-.search_bar input::placeholder {
-  color: rgba(0, 0, 0, 0.6);
-  font-size: clamp(0.7rem, 3vw, 1.1rem);
-}
+
 .search_bar input:focus {
   outline: none;
 }
@@ -60,13 +70,53 @@
 
   font-size: 1.3rem;
 }
-/* .search_bar button {
+
+@media (min-width: 601px) and (max-width: 1200px) {
+  .search_bar {
+    width: 100%;
+  }
+}
+
+/* MOBILE CSS */
+.mob_searchbar {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0.25em 2em;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 1em;
+  background-color: var(--primary);
+
+  opacity: 0;
+  transform: scale(1, 0);
+  transform-origin: top;
+  transition: transform 0.25s ease-in-out, opacity 0.2s ease-in-out;
+}
+.mob_searchbar.opened {
+  opacity: 1;
+  transform: scale(1, 1);
+}
+.mob_searchbar button {
   border: none;
   background: none;
-} */
+  font-weight: 400;
 
+  padding: 0;
+
+  color: var(--font-primary);
+}
+.mob_searchbar button i {
+  font-size: clamp(0.9rem, 5vw, 1.2rem);
+}
 @media (max-width: 600px) {
   .search_bar ion-icon {
     cursor: default !important;
+  }
+  .mob_searchbar {
+    padding: 0.25em 0.5em;
   }
 }

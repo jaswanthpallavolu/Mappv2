@@ -2,7 +2,6 @@ import { configureStore } from "@reduxjs/toolkit";
 import global from "./features/generalSlice";
 import AuthReducer from "./features/authSlice";
 import userRatingSlice from "./features/userRatingSlice";
-import movieSlice from "./features/movieSlice";
 import userHistorySlice from "./features/userHistorySlice";
 import peopleSlice from "./features/peopleSlice";
 import notificationSlice from "./features/notificationSlice";
@@ -12,7 +11,7 @@ export default configureStore({
     global: global,
     userAuth: AuthReducer,
     userRatings: userRatingSlice,
-    movie: movieSlice,
+
     userHistory: userHistorySlice,
     userNotifications: notificationSlice,
     people: peopleSlice,

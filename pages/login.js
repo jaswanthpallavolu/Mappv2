@@ -20,14 +20,18 @@ export default function Login() {
   }, [authorized]); //eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div className={styles.container}>
+    <>
       {loading || status === "saving-user-details" ? (
         <div className={styles.l_loader}>
+          {/* {status !== "saving-user-details" && (
+            <> */}
           <Loader1 />
           <div className={styles.status}>Loading please wait..</div>
+          {/* </>
+          )} */}
         </div>
       ) : (
-        <>
+        <div className={styles.container}>
           <div className={styles.bg}>
             <img
               className={styles.bgimg1}
@@ -65,8 +69,8 @@ export default function Login() {
               </button>
             </div>
           </div>
-        </>
+        </div>
       )}
-    </div>
+    </>
   );
 }

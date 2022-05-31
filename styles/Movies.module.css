@@ -30,7 +30,7 @@
 .title {
   position: relative;
   font-size: clamp(1.1rem, 2vw, 3rem);
-  color: white;
+  color: var(--font-primary);
   font-weight: 500;
   margin: 0%;
   width: 100%;

@@ -17,6 +17,23 @@ export const fetchNotifications = createAsyncThunk("allNotifs", async (uid) => {
   return data;
 });
 
+export const markAsRead = createAsyncThunk(
+  "markAsRead",
+  async ({ uid, notifId }) => {
+    await axios
+      .put(
+        `${process.env.NEXT_PUBLIC_USER_DATA_SERVER}/notifications/markAsRead?uid=${uid}&notifId=${notifId}`
+      )
+      .then((res) => {
+        // console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    // return data;
+  }
+);
+
 const initialState = {
   notifications: [],
   status: "idle",

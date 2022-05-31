@@ -11,11 +11,10 @@ export default function Recommends({ details }) {
   const [loading, setLoading] = useState(true);
 
   async function fetchMovies(signal) {
-    setLoading(true);
     await axios
       .get(
         `${process.env.NEXT_PUBLIC_MOVIE_SERVER}/recommend/contentbased/${details.movieId}`,
-        { signal: signal }
+        { signal }
       )
       .then((data) => {
         const res = data.data;
@@ -24,14 +23,15 @@ export default function Recommends({ details }) {
       })
       .catch((err) => {
         console.log(err);
-        setLoading(false);
+        // setLoading(false);
       });
   }
 
   useEffect(() => {
     const controller = new AbortController();
-    const signal = controller.signal;
-    if (details.movieId) fetchMovies(signal);
+
+    setLoading(true);
+    if (details.movieId) fetchMovies(controller.signal);
     return () => {
       controller.abort();
     };
@@ -72,7 +72,6 @@ export const PosterCard = ({ id }) => {
     else return details.largeImage;
   }
   const fetchMovie = async (signal) => {
-    setLoading(true);
     await axios
       .get(`${process.env.NEXT_PUBLIC_MOVIE_SERVER}/movies/info/${id}`, {
         signal: signal,
@@ -89,11 +88,9 @@ export const PosterCard = ({ id }) => {
 
   useEffect(() => {
     const controller = new AbortController();
-    const signal = controller.signal;
-    fetchMovie(signal);
-    return () => {
-      controller.abort();
-    };
+    setLoading(true);
+    fetchMovie(controller.signal);
+    return () => controller.abort();
   }, []); //eslint-disable-line react-hooks/exhaustive-deps
   return (
     <div className={styles.card_container}>

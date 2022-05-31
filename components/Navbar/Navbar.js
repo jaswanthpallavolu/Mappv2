@@ -8,7 +8,7 @@ import { toDark, toLight, setTheme } from "../../redux/features/generalSlice";
 import { logout } from "../../redux/features/authSlice";
 import MobileNavbar from "./MobileNavbar";
 import SearchBar from "./SearchBar/SearchBar";
-import SecondaryIcons from "./social sections/SecondaryIcons";
+import SecondaryIcons from "../social_network/SecondaryIcons";
 // import LogoutIcon from "@mui/icons-material/Logout";
 // import styled from "styled-components";
 
@@ -49,10 +49,10 @@ function Navbar() {
   };
 
   const [navScrollTheme, setNavScrollTheme] = useState(false);
-  const [whiteIcons, setWhiteIcons] = useState();
+  // const [whiteIcons, setWhiteIcons] = useState();
   const [isMobile, setIsMobile] = useState();
   const checkWidth = () => {
-    if (window.innerWidth > 600) setIsMobile(false);
+    if (window.innerWidth > 740) setIsMobile(false);
     else setIsMobile(true);
   };
 
@@ -65,10 +65,10 @@ function Navbar() {
     }
   };
 
-  useEffect(() => {
-    if (router.pathname === "/movies/[id]") setWhiteIcons(true);
-    else setWhiteIcons(false);
-  }, [router.pathname]);
+  // useEffect(() => {
+  //   if (router.pathname === "/movies/[id]") setWhiteIcons(true);
+  //   else setWhiteIcons(false);
+  // }, [router.pathname]);
 
   useEffect(() => {
     changeBackground();
@@ -85,13 +85,11 @@ function Navbar() {
 
   return (
     <nav
-      className={`${styles.navbar} ${navScrollTheme ? styles.navstyle2 : ""} ${
-        whiteIcons ? styles.makeWhite : ""
-      }`}
-      // theme={theme}
+      className={`${styles.navbar} ${navScrollTheme ? styles.toggle_style : ""} 
+      ${theme === "dark" ? styles.dark_theme : styles.light_theme}`}
     >
       {!isMobile ? (
-        <div className={styles.topnav}>
+        <div className={styles.desktop_nav}>
           <div className={styles.logo} onClick={() => router.push("/home")}>
             <img src="/assets/nav-logo.png" alt="logo" />
           </div>
@@ -113,7 +111,7 @@ function Navbar() {
           </ul>
           <SearchBar prop={{ navScrollTheme, theme, isMobile }} />
           {authorized ? (
-            <div className={styles.profile}>
+            <div className={styles.nav_options}>
               <div className={styles.theme} onClick={handleTheme}>
                 {theme === "dark" ? (
                   <ion-icon name="sunny-outline"></ion-icon>
@@ -124,18 +122,15 @@ function Navbar() {
 
               <SecondaryIcons isMobile={isMobile} />
 
-              <div className={styles.user}>
-                <div className={styles.pic}>
-                  <img src={profileUrl} alt="profile" />
-                </div>
-              </div>
-              <div className={styles.logout}>
-                <ion-icon
-                  name="log-out-outline"
-                  onClick={() => {
-                    dispatch(logout());
-                  }}
-                ></ion-icon>
+              <ProfilePic url={profileUrl} />
+
+              <div
+                className={styles.logout}
+                onClick={() => {
+                  dispatch(logout());
+                }}
+              >
+                <ion-icon name="log-out-outline"></ion-icon>
               </div>
             </div>
           ) : (
@@ -183,3 +178,11 @@ function Navbar() {
 }
 
 export default Navbar;
+
+export function ProfilePic({ url }) {
+  return (
+    <div className={styles.profile_pic}>
+      <img src={url} alt="*" />
+    </div>
+  );
+}

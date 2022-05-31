@@ -59,7 +59,7 @@
 }
 .features {
   padding: 0 0.5rem;
-  /* margin-top: 5%; */
+  margin-top: 5%;
   display: flex;
   flex-wrap: wrap;
   align-items: left;

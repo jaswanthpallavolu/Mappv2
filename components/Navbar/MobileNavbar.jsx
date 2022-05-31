@@ -3,10 +3,14 @@ import { useDispatch } from "react-redux";
 
 import { logout } from "../../redux/features/authSlice";
 import styles from "./Navbar.module.css";
+import barStyles from "./SearchBar/searchbar.module.css";
+import mnstyle from "./mobilenav.module.css";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import SearchBar from "./SearchBar/SearchBar";
-import SecondaryIcons from "./social sections/SecondaryIcons";
+import SecondaryIcons from "../social_network/SecondaryIcons";
+
+import { ProfilePic } from "./Navbar";
 
 const MobileNavbar = ({ prop }) => {
   const [navOpened, setNavOpened] = useState(false);
@@ -25,19 +29,19 @@ const MobileNavbar = ({ prop }) => {
   return (
     <>
       <div
-        className={`${styles.mobilenav} ${
-          !navOpened ? styles.notopened : styles.opened
+        className={`${mnstyle.mobilenav} ${
+          !navOpened ? mnstyle.notopened : mnstyle.opened
         }`}
       >
         <div className={styles.logo} onClick={() => router.push("/home")}>
           <img src="/assets/nav-logo.png" alt="logo" />
         </div>
 
-        <div className={styles.mobnav_icons}>
+        <div className={mnstyle.mobnav_icons}>
           {!navOpened && (
             <>
               <div
-                className={styles.mobnav_nicon}
+                className={mnstyle.mobnav_nicon}
                 onClick={() => setSearchOpened(true)}
               >
                 <ion-icon name="search-outline"></ion-icon>
@@ -46,15 +50,17 @@ const MobileNavbar = ({ prop }) => {
                 <SecondaryIcons isMobile={isMobile} />
               ) : (
                 <button
-                  className={`${styles.mob_login} ${
-                    navScrollTheme ? styles.navstyle2 : ""
+                  className={`${mnstyle.mob_login} ${
+                    navScrollTheme ? mnstyle.navstyle2 : ""
                   }
                 ${
                   navScrollTheme && theme === "dark"
-                    ? styles.mob_dtbtn
-                    : styles.mob_default
+                    ? mnstyle.mob_dtbtn
+                    : mnstyle.mob_default
                 }
-                ${navScrollTheme && theme === "light" ? styles.mob_ltbtn : ""}`}
+                ${
+                  navScrollTheme && theme === "light" ? mnstyle.mob_ltbtn : ""
+                }`}
                   id="sign-in"
                   onClick={() => router.push("/login")}
                 >
@@ -65,8 +71,8 @@ const MobileNavbar = ({ prop }) => {
           )}
           <div
             onClick={() => setNavOpened(!navOpened)}
-            className={`${styles.burger} ${
-              navOpened ? styles.opened : styles.notopened
+            className={`${mnstyle.burger} ${
+              navOpened ? mnstyle.opened : mnstyle.notopened
             }`}
           >
             <span></span>
@@ -77,39 +83,48 @@ const MobileNavbar = ({ prop }) => {
       </div>
 
       <div
-        className={`${styles.mob_searchbar} ${
-          searchOpened ? styles.opened : ""
+        className={`${barStyles.mob_searchbar} ${
+          searchOpened ? barStyles.opened : ""
         }`}
       >
+        <button onClick={() => setSearchOpened(false)}>
+          <i className="fa-solid fa-arrow-left"></i>
+        </button>
         <SearchBar prop={{ navScrollTheme, theme, isMobile }} />
-        <button onClick={() => setSearchOpened(false)}>cancel</button>
+        {/* <button onClick={() => setSearchOpened(false)}>cancel</button> */}
       </div>
 
       <div
-        className={`${styles.mobileNavItems} ${navOpened ? styles.opened : ""}`}
+        className={`${mnstyle.mobileNavItems} ${
+          navOpened ? mnstyle.opened : ""
+        }`}
       >
-        <ul className={styles.navlinks}>
+        <ul className={mnstyle.navlinks}>
           <li
-            onClick={() => setNavOpened(!navOpened)}
-            className={`${styles.mob_navlink} ${
-              router.pathname === "/home" ? styles.navactive : ""
+            className={`${mnstyle.mob_navlink} ${
+              router.pathname === "/home" ? mnstyle.navactive : ""
             }`}
           >
-            <Link href="/home" className={styles.home} passHref={true}>
-              <div className={styles.mobnav_icons}>
+            <Link href="/home" className={mnstyle.home} passHref={true}>
+              <div
+                className={mnstyle.mobnav_icons}
+                onClick={() => setNavOpened(!navOpened)}
+              >
                 <ion-icon name="home-outline"></ion-icon>
                 <h4> Home</h4>
               </div>
             </Link>
           </li>
           <li
-            onClick={() => setNavOpened(!navOpened)}
-            className={`${styles.mob_navlink} ${
-              router.pathname === "/movies" ? styles.navactive : ""
+            className={`${mnstyle.mob_navlink} ${
+              router.pathname === "/movies" ? mnstyle.navactive : ""
             }`}
           >
-            <Link href="/movies" className={styles.movies} passHref={true}>
-              <div className={styles.mobnav_icons}>
+            <Link href="/movies" className={mnstyle.movies} passHref={true}>
+              <div
+                className={mnstyle.mobnav_icons}
+                onClick={() => setNavOpened(!navOpened)}
+              >
                 <ion-icon name="videocam-outline"></ion-icon>
                 <h4> Movies</h4>
               </div>
@@ -117,14 +132,14 @@ const MobileNavbar = ({ prop }) => {
           </li>
         </ul>
 
-        <div className={styles.theme} onClick={handleTheme}>
+        <div className={mnstyle.theme} onClick={handleTheme}>
           {theme === "dark" ? (
-            <div className={styles.mobnav_icons}>
+            <div className={mnstyle.mobnav_icons}>
               <ion-icon name="sunny-outline"></ion-icon>
               <h4>Light theme</h4>
             </div>
           ) : (
-            <div className={styles.mobnav_icons}>
+            <div className={mnstyle.mobnav_icons}>
               <ion-icon name="moon-outline"></ion-icon>
               <h4>Dark theme</h4>
             </div>
@@ -132,18 +147,17 @@ const MobileNavbar = ({ prop }) => {
         </div>
 
         {authorized && (
-          <div className={styles.mob_profile}>
-            <div className={styles.mob_user}>
-              <div className={styles.pic}>
-                <img src={profileUrl} alt="profile" />
-              </div>
+          <div className={mnstyle.mob_profile}>
+            <div className={mnstyle.mob_user}>
+              <ProfilePic url={profileUrl} />
+
               <h4>My Account</h4>
             </div>
             <div
               onClick={() => {
                 dispatch(logout());
               }}
-              className={`${styles.mob_logout} ${styles.mobnav_icons}`}
+              className={`${mnstyle.mob_logout} ${mnstyle.mobnav_icons}`}
             >
               <ion-icon name="log-out-outline"></ion-icon>
               <h4>Log out</h4>
@@ -152,7 +166,7 @@ const MobileNavbar = ({ prop }) => {
         )}
       </div>
       {navOpened && (
-        <div onClick={() => setNavOpened(false)} className={styles.closenav} />
+        <div onClick={() => setNavOpened(false)} className={mnstyle.closenav} />
       )}
     </>
   );

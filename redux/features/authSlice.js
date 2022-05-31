@@ -18,10 +18,8 @@ export const checkUser = createAsyncThunk(
         // console.log(data);
         thunkAPI.dispatch(setCurrentUser(data));
         thunkAPI.dispatch(addToDB(data));
-      }
+      } else thunkAPI.dispatch(setCurrentUser(data));
     });
-
-    // return data;
   }
 );
 
@@ -81,6 +79,7 @@ const Auth = createSlice({
       })
       .addCase(checkUser.fulfilled, (state, action) => {
         // console.log(action.payload);
+        // state.status = "suceeded";
       })
 
       .addCase(loginWithGoogle.pending, (state) => {

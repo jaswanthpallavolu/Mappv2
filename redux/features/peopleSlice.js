@@ -85,9 +85,7 @@ const people = createSlice({
       const reqs = state.friends.filter((i) => i.uid !== action.payload.uid);
       state.friends = reqs;
     },
-    setSentRequest: (state, action) => {
-      state.sentRequests = action.payload;
-    },
+
     addReceivedRequest: (state, action) => {
       state.receivedRequests = [...state.receivedRequests, action.payload];
     },
@@ -97,11 +95,13 @@ const people = createSlice({
       );
       state.receivedRequests = reqs;
     },
-    addSentRequest: (state,action) => {
+    addSentRequest: (state, action) => {
       state.sentRequests = [...state.sentRequests, action.payload];
     },
     removeSentRequest: (state, action) => {
-      const reqs = state.sentRequests.filter((i)=> i.uid !== action.payload.senderId);
+      const reqs = state.sentRequests.filter(
+        (i) => i.uid !== action.payload.senderId
+      );
       state.sentRequests = reqs;
     },
     setOnlineUsers: (state, action) => {
@@ -138,11 +138,11 @@ const people = createSlice({
 export const {
   addFriend,
   removeFriend,
-  setSentRequest,
   addReceivedRequest,
   removeReceivedRequest,
   addSentRequest,
   removeSentRequest,
   setOnlineUsers,
 } = people.actions;
+
 export default people.reducer;

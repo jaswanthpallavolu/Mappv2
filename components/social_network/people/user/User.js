@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./user.module.css";
-import socket from "../../../../../socket.connect";
+import socket from "../../../../socket.connect";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addFriend,
@@ -8,7 +8,7 @@ import {
   removeFriend,
   removeReceivedRequest,
   removeSentRequest,
-} from "../../../../../redux/features/peopleSlice";
+} from "../../../../redux/features/peopleSlice";
 
 export function CurrentUser({ userDetails }) {
   return (
@@ -43,26 +43,42 @@ export function CurrentUser({ userDetails }) {
 export function User({ userDetails, type }) {
   const uid = useSelector((state) => state.userAuth.user.uid);
 
-  const [typel,setType] = useState(type)
+  const [toggleRequestIcon, setToggleRequestIcon] = useState(type);
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const userAction = (action) => {
     if (action === "add") {
-      socket.emit("send-friend-request",{senderId:uid,receiverId:userDetails.uid})
-      dispatch(addSentRequest({uid:userDetails.uid,sentRequest:true,time: new Date().toLocaleString(),seen: false,_id:userDetails.uid}))
+      socket.emit("send-friend-request", {
+        senderId: uid,
+        receiverId: userDetails.uid,
+      });
+      dispatch(
+        addSentRequest({
+          uid: userDetails.uid,
+          sentRequest: true,
+          time: new Date().toLocaleString(),
+          seen: false,
+          _id: userDetails.uid,
+        })
+      );
+      setToggleRequestIcon("send");
     }
-    if(action==="cancel") {
-      socket.emit("decline-friend-request",{senderId:uid,receiverId:userDetails.uid})
-      dispatch(removeSentRequest({senderId : userDetails.uid}))
+    if (action === "cancel") {
+      socket.emit("decline-friend-request", {
+        senderId: uid,
+        receiverId: userDetails.uid,
+      });
+      dispatch(removeSentRequest({ senderId: userDetails.uid }));
+      setToggleRequestIcon("normal");
     }
   };
 
-  useEffect(()=>{
-    socket.on("remove-received-request",(res)=>{
-      dispatch(removeSentRequest({senderId : res.senderId}))
-    })
-  },[socket])
+  useEffect(() => {
+    socket.on("remove-received-request", (res) => {
+      dispatch(removeSentRequest({ senderId: res.senderId }));
+    });
+  }, [socket]);
 
   return (
     <div className={styles.user_container}>
@@ -86,14 +102,14 @@ export function User({ userDetails, type }) {
       )}
       <div className={styles.extend}>
         <div className={styles.cursor}>
-          {typel === "normal" && (
+          {toggleRequestIcon === "normal" && (
             <i
               className="fa-solid fa-user-plus"
               title="Add Friend"
               onClick={() => userAction("add")}
             ></i>
           )}
-          {typel === "send" && (
+          {toggleRequestIcon === "send" && (
             <i
               className="fa-solid fa-user-xmark"
               title="Remove Request"

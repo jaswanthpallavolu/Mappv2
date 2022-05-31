@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { CurrentUser, Friend, FriendRequest, User } from "./user/User";
 import styles from "./friends.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { searchUsers } from "../../../../redux/features/peopleSlice";
-import { Loader1 } from "../../../../utils/loaders/Loading";
+import { searchUsers } from "../../../redux/features/peopleSlice";
+// import { Loader1 } from "../../../../utils/loaders/Loading";
 export default function Friends(props) {
   const { search } = props.dataprops;
   const uid = useSelector((state) => state.userAuth.user.uid);
@@ -12,7 +12,9 @@ export default function Friends(props) {
   // const pStatus = useSelector((state) => state.people.status);
   const friends = useSelector((state) => state.people.friends);
   const sentRequests = useSelector((state) => state.people.sentRequests);
-  const receivedRequests = useSelector((state) => state.people.receivedRequests);
+  const receivedRequests = useSelector(
+    (state) => state.people.receivedRequests
+  );
 
   const dispatch = useDispatch();
 
@@ -83,7 +85,7 @@ export default function Friends(props) {
       clearTimeout(timer);
       controller.abort();
     };
-  }, [search, friends, sentRequests, receivedRequests]); //eslint-disable-line react-hooks/exhaustive-deps
+  }, [search, friends]); //eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
