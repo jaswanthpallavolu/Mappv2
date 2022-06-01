@@ -144,7 +144,7 @@ export function SearchResult({ searchList, onlineFriends, offlineFriends }) {
 
   const friendsStatus = () => {
     setOnlineSearchFriends(
-      searchList?.friends.filter((i) =>
+      searchList?.friends?.filter((i) =>
         onlineFriends
           ?.map((j) => {
             return j.uid;
@@ -153,7 +153,7 @@ export function SearchResult({ searchList, onlineFriends, offlineFriends }) {
       )
     );
     setOfflineSearchFriends(
-      searchList?.friends.filter((i) =>
+      searchList?.friends?.filter((i) =>
         offlineFriends
           ?.map((j) => {
             return j.uid;
