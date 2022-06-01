@@ -92,7 +92,16 @@ export default function Friends(props) {
       {search.length === 0 && (
         <div className={styles.friends}>
           <div className={styles.online}>
-            <p>Online [{onlineFriends.length + 1}]</p>
+            <h5>Online [{onlineFriends.length + 1}]</h5>
+            <CurrentUser
+              userDetails={allUsers?.filter((i) => i.uid === uid)[0]}
+            />
+            <CurrentUser
+              userDetails={allUsers?.filter((i) => i.uid === uid)[0]}
+            />{" "}
+            <CurrentUser
+              userDetails={allUsers?.filter((i) => i.uid === uid)[0]}
+            />{" "}
             <CurrentUser
               userDetails={allUsers?.filter((i) => i.uid === uid)[0]}
             />
@@ -106,12 +115,21 @@ export default function Friends(props) {
             )}
           </div>
           <div className={styles.offline}>
-            <p>Friends [{offlineFriends.length}]</p>
+            <h5>Friends [{offlineFriends.length}]</h5>
             {offlineFriends?.map((item, index) => {
               return (
                 <Friend userDetails={item} status={false} key={item.uid} />
               );
             })}
+            <CurrentUser
+              userDetails={allUsers?.filter((i) => i.uid === uid)[0]}
+            />{" "}
+            <CurrentUser
+              userDetails={allUsers?.filter((i) => i.uid === uid)[0]}
+            />{" "}
+            <CurrentUser
+              userDetails={allUsers?.filter((i) => i.uid === uid)[0]}
+            />
             {offlineFriends.length > 5 && (
               <button onClick={dis_off_listHandle} className={styles.see_btn}>
                 {dis_online ? "see more >>" : "see less <<"}

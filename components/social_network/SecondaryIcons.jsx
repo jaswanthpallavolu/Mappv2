@@ -179,11 +179,13 @@ export const NotificationIcon = ({
             name="notifications-outline"
           ></ion-icon>
         </div>
-        {sectionOpened.notification && !isMobile && <Notification />}
+        {sectionOpened.notification && !isMobile && (
+          <Notification closeAll={closeAll} />
+        )}
       </div>
       {sectionOpened.notification && isMobile && (
         <div className={styles.mobile_close_sec}>
-          <Notification />
+          <Notification closeAll={closeAll} />
           <div className={styles.close_section} onClick={closeAll}></div>
         </div>
       )}
@@ -214,6 +216,7 @@ export const PeopleIcon = ({
       dispatch(setOnlineUsers(onlineUsers));
     });
     socket.on("receive-friend-request", ({ request }) => {
+      // console.log(request);
       dispatch(addReceivedRequest(request));
     });
 
@@ -262,12 +265,12 @@ export const PeopleIcon = ({
             name="people-outline"
           ></ion-icon>
         </div>
-        {sectionOpened.people && !isMobile && <People />}
+        {sectionOpened.people && !isMobile && <People closeAll={closeAll} />}
       </div>
 
       {sectionOpened.people && isMobile && (
         <div className={styles.mobile_close_sec}>
-          <People />
+          <People closeAll={closeAll} />
           <div className={styles.close_section} onClick={closeAll}></div>
         </div>
       )}

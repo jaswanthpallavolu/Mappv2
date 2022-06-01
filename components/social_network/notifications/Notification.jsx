@@ -7,7 +7,8 @@ import { useRouter } from "next/dist/client/router";
 
 import { RequestAccepted, MovieSuggestion } from "./NotifType";
 
-export default function Notification() {
+export default function Notification({ closeAll }) {
+  const theme = useSelector((state) => state.global.theme);
   function randomDate(start, end) {
     return new Date(
       start.getTime() + Math.random() * (end.getTime() - start.getTime())
@@ -16,9 +17,17 @@ export default function Notification() {
 
   return (
     <div className={styles.icon_section}>
-      <div className={notifStyles.container}>
-        <h3 className={notifStyles.title}>Notifications</h3>
-        <div className={notifStyles.content}>
+      <div
+        className={`${notifStyles.container} ${
+          theme === "dark" ? notifStyles.dtheme : notifStyles.ltheme
+        }`}
+      >
+        <div className={styles.header}>
+          <h3 className={styles.title}>Notifications</h3>
+          <i onClick={closeAll} className="fa-solid fa-xmark"></i>
+        </div>
+
+        <div className={styles.custom_scroll}>
           <Section name="new" dropdown={true} />
           <Section name="earlier" dropdown={true} />
           <Section name="this week" dropdown={false} />

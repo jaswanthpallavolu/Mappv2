@@ -21,11 +21,15 @@
 
 .online,
 .offline {
-  text-align: left;
   display: flex;
   flex-direction: column;
   gap: calc(var(--margin-l) * 2);
   margin-bottom: calc(var(--margin-l) * 2.5);
+}
+.online h5,
+.offline h5 {
+  font-weight: 400;
+  color: var(--font-primary);
 }
 .noResult,
 .loaderSection {

@@ -10,21 +10,18 @@ import {
   removeSentRequest,
 } from "../../../../redux/features/peopleSlice";
 
+import { ProfilePic } from "./Profile";
+
 export function CurrentUser({ userDetails }) {
   return (
     <div className={styles.user_container}>
       {userDetails && (
         <div className={styles.main_details}>
           <div className={`${styles.pic} ${styles.indi} ${styles.green}`}>
-            {userDetails["photoUrl"] ? (
-              <img
-                src={userDetails["photoUrl"]}
-                className={styles.pic}
-                alt={userDetails.username[0]}
-              />
-            ) : (
-              userDetails.username[0]
-            )}
+            <ProfilePic
+              url={userDetails.photoUrl}
+              name={userDetails.username}
+            />
           </div>
           <div className={styles.info}>
             <div className={styles.name}>{userDetails.username}</div>
@@ -85,15 +82,10 @@ export function User({ userDetails, type }) {
       {userDetails && (
         <div className={styles.main_details}>
           <div className={`${styles.pic} ${styles.indi}`}>
-            {userDetails["photoUrl"] ? (
-              <img
-                src={userDetails["photoUrl"]}
-                className={styles.pic}
-                alt={userDetails.username[0]}
-              />
-            ) : (
-              userDetails.username[0]
-            )}
+            <ProfilePic
+              url={userDetails.photoUrl}
+              name={userDetails.username}
+            />
           </div>
           <div className={styles.info}>
             <div className={styles.name}>{userDetails.username}</div>
@@ -143,11 +135,10 @@ export function Friend({ userDetails, status }) {
               status ? styles.green : styles.grey
             }`}
           >
-            {userDetails["photoUrl"] ? (
-              <img src={userDetails["photoUrl"]} className={styles.pic} />
-            ) : (
-              userDetails.username[0]
-            )}
+            <ProfilePic
+              url={userDetails.photoUrl}
+              name={userDetails.username}
+            />
           </div>
           <div className={styles.info}>
             <div className={styles.name}>{userDetails.username}</div>
@@ -205,16 +196,28 @@ export function FriendRequest({ userDetails }) {
   };
 
   return (
-    <div className={styles.request}>
+    <div className={`${styles.user_container} ${styles.request}`}>
       {userDetails && (
-        <>
-          <div className={styles.name}>{userDetails.username}</div>
-          <div className={styles.options}>
-            <button onClick={acceptRequest}>Accept</button>
-            <button onClick={decineRequest}>Decline</button>
+        <div className={styles.main_details}>
+          <div className={styles.profile}>
+            <ProfilePic
+              url={userDetails.photoUrl}
+              name={userDetails.username}
+            />
           </div>
-        </>
+          <div className={styles.info}>
+            <div className={styles.name}>{userDetails.username}</div>
+          </div>
+        </div>
       )}
+      <div className={styles.options}>
+        <button onClick={acceptRequest} className={styles.accept}>
+          Accept
+        </button>
+        <button onClick={decineRequest} className={styles.decline}>
+          Decline
+        </button>
+      </div>
     </div>
   );
 }

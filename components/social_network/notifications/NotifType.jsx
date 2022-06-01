@@ -6,6 +6,7 @@ import {
 } from "../../../redux/features/notificationSlice";
 import { getUserDetails } from "../../../redux/features/peopleSlice";
 import { useDispatch } from "react-redux";
+import { ProfilePic } from "../people/user/Profile";
 
 const ellipsisFormat = (name) => {
   return name.length > 20 ? name.slice(0, 20) + "..." : name;
@@ -35,7 +36,7 @@ export const RequestAccepted = ({ info, router }) => {
             info.unRead ? notifStyles.notify : ""
           }`}
         >
-          <img src={userInfo.photoUrl} alt="p" />
+          <ProfilePic url={userInfo.photoUrl} name={userInfo.username} />
           <div className={notifStyles.details}>
             <div className={notifStyles.msg}>
               <p>
@@ -81,7 +82,7 @@ export const MovieSuggestion = ({ info, router }) => {
             info.unRead ? notifStyles.notify : ""
           }`}
         >
-          <img src={userInfo.photoUrl} alt="p" />
+          <ProfilePic url={userInfo.photoUrl} name={userInfo.username} />
           <div className={notifStyles.details}>
             <div className={notifStyles.msg}>
               <p>

@@ -3,10 +3,11 @@ import styles from "./people.module.css";
 import secStyles from "../iconsection.module.css";
 import Friends from "./Friends";
 import { FriendRequest } from "./user/User";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
-export default function People() {
+export default function People({ closeAll }) {
   const [selectedSection, setSelectedSection] = useState(true);
+  const theme = useSelector((state) => state.global.theme);
 
   const [requser, setRequser] = useState([]);
 
@@ -17,7 +18,16 @@ export default function People() {
 
   return (
     <div className={secStyles.icon_section}>
-      <div className={styles.people_comp}>
+      <div
+        className={`${styles.people_comp}  ${
+          theme === "dark" ? styles.dtheme : styles.ltheme
+        }`}
+      >
+        <div className={secStyles.header}>
+          <h3 className={secStyles.title}>people</h3>
+          <i onClick={closeAll} className="fa-solid fa-xmark"></i>
+        </div>
+
         <div className={styles.menu}>
           <SectionMenu states={{ selectedSection, setSelectedSection }} />
           <SearchBar
@@ -26,13 +36,15 @@ export default function People() {
             termHandle={searchHandle}
           />
         </div>
-        {selectedSection ? (
-          <div className={styles.list}>
-            <Friends dataprops={{ requser, setRequser, search }} />
-          </div>
-        ) : (
-          <RequestSection searchTerm={search} />
-        )}
+        <div className={`${secStyles.custom_scroll}`}>
+          {selectedSection ? (
+            <div className={styles.list}>
+              <Friends dataprops={{ requser, setRequser, search }} />
+            </div>
+          ) : (
+            <RequestSection searchTerm={search} />
+          )}
+        </div>
       </div>
     </div>
   );
@@ -51,11 +63,7 @@ export function SectionMenu(props) {
       <div className={styles.switch}>
         <div
           onClick={leftHandle}
-          className={
-            selectedSection
-              ? `${styles.left} ${styles.active}`
-              : `${styles.left}`
-          }
+          className={`${styles.left} ${selectedSection ? styles.active : ""}`}
         >
           <i className="fa-solid fa-user-group" />
         </div>
@@ -82,13 +90,15 @@ export function SearchBar(props) {
   return (
     <div className={styles.search}>
       <input
-        placeholder={props.list ? "Search Friends" : "Filter Requests"}
+        placeholder={
+          props.list ? "Search Friends" : "Filter Requests (not completed)"
+        }
         className={styles.bar}
         value={props.term}
         onChange={getTerm}
         ref={input}
       />
-      <div className={styles.icon}>
+      <div className={styles.sicon}>
         <ion-icon name="search-outline"></ion-icon>
       </div>
     </div>

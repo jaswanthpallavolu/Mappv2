@@ -9,6 +9,7 @@ import { logout } from "../../redux/features/authSlice";
 import MobileNavbar from "./MobileNavbar";
 import SearchBar from "./SearchBar/SearchBar";
 import SecondaryIcons from "../social_network/SecondaryIcons";
+import { ProfilePic } from "../social_network/people/user/Profile";
 // import LogoutIcon from "@mui/icons-material/Logout";
 // import styled from "styled-components";
 
@@ -32,7 +33,7 @@ import SecondaryIcons from "../social_network/SecondaryIcons";
 
 function Navbar() {
   const theme = useSelector((state) => state.global.theme);
-  const profileUrl = useSelector((state) => state.userAuth.user.photoUrl);
+  const user = useSelector((state) => state.userAuth.user);
   // const username = useSelector((state) => state.userAuth.user.username);
   const authorized = useSelector((state) => state.userAuth.user.authorized);
   const dispatch = useDispatch();
@@ -64,11 +65,6 @@ function Navbar() {
       setNavScrollTheme(false);
     }
   };
-
-  // useEffect(() => {
-  //   if (router.pathname === "/movies/[id]") setWhiteIcons(true);
-  //   else setWhiteIcons(false);
-  // }, [router.pathname]);
 
   useEffect(() => {
     changeBackground();
@@ -122,7 +118,7 @@ function Navbar() {
 
               <SecondaryIcons isMobile={isMobile} />
 
-              <ProfilePic url={profileUrl} />
+              <ProfilePic url={user.photoUrl} name={user.username} />
 
               <div
                 className={styles.logout}
@@ -162,7 +158,7 @@ function Navbar() {
         <MobileNavbar
           prop={{
             navScrollTheme,
-            profileUrl,
+            user,
             isMobile,
             handleTheme,
 
@@ -178,11 +174,3 @@ function Navbar() {
 }
 
 export default Navbar;
-
-export function ProfilePic({ url }) {
-  return (
-    <div className={styles.profile_pic}>
-      <img src={url} alt="*" />
-    </div>
-  );
-}

@@ -110,46 +110,53 @@
 .mobnav_icons .mobnav_nicon {
   margin: 0;
   padding: 0;
-  color: var(--font-primary);
+
   height: max-content;
   display: grid;
   place-items: center;
+}
+.mobnav_icons > ion-icon {
+  color: var(--font-primary);
 }
 
 .mob_profile {
   position: absolute;
   width: 100%;
   bottom: 0;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.5em;
   /* border: 1px solid red; */
   background: var(--base-color);
   padding: 0.5rem;
   height: 6rem;
 }
-.mob_user {
-  display: flex;
-  width: max-content;
-  align-items: center;
-  margin-bottom: 1rem;
-  gap: 0.5em;
-  /* margin: 0.5rem; */
-}
-.mob_user h4 {
+.mob_profile h4 {
   color: var(--nav-link-color);
   font-size: var(--icon-text);
   font-weight: 600;
 }
+.mob_user,
+.mob_logout {
+  display: flex;
+  width: max-content;
+  align-items: center;
+  /* margin-bottom: 1rem; */
+  gap: 0.5em;
+  /* margin: 0.5rem; */
+}
 .mob_logout ion-icon {
   font-size: 1.8rem;
 }
-.mob_logout {
+/* .mob_logout {
   position: relative;
   width: max-content;
   align-items: center;
-  /* margin: 0.5rem; */
   bottom: 0.5rem;
-  /* padding-top: 5rem; */
-  /* border: 1px solid red; */
-}
+
+} */
 
 /* END OF NAVBAR ITEMS */
 
@@ -173,9 +180,8 @@
   /* background-color: red; */
 }
 
-.burger.notopened span,
-.navbar.toggle_style .burger.notopened span {
-  background-color: var(--font-primary) !important;
+.ltheme .burger.opened span {
+  background-color: var(--font-primary);
 }
 /* .makeWhite .burger.notopened span {
   background-color: white !important;
@@ -190,7 +196,8 @@
   position: absolute;
   width: 100%;
   height: 0.2rem;
-  background: var(--font-primary);
+  background-color: var(--burger-color);
+  /* background: var(--font-primary); */
   border-radius: 1rem;
 }
 .burger span:first-child {
