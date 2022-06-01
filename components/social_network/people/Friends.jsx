@@ -96,15 +96,6 @@ export default function Friends(props) {
             <CurrentUser
               userDetails={allUsers?.filter((i) => i.uid === uid)[0]}
             />
-            <CurrentUser
-              userDetails={allUsers?.filter((i) => i.uid === uid)[0]}
-            />{" "}
-            <CurrentUser
-              userDetails={allUsers?.filter((i) => i.uid === uid)[0]}
-            />{" "}
-            <CurrentUser
-              userDetails={allUsers?.filter((i) => i.uid === uid)[0]}
-            />
             {onlineFriends?.map((item) => (
               <Friend userDetails={item} status={true} key={item.uid} />
             ))}
@@ -121,15 +112,7 @@ export default function Friends(props) {
                 <Friend userDetails={item} status={false} key={item.uid} />
               );
             })}
-            <CurrentUser
-              userDetails={allUsers?.filter((i) => i.uid === uid)[0]}
-            />{" "}
-            <CurrentUser
-              userDetails={allUsers?.filter((i) => i.uid === uid)[0]}
-            />{" "}
-            <CurrentUser
-              userDetails={allUsers?.filter((i) => i.uid === uid)[0]}
-            />
+
             {offlineFriends.length > 5 && (
               <button onClick={dis_off_listHandle} className={styles.see_btn}>
                 {dis_online ? "see more >>" : "see less <<"}

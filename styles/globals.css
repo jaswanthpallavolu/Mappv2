@@ -127,7 +127,7 @@ li {
   }
 }
 
-@media (hover: hover) {
+@media (max-width: 540px) {
   button,
   ion-icon,
   i {

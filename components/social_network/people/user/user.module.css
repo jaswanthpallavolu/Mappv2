@@ -95,6 +95,7 @@
   gap: calc(var(--margin-l) * 2);
   /* border: 1px solid red; */
 }
+
 .user_container:hover .extend {
   display: flex;
 }
@@ -141,12 +142,6 @@
   border: 1px solid var(--accent-light);
 }
 
-@media (hover: hover) {
-  .extend {
-    display: flex;
-  }
-}
-
 /* PROFILE PIC */
 .profile_pic {
   position: relative;
@@ -183,5 +178,8 @@
   }
   .request .info {
     max-width: 80%;
+  }
+  .extend {
+    display: flex;
   }
 }

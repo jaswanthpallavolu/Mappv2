@@ -35,6 +35,7 @@
   /* text-align: center; */
 }
 .header i {
+  color: var(--font-primary);
   font-size: 0;
 }
 

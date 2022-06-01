@@ -30,7 +30,9 @@
   --notify-color: red;
 
   /* CUSTOM PROFILE */
-
+  --profile-height: 2rem;
+  --img-radius: 25px;
+  --scale-bg: 1.15;
   --bg-blur: 0;
 
   --margin-l: 0.25em;
@@ -85,7 +87,8 @@
   cursor: pointer;
 }
 .Toggle {
-  padding: 0.3em;
+  margin-top: -0.5em;
+  padding-bottom: 0.3em;
 }
 .switch {
   display: flex;
