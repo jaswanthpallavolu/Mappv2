@@ -70,13 +70,6 @@ export function User({ userDetails, type }) {
       setToggleRequestIcon("normal");
     }
   };
-
-  useEffect(() => {
-    socket.on("remove-received-request", (res) => {
-      dispatch(removeSentRequest({ senderId: res.senderId }));
-    });
-  }, [socket]);
-
   return (
     <div className={styles.user_container}>
       {userDetails && (

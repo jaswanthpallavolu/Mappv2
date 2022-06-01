@@ -3,13 +3,13 @@ import { CurrentUser, Friend, FriendRequest, User } from "./user/User";
 import styles from "./friends.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { searchUsers } from "../../../redux/features/peopleSlice";
-// import { Loader1 } from "../../../../utils/loaders/Loading";
+import { Loader1 } from "../../../utils/loaders/Loading";
 export default function Friends(props) {
   const { search } = props.dataprops;
   const uid = useSelector((state) => state.userAuth.user.uid);
   const allUsers = useSelector((state) => state.people.allUsers);
   const onlineUsers = useSelector((state) => state.people.onlineUsers);
-  // const pStatus = useSelector((state) => state.people.status);
+  const pStatus = useSelector((state) => state.people.status);
   const friends = useSelector((state) => state.people.friends);
   const sentRequests = useSelector((state) => state.people.sentRequests);
   const receivedRequests = useSelector(
@@ -89,7 +89,7 @@ export default function Friends(props) {
 
   return (
     <>
-      {search.length === 0 && (
+      {search.length === 0 && pStatus !== "loading" && (
         <div className={styles.friends}>
           <div className={styles.online}>
             <h5>Online [{onlineFriends.length + 1}]</h5>
@@ -121,19 +121,21 @@ export default function Friends(props) {
           </div>
         </div>
       )}
-      {search.length > 0 && searchList && (
-        <SearchResult
-          searchList={searchList}
-          onlineFriends={onlineFriends}
-          offlineFriends={offlineFriends}
-        />
-      )}
+      {search.length > 0 &&
+        searchList &&
+        pStatus === "users-fetch-complete" && (
+          <SearchResult
+            searchList={searchList}
+            onlineFriends={onlineFriends}
+            offlineFriends={offlineFriends}
+          />
+        )}
 
-      {/* {pStatus === "loading" && (
-        <div className={styles.loaderSection}>
+      {pStatus === "loading" && (
+        <div className={styles.loader_section}>
           <Loader1 />
         </div>
-      )} */}
+      )}
     </>
   );
 }

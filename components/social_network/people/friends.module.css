@@ -32,9 +32,9 @@
   color: var(--font-primary);
 }
 .noResult,
-.loaderSection {
+.loader_section {
   /* border: 1px solid red; */
-  height: 25%;
+  height: 4rem;
   display: grid;
   justify-content: center;
 }

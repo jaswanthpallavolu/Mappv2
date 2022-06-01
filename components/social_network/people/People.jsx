@@ -121,16 +121,16 @@ export function RequestSection({ searchTerm }) {
     setRequser(details);
   };
 
-  const searchRequests = (word) => {
-    // console.log(word);
-  };
+  // const searchRequests = (word) => {
+  //   // console.log(word);
+  // };
 
   useEffect(() => {
     fecthRequests(uid);
-    if (searchTerm !== "") {
-      searchRequests(searchTerm);
-    }
-  }, [searchTerm, receivedRequests]);
+    // if (searchTerm !== "") {
+    //   searchRequests(searchTerm);
+    // }
+  }, [receivedRequests]);
 
   useEffect(() => {
     fecthRequests(uid);

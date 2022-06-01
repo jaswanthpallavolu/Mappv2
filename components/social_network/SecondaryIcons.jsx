@@ -14,6 +14,7 @@ import {
   setOnlineUsers,
   removeReceivedRequest,
   addReceivedRequest,
+  removeSentRequest,
   addFriend,
   removeFriend,
   fetchFriends,
@@ -222,6 +223,7 @@ export const PeopleIcon = ({
 
     socket.on("remove-received-request", (res) => {
       dispatch(removeReceivedRequest(res));
+      dispatch(removeSentRequest({ senderId: res.senderId }));
     });
 
     socket.on("request-accepted", (res) => {

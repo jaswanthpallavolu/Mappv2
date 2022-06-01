@@ -87,7 +87,9 @@ const people = createSlice({
     },
 
     addReceivedRequest: (state, action) => {
-      state.receivedRequests = [...state.receivedRequests, action.payload];
+      var isExist = state.receivedRequests.includes(action.payload);
+      if (!isExist)
+        state.receivedRequests = [...state.receivedRequests, action.payload];
     },
     removeReceivedRequest: (state, action) => {
       const reqs = state.receivedRequests.filter(
@@ -120,7 +122,7 @@ const people = createSlice({
       }
     }),
       builder.addCase(getAllUsers.pending, (state) => {
-        state.status = "loading";
+        state.status = "all-users-loading";
       }),
       builder.addCase(getAllUsers.fulfilled, (state, action) => {
         state.allUsers = action.payload;
