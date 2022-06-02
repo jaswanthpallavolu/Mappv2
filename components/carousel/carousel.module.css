@@ -59,6 +59,11 @@
     width: 110%;
   }
 }
+@media (max-width: 380px) {
+  .m_carousel {
+    width: 105%;
+  }
+}
 
 @media (max-width: 240px) {
   .m_carousel {

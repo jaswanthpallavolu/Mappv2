@@ -150,6 +150,11 @@ export const NotificationIcon = ({
   useEffect(() => {
     socket.on("receive-new-notification", addNotif);
     socket.on("remove-notification", removeNotif);
+
+    return () => {
+      socket.off("receive-new-notification", addNotif);
+      socket.off("remove-notification", removeNotif);
+    };
   }, [socket]);
   useEffect(() => {
     dispatch(fetchNotifications(uid));
@@ -204,54 +209,68 @@ export const PeopleIcon = ({
   const receivedRequests = useSelector(
     (state) => state.people.receivedRequests
   );
-  // const friends = useSelector((state) => state.people.friends);
 
   const dispatch = useDispatch();
 
+  const updateOnlineUsers = (res) => {
+    const onlineUsers = res.users?.map((i) => {
+      return i["userId"];
+    });
+    // console.log("online:", onlineUsers);
+    dispatch(setOnlineUsers(onlineUsers));
+  };
+  const receiveFriendReq = ({ request }) => {
+    // console.log(request);
+    dispatch(addReceivedRequest(request));
+  };
+  const deleteReceivedReq = (res) => {
+    dispatch(removeReceivedRequest(res));
+    dispatch(removeSentRequest({ senderId: res.senderId }));
+  };
+  const reqAccept = (res) => {
+    // console.log("r-acpt", res.senderId);
+    dispatch(
+      addFriend({
+        uid: res.senderId,
+        added: new Date().toLocaleString(),
+        _id: res.receiverId,
+      })
+    );
+  };
+  const unFriend = (res) => {
+    // console.log(res);
+    dispatch(removeFriend({ uid: res.senderId }));
+  };
   useEffect(() => {
-    socket.on("updated-online-users", (res) => {
-      const onlineUsers = res.users?.map((i) => {
-        return i["userId"];
-      });
-      // console.log("online:", onlineUsers);
-      dispatch(setOnlineUsers(onlineUsers));
-    });
-    socket.on("receive-friend-request", ({ request }) => {
-      // console.log(request);
-      dispatch(addReceivedRequest(request));
-    });
+    socket.on("updated-online-users", updateOnlineUsers);
+    socket.on("receive-friend-request", receiveFriendReq);
+    socket.on("remove-received-request", deleteReceivedReq);
+    socket.on("request-accepted", reqAccept);
+    socket.on("nolonger-friend", unFriend);
 
-    socket.on("remove-received-request", (res) => {
-      dispatch(removeReceivedRequest(res));
-      dispatch(removeSentRequest({ senderId: res.senderId }));
-    });
-
-    socket.on("request-accepted", (res) => {
-      // console.log("r-acpt", res.senderId);
-      dispatch(
-        addFriend({
-          uid: res.senderId,
-          added: new Date().toLocaleString(),
-          _id: res.receiverId,
-        })
-      );
-    });
-
-    socket.on("nolonger-friend", (res) => {
-      // console.log(res);
-      dispatch(removeFriend({ uid: res.senderId }));
-    });
+    return () => {
+      socket.off("updated-online-users", updateOnlineUsers);
+      socket.off("receive-friend-request", receiveFriendReq);
+      socket.off("remove-received-request", deleteReceivedReq);
+      socket.off("request-accepted", reqAccept);
+      socket.off("nolonger-friend", unFriend);
+    };
   }, [socket]);
+
   useEffect(() => {
     dispatch(fetchFriends(uid));
   }, []);
-  // .filter((i) => !i.seen)
+
   return (
     <>
       <div
         className={`${navstyles.secondary_icon}  ${
           sectionOpened.people ? styles.active : ""
-        } ${receivedRequests.length > 0 ? navstyles.notify_people : ""}`}
+        } ${
+          !sectionOpened.people && receivedRequests.length > 0
+            ? navstyles.notify_people
+            : ""
+        }`}
       >
         <div
           onClick={() => {

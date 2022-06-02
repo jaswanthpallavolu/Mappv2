@@ -74,6 +74,7 @@
 }
 .more {
   margin-top: var(--margin-top);
+  margin: 0 auto;
 }
 
 /* NOTIFICATION TYPE */

@@ -26,7 +26,7 @@ const MobileNavbar = ({ prop }) => {
         } ${theme === "light" ? mnstyle.ltheme : mnstyle.dtheme}`}
       >
         <div className={styles.logo} onClick={() => router.push("/home")}>
-          <img src="/assets/nav-logo.png" alt="logo" />
+          <img src="/assets/logo60x60.png" alt="logo" />
         </div>
 
         <div className={mnstyle.mobnav_icons}>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styles from "./user.module.css";
 import socket from "../../../../socket.connect";
 import { useDispatch, useSelector } from "react-redux";
@@ -39,37 +39,35 @@ export function CurrentUser({ userDetails }) {
 // both User AND sendRequest SHOULD BE combined into one component
 export function User({ userDetails, type }) {
   const uid = useSelector((state) => state.userAuth.user.uid);
-
   const [toggleRequestIcon, setToggleRequestIcon] = useState(type);
 
   const dispatch = useDispatch();
 
-  const userAction = (action) => {
-    if (action === "add") {
-      socket.emit("send-friend-request", {
-        senderId: uid,
-        receiverId: userDetails.uid,
-      });
-      dispatch(
-        addSentRequest({
-          uid: userDetails.uid,
-          sentRequest: true,
-          time: new Date().toLocaleString(),
-          seen: false,
-          _id: userDetails.uid,
-        })
-      );
-      setToggleRequestIcon("send");
-    }
-    if (action === "cancel") {
-      socket.emit("decline-friend-request", {
-        senderId: uid,
-        receiverId: userDetails.uid,
-      });
-      dispatch(removeSentRequest({ senderId: userDetails.uid }));
-      setToggleRequestIcon("normal");
-    }
+  const sendRequest = () => {
+    socket.emit("send-friend-request", {
+      senderId: uid,
+      receiverId: userDetails.uid,
+    });
+    dispatch(
+      addSentRequest({
+        uid: userDetails.uid,
+        sentRequest: true,
+        time: new Date().toLocaleString(),
+        seen: false,
+        _id: userDetails.uid,
+      })
+    );
+    setToggleRequestIcon("send");
   };
+  const cancelRequest = () => {
+    socket.emit("decline-friend-request", {
+      senderId: uid,
+      receiverId: userDetails.uid,
+    });
+    dispatch(removeSentRequest({ senderId: userDetails.uid }));
+    setToggleRequestIcon("normal");
+  };
+
   return (
     <div className={styles.user_container}>
       {userDetails && (
@@ -91,14 +89,14 @@ export function User({ userDetails, type }) {
             <i
               className="fa-solid fa-user-plus"
               title="Add Friend"
-              onClick={() => userAction("add")}
+              onClick={sendRequest}
             ></i>
           )}
           {toggleRequestIcon === "send" && (
             <i
               className="fa-solid fa-user-xmark"
               title="Remove Request"
-              onClick={() => userAction("cancel")}
+              onClick={cancelRequest}
             ></i>
           )}
         </div>

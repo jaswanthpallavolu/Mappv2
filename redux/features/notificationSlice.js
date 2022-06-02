@@ -44,9 +44,12 @@ const notificationSlice = createSlice({
   initialState,
   reducers: {
     addNotification: (state, action) => {
-      var isExist = state.notifications.includes(action.payload);
-      if (!isExist)
-        state.notifications = [...state.notifications, action.payload];
+      // var isExist = state.notifications.filter(
+      //   (n) => n._id === action.payload._id
+      // ).length;
+      // console.log("A-N", isExist);
+      // if (!isExist)
+      state.notifications = [...state.notifications, action.payload];
     },
     removeNotification: (state, action) => {
       const newNotifs = state.notifications.filter(

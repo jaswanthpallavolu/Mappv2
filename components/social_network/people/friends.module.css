@@ -33,7 +33,6 @@
 }
 .noResult,
 .loader_section {
-  /* border: 1px solid red; */
   height: 4rem;
   display: grid;
   justify-content: center;

@@ -134,7 +134,7 @@
   height: 6rem;
 }
 .mob_profile h4 {
-  color: var(--nav-link-color);
+  color: var(--light-shade);
   font-size: var(--icon-text);
   font-weight: 600;
 }

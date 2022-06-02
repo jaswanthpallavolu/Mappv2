@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./people.module.css";
 import secStyles from "../iconsection.module.css";
+import fstyles from "./friends.module.css";
 import Friends from "./Friends";
 import { FriendRequest } from "./user/User";
 import { useSelector } from "react-redux";
@@ -30,17 +31,19 @@ export default function People({ closeAll }) {
 
         <div className={styles.menu}>
           <SectionMenu states={{ selectedSection, setSelectedSection }} />
-          <SearchBar
-            list={selectedSection}
-            term={search}
-            termHandle={searchHandle}
-          />
         </div>
         <div className={`${secStyles.custom_scroll}`}>
           {selectedSection ? (
-            <div className={styles.list}>
-              <Friends dataprops={{ requser, setRequser, search }} />
-            </div>
+            <>
+              <SearchBar
+                list={selectedSection}
+                term={search}
+                termHandle={searchHandle}
+              />
+              <div className={styles.list}>
+                <Friends dataprops={{ requser, setRequser, search }} />
+              </div>
+            </>
           ) : (
             <RequestSection searchTerm={search} />
           )}
@@ -93,6 +96,7 @@ export function SearchBar(props) {
         placeholder={
           props.list ? "Search Friends" : "Filter Requests (not completed)"
         }
+        // placeholder="search user/ friend"
         className={styles.bar}
         value={props.term}
         onChange={getTerm}
@@ -105,7 +109,7 @@ export function SearchBar(props) {
   );
 }
 
-export function RequestSection({ searchTerm }) {
+export function RequestSection() {
   const [requser, setRequser] = useState([]);
   const uid = useSelector((state) => state.userAuth.user.uid);
   const allUsers = useSelector((state) => state.people.allUsers);
@@ -138,9 +142,12 @@ export function RequestSection({ searchTerm }) {
 
   return (
     <div key={requser.length}>
-      {requser?.map((i) => (
-        <FriendRequest userDetails={i} key={i.uid} />
-      ))}
+      <div className={fstyles.online}>
+        <h5>Requests [{receivedRequests.length}]</h5>
+        {requser?.map((i) => (
+          <FriendRequest userDetails={i} key={i.uid} />
+        ))}
+      </div>
     </div>
   );
 }

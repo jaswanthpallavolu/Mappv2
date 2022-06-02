@@ -34,11 +34,9 @@ import { ProfilePic } from "../social_network/people/user/Profile";
 function Navbar() {
   const theme = useSelector((state) => state.global.theme);
   const user = useSelector((state) => state.userAuth.user);
-  // const username = useSelector((state) => state.userAuth.user.username);
   const authorized = useSelector((state) => state.userAuth.user.authorized);
   const dispatch = useDispatch();
   const router = useRouter();
-
   const handleTheme = () => {
     if (theme === "dark") {
       localStorage.setItem("theme", "light");
@@ -82,12 +80,14 @@ function Navbar() {
   return (
     <nav
       className={`${styles.navbar} ${navScrollTheme ? styles.toggle_style : ""} 
-      ${theme === "dark" ? styles.dark_theme : styles.light_theme}`}
+      ${theme === "dark" ? styles.dark_theme : styles.light_theme}
+      ${router.pathname !== "/movies/[id]" ? styles.hold_style : ""}
+      `}
     >
       {!isMobile ? (
         <div className={styles.desktop_nav}>
           <div className={styles.logo} onClick={() => router.push("/home")}>
-            <img src="/assets/nav-logo.png" alt="logo" />
+            <img src="/assets/logo60x60.png" alt="logo" />
           </div>
           <ul className={styles.navlinks}>
             <li

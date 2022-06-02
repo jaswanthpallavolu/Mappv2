@@ -73,8 +73,8 @@
   padding: 10px;
   margin-bottom: 0.5em;
 }
-.sicon ion-icon {
-  color: var(--font-primary);
+.sicon > ion-icon {
+  color: var(--font-primary) !important;
 }
 .bar {
   background: none;

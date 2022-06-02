@@ -24,6 +24,8 @@
   --pic-bg: var(--light-shade);
   --burger-color: var(--light-shade);
 
+  --logo-size: 2.8rem;
+
   user-select: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -32,10 +34,19 @@
 }
 
 /* ALL TOGGLING PROPERTIES  */
+.toggle_style {
+  box-shadow: 0px 0px 3px var(--accent-light);
+}
+.navbar.hold_style.light_theme {
+  background-color: var(--base-color);
+  box-shadow: 0px 0px 3px var(--accent-light);
+}
 
-.navbar.toggle_style {
+.toggle_style.light_theme {
+  background-color: var(--primary) !important;
+}
+.navbar.toggle_style.dark_theme {
   background-color: var(--primary);
-  box-shadow: 0px 2px 5px var(--card-shadow);
 }
 /* .toggle_style.dark_theme {
 } */
@@ -87,6 +98,8 @@
   grid-column: 1/2;
 }
 .logo img {
+  width: var(--logo-size);
+  height: var(--logo-size);
   border-radius: 100%;
   box-shadow: 0px 2px 4px var(--card-shadow);
 }
@@ -213,7 +226,7 @@
     margin-left: 5%;
   }
   .logo img {
-    width: 2rem;
+    --logo-size: 2.25rem;
   }
 }
 /* ---------END OF DESKTOP NAV ------- */

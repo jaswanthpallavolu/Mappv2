@@ -87,9 +87,12 @@ const people = createSlice({
     },
 
     addReceivedRequest: (state, action) => {
-      var isExist = state.receivedRequests.includes(action.payload);
-      if (!isExist)
-        state.receivedRequests = [...state.receivedRequests, action.payload];
+      // var isExist = state.receivedRequests.filter(
+      //   (n) => n._id === action.payload._id
+      // ).length;
+      // console.log("A-R", isExist);
+      // if (!isExist)
+      state.receivedRequests = [...state.receivedRequests, action.payload];
     },
     removeReceivedRequest: (state, action) => {
       const reqs = state.receivedRequests.filter(

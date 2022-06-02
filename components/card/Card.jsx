@@ -219,6 +219,7 @@ export const Header = ({ details }) => {
             data-title="remove from list"
             data-id={details.movieId}
           >
+            {/* <ion-icon name="bookmark"></ion-icon> */}
             {/* <i className="fa-solid fa-bookmark"></i> */}
             {/* <img src="/assets/x-mark.png" alt="tick" /> */}
             <img src="/assets/bmark_selected.png" alt="tick" />
@@ -232,6 +233,7 @@ export const Header = ({ details }) => {
             onClick={() => authorized && handleAdd()}
             data-title="add to list"
           >
+            {/* <ion-icon name="bookmark-outline"></ion-icon> */}
             {/* <i className="fa-regular fa-bookmark"></i> */}
             {/* <img src="/assets/plus-circle-thin.png" alt="add" /> */}
             <img src="/assets/bookmark-thin.png" alt="add" />

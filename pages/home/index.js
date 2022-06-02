@@ -4,13 +4,15 @@ import Categories from "../../components/Home_categories/Categories";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 function Home() {
-  const authorized = useSelector((state) => state.userAuth.user.authorized);
+  const theme = useSelector((state) => state.global.theme);
   return (
     <div className={styles.home}>
       <Notch />
       <div className={styles.container}>
         <section
-          className={`${styles.one} ${!authorized ? styles.notlogged : ""}`}
+          className={`${styles.section_one} ${
+            theme === "light" ? styles.ltheme : styles.dtheme
+          } `}
         >
           <div className={styles.heading}>
             <h3>Movie Recommendation</h3>
