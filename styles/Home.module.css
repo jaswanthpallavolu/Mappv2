@@ -28,10 +28,13 @@
 }
 .section_one.dtheme {
   background: linear-gradient(180deg, var(--base-color), var(--primary));
+  --t-color1: var(--accent-light);
+  --t-color2: var(--light-shade);
 }
 .section_one.ltheme {
   background-color: var(--primary);
-  /* background: linear-gradient(180deg, var(--primary) 25%); */
+  --t-color1: var(--accent-light);
+  --t-color2: var(--accent-dark);
 }
 
 .section_one .heading {
@@ -53,16 +56,23 @@
   text-transform: capitalize;
   text-align: center;
 }
+.title {
+  margin-bottom: 5%;
+}
 .section_one .heading h3 {
   margin: 0;
   font-size: clamp(1rem, 5vw, 3rem);
+
+  background-image: linear-gradient(45deg, var(--t-color1), var(--t-color2));
+  background-clip: text;
+  color: transparent;
 }
 .section_one .heading p {
   font-size: clamp(0.65rem, 3vw, 1.1rem);
 }
 .features {
   padding: 0 0.5rem;
-  margin-top: 5%;
+  margin: 1% 0;
   display: flex;
   flex-wrap: wrap;
   align-items: left;

@@ -41,10 +41,11 @@
 }
 .ltheme {
   --user-txt-color: var(--accent-dark);
-  --user-block-color: none;
-  --status-color: var(--accent-light);
+  /* --user-block-color: var(--accent-light); */
+  --status-color: var(--accent-dark);
   --border: var(--base-color);
   --pic-bg: var(--accent-light);
+  /* --you_bg: var(--accent-dark); */
 }
 .dtheme {
   --user-txt-color: var(--light-shade);

@@ -49,7 +49,7 @@ function Navbar() {
 
   const [navScrollTheme, setNavScrollTheme] = useState(false);
   // const [whiteIcons, setWhiteIcons] = useState();
-  const [isMobile, setIsMobile] = useState();
+  const [isMobile, setIsMobile] = useState(null);
   const checkWidth = () => {
     if (window.innerWidth > 740) setIsMobile(false);
     else setIsMobile(true);
@@ -84,10 +84,10 @@ function Navbar() {
       ${router.pathname !== "/movies/[id]" ? styles.hold_style : ""}
       `}
     >
-      {!isMobile ? (
+      {!isMobile && isMobile !== null ? (
         <div className={styles.desktop_nav}>
           <div className={styles.logo} onClick={() => router.push("/home")}>
-            <img src="/assets/logo60x60.png" alt="logo" />
+            <img src="/site-icon/favicon-96x96.png" alt="logo" />
           </div>
           <ul className={styles.navlinks}>
             <li

@@ -96,6 +96,7 @@ export default function Friends(props) {
             <CurrentUser
               userDetails={allUsers?.filter((i) => i.uid === uid)[0]}
             />
+
             {onlineFriends?.map((item) => (
               <Friend userDetails={item} status={true} key={item.uid} />
             ))}

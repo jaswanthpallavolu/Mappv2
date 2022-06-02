@@ -26,7 +26,7 @@ const MobileNavbar = ({ prop }) => {
         } ${theme === "light" ? mnstyle.ltheme : mnstyle.dtheme}`}
       >
         <div className={styles.logo} onClick={() => router.push("/home")}>
-          <img src="/assets/logo60x60.png" alt="logo" />
+          <img src="/site-icon/favicon-96x96.png" alt="logo" />
         </div>
 
         <div className={mnstyle.mobnav_icons}>
@@ -42,17 +42,7 @@ const MobileNavbar = ({ prop }) => {
                 <SecondaryIcons isMobile={isMobile} />
               ) : (
                 <button
-                  className={`${mnstyle.mob_login} ${
-                    navScrollTheme ? mnstyle.navstyle2 : ""
-                  }
-                ${
-                  navScrollTheme && theme === "dark"
-                    ? mnstyle.mob_dtbtn
-                    : mnstyle.mob_default
-                }
-                ${
-                  navScrollTheme && theme === "light" ? mnstyle.mob_ltbtn : ""
-                }`}
+                  className={`${styles.login_btn}`}
                   id="sign-in"
                   onClick={() => router.push("/login")}
                 >

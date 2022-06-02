@@ -32,22 +32,21 @@ export default function People({ closeAll }) {
         <div className={styles.menu}>
           <SectionMenu states={{ selectedSection, setSelectedSection }} />
         </div>
-        <div className={`${secStyles.custom_scroll}`}>
-          {selectedSection ? (
-            <>
-              <SearchBar
-                list={selectedSection}
-                term={search}
-                termHandle={searchHandle}
-              />
-              <div className={styles.list}>
-                <Friends dataprops={{ requser, setRequser, search }} />
-              </div>
-            </>
-          ) : (
-            <RequestSection searchTerm={search} />
-          )}
-        </div>
+
+        {selectedSection ? (
+          <>
+            <SearchBar
+              list={selectedSection}
+              term={search}
+              termHandle={searchHandle}
+            />
+            <div className={`${secStyles.custom_scroll} ${styles.list}`}>
+              <Friends dataprops={{ requser, setRequser, search }} />
+            </div>
+          </>
+        ) : (
+          <RequestSection searchTerm={search} />
+        )}
       </div>
     </div>
   );
@@ -144,9 +143,11 @@ export function RequestSection() {
     <div key={requser.length}>
       <div className={fstyles.online}>
         <h5>Requests [{receivedRequests.length}]</h5>
-        {requser?.map((i) => (
-          <FriendRequest userDetails={i} key={i.uid} />
-        ))}
+        <div className={`${secStyles.custom_scroll}`}>
+          {requser?.map((i) => (
+            <FriendRequest userDetails={i} key={i.uid} />
+          ))}
+        </div>
       </div>
     </div>
   );

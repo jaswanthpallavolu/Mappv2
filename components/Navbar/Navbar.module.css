@@ -31,9 +31,13 @@
   -khtml-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
+
+  --login-color: var(--light-shade);
+  --login-bg: var(--accent-light);
 }
 
 /* ALL TOGGLING PROPERTIES  */
+
 .toggle_style {
   box-shadow: 0px 0px 3px var(--accent-light);
 }
@@ -42,30 +46,41 @@
   box-shadow: 0px 0px 3px var(--accent-light);
 }
 
-.toggle_style.light_theme {
-  background-color: var(--primary) !important;
+/* .dark_theme {
+  --login-color: var(--light-shade);
+  --login-bg: var(--accent-light);
 }
-.navbar.toggle_style.dark_theme {
+.light_theme {
+  --login-color: var(--light-shade);
+  --login-bg: var(--accent-light);
+} */
+.toggle_style.dark_theme {
   background-color: var(--primary);
+  /* --login-color: var(--light-shade);
+  --login-bg: var(--accent-light); */
 }
 /* .toggle_style.dark_theme {
 } */
 .toggle_style.light_theme {
+  background-color: var(--primary) !important;
   /* COLORS */
   --nav-link-color: var(--font-primary);
   --nav-link-active-color: var(--font-primary);
   --icon-color: var(--font-primary);
   --burger-color: var(--font-primary);
+
+  /* --login-color: var(--light-shade);
+  --login-bg: var(--accent-light); */
 }
-.btn_default {
+/* .btn_default {
   background: var(--third);
   color: var(--font-secondary);
-}
-.dtbtn,
+} */
+/* .dtbtn,
 .ltbtn {
   background-color: var(--base-color) !important;
   color: var(--font-primary) !important;
-}
+} */
 
 /* END OF ALL TOGGLING PROPERTIES  */
 
@@ -101,7 +116,7 @@
   width: var(--logo-size);
   height: var(--logo-size);
   border-radius: 100%;
-  box-shadow: 0px 2px 4px var(--card-shadow);
+  box-shadow: 0px 0 5px var(--accent-light);
 }
 
 /* NAV LINKS */
@@ -179,8 +194,8 @@
   font-weight: 100;
   border-radius: 20px;
   cursor: pointer;
-  background-color: var(--font-secondary);
-  color: var(--font-primary);
+  background-color: var(--login-bg);
+  color: var(--login-color);
 }
 
 /* PROFILE */

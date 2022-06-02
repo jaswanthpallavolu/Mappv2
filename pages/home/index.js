@@ -15,8 +15,10 @@ function Home() {
           } `}
         >
           <div className={styles.heading}>
-            <h3>Movie Recommendation</h3>
-            <p>this website contains movie data between (1994-2020)</p>
+            <div className={styles.title}>
+              <h3>Recommend You</h3>
+              <p>a movie recommendation web app</p>
+            </div>
             {/* <div
               style={{
                 maxWidth: "90vw",
@@ -24,6 +26,7 @@ function Home() {
               }}
               className="elfsight-app-d9a75cd2-55d3-4991-8ecd-783c94d527e4"
             ></div> */}
+
             <ul className={styles.features}>
               <li>
                 <b>Features :-</b>
@@ -31,6 +34,7 @@ function Home() {
               <li>personalized Home page based on user activity,</li>
               <li>recommendation system</li>
             </ul>
+            <p>{"[ this website contains movie data between (1994-2020) ]"}</p>
           </div>
           {/* {authorized ? <MyList /> : ""} */}
         </section>
