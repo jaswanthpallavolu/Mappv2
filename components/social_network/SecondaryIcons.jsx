@@ -161,10 +161,10 @@ export const NotificationIcon = ({
       socket.off("receive-new-notification", addNotif);
       socket.off("remove-notification", removeNotif);
     };
-  }, [socket]);
+  }, [socket]); //eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => {
     dispatch(fetchNotifications(uid));
-  }, []);
+  }, []); //eslint-disable-line react-hooks/exhaustive-deps
   return (
     <>
       <div
@@ -261,11 +261,11 @@ export const PeopleIcon = ({
       socket.off("request-accepted", reqAccept);
       socket.off("nolonger-friend", unFriend);
     };
-  }, [socket]);
+  }, [socket]); //eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     dispatch(fetchFriends(uid));
-  }, []);
+  }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>

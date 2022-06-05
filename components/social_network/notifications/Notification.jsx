@@ -151,7 +151,7 @@ export const Section = ({ name, dropdown }) => {
 
   useEffect(() => {
     if (notifications) fetchNotifs();
-  }, [notifications]);
+  }, [notifications]); //eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>

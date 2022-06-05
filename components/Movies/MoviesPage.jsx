@@ -68,7 +68,7 @@ export default function MoviePage() {
 
   useEffect(() => {
     query ? fetchFilterMovies() : "";
-  }, [query, page, sortby]);
+  }, [query, page, sortby]); //eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     setPage(1);

@@ -131,11 +131,11 @@ export function RequestSection() {
     // if (searchTerm !== "") {
     //   searchRequests(searchTerm);
     // }
-  }, [receivedRequests]);
+  }, [receivedRequests]); //eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     fecthRequests(uid);
-  }, []);
+  }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div key={requser.length}>

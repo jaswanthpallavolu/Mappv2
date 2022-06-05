@@ -43,6 +43,7 @@ export default function Categories() {
         });
     }
   };
+
   const fetchMostLiked = async (signal) => {
     await axios
       .get(
@@ -50,17 +51,23 @@ export default function Categories() {
         { signal }
       )
       .then((res) => {
-        // console.log();
+        // console.log(res.data);
         setMostLiked(res.data.mostLiked);
       });
   };
 
   useEffect(() => {
     const controller = new AbortController();
+    if (user.authorized) fetchMostLiked(controller.signal);
+    return () => controller.abort();
+  }, [user.authorized]);
+
+  useEffect(() => {
+    const controller = new AbortController();
     const signal = controller.signal;
     setLoading(true);
     if (historyStatus === "loaded" || !user.authorized) fetchTags(signal);
-    if (user.authorized) fetchMostLiked(signal);
+
     return () => controller.abort();
   }, [historyStatus]); //eslint-disable-line react-hooks/exhaustive-deps
   return (
@@ -345,7 +352,7 @@ export const Category = ({ name }) => {
 
   useEffect(() => {
     if (name === "recently viewed") getLocalStorageMovies();
-  }, [uid]);
+  }, [uid]); //eslint-disable-line react-hooks/exhaustive-deps
   //clean up function
   useEffect(() => {
     return () => {

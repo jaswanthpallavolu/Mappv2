@@ -351,7 +351,7 @@ export function ActionIcons({ details, isMobile }) {
   useEffect(() => {
     const timer = setTimeout(() => saveToDatabase(), 450);
     return () => clearTimeout(timer);
-  }, [userData]);
+  }, [userData]); //eslint-disable-line react-hooks/exhaustive-deps
 
   const addToRecentlyViewed = () => {
     let recent = {};

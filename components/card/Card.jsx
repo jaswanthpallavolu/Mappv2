@@ -199,7 +199,7 @@ export const Header = ({ details }) => {
   useEffect(() => {
     const timer = setTimeout(() => handleMyListIcon(), 450);
     return () => clearTimeout(timer);
-  }, [toggleIcon]);
+  }, [toggleIcon]); //eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className={styles.top}>

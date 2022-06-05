@@ -61,7 +61,7 @@ export default function Friends(props) {
 
   useEffect(() => {
     friendsStatus();
-  }, [onlineUsers, friends]);
+  }, [onlineUsers, friends]); //eslint-disable-line react-hooks/exhaustive-deps
 
   const searchusers = async (signal) => {
     dispatch(searchUsers({ name: search.toLowerCase(), uid, signal })).then(
@@ -177,7 +177,7 @@ export function SearchResult({ searchList, onlineFriends, offlineFriends }) {
     searchList.normal?.length;
   useEffect(() => {
     friendsStatus();
-  }, [searchList, onlineFriends, offlineFriends, more]);
+  }, [searchList, onlineFriends, offlineFriends, more]); //eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>

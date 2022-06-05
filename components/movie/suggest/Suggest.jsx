@@ -94,7 +94,7 @@ export function SuggestBox({ movie }) {
   useEffect(() => {
     setLoading(true);
     movieSuggestedTo();
-  }, [onlineUsers, friends]);
+  }, [onlineUsers, friends]); //eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className={`${styles.suggest_box}`}>
@@ -233,7 +233,7 @@ function SearchResult({ props }) {
     setLoading(true);
     const timer = setTimeout(() => searchFriends(), 350);
     return () => clearTimeout(timer);
-  }, [searchWord]);
+  }, [searchWord]); //eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
@@ -310,7 +310,7 @@ function Friend({ props }) {
   useEffect(() => {
     if (suggestTo.includes(info.uid)) setTick(true);
     else setTick(false);
-  }, [suggestTo]);
+  }, [suggestTo]); //eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className={`${styles.friend} `} onClick={toggleTick}>
