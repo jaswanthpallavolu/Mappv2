@@ -72,9 +72,12 @@
 .section_notifications {
   margin-top: var(--margin-top);
 }
+.more_section {
+  display: flex;
+  justify-content: center;
+}
 .more {
   margin-top: var(--margin-top);
-  margin: 0 auto;
 }
 
 /* NOTIFICATION TYPE */
@@ -83,6 +86,7 @@
   display: flex;
   gap: 1rem;
   width: 98%;
+  min-height: 3rem;
   align-items: center;
   margin: 0 auto;
   margin-top: var(--notif-block-margin);
@@ -93,6 +97,7 @@
   /* box-shadow: 0 0px 4px var(--shadow); */
 
   background-color: var(--msg-block-color);
+  animation: fadeIn 0.35s ease-in-out;
 }
 .dropdown.notify::before,
 .notification.notify::before {

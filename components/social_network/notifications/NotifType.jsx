@@ -7,8 +7,10 @@ import {
 import { getUserDetails } from "../../../redux/features/peopleSlice";
 import { useDispatch } from "react-redux";
 import { ProfilePic } from "../people/user/Profile";
+import Skeleton from "../../../utils/skeleton/Skeleton";
 
 const ellipsisFormat = (name) => {
+  if (!name) return;
   return name.length > 20 ? name.slice(0, 20) + "..." : name;
 };
 
@@ -16,6 +18,7 @@ const ellipsisFormat = (name) => {
 export const RequestAccepted = ({ info, router }) => {
   const [userInfo, setUserInfo] = useState({});
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(true);
 
   const updateMark = () => {
     dispatch(updateNotification({ ...info, unRead: false }));
@@ -23,19 +26,21 @@ export const RequestAccepted = ({ info, router }) => {
     dispatch(markAsRead({ uid: info.receiverId, notifId: info._id }));
   };
   useEffect(() => {
-    dispatch(getUserDetails(info.senderId)).then((obj) =>
-      setUserInfo(obj.payload)
-    );
+    setLoading(true);
+    dispatch(getUserDetails(info.senderId)).then((obj) => {
+      setUserInfo(obj.payload);
+      setLoading(false);
+    });
   }, []);
   return (
-    <>
-      {userInfo?.username && (
-        <div
-          onMouseEnter={() => info.unRead && updateMark()}
-          className={`${notifStyles.notification} ${
-            info.unRead ? notifStyles.notify : ""
-          }`}
-        >
+    <div
+      onMouseEnter={() => info.unRead && updateMark()}
+      className={`${notifStyles.notification} ${
+        !loading && info.unRead ? notifStyles.notify : ""
+      }`}
+    >
+      {!loading && userInfo?.username ? (
+        <>
           <ProfilePic url={userInfo.photoUrl} name={userInfo.username} />
           <div className={notifStyles.details}>
             <div className={notifStyles.msg}>
@@ -48,14 +53,17 @@ export const RequestAccepted = ({ info, router }) => {
             </div>
             <small>{info.timeElapsed}</small>
           </div>
-        </div>
+        </>
+      ) : (
+        <Skeleton />
       )}
-    </>
+    </div>
   );
 };
 
 export const MovieSuggestion = ({ info, router }) => {
   const [userInfo, setUserInfo] = useState({});
+  const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
 
   const updateMark = () => {
@@ -67,19 +75,21 @@ export const MovieSuggestion = ({ info, router }) => {
     "-"
   )}&year=${info.year}`;
   useEffect(() => {
-    dispatch(getUserDetails(info.senderId)).then((obj) =>
-      setUserInfo(obj.payload)
-    );
+    setLoading(true);
+    dispatch(getUserDetails(info.senderId)).then((obj) => {
+      setUserInfo(obj.payload);
+      setLoading(false);
+    });
   }, []);
   return (
-    <>
-      {userInfo?.username && (
-        <div
-          onMouseEnter={() => info.unRead && updateMark()}
-          className={`${notifStyles.notification} ${
-            info.unRead ? notifStyles.notify : ""
-          }`}
-        >
+    <div
+      onMouseEnter={() => info.unRead && updateMark()}
+      className={`${notifStyles.notification} ${
+        info.unRead ? notifStyles.notify : ""
+      }`}
+    >
+      {!loading && userInfo?.username ? (
+        <>
           <ProfilePic url={userInfo.photoUrl} name={userInfo.username} />
           <div className={notifStyles.details}>
             <div className={notifStyles.msg}>
@@ -95,8 +105,10 @@ export const MovieSuggestion = ({ info, router }) => {
             </div>
             <small>{info.timeElapsed}</small>
           </div>
-        </div>
+        </>
+      ) : (
+        <Skeleton />
       )}
-    </>
+    </div>
   );
 };

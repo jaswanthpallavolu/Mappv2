@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { useEffect } from "react";
 function Home() {
   const theme = useSelector((state) => state.global.theme);
+  const allUsers = useSelector((state) => state.people.allUsers);
   return (
     <div className={styles.home}>
       <Notch />
@@ -35,6 +36,11 @@ function Home() {
               <li>recommendation system</li>
             </ul>
             <p>{"[ this website contains movie data between (1994-2020) ]"}</p>
+            {allUsers?.length > 0 && (
+              <div className={styles.stats}>
+                <h4>Users count: {allUsers.length}</h4>
+              </div>
+            )}
           </div>
           {/* {authorized ? <MyList /> : ""} */}
         </section>

@@ -9,11 +9,11 @@ import { RequestAccepted, MovieSuggestion } from "./NotifType";
 import { TitleHeader } from "../SecondaryIcons";
 export default function Notification({ closeAll }) {
   const theme = useSelector((state) => state.global.theme);
-  function randomDate(start, end) {
-    return new Date(
-      start.getTime() + Math.random() * (end.getTime() - start.getTime())
-    );
-  }
+  // function randomDate(start, end) {
+  //   return new Date(
+  //     start.getTime() + Math.random() * (end.getTime() - start.getTime())
+  //   );
+  // }
 
   return (
     <div className={styles.icon_section}>
@@ -88,6 +88,7 @@ export const Section = ({ name, dropdown }) => {
   const [more, setMore] = useState(3);
   const toggleDropdown = () => {
     setDropdownOpened(!dropdownOpened);
+    setMore(3);
   };
 
   const [notifs, setNotifs] = useState([]);
@@ -194,12 +195,14 @@ export const Section = ({ name, dropdown }) => {
               else return "";
             })}
             {more < notifs.length && (
-              <button
-                className={notifStyles.more}
-                onClick={() => setMore(more + 4)}
-              >
-                more
-              </button>
+              <div className={notifStyles.more_section}>
+                <button
+                  className={notifStyles.more}
+                  onClick={() => setMore(more + 4)}
+                >
+                  more
+                </button>
+              </div>
             )}
           </div>
         )}

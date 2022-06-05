@@ -18,7 +18,7 @@
   --offline: grey;
   /* --status:var(--) */
   --offline_word: rgb(199, 199, 199);
-  --see_more: rgba(255, 183, 0, 0.925);
+  --see_more: var(--font-primary);
   --scroll: rgb(110, 110, 110);
   --search: aliceblue;
 

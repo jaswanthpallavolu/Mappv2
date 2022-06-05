@@ -24,21 +24,20 @@ export default function Friends(props) {
   const [onlineFriends, setOnlineFriends] = useState([]);
   const [offlineFriends, setOfflineFriends] = useState([]);
 
-  const [dis_online, setDis_online] = useState(true);
-  const [dis_on_list, setDis_on_list] = useState(5);
+  //  FOR SEE MORE
+  const [onlineSliceCount, setOnlineSliceCount] = useState(5);
+  const [offlineSliceCount, setOfflineSliceCount] = useState(5);
 
-  // friends
-  const [dis_friends, setDis_friends] = useState(true);
-  const [dis_off_list, setDis_off_list] = useState(5);
-
-  const dis_on_listHandle = () => {
-    setDis_online(!dis_online);
-    setDis_on_list(dis_online ? online.length : 5);
+  const expandFriendsList = () => {
+    setOfflineSliceCount((prev) => prev + 5);
+    // setDis_online(!dis_online);
+    // setDis_on_list(dis_online ? online.length : 5);
   };
 
-  const dis_off_listHandle = () => {
-    setDis_friends(!dis_friends);
-    setDis_off_list(dis_friends ? offlineFriends.length : 5);
+  const expandOnlineList = () => {
+    setOnlineSliceCount((prev) => prev + 5);
+    // setOfflineSliceCount(!dis_friends);
+    // setDis_off_list(dis_friends ? offlineFriends.length : 5);
   };
 
   const friendsStatus = () => {
@@ -97,26 +96,26 @@ export default function Friends(props) {
               userDetails={allUsers?.filter((i) => i.uid === uid)[0]}
             />
 
-            {onlineFriends?.map((item) => (
+            {onlineFriends?.slice(0, onlineSliceCount)?.map((item) => (
               <Friend userDetails={item} status={true} key={item.uid} />
             ))}
-            {onlineFriends.length > 5 && (
-              <button onClick={dis_on_listHandle} className={styles.see_btn}>
-                {dis_online ? "see more >>" : "<< see less"}
+            {onlineFriends.length > onlineSliceCount && (
+              <button onClick={expandOnlineList} className={styles.see_btn}>
+                see more
               </button>
             )}
           </div>
           <div className={styles.offline}>
             <h5>Friends [{offlineFriends.length}]</h5>
-            {offlineFriends?.map((item, index) => {
+            {offlineFriends?.slice(0, offlineSliceCount)?.map((item, index) => {
               return (
                 <Friend userDetails={item} status={false} key={item.uid} />
               );
             })}
 
-            {offlineFriends.length > 5 && (
-              <button onClick={dis_off_listHandle} className={styles.see_btn}>
-                {dis_online ? "see more >>" : "see less <<"}
+            {offlineFriends.length > offlineSliceCount && (
+              <button onClick={expandFriendsList} className={styles.see_btn}>
+                see more
               </button>
             )}
           </div>

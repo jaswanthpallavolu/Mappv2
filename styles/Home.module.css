@@ -82,7 +82,14 @@
   font-size: clamp(0.65rem, 3vw, 1.2rem);
 }
 .features + p {
-  font-size: clamp(0.65rem, 3vw, 1.2rem);
+  font-size: clamp(0.5rem, 3vw, 1rem);
+}
+.stats {
+  margin-top: 1rem;
+  border: 1px solid var(--light-shade);
+  padding: 0.25em 0.5em;
+
+  font-size: clamp(0.75rem, 3vw, 1.2rem);
 }
 
 .notch {
