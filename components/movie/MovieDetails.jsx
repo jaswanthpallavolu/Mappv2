@@ -15,9 +15,11 @@ import styles2 from "./moviemobile.module.css";
 import CastANDcrew from "./CastANDcrew";
 import SimilarMovies from "./SimilarMovies";
 import TrailerModal from "./TrailerModal";
+import { Suggest, SuggestBox } from "./suggest/Suggest";
 
 export default function MovieDetails({ details }) {
   const [openTrailer, setOpenTrailer] = useState(false);
+  const sugOpened = useSelector((state) => state.global.showSuggestBox);
   const [isMobile, setIsMobile] = useState();
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.userAuth.user.uid);
@@ -42,30 +44,42 @@ export default function MovieDetails({ details }) {
   useEffect(() => {
     if (userId && historyStatus === "loaded") addToHistory();
   }, [userId, historyStatus]); //eslint-disable-line react-hooks/exhaustive-deps
-
+  useEffect(() => {
+    if (sugOpened && isMobile) document.body.style.overflow = "hidden";
+    else document.body.style.overflow = "visible";
+  }, [sugOpened, isMobile]);
   useEffect(() => {
     checkWidth();
+
     window.addEventListener("resize", checkWidth);
     return () => {
       window.removeEventListener("resize", checkWidth);
+      document.body.style.overflow = "visible";
     };
   }, []); //eslint-disable-line react-hooks/exhaustive-deps
   return (
     <>
       {!isMobile ? (
-        <MovieDesktop details={details} setOpenTrailer={setOpenTrailer} />
+        <MovieDesktop
+          details={details}
+          setOpenTrailer={setOpenTrailer}
+          isMobile={isMobile}
+        />
       ) : (
-        <MovieMobile details={details} setOpenTrailer={setOpenTrailer} />
+        <MovieMobile
+          details={details}
+          setOpenTrailer={setOpenTrailer}
+          isMobile={isMobile}
+        />
       )}
-      {openTrailer ? (
+      {openTrailer && (
         <TrailerModal link={details.trailer} setOpenTrailer={setOpenTrailer} />
-      ) : (
-        ""
       )}
+      {sugOpened && isMobile && <SuggestBox movie={details} />}
     </>
   );
 }
-export const MovieMobile = ({ details, setOpenTrailer }) => {
+export const MovieMobile = ({ details, setOpenTrailer, isMobile }) => {
   const [indicate, setIndicate] = useState(false);
   const checkScroll = () => {
     const imgcon = document.getElementById("imgcont");
@@ -165,7 +179,7 @@ export const MovieMobile = ({ details, setOpenTrailer }) => {
               <p>{details?.description}</p>
             </div>
           </div>
-          <ActionIcons details={details} />
+          <ActionIcons details={details} isMobile={isMobile} />
           <CastANDcrew directors={details.directors} actors={details.actors} />
           <SimilarMovies details={details} />
         </div>
@@ -173,7 +187,7 @@ export const MovieMobile = ({ details, setOpenTrailer }) => {
     </div>
   );
 };
-export const MovieDesktop = ({ details, setOpenTrailer }) => {
+export const MovieDesktop = ({ details, setOpenTrailer, isMobile }) => {
   return (
     <div className={styles.movie_page}>
       <div className={styles.imgbg}>
@@ -247,7 +261,7 @@ export const MovieDesktop = ({ details, setOpenTrailer }) => {
             )}
 
             <li>
-              <ActionIcons details={details} />
+              <ActionIcons details={details} isMobile={isMobile} />
             </li>
           </ul>
         </div>
@@ -259,19 +273,13 @@ export const MovieDesktop = ({ details, setOpenTrailer }) => {
     </div>
   );
 };
-export function ActionIcons({ details }) {
-  // const [isPending, startTransition] = useTransition();
-  // const movies_status = useSelector((state) => state.userRatings.status);
+
+export function ActionIcons({ details, isMobile }) {
   const movies = useSelector((state) => state.userRatings.movies);
   const userId = useSelector((state) => state.userAuth.user.uid);
-  //const details = useSelector((state) => state.movie.details);
+
   const authorized = useSelector((state) => state.userAuth.user.authorized);
-  const [load, setLoad] = useState({
-    l1: false,
-    l2: false,
-    l3: false,
-    l4: false,
-  });
+
   const dispatch = useDispatch();
   const [userData, setUserData] = useState({});
 
@@ -390,13 +398,7 @@ export function ActionIcons({ details }) {
     <>
       {userData && (
         <div className={styles.icons}>
-          <div className={styles.action_group} style={{ opacity: ".3" }}>
-            <button className={styles.icon}>
-              {/* <i className="fa-solid fa-share-nodes"></i> */}
-              <i className="fa-solid fa-arrow-up-right-from-square"></i>
-            </button>
-            <small>suggest</small>
-          </div>
+          <Suggest isMobile={isMobile} movie={details} />
 
           <div
             className={styles.action_group}
@@ -408,8 +410,8 @@ export function ActionIcons({ details }) {
               className={styles.icon}
               id="like"
               style={{
-                background: userData.liked === 1 ? "var(--secondary)" : "",
-                color: userData.liked === 1 ? "var(--font-primary)" : "",
+                background: userData.liked === 1 ? "var(--base-color)" : "",
+                color: userData.liked === 1 ? "var(--light-shade)" : "",
                 opacity: userData.liked === 1 ? "1" : ".55",
               }}
             >
@@ -428,8 +430,8 @@ export function ActionIcons({ details }) {
               className={styles.icon}
               id="dislike"
               style={{
-                background: userData.liked === -1 ? "var(--secondary)" : "",
-                color: userData.liked === -1 ? "var(--font-primary)" : "",
+                background: userData.liked === -1 ? "var(--base-color)" : "",
+                color: userData.liked === -1 ? "var(--light-shade)" : "",
                 opacity: userData.liked === -1 ? "1" : ".55",
               }}
             >
@@ -448,8 +450,8 @@ export function ActionIcons({ details }) {
               className={styles.icon}
               id="unwatched"
               style={{
-                background: userData.watched ? "var(--secondary)" : "",
-                color: userData.watched ? "var(--font-primary)" : "",
+                background: userData.watched ? "var(--base-color)" : "",
+                color: userData.watched ? "var(--light-shade)" : "",
                 opacity: userData.watched ? "1" : ".55",
               }}
             >
@@ -468,8 +470,8 @@ export function ActionIcons({ details }) {
               className={styles.icon}
               id="myList"
               style={{
-                background: userData.myList ? "var(--secondary)" : "",
-                color: userData.myList ? "var(--font-primary)" : "",
+                background: userData.myList ? "var(--base-color)" : "",
+                color: userData.myList ? "var(--light-shade)" : "",
                 opacity: userData.myList ? "1" : ".55",
               }}
             >

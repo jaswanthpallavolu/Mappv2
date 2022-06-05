@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { useRouter } from "next/dist/client/router";
 
 import { RequestAccepted, MovieSuggestion } from "./NotifType";
-
+import { TitleHeader } from "../SecondaryIcons";
 export default function Notification({ closeAll }) {
   const theme = useSelector((state) => state.global.theme);
   function randomDate(start, end) {
@@ -22,11 +22,7 @@ export default function Notification({ closeAll }) {
           theme === "dark" ? notifStyles.dtheme : notifStyles.ltheme
         }`}
       >
-        <div className={styles.header}>
-          <h3 className={styles.title}>Notifications</h3>
-          <i onClick={closeAll} className="fa-solid fa-xmark"></i>
-        </div>
-
+        <TitleHeader title={"Notifications"} close={closeAll} />
         <div className={styles.custom_scroll}>
           <Section name="new" dropdown={true} />
           <Section name="earlier" dropdown={true} />

@@ -145,9 +145,12 @@ export function SearchResult({ searchList, onlineFriends, offlineFriends }) {
   const [onlineSearchFriends, setOnlineSearchFriends] = useState([]);
   const [offlineSearchFriends, setOfflineSearchFriends] = useState([]);
 
+  const [more, setMore] = useState(5);
   const friendsStatus = () => {
+    const slicedList = searchList;
+    // .slice(0, more)
     setOnlineSearchFriends(
-      searchList?.friends?.filter((i) =>
+      slicedList?.friends?.filter((i) =>
         onlineFriends
           ?.map((j) => {
             return j.uid;
@@ -156,7 +159,7 @@ export function SearchResult({ searchList, onlineFriends, offlineFriends }) {
       )
     );
     setOfflineSearchFriends(
-      searchList?.friends?.filter((i) =>
+      slicedList?.friends?.filter((i) =>
         offlineFriends
           ?.map((j) => {
             return j.uid;
@@ -165,6 +168,9 @@ export function SearchResult({ searchList, onlineFriends, offlineFriends }) {
       )
     );
   };
+  const seeMore = () => {
+    setMore((prev) => prev + 5);
+  };
   const toggleCondition =
     searchList.friends?.length ||
     searchList.sendRequests?.length ||
@@ -172,7 +178,7 @@ export function SearchResult({ searchList, onlineFriends, offlineFriends }) {
     searchList.normal?.length;
   useEffect(() => {
     friendsStatus();
-  }, [searchList, onlineFriends, offlineFriends]);
+  }, [searchList, onlineFriends, offlineFriends, more]);
 
   return (
     <>
@@ -197,6 +203,9 @@ export function SearchResult({ searchList, onlineFriends, offlineFriends }) {
           {searchList?.normal.map((item, index) => {
             return <User userDetails={item} type={"normal"} key={item.uid} />;
           })}
+          {more < searchList.length && (
+            <button onClick={seeMore}>see more</button>
+          )}
         </div>
       ) : (
         <div className={styles.noResult}>

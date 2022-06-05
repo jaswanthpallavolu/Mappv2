@@ -138,13 +138,9 @@ export function Friend({ userDetails, status }) {
         </div>
       )}
       <div className={styles.extend}>
-        <div className={styles.disable}>
-          <i
-            className="fa-solid fa-message"
-            title="Message"
-            style={{ opacity: 0.7 }}
-          ></i>
-        </div>
+        {/* <div className={styles.disable}>
+          <i className="fa-solid fa-message" title="not implemented"></i>
+        </div> */}
         <div className={styles.cursor}>
           <i
             className="fa-solid fa-user-minus"

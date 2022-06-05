@@ -10,14 +10,19 @@
   width: 100vw;
   height: 100vh;
   z-index: -1;
-  background: linear-gradient(180deg, var(--secondary), var(--primary) 90%);
+}
+.search_m.dtheme::before {
+  background: linear-gradient(180deg, var(--base-color), var(--primary) 90%);
+}
+.search_m.ltheme::before {
+  background-color: var(--primary);
 }
 
 .result_container {
   /* position: absolute; */
   overflow-x: hidden;
   padding-bottom: 2rem;
-  margin-top: max(8%, 4.5rem);
+  margin-top: max(6%, 4.5rem);
 }
 .moreMovies {
   width: 100%;

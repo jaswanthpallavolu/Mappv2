@@ -7,27 +7,12 @@ import { getAllUsers } from "../redux/features/peopleSlice";
 import Navbar from "./Navbar/Navbar";
 import socket from "../socket.connect";
 
-// import {
-//   fetchFriends,
-//   setFriends,
-//   setSentRequest,
-//   setReceivedRequest,
-// } from "../redux/features/peopleSlice";
-// import { useRouter } from "next/router";
-
 export default function Layout({ children }) {
-  // const allUsers = useSelector((state) => state.people.allUsers);
   const user = useSelector((state) => state.userAuth.user);
   const status = useSelector((state) => state.userAuth.status);
   const userRatingStatus = useSelector((state) => state.userRatings.status);
 
   const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   if (userRatingStatus === "succeeded") {
-  //     if (user?.uid) dispatch(fetchMovies(user.uid));
-  //   }
-  // }, [userRatingStatus]); //eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     // console.log("123");

@@ -84,88 +84,92 @@ function Navbar() {
       ${router.pathname !== "/movies/[id]" ? styles.hold_style : ""}
       `}
     >
-      {!isMobile && isMobile !== null ? (
-        <div className={styles.desktop_nav}>
-          <div className={styles.logo} onClick={() => router.push("/home")}>
-            <img src="/site-icon/favicon-96x96.png" alt="logo" />
-          </div>
-          <ul className={styles.navlinks}>
-            <li
-              className={`${styles.navlink} ${
-                router.pathname === "/home" ? styles.navactive : ""
-              }`}
-            >
-              <Link href="/home">Home</Link>
-            </li>
-            <li
-              className={`${styles.navlink} ${
-                router.pathname === "/movies" ? styles.navactive : ""
-              }`}
-            >
-              <Link href="/movies">Movies</Link>
-            </li>
-          </ul>
-          <SearchBar prop={{ navScrollTheme, theme, isMobile }} />
-          {authorized ? (
-            <div className={styles.nav_options}>
-              <div className={styles.theme} onClick={handleTheme}>
-                {theme === "dark" ? (
-                  <ion-icon name="sunny-outline"></ion-icon>
-                ) : (
-                  <ion-icon name="moon-outline"></ion-icon>
-                )}
+      {isMobile !== null && (
+        <>
+          {!isMobile ? (
+            <div className={styles.desktop_nav}>
+              <div className={styles.logo} onClick={() => router.push("/home")}>
+                <img src="/site-icon/favicon-96x96.png" alt="logo" />
               </div>
+              <ul className={styles.navlinks}>
+                <li
+                  className={`${styles.navlink} ${
+                    router.pathname === "/home" ? styles.navactive : ""
+                  }`}
+                >
+                  <Link href="/home">Home</Link>
+                </li>
+                <li
+                  className={`${styles.navlink} ${
+                    router.pathname === "/movies" ? styles.navactive : ""
+                  }`}
+                >
+                  <Link href="/movies">Movies</Link>
+                </li>
+              </ul>
+              <SearchBar prop={{ navScrollTheme, theme, isMobile }} />
+              {authorized ? (
+                <div className={styles.nav_options}>
+                  <div className={styles.theme} onClick={handleTheme}>
+                    {theme === "dark" ? (
+                      <ion-icon name="sunny-outline"></ion-icon>
+                    ) : (
+                      <ion-icon name="moon-outline"></ion-icon>
+                    )}
+                  </div>
 
-              <SecondaryIcons isMobile={isMobile} />
+                  <SecondaryIcons isMobile={isMobile} />
 
-              <ProfilePic url={user.photoUrl} name={user.username} />
+                  <ProfilePic url={user.photoUrl} name={user.username} />
 
-              <div
-                className={styles.logout}
-                onClick={() => {
-                  dispatch(logout());
-                }}
-              >
-                <ion-icon name="log-out-outline"></ion-icon>
-              </div>
-            </div>
-          ) : (
-            <div className={styles.login_section}>
-              <div className={styles.theme} onClick={handleTheme}>
-                {theme === "dark" ? (
-                  <ion-icon name="sunny-outline"></ion-icon>
-                ) : (
-                  <ion-icon name="moon-outline"></ion-icon>
-                )}
-              </div>
-              <button
-                className={`${styles.login_btn}
+                  <div
+                    className={styles.logout}
+                    onClick={() => {
+                      dispatch(logout());
+                    }}
+                  >
+                    <ion-icon name="log-out-outline"></ion-icon>
+                  </div>
+                </div>
+              ) : (
+                <div className={styles.login_section}>
+                  <div className={styles.theme} onClick={handleTheme}>
+                    {theme === "dark" ? (
+                      <ion-icon name="sunny-outline"></ion-icon>
+                    ) : (
+                      <ion-icon name="moon-outline"></ion-icon>
+                    )}
+                  </div>
+                  <button
+                    className={`${styles.login_btn}
               ${
                 navScrollTheme && theme === "dark"
                   ? styles.dtbtn
                   : styles.btn_default
               }
               ${navScrollTheme && theme === "light" ? styles.ltbtn : ""}`}
-                id="sign-in"
-                onClick={() => router.push("/login")}
-              >
-                Sign in
-              </button>
+                    id="sign-in"
+                    onClick={() => router.push("/login")}
+                  >
+                    Sign in
+                  </button>
+                </div>
+              )}
             </div>
-          )}
-        </div>
-      ) : (
-        <MobileNavbar
-          prop={{
-            navScrollTheme,
-            user,
-            isMobile,
-            handleTheme,
+          ) : (
+            <MobileNavbar
+              prop={{
+                navScrollTheme,
+                user,
+                isMobile,
+                handleTheme,
 
-            theme,
-            authorized,
-          }}
-        />
+                theme,
+                authorized,
+              }}
+            />
+          )}
+        </>
       )}
 
       {/* Mobile version NEED to change according to new Design  */}

@@ -19,11 +19,12 @@ import {
   removeFriend,
   fetchFriends,
 } from "../../redux/features/peopleSlice";
-
+import { useRouter } from "next/router";
 import socket from "../../socket.connect";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function SecondaryIcons({ isMobile }) {
+  const router = useRouter();
   const [sectionOpened, setSectionOpened] = useState({
     mylist: false,
     notification: false,
@@ -46,6 +47,11 @@ export default function SecondaryIcons({ isMobile }) {
       document.body.style.overflow = "hidden";
     } else document.body.style.overflow = "visible";
   }, [sectionOpened, isMobile]);
+
+  useEffect(() => {
+    closeAll();
+  }, [router.pathname]);
+
   return (
     <>
       <MyListIcon
@@ -296,5 +302,14 @@ export const PeopleIcon = ({
         </div>
       )}
     </>
+  );
+};
+
+export const TitleHeader = ({ title, close }) => {
+  return (
+    <div className={styles.header}>
+      <h3 className={styles.title}>{title}</h3>
+      <i onClick={close} className="fa-solid fa-xmark"></i>
+    </div>
   );
 };

@@ -5,11 +5,12 @@ import styles from "../../styles/Search.module.css";
 import Card from "../../components/card/Card";
 import { useRouter } from "next/router";
 import { Loader1 } from "../../utils/loaders/Loading";
-// import { useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Tag } from "../../components/Home_categories/Categories";
 import LazyLoad from "../../utils/lazyLoad/LazyLoad";
 
 function Search() {
+  const theme = useSelector((state) => state.global.theme);
   const router = useRouter();
   const [pageCount, setPageCount] = useState(10);
   const { word } = router.query;
@@ -45,7 +46,11 @@ function Search() {
   }, [word]); //eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div className={styles.search_m}>
+    <div
+      className={`${styles.search_m} ${
+        theme === "light" ? styles.ltheme : styles.dtheme
+      } `}
+    >
       {loading ? (
         <div className={styles.load_bars}>
           <Loader1 />

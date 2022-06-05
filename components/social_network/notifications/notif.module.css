@@ -11,7 +11,7 @@
   --notif-block-pad-t: 0.3em;
   --notif-block-margin: 0.8rem;
 
-  --msg-txt-size: clamp(0.8rem, 4vw, 1.1rem);
+  --msg-txt-size: clamp(0.85rem, 4vw, 1.1rem);
 
   --bg-color: var(--primary);
 
@@ -123,7 +123,8 @@
   /* border: 1px solid red; */
 }
 .msg p b:hover {
-  color: var(--accent-dark);
+  opacity: 0.75;
+  /* border-bottom: 1px solid var(--msg-txt-size); */
 }
 
 @media (max-width: 740px) {

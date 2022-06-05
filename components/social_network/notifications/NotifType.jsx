@@ -40,9 +40,7 @@ export const RequestAccepted = ({ info, router }) => {
           <div className={notifStyles.details}>
             <div className={notifStyles.msg}>
               <p>
-                <b
-                // onClik={()=> router.push(`/${info.sender}`)}
-                >
+                <b title={userInfo.username}>
                   {ellipsisFormat(userInfo.username)}
                 </b>{" "}
                 <small>{"accepted your friend request"}</small>
@@ -86,9 +84,11 @@ export const MovieSuggestion = ({ info, router }) => {
           <div className={notifStyles.details}>
             <div className={notifStyles.msg}>
               <p>
-                <b>{ellipsisFormat(userInfo.username)}</b>{" "}
+                <b title={userInfo.username}>
+                  {ellipsisFormat(userInfo.username)}
+                </b>{" "}
                 <small>{"suggested a movie"}</small>{" "}
-                <b onClick={() => router.push(moviepath)}>
+                <b title={info.title} onClick={() => router.push(moviepath)}>
                   {ellipsisFormat(info.title)}
                 </b>
               </p>

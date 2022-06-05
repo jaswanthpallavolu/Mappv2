@@ -5,7 +5,10 @@ export const generalSlice = createSlice({
   name: "theme",
   initialState: {
     theme: "dark",
-    isMobile: false,
+
+    //  for movie page
+
+    showSuggestBox: false,
   },
   reducers: {
     toDark: (state) => {
@@ -20,8 +23,12 @@ export const generalSlice = createSlice({
     setIsMobile: (state, action) => {
       state.isMobile = action.payload;
     },
+    setSuggestBox: (state) => {
+      state.showSuggestBox = !state.showSuggestBox;
+    },
   },
 });
 
-export const { toDark, toLight, setTheme, setIsMobile } = generalSlice.actions;
+export const { toDark, toLight, setTheme, setIsMobile, setSuggestBox } =
+  generalSlice.actions;
 export default generalSlice.reducer;

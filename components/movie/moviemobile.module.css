@@ -162,7 +162,7 @@
 .trailer i {
   font-size: var(--trailer-txt);
   border-radius: 100%;
-  color: var(--font-primary);
+  color: var(--light-shade);
 }
 .block2 {
   display: flex;

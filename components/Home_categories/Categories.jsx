@@ -9,8 +9,10 @@ import MyList from "./MyList";
 
 export default function Categories() {
   const [tags, setTags] = useState([]);
+  const [mostLiked, setMostLiked] = useState([]);
   const [loading, setLoading] = useState(true);
-  const authorized = useSelector((state) => state.userAuth.user.authorized);
+  const user = useSelector((state) => state.userAuth.user);
+
   const historyStatus = useSelector((state) => state.userHistory.status);
   const genresHistory = useSelector(
     (state) => state.userHistory?.history?.genres
@@ -41,30 +43,44 @@ export default function Categories() {
         });
     }
   };
-  // useEffect(() => {
-  //   console.log("rendering");
-  // }, []);
+  const fetchMostLiked = async (signal) => {
+    await axios
+      .get(
+        `${process.env.NEXT_PUBLIC_USER_DATA_SERVER}/friends/likedByFriends/${user.uid}`,
+        { signal }
+      )
+      .then((res) => {
+        // console.log();
+        setMostLiked(res.data.mostLiked);
+      });
+  };
+
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
     setLoading(true);
-    if (historyStatus === "loaded" || !authorized) fetchTags(signal);
+    if (historyStatus === "loaded" || !user.authorized) fetchTags(signal);
+    if (user.authorized) fetchMostLiked(signal);
     return () => controller.abort();
   }, [historyStatus]); //eslint-disable-line react-hooks/exhaustive-deps
   return (
     <div className={styles.home_categories}>
-      {authorized && <MyList />}
-      <Category name="recently viewed" query={{ genres: undefined }} />
-      {authorized ? (
+      {user.authorized && <MyList />}
+
+      {user.authorized ? (
         <>
           <Recommend name="collaborative" />
-          <Recommend name="watched" />
+          {mostLiked?.length && (
+            <CategoryTemplate name="most liked by friends" list={mostLiked} />
+          )}
         </>
       ) : (
         <p className={styles.suggest_text}>
           &quot; Login and rate movies to get Recommendations &quot;
         </p>
       )}
+      {user.authorized && <Recommend name="watched" />}
+      <Category name="recently viewed" query={{ genres: undefined }} />
       {!loading &&
         tags.map((tag, index) => (
           <LazyLoad key={index}>
@@ -73,7 +89,7 @@ export default function Categories() {
         ))}
 
       {/* NEED TO REMOVE This */}
-      {authorized && (
+      {user.authorized && (
         <LazyLoad>
           <Category name="watched" query={{ genres: undefined }} />
           <Category name="rated movies" query={{ genres: undefined }} />
@@ -196,6 +212,17 @@ export function Recommend({ name }) {
   );
 }
 
+export function CategoryTemplate({ name, list }) {
+  return (
+    <div className={styles.c_section}>
+      <div className={styles.head}>
+        <div className={styles.name}>{name}</div>
+      </div>
+      <Carousel list={list} />
+    </div>
+  );
+}
+
 export const Tag = ({ tagname }) => {
   // const status = useSelector((state) => state.userRatings.status);
   // const movies = useSelector((state) => state.userRatings.movies);
@@ -265,7 +292,7 @@ export const Category = ({ name }) => {
   const status = useSelector((state) => state.userRatings.status);
   const movies = useSelector((state) => state.userRatings.movies);
   const uid = useSelector((state) => state.userAuth.user.uid);
-  // const authorized = useSelector((state) => state.userAuth.user.authorized);
+  // const user.authorized = useSelector((state) => state.userAuth.user.user.authorized);
 
   const [loading, setLoading] = useState(true);
   const [result, setResult] = useState();

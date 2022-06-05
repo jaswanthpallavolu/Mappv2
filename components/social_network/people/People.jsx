@@ -5,6 +5,7 @@ import fstyles from "./friends.module.css";
 import Friends from "./Friends";
 import { FriendRequest } from "./user/User";
 import { useSelector } from "react-redux";
+import { TitleHeader } from "../SecondaryIcons";
 
 export default function People({ closeAll }) {
   const [selectedSection, setSelectedSection] = useState(true);
@@ -24,10 +25,7 @@ export default function People({ closeAll }) {
           theme === "dark" ? styles.dtheme : styles.ltheme
         }`}
       >
-        <div className={secStyles.header}>
-          <h3 className={secStyles.title}>people</h3>
-          <i onClick={closeAll} className="fa-solid fa-xmark"></i>
-        </div>
+        <TitleHeader title={"people"} close={closeAll} />
 
         <div className={styles.menu}>
           <SectionMenu states={{ selectedSection, setSelectedSection }} />

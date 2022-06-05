@@ -164,10 +164,6 @@
   animation: scaleIn 0.7s ease-in 1;
 }
 
-/* .action_icons .actions {
-  flex-grow: 0.1;
-  flex-shrink: 1;
-} */
 .icons {
   display: flex;
   flex-wrap: wrap;
@@ -178,6 +174,7 @@
   flex-direction: column;
   align-items: center;
   gap: 0.2rem;
+  /* border: 1px solid red; */
 }
 
 .icon {
@@ -207,11 +204,6 @@
   gap: 0.5rem;
   font-size: var(--btn-text);
   cursor: pointer;
-
-  /* padding: 0.5em 0.7em; */
-
-  /* border-radius: 5px; */
-  /* background-color: var(--secondary); */
   color: var(--btn-color1);
 }
 
@@ -232,34 +224,6 @@
   padding: 0;
   list-style: none;
 }
-
-/* BUTTON LOADER */
-/* .btnloader {
-  position: relative;
-  display: grid;
-  place-items: center;
-  padding: 5%;
-  width: 2.9rem;
-  aspect-ratio: 1/1;
-}
-.btnloader span {
-  width: 1.5rem;
-  aspect-ratio: 1/1;
-  border-radius: 50%;
-
-  transform: rotate(0deg);
-  border: 1px solid rgba(0, 0, 0, 0.25);
-  border-right: 1px solid transparent !important;
-  animation: spinbtn 0.8s ease infinite;
-}
-@keyframes spinbtn {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-} */
 
 @media (max-width: 600px) {
   .movie_page::before {
