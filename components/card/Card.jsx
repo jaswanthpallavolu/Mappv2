@@ -197,7 +197,7 @@ export const Header = ({ details }) => {
   };
 
   useEffect(() => {
-    const timer = setTimeout(() => handleMyListIcon(), 450);
+    const timer = setTimeout(() => handleMyListIcon(), 500);
     return () => clearTimeout(timer);
   }, [toggleIcon]); //eslint-disable-line react-hooks/exhaustive-deps
 

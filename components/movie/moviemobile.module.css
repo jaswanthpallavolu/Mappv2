@@ -93,8 +93,8 @@
   z-index: -1;
   transform: scale(1.15);
   border-radius: 25px;
-  background-color: var(--secondary);
-  /* background: linear-gradient(180deg, var(--secondary), var(--third) 100%); */
+  background-color: var(--base-color);
+  /* background: linear-gradient(180deg, var(--base-color), var(--third) 100%); */
 }
 
 .imgbg {
@@ -150,7 +150,7 @@
   top: -2.5%;
   right: 5%;
 
-  background-color: var(--secondary);
+  background-color: var(--base-color);
   padding: 0.55em 0.8em;
   padding-right: 0.55em;
   border-radius: 100%;
@@ -162,7 +162,7 @@
 .trailer i {
   font-size: var(--trailer-txt);
   border-radius: 100%;
-  color: var(--light-shade);
+  color: var(--light-color);
 }
 .block2 {
   display: flex;

@@ -1,5 +1,5 @@
 .bar_default {
-  --bg-color: var(--light-shade);
+  --bg-color: var(--light-color);
   --place-holder: var(--accent-dark);
   --text-color: var(--accent-dark);
 
@@ -9,14 +9,14 @@
   color: var(--text-color);
 }
 .dtbar {
-  --bg-color: var(--light-shade);
+  --bg-color: var(--light-color);
   --place-holder: var(--accent-dark);
   --text-color: var(--accent-dark);
 }
 .ltbar {
   --bg-color: rgba(0, 0, 0, 0.8);
-  --place-holder: var(--light-shade);
-  --text-color: var(--light-shade);
+  --place-holder: var(--light-color);
+  --text-color: var(--light-color);
 }
 
 .search_bar {

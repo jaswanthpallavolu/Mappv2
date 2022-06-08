@@ -24,8 +24,8 @@
 
   --you_bg: var(--accent-light);
   --switch: var(--accent-dark);
-  --switch-icon: var(--light-shade);
-  --active-switch: var(--light-shade);
+  --switch-icon: var(--light-color);
+  --active-switch: var(--light-color);
   --active-switch-icon: var(--accent-light);
   --notify-color: red;
 
@@ -41,18 +41,18 @@
 }
 .ltheme {
   --user-txt-color: var(--accent-dark);
-  /* --user-block-color: var(--accent-light); */
+  --user-block-color: var(--light-shade);
   --status-color: var(--accent-dark);
   --border: var(--base-color);
   --pic-bg: var(--accent-light);
-  /* --you_bg: var(--accent-dark); */
+  --you_bg: var(--accent-dark);
 }
 .dtheme {
-  --user-txt-color: var(--light-shade);
+  --user-txt-color: var(--light-color);
   --user-block-color: var(--accent-dark);
   --status-color: var(--accent-light);
   --border: var(--base-color);
-  --pic-bg: var(--light-shade);
+  --pic-bg: var(--light-color);
 }
 
 .menu {
@@ -100,13 +100,14 @@
   padding: 0.25em;
   border-radius: 20px;
 }
+
 .left,
 .right {
   position: relative;
   padding: 0.25em 1em;
   border-radius: 20px;
   cursor: pointer;
-  color: var(--light-shade);
+  color: var(--light-color);
 }
 .active {
   background-color: var(--active-switch);

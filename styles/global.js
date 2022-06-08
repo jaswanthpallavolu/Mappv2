@@ -8,7 +8,9 @@ body{
 
     --primary:${({ theme }) => theme.primary};
     --secondary:${({ theme }) => theme.base};
-    --third:${({ theme }) => theme.light};
+
+    --light-color:${({ theme }) => theme.lightColor};
+     
 
     --base-color:${({ theme }) => theme.base};
     --light-shade:${({ theme }) => theme.light};
@@ -18,12 +20,12 @@ body{
      --font-primary:${({ theme }) => theme.fontP};
      --font-secondary:${({ theme }) => theme.fontS};
 
-     font-family:'Open sans',sans-serif;
+     
 
      --card-shadow:${({ theme }) => theme.cardShadow};
      --button-shadow:${({ theme }) => theme.buttonShadow};
 
-     --skeleton-color:${({ theme }) => theme.skeletonColor}
+     --skeleton-color:${({ theme }) => theme.skeletonColor};
 }
 
 `;

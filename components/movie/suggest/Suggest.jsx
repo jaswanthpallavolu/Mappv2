@@ -20,7 +20,7 @@ export function Suggest({ isMobile, movie }) {
           onClick={() => dispatch(setSuggestBox())}
           style={{
             background: sugOpened ? "var(--base-color)" : "",
-            color: sugOpened ? "var(--light-shade)" : "",
+            color: sugOpened ? "var(--light-color)" : "",
             opacity: sugOpened ? "1" : ".55",
           }}
         >
@@ -231,7 +231,7 @@ function SearchResult({ props }) {
 
   useEffect(() => {
     setLoading(true);
-    const timer = setTimeout(() => searchFriends(), 350);
+    const timer = setTimeout(() => searchFriends(), 500);
     return () => clearTimeout(timer);
   }, [searchWord]); //eslint-disable-line react-hooks/exhaustive-deps
 

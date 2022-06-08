@@ -2,6 +2,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import styles from "./Recommends.module.css";
 import styles2 from "./MovieDetails.module.css";
+import icstyles from "../social_network/iconsection.module.css";
 import axios from "axios";
 import { useRouter } from "next/router";
 import Skeleton from "../../utils/skeleton/Skeleton";
@@ -18,7 +19,7 @@ export default function Recommends({ details }) {
       )
       .then((data) => {
         const res = data.data;
-        setRecommended_movies(res.result.slice(0, 6));
+        setRecommended_movies(res.result.slice(0, 8));
         setLoading(false);
       })
       .catch((err) => {
@@ -40,12 +41,12 @@ export default function Recommends({ details }) {
   return (
     <>
       {!loading ? (
-        <ul className={styles.rec_container}>
+        <ul className={`${styles.rec_container}`}>
           <li>
             <h6 className={styles2.sec_header}>Similar Movies</h6>
           </li>
 
-          <ul className={styles.cards}>
+          <ul className={`${styles.cards}  ${icstyles.custom_scroll}`}>
             {recommended_movies?.map((id, index) => (
               <li key={index}>
                 <PosterCard id={id} />

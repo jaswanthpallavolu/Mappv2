@@ -39,7 +39,7 @@ export default function MyList() {
         <div className={styles.mylist}>
           <div className={styles.head}>
             <span></span>
-            <div className={styles.name}>mylist</div>
+            <div className={styles.name}>my list</div>
           </div>
 
           {/* {!loading ? ( */}

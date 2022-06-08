@@ -75,7 +75,7 @@ export default function Friends(props) {
     var timer;
     const controller = new AbortController();
     if (search.length > 0) {
-      timer = setTimeout(() => searchusers(controller.signal), 350);
+      timer = setTimeout(() => searchusers(controller.signal), 500);
     }
     // else if (search.length === 0) {
     //   socket.emit("get-online-users", uid);

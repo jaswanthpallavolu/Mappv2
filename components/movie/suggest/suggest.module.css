@@ -180,12 +180,12 @@
   .suggest_box {
     position: fixed;
     inset: 0;
-    /* --nav-height: 4.2rem;
-    top: var(--nav-height); */
+    --nav-height: 4.2rem;
+    top: var(--nav-height);
     z-index: 5;
 
     display: grid;
-    place-items: center;
+    justify-items: center;
 
     background-color: rgba(0, 0, 0, 0.5);
   }

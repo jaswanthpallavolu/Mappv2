@@ -31,7 +31,7 @@ export const RequestAccepted = ({ info, router }) => {
       setUserInfo(obj.payload);
       setLoading(false);
     });
-  }, []);
+  }, []); //eslint-disable-line react-hooks/exhaustive-deps
   return (
     <div
       onMouseEnter={() => info.unRead && updateMark()}
@@ -41,7 +41,9 @@ export const RequestAccepted = ({ info, router }) => {
     >
       {!loading && userInfo?.username ? (
         <>
-          <ProfilePic url={userInfo.photoUrl} name={userInfo.username} />
+          <div className={`${notifStyles.pic_sec} ${notifStyles.acpt_icon}`}>
+            <ProfilePic url={userInfo.photoUrl} name={userInfo.username} />
+          </div>
           <div className={notifStyles.details}>
             <div className={notifStyles.msg}>
               <p>
@@ -80,7 +82,7 @@ export const MovieSuggestion = ({ info, router }) => {
       setUserInfo(obj.payload);
       setLoading(false);
     });
-  }, []);
+  }, []); //eslint-disable-line react-hooks/exhaustive-deps
   return (
     <div
       onMouseEnter={() => info.unRead && updateMark()}
@@ -90,7 +92,9 @@ export const MovieSuggestion = ({ info, router }) => {
     >
       {!loading && userInfo?.username ? (
         <>
-          <ProfilePic url={userInfo.photoUrl} name={userInfo.username} />
+          <div className={`${notifStyles.pic_sec} ${notifStyles.sugg_icon}`}>
+            <ProfilePic url={userInfo.photoUrl} name={userInfo.username} />
+          </div>
           <div className={notifStyles.details}>
             <div className={notifStyles.msg}>
               <p>

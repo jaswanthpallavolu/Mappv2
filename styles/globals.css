@@ -5,6 +5,7 @@ body {
   padding: 0;
   margin: 0;
   font-family: "Open sans", sans-serif;
+
   font-size: 16px;
 
   /* user-select: none;
@@ -12,6 +13,8 @@ body {
   -khtml-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none; */
+
+  background-color: "#03071e";
 }
 
 a {

@@ -145,16 +145,18 @@ export const MovieMobile = ({ details, setOpenTrailer, isMobile }) => {
           <ul className={styles.more_details}>
             <li>
               <i className="fa fa-star-o" aria-hidden="true"></i>
-              <small>IMBD :</small>
+              <small>IMBD: </small>
               <strong>{parseFloat(details.imdbRating).toFixed(1)}</strong>
             </li>
             <li>
               <i className="fa fa-clock-o" aria-hidden="true"></i>
-              <small>Duration :</small> <strong>{details?.runtime}</strong>
+              <small>Duration: </small>
+              <strong>{details?.runtime}</strong>
             </li>
             <li>
               <i className="fa fa-calendar-o" aria-hidden="true"></i>
-              <small>Year :</small> <strong>{details?.year}</strong>
+              <small>Year: </small>
+              <strong>{details?.year}</strong>
             </li>
           </ul>
         </div>
@@ -349,7 +351,7 @@ export function ActionIcons({ details, isMobile }) {
     }
   };
   useEffect(() => {
-    const timer = setTimeout(() => saveToDatabase(), 450);
+    const timer = setTimeout(() => saveToDatabase(), 500);
     return () => clearTimeout(timer);
   }, [userData]); //eslint-disable-line react-hooks/exhaustive-deps
 
@@ -411,7 +413,7 @@ export function ActionIcons({ details, isMobile }) {
               id="like"
               style={{
                 background: userData.liked === 1 ? "var(--base-color)" : "",
-                color: userData.liked === 1 ? "var(--light-shade)" : "",
+                color: userData.liked === 1 ? "var(--light-color)" : "",
                 opacity: userData.liked === 1 ? "1" : ".55",
               }}
             >
@@ -431,7 +433,7 @@ export function ActionIcons({ details, isMobile }) {
               id="dislike"
               style={{
                 background: userData.liked === -1 ? "var(--base-color)" : "",
-                color: userData.liked === -1 ? "var(--light-shade)" : "",
+                color: userData.liked === -1 ? "var(--light-color)" : "",
                 opacity: userData.liked === -1 ? "1" : ".55",
               }}
             >
@@ -451,7 +453,7 @@ export function ActionIcons({ details, isMobile }) {
               id="unwatched"
               style={{
                 background: userData.watched ? "var(--base-color)" : "",
-                color: userData.watched ? "var(--light-shade)" : "",
+                color: userData.watched ? "var(--light-color)" : "",
                 opacity: userData.watched ? "1" : ".55",
               }}
             >
@@ -471,7 +473,7 @@ export function ActionIcons({ details, isMobile }) {
               id="myList"
               style={{
                 background: userData.myList ? "var(--base-color)" : "",
-                color: userData.myList ? "var(--light-shade)" : "",
+                color: userData.myList ? "var(--light-color)" : "",
                 opacity: userData.myList ? "1" : ".55",
               }}
             >

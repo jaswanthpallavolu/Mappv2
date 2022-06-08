@@ -7,7 +7,7 @@
   display: flex;
   flex-direction: column;
   /* justify-content: flex-start; */
-  gap: 0.5rem;
+  gap: 2rem;
   animation: animate1 0.35s linear 1;
 }
 @keyframes animate1 {
@@ -22,15 +22,15 @@
 }
 .mylist > .head {
   position: relative;
-  left: 7%;
-  /* margin-bottom: min(-2%, -1rem); */
+  left: 6%;
+  margin-bottom: min(-2.5%, -1.5rem);
   width: 80vw;
   /* width: max-content; */
   display: flex;
   align-items: center;
   gap: 0.5rem;
   font-weight: 300;
-  font-size: clamp(1.1rem, 4vw, 1.9rem);
+  font-size: clamp(1.1rem, 5vw, 1.9rem);
   color: var(--font-primary);
 }
 

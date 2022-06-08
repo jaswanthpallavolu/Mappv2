@@ -11,7 +11,7 @@
   --title: clamp(1.6rem, 4vw, 5rem);
   --description: clamp(1rem, 2.5vw, 1.25rem);
   --imdb-txt: clamp(1.1rem, 2vw, 1.25rem);
-  --btn-text: clamp(0.9rem, 2vw, 1.25rem);
+  --btn-text: clamp(1rem, 2vw, 1.25rem);
 
   --header1: clamp(0.9rem, 2.5vw, 1.2rem);
   --header1-value: clamp(1rem, 2.5vw, 1.4rem);
@@ -42,7 +42,7 @@
     --title: clamp(1.6rem, 4vw, 5rem);
     --description: clamp(1rem, 3vw, 1.85rem);
     --imdb-txt: clamp(1.1rem, 3vw, 1.85rem);
-    --btn-text: clamp(0.9rem, 3vw, 1.85rem);
+    --btn-text: clamp(1rem, 3vw, 1.85rem);
 
     --header1: clamp(0.9rem, 3vw, 1.8rem);
     --header1-value: clamp(1rem, 3vw, 2rem);

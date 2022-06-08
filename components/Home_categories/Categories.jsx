@@ -60,7 +60,7 @@ export default function Categories() {
     const controller = new AbortController();
     if (user.authorized) fetchMostLiked(controller.signal);
     return () => controller.abort();
-  }, [user.authorized]);
+  }, [user.authorized]); //eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     const controller = new AbortController();

@@ -86,7 +86,7 @@
 }
 .stats {
   margin-top: 1rem;
-  border: 1px solid var(--light-shade);
+  border: 1px solid var(--font-primary);
   padding: 0.25em 0.5em;
 
   font-size: clamp(0.75rem, 3vw, 1.2rem);

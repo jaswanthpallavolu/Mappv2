@@ -91,7 +91,7 @@ export function SearchBar(props) {
     <div className={styles.search}>
       <input
         placeholder={
-          props.list ? "Search Friends" : "Filter Requests (not completed)"
+          props.list ? "search users" : "Filter Requests (not completed)"
         }
         // placeholder="search user/ friend"
         className={styles.bar}

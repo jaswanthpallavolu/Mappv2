@@ -12,28 +12,25 @@
   --notif-block-margin: 0.8rem;
 
   --msg-txt-size: clamp(0.85rem, 4vw, 1.1rem);
-
   --bg-color: var(--primary);
-
   --shadow: var(--accent-light);
 
   background-color: var(--bg-color);
   color: var(--font-primary);
-
-  /* CUSTOM PIC */
-  --profile-height: 2rem;
-  --img-radius: 25px;
-  --scale-bg: 1.15;
 }
 .dtheme {
-  --msg-txt-color: var(--light-shade);
+  --msg-txt-color: var(--light-color);
   --msg-block-color: var(--accent-dark);
+
+  /* --pic-bg: var(--light-color);
+  --icon-color: var(--accent-dark); */
 }
 .ltheme {
   --msg-txt-color: var(--accent-dark);
-  --msg-block-color: none;
+  --msg-block-color: var(--light-shade);
 
-  --pic-bg: var(--accent-light);
+  /* --pic-bg: var(--accent-light);
+  --icon-color: var(--accent-dark); */
 }
 
 .section {
@@ -112,6 +109,37 @@
   border-radius: 50%;
 }
 
+.pic_sec {
+  /* CUSTOM PIC */
+  --profile-height: 2rem;
+  --img-radius: 25px;
+  --scale-bg: 1.15;
+
+  position: relative;
+  height: var(--profile-height);
+  border-radius: var(--img-radius);
+  /* border: 1px solid red; */
+}
+.pic_sec::before {
+  font-family: "font awesome 5 free";
+  font-weight: 900;
+  font-size: 0.75em;
+  padding: 0.25em;
+  background-color: var(--light-color);
+  color: var(--accent-dark);
+  border-radius: var(--img-radius);
+
+  position: absolute;
+  bottom: -10%;
+  right: -10%;
+  z-index: 3;
+}
+.pic_sec.sugg_icon::before {
+  content: "\e131";
+}
+.pic_sec.acpt_icon::before {
+  content: "\f007";
+}
 .details {
   text-align: left;
   color: var(--msg-txt-color);

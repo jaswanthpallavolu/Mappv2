@@ -13,16 +13,16 @@
   --navlink-fontsize: 1.3rem;
 
   /* COLORS */
-  --nav-link-color: var(--light-shade);
-  --nav-link-active-color: var(--light-shade);
-  --icon-color: var(--light-shade);
+  --nav-link-color: var(--light-color);
+  --nav-link-active-color: var(--light-color);
+  --icon-color: var(--light-color);
 
   /* PROFILE */
   --profile-height: 2.2rem;
   --img-radius: 25px;
   --scale-bg: 1.125;
-  --pic-bg: var(--light-shade);
-  --burger-color: var(--light-shade);
+  --pic-bg: var(--light-color);
+  --burger-color: var(--light-color);
 
   --logo-size: 2.8rem;
 
@@ -32,7 +32,7 @@
   -moz-user-select: none;
   -ms-user-select: none;
 
-  --login-color: var(--light-shade);
+  --login-color: var(--light-color);
   --login-bg: #000;
 }
 
@@ -49,16 +49,16 @@
 }
 
 /* .dark_theme {
-  --login-color: var(--light-shade);
+  --login-color: var(--light-color);
   --login-bg: var(--accent-light);
 }
 .light_theme {
-  --login-color: var(--light-shade);
+  --login-color: var(--light-color);
   --login-bg: var(--accent-light);
 } */
 .toggle_style.dark_theme {
   background-color: var(--primary);
-  /* --login-color: var(--light-shade);
+  /* --login-color: var(--light-color);
   --login-bg: var(--accent-light); */
 }
 /* .toggle_style.dark_theme {
@@ -71,7 +71,7 @@
   --icon-color: var(--font-primary);
   --burger-color: var(--font-primary);
 
-  /* --login-color: var(--light-shade);
+  /* --login-color: var(--light-color);
   --login-bg: var(--accent-light); */
 }
 /* .btn_default {
