@@ -321,8 +321,12 @@ function Friend({ props }) {
       >
         <img src={info.photoUrl} alt={info.username[0]} />
         {info.suggested && (
-          <div onClick={handleUnSend} className={styles.suggested}>
-            unsent
+          <div
+            onClick={handleUnSend}
+            title="unsend it"
+            className={styles.suggested}
+          >
+            unsend
           </div>
         )}
       </div>
