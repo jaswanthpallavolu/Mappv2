@@ -8,8 +8,10 @@ import { TitleHeader } from "../../social_network/SecondaryIcons";
 import socket from "../../../socket.connect";
 import axios from "axios";
 import { Loader1 } from "../../../utils/loaders/Loading";
+import { setNotifSignIn } from "../../../redux/features/generalSlice";
 
 export function Suggest({ isMobile, movie }) {
+  const authorized = useSelector((state) => state.userAuth.user.authorized);
   const sugOpened = useSelector((state) => state.global.showSuggestBox);
   const dispatch = useDispatch();
   return (
@@ -17,7 +19,11 @@ export function Suggest({ isMobile, movie }) {
       <div className={`${styles2.action_group} ${styles.suggest_icon}`}>
         <button
           className={styles2.icon}
-          onClick={() => dispatch(setSuggestBox())}
+          onClick={() =>
+            authorized
+              ? dispatch(setSuggestBox())
+              : dispatch(setNotifSignIn(true))
+          }
           style={{
             background: sugOpened ? "var(--base-color)" : "",
             color: sugOpened ? "var(--light-color)" : "",

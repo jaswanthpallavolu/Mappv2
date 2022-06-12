@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./people.module.css";
 import secStyles from "../iconsection.module.css";
+import customStyles from "../../../styles/customstyles.module.css";
 import fstyles from "./friends.module.css";
 import Friends from "./Friends";
 import { FriendRequest } from "./user/User";
@@ -38,7 +39,7 @@ export default function People({ closeAll }) {
               term={search}
               termHandle={searchHandle}
             />
-            <div className={`${secStyles.custom_scroll} ${styles.list}`}>
+            <div className={`${customStyles.custom_scrollbar} ${styles.list}`}>
               <Friends dataprops={{ requser, setRequser, search }} />
             </div>
           </>

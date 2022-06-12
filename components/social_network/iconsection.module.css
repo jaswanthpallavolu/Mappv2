@@ -93,39 +93,3 @@
     font-size: 1.4rem;
   }
 }
-
-/* CUSTOM SCROLL BAR */
-.custom_scroll {
-  --track: transparent;
-  --scroll: rgb(110, 110, 110);
-  overflow-y: scroll;
-  margin-bottom: 0.5em;
-  /* border-bottom: 1px solid var(--accent-light); */
-}
-.custom_scroll::-webkit-scrollbar {
-  /* width */
-  width: 5px;
-}
-
-.custom_scroll::-webkit-scrollbar-track {
-  /* Track */
-  /* box-shadow: inset 0 0 5px grey; */
-  border-radius: 8px;
-}
-.custom_scroll::-webkit-scrollbar-thumb {
-  /* Handle */
-  background: var(--scroll);
-  border-radius: 10px;
-}
-
-.custom_scroll::-webkit-scrollbar-thumb:hover {
-  /* Handle on hover */
-  background: var(--scroll);
-}
-
-.custom_scroll::-webkit-scrollbar-track-piece {
-  /* not handle on */
-  background: var(--track);
-}
-
-/* END OF CUSTOM SCROLL BAR */

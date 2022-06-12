@@ -33,9 +33,10 @@
   border: 2px solid var(--font-primary);
   background: none;
   border-radius: 25px;
-  box-shadow: 0 2px 4px var(--secondary);
+  box-shadow: 0 2px 4px var(--accent-light);
   text-transform: lowercase;
   font-size: clamp(0.9rem, 3vw, 1.1rem);
+  padding: 0.15em 0.5em;
   color: var(--font-primary);
   cursor: pointer;
 }

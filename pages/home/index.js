@@ -8,7 +8,6 @@ function Home() {
   const allUsers = useSelector((state) => state.people.allUsers);
   return (
     <div className={styles.home}>
-      <Notch />
       <div className={styles.container}>
         <section
           className={`${styles.section_one} ${

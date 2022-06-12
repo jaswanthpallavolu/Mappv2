@@ -12,7 +12,7 @@ import LazyLoad from "../../utils/lazyLoad/LazyLoad";
 function Search() {
   const theme = useSelector((state) => state.global.theme);
   const router = useRouter();
-  const [pageCount, setPageCount] = useState(10);
+  const [pageCount, setPageCount] = useState();
   const { word } = router.query;
   const [result, setResult] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -30,7 +30,7 @@ function Search() {
         setLoading(false);
       })
       .catch((err) => console.log(err));
-    setPageCount(10);
+    setPageCount(6);
   };
 
   useEffect(() => {
@@ -57,11 +57,11 @@ function Search() {
         </div>
       ) : (
         <>
-          {!result?.movies && !result?.tags ? (
+          {result?.movies.length === 0 && result?.tags.length === 0 ? (
             <div className={styles.msg}>
-              <h4>
-                No Matches for <small>{word}</small>
-              </h4>
+              <h2>
+              <small>No Matches for</small> {word}
+              </h2>
             </div>
           ) : (
             <>

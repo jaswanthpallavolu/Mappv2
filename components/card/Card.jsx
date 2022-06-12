@@ -12,6 +12,7 @@ import {
   deleteMovieData,
   updateMovieData,
 } from "../../redux/features/userRatingSlice";
+import { setNotifSignIn } from "../../redux/features/generalSlice";
 // import { setOpen, setMovieDetails } from "../../redux/features/movieSlice";
 import { useRouter } from "next/router";
 
@@ -74,9 +75,7 @@ export default function Card({ id, size }) {
                 alt={details.title}
               />
             ) : (
-              <div className={styles.title_block}>
-                {details.title} ({details.year})
-              </div>
+              <div className={styles.title_block}>{details.title}</div>
             )}
           </div>
           <Header details={details} />
@@ -91,7 +90,7 @@ export default function Card({ id, size }) {
               );
             }}
           >
-            <div className={`${styles.title}`}>
+            <div data-title={details.title} className={`${styles.title}`}>
               {String(details.title).substring(0, 50)}
             </div>
             <div className={styles.more}>
@@ -103,7 +102,7 @@ export default function Card({ id, size }) {
               <div className={styles.year}>{details.year}</div>
             </div>
           </div>
-          {/* <div className="details">View</div> */}
+          <div className={styles.mob_title}>{details.title}</div>
         </>
       ) : (
         <Skeleton />
@@ -161,7 +160,7 @@ export const Header = ({ details }) => {
         movieId,
         watched,
         myList: toggleIcon,
-        title,
+        title: String(title).toLowerCase(),
         uid,
       };
       if (_.isEqual({ ...newObj, myList }, newObj)) {
@@ -197,7 +196,7 @@ export const Header = ({ details }) => {
   };
 
   useEffect(() => {
-    const timer = setTimeout(() => handleMyListIcon(), 500);
+    const timer = setTimeout(() => handleMyListIcon(), 450);
     return () => clearTimeout(timer);
   }, [toggleIcon]); //eslint-disable-line react-hooks/exhaustive-deps
 
@@ -230,7 +229,9 @@ export const Header = ({ details }) => {
             title="add to list"
             // id="mylist-action"
             // className={styles.tooltip}
-            onClick={() => authorized && handleAdd()}
+            onClick={() =>
+              authorized ? handleAdd() : dispatch(setNotifSignIn(true))
+            }
             data-title="add to list"
           >
             {/* <ion-icon name="bookmark-outline"></ion-icon> */}

@@ -5,9 +5,9 @@ export const generalSlice = createSlice({
   name: "theme",
   initialState: {
     theme: "dark",
+    notifSignIn: false,
 
     //  for movie page
-
     showSuggestBox: false,
   },
   reducers: {
@@ -26,9 +26,18 @@ export const generalSlice = createSlice({
     setSuggestBox: (state) => {
       state.showSuggestBox = !state.showSuggestBox;
     },
+    setNotifSignIn: (state, action) => {
+      state.notifSignIn = action.payload;
+    },
   },
 });
 
-export const { toDark, toLight, setTheme, setIsMobile, setSuggestBox } =
-  generalSlice.actions;
+export const {
+  toDark,
+  toLight,
+  setTheme,
+  setIsMobile,
+  setSuggestBox,
+  setNotifSignIn,
+} = generalSlice.actions;
 export default generalSlice.reducer;

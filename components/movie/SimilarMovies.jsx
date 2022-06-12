@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import styles from "./Recommends.module.css";
 import styles2 from "./MovieDetails.module.css";
-import icstyles from "../social_network/iconsection.module.css";
+import customStyles from "../../styles/customstyles.module.css";
 import axios from "axios";
 import { useRouter } from "next/router";
 import Skeleton from "../../utils/skeleton/Skeleton";
@@ -46,7 +46,7 @@ export default function Recommends({ details }) {
             <h6 className={styles2.sec_header}>Similar Movies</h6>
           </li>
 
-          <ul className={`${styles.cards}  ${icstyles.custom_scroll}`}>
+          <ul className={`${styles.cards}  ${customStyles.custom_scrollbar}`}>
             {recommended_movies?.map((id, index) => (
               <li key={index}>
                 <PosterCard id={id} />

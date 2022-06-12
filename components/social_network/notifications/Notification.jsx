@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "../iconsection.module.css";
+import customStyles from "../../../styles/customstyles.module.css";
 import notifStyles from "./notif.module.css";
 
 import { useSelector } from "react-redux";
@@ -23,7 +24,7 @@ export default function Notification({ closeAll }) {
         }`}
       >
         <TitleHeader title={"Notifications"} close={closeAll} />
-        <div className={styles.custom_scroll}>
+        <div className={customStyles.custom_scrollbar}>
           <Section name="new" dropdown={true} />
           <Section name="earlier" dropdown={true} />
           <Section name="this week" dropdown={false} />

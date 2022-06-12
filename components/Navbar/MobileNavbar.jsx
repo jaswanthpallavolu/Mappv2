@@ -16,8 +16,15 @@ const MobileNavbar = ({ prop }) => {
   const [searchOpened, setSearchOpened] = useState(false);
   const router = useRouter();
   const dispatch = useDispatch();
-  const { handleTheme, navScrollTheme, theme, isMobile, authorized, user } =
-    prop;
+  const {
+    handleTheme,
+    notifSignIn,
+    navScrollTheme,
+    theme,
+    isMobile,
+    authorized,
+    user,
+  } = prop;
   return (
     <>
       <div
@@ -42,7 +49,9 @@ const MobileNavbar = ({ prop }) => {
                 <SecondaryIcons isMobile={isMobile} />
               ) : (
                 <button
-                  className={`${styles.login_btn}`}
+                  className={`${notifSignIn ? styles.shake_it : ""} ${
+                    styles.login_btn
+                  }`}
                   id="sign-in"
                   onClick={() => router.push("/login")}
                 >

@@ -9,7 +9,7 @@ import {
 import _ from "lodash";
 
 import { updateUserHistory } from "../../redux/features/userHistorySlice";
-
+import { setNotifSignIn } from "../../redux/features/generalSlice";
 import styles from "./MovieDetails.module.css";
 import styles2 from "./moviemobile.module.css";
 import CastANDcrew from "./CastANDcrew";
@@ -79,6 +79,7 @@ export default function MovieDetails({ details }) {
     </>
   );
 }
+
 export const MovieMobile = ({ details, setOpenTrailer, isMobile }) => {
   const [indicate, setIndicate] = useState(false);
   const checkScroll = () => {
@@ -189,6 +190,7 @@ export const MovieMobile = ({ details, setOpenTrailer, isMobile }) => {
     </div>
   );
 };
+
 export const MovieDesktop = ({ details, setOpenTrailer, isMobile }) => {
   return (
     <div className={styles.movie_page}>
@@ -321,7 +323,7 @@ export function ActionIcons({ details, isMobile }) {
       movieId,
       watched,
       myList,
-      title,
+      title: String(title).toLowerCase(),
       uid,
     };
     var initial = {
@@ -351,7 +353,7 @@ export function ActionIcons({ details, isMobile }) {
     }
   };
   useEffect(() => {
-    const timer = setTimeout(() => saveToDatabase(), 500);
+    const timer = setTimeout(() => saveToDatabase(), 750);
     return () => clearTimeout(timer);
   }, [userData]); //eslint-disable-line react-hooks/exhaustive-deps
 
@@ -376,7 +378,7 @@ export function ActionIcons({ details, isMobile }) {
   const initialize = () => {
     const movie = movies.find((i) => i.movieId === details.movieId);
     if (movie) {
-      setUserData(movie);
+      setUserData({ ...movie, title: String(movie.title).toLowerCase() });
     } else {
       const obj = {
         uid: userId,
@@ -404,7 +406,9 @@ export function ActionIcons({ details, isMobile }) {
 
           <div
             className={styles.action_group}
-            onClick={() => authorized && toggleLike()}
+            onClick={() =>
+              authorized ? toggleLike() : dispatch(setNotifSignIn(true))
+            }
           >
             <button
               title="liked"
@@ -424,7 +428,9 @@ export function ActionIcons({ details, isMobile }) {
 
           <div
             className={styles.action_group}
-            onClick={() => authorized && toggleDislike()}
+            onClick={() =>
+              authorized ? toggleDislike() : dispatch(setNotifSignIn(true))
+            }
           >
             <button
               title="disliked"
@@ -444,7 +450,9 @@ export function ActionIcons({ details, isMobile }) {
 
           <div
             className={styles.action_group}
-            onClick={() => authorized && toggleWatched()}
+            onClick={() =>
+              authorized ? toggleWatched() : dispatch(setNotifSignIn(true))
+            }
           >
             <button
               title="watched ?"
@@ -464,7 +472,9 @@ export function ActionIcons({ details, isMobile }) {
 
           <div
             className={styles.action_group}
-            onClick={() => authorized && toggleMyList()}
+            onClick={() =>
+              authorized ? toggleMyList() : dispatch(setNotifSignIn(true))
+            }
           >
             <button
               title="add to list"

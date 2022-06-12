@@ -65,6 +65,7 @@
   /* border: 1px solid red; */
 }
 .movie_nav h4 {
+  text-transform: capitalize;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;

@@ -4,7 +4,12 @@ import styles from "./Navbar.module.css";
 
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
-import { toDark, toLight, setTheme } from "../../redux/features/generalSlice";
+import {
+  toDark,
+  toLight,
+  setTheme,
+  setNotifSignIn,
+} from "../../redux/features/generalSlice";
 import { logout } from "../../redux/features/authSlice";
 import MobileNavbar from "./MobileNavbar";
 import SearchBar from "./SearchBar/SearchBar";
@@ -32,6 +37,7 @@ import { ProfilePic } from "../social_network/people/user/Profile";
 // `;
 
 function Navbar() {
+  const notifSignIn = useSelector((state) => state.global.notifSignIn);
   const theme = useSelector((state) => state.global.theme);
   const user = useSelector((state) => state.userAuth.user);
   const authorized = useSelector((state) => state.userAuth.user.authorized);
@@ -48,6 +54,7 @@ function Navbar() {
   };
 
   const [navScrollTheme, setNavScrollTheme] = useState(false);
+
   // const [whiteIcons, setWhiteIcons] = useState();
   const [isMobile, setIsMobile] = useState(null);
   const checkWidth = () => {
@@ -63,6 +70,15 @@ function Navbar() {
       setNavScrollTheme(false);
     }
   };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (notifSignIn) dispatch(setNotifSignIn(false));
+    }, 1000);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [notifSignIn]);
 
   useEffect(() => {
     changeBackground();
@@ -107,7 +123,13 @@ function Navbar() {
                   <Link href="/movies">Movies</Link>
                 </li>
               </ul>
-              <SearchBar prop={{ navScrollTheme, theme, isMobile }} />
+              <SearchBar
+                prop={{
+                  navScrollTheme,
+                  theme,
+                  isMobile,
+                }}
+              />
               {authorized ? (
                 <div className={styles.nav_options}>
                   <div className={styles.theme} onClick={handleTheme}>
@@ -141,7 +163,9 @@ function Navbar() {
                     )}
                   </div>
                   <button
-                    className={`${styles.login_btn}
+                    className={`${notifSignIn ? styles.shake_it : ""} ${
+                      styles.login_btn
+                    }
               ${
                 navScrollTheme && theme === "dark"
                   ? styles.dtbtn
@@ -163,7 +187,7 @@ function Navbar() {
                 user,
                 isMobile,
                 handleTheme,
-
+                notifSignIn,
                 theme,
                 authorized,
               }}

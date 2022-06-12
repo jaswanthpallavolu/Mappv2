@@ -6,6 +6,7 @@ import { fetchUserHistory } from "../redux/features/userHistorySlice";
 import { getAllUsers } from "../redux/features/peopleSlice";
 import Navbar from "./Navbar/Navbar";
 import socket from "../socket.connect";
+import { Notch } from "../pages/home";
 
 export default function Layout({ children }) {
   const user = useSelector((state) => state.userAuth.user);
@@ -32,6 +33,7 @@ export default function Layout({ children }) {
   return (
     <>
       <Navbar />
+      <Notch />
       {children}
     </>
   );
