@@ -114,23 +114,18 @@ export default function Card({ id, size }) {
 // this component handles all logic of add to/remove from  mylist operations
 export const Header = ({ details }) => {
   const dispatch = useDispatch();
-  // const [inList, setInList] = useState();
   const userId = useSelector((state) => state.userAuth.user.uid);
   const movies = useSelector((state) => state.userRatings.movies);
-  // const [myList, setMyList] = useState([]);
-  // const loadStatus = useSelector((state) => state.userRatings.status);
   const authorized = useSelector((state) => state.userAuth.user.authorized);
   const [toggleIcon, setToggleIcon] = useState(null);
 
   useEffect(() => {
-    // var list = movies.filter((i) => i.myList === true);
-
-    // assignCardIcon(list);
-    const timer = setTimeout(() => assignCardIcon(), 50);
-    return () => clearTimeout(timer);
+    assignCardIcon();
+    // const timer = setTimeout(() => assignCardIcon(), 50);
+    // return () => clearTimeout(timer);
   }, [movies]); //eslint-disable-line react-hooks/exhaustive-deps
 
-  const assignCardIcon = async () => {
+  const assignCardIcon = () => {
     // console.log("checking status..");
     const mIfo = movies.find((i) => i.movieId === details.movieId);
     if (mIfo) {
@@ -143,10 +138,11 @@ export const Header = ({ details }) => {
   const handleAdd = () => {
     setToggleIcon(true);
   };
-  const handleRemove = async () => {
+  const handleRemove = () => {
     setToggleIcon(false);
   };
-  const handleMyListIcon = async () => {
+  const handleMyListIcon = () => {
+    if (toggleIcon === null) return;
     var mIfo = movies.find((i) => i.movieId === details.movieId);
 
     if (mIfo) {
@@ -177,6 +173,7 @@ export const Header = ({ details }) => {
       myList: false,
     };
     const isInitialObj = _.isEqual(initial, newObj);
+
     if (newObj && isInitialObj) {
       // console.log("delete the document");
       dispatch(deleteMovieData({ uid: userId, mid: details.movieId }));
@@ -196,7 +193,7 @@ export const Header = ({ details }) => {
   };
 
   useEffect(() => {
-    const timer = setTimeout(() => handleMyListIcon(), 450);
+    const timer = setTimeout(() => handleMyListIcon(), 350);
     return () => clearTimeout(timer);
   }, [toggleIcon]); //eslint-disable-line react-hooks/exhaustive-deps
 
