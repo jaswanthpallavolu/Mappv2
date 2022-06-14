@@ -15,6 +15,7 @@ body {
   -ms-user-select: none; */
 
   background-color: "#03071e";
+  scroll-behavior: smooth;
 }
 
 a {
@@ -135,5 +136,8 @@ li {
   ion-icon,
   i {
     cursor: default;
+  }
+  body {
+    -webkit-overflow-scrolling: touch;
   }
 }
