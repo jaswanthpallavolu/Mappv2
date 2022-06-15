@@ -344,7 +344,7 @@ export function ActionIcons({ details, isMobile }) {
       // console.log("delete the document");
       dispatch(deleteMovieData({ uid: userId, mid: details.movieId, signal }));
     } else if (mIfo && !isInitialObj) {
-      // console.log("upd", newObj);
+      // console.log("upd");
       dispatch(
         updateMovieData({
           uid: userId,
@@ -388,7 +388,7 @@ export function ActionIcons({ details, isMobile }) {
   };
   const initialize = () => {
     // console.log(movies.length);
-    // if (!movies.length || !details.movieId) return;
+    if (!movies.length || !details.movieId) return;
     // console.log("checked");
     const movie = movies?.find((i) => i.movieId === details.movieId);
     if (movie) {
@@ -414,105 +414,101 @@ export function ActionIcons({ details, isMobile }) {
     initialize();
     // }
     // dispatch(fetchMovies(userId));
-  }, [movies]); //eslint-disable-line react-hooks/exhaustive-deps
+  }, [movies.find((i) => i.movieId === details.movieId)]); //eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <>
-      {userData && (
-        <div className={styles.icons}>
-          <Suggest isMobile={isMobile} movie={details} />
+    <div className={styles.icons}>
+      <Suggest isMobile={isMobile} movie={details} />
 
-          <div
-            className={styles.action_group}
-            onClick={() =>
-              authorized ? toggleLike() : dispatch(setNotifSignIn(true))
-            }
-          >
-            <button
-              title="liked"
-              data-src="liked"
-              className={styles.icon}
-              id="like"
-              style={{
-                background: userData.liked === 1 ? "var(--base-color)" : "",
-                color: userData.liked === 1 ? "var(--light-color)" : "",
-                opacity: userData.liked === 1 ? "1" : ".55",
-              }}
-            >
-              <i className="far fa-thumbs-up"></i>
-            </button>
-            <small>like</small>
-          </div>
+      <div
+        className={styles.action_group}
+        onClick={() =>
+          authorized ? toggleLike() : dispatch(setNotifSignIn(true))
+        }
+      >
+        <button
+          title="liked"
+          data-src="liked"
+          className={styles.icon}
+          id="like"
+          style={{
+            background: userData?.liked === 1 ? "var(--base-color)" : "",
+            color: userData?.liked === 1 ? "var(--light-color)" : "",
+            opacity: userData?.liked === 1 ? "1" : ".55",
+          }}
+        >
+          <i className="far fa-thumbs-up"></i>
+        </button>
+        <small>like</small>
+      </div>
 
-          <div
-            className={styles.action_group}
-            onClick={() =>
-              authorized ? toggleDislike() : dispatch(setNotifSignIn(true))
-            }
-          >
-            <button
-              title="disliked"
-              data-src="disliked"
-              className={styles.icon}
-              id="dislike"
-              style={{
-                background: userData.liked === -1 ? "var(--base-color)" : "",
-                color: userData.liked === -1 ? "var(--light-color)" : "",
-                opacity: userData.liked === -1 ? "1" : ".55",
-              }}
-            >
-              <i className="far fa-thumbs-down"></i>
-            </button>
-            <small>dislike</small>
-          </div>
+      <div
+        className={styles.action_group}
+        onClick={() =>
+          authorized ? toggleDislike() : dispatch(setNotifSignIn(true))
+        }
+      >
+        <button
+          title="disliked"
+          data-src="disliked"
+          className={styles.icon}
+          id="dislike"
+          style={{
+            background: userData?.liked === -1 ? "var(--base-color)" : "",
+            color: userData?.liked === -1 ? "var(--light-color)" : "",
+            opacity: userData?.liked === -1 ? "1" : ".55",
+          }}
+        >
+          <i className="far fa-thumbs-down"></i>
+        </button>
+        <small>dislike</small>
+      </div>
 
-          <div
-            className={styles.action_group}
-            onClick={() =>
-              authorized ? toggleWatched() : dispatch(setNotifSignIn(true))
-            }
-          >
-            <button
-              title="watched ?"
-              data-src="watched ?"
-              className={styles.icon}
-              id="unwatched"
-              style={{
-                background: userData.watched ? "var(--base-color)" : "",
-                color: userData.watched ? "var(--light-color)" : "",
-                opacity: userData.watched ? "1" : ".55",
-              }}
-            >
-              <i className="fas fa-check"></i>
-            </button>
-            <small>seen ?</small>
-          </div>
+      <div
+        className={styles.action_group}
+        onClick={() =>
+          authorized ? toggleWatched() : dispatch(setNotifSignIn(true))
+        }
+      >
+        <button
+          title="watched ?"
+          data-src="watched ?"
+          className={styles.icon}
+          id="unwatched"
+          style={{
+            background: userData?.watched ? "var(--base-color)" : "",
+            color: userData?.watched ? "var(--light-color)" : "",
+            opacity: userData?.watched ? "1" : ".55",
+          }}
+        >
+          <i className="fas fa-check"></i>
+        </button>
+        <small>watched</small>
+      </div>
 
-          <div
-            className={styles.action_group}
-            onClick={() =>
-              authorized ? toggleMyList() : dispatch(setNotifSignIn(true))
-            }
-          >
-            <button
-              title="add to list"
-              data-src="add to list"
-              className={styles.icon}
-              id="myList"
-              style={{
-                background: userData.myList ? "var(--base-color)" : "",
-                color: userData.myList ? "var(--light-color)" : "",
-                opacity: userData.myList ? "1" : ".55",
-              }}
-            >
-              {/* <i className="fas fa-plus"></i> */}
-              <i className="fa fa-bookmark-o" aria-hidden="true"></i>
-              {/* <i className="fa fa-bookmark-o" aria-hidden="true"></i> */}
-            </button>
-            <small>my list</small>
-          </div>
-        </div>
-      )}
-    </>
+      <div
+        className={styles.action_group}
+        onClick={() =>
+          authorized ? toggleMyList() : dispatch(setNotifSignIn(true))
+        }
+      >
+        <button
+          title="add to list"
+          data-src="add to list"
+          className={styles.icon}
+          id="myList"
+          style={{
+            background: userData?.myList ? "var(--base-color)" : "",
+            color: userData?.myList ? "var(--light-color)" : "",
+            opacity: userData?.myList ? "1" : ".55",
+          }}
+        >
+          {/* <i className="fas fa-plus"></i> */}
+          <i className="fa fa-bookmark-o" aria-hidden="true"></i>
+          {/* <i className="fa fa-bookmark-o" aria-hidden="true"></i> */}
+        </button>
+        <small>my list</small>
+      </div>
+    </div>
   );
 }

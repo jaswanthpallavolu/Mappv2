@@ -54,12 +54,12 @@ export default function SecondaryIcons({ isMobile }) {
 
   return (
     <>
-      <MyListIcon
+      {/* <MyListIcon
         setSectionOpened={setSectionOpened}
         sectionOpened={sectionOpened}
         isMobile={isMobile}
         closeAll={closeAll}
-      />
+      /> */}
       <NotificationIcon
         setSectionOpened={setSectionOpened}
         sectionOpened={sectionOpened}
