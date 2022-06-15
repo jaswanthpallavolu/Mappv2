@@ -117,7 +117,9 @@ export const Header = ({ details }) => {
   const userId = useSelector((state) => state.userAuth.user.uid);
   const movies = useSelector((state) => state.userRatings.movies);
   const authorized = useSelector((state) => state.userAuth.user.authorized);
+
   const [toggleIcon, setToggleIcon] = useState(null);
+  const [iconState, setIconState] = useState(false);
 
   useEffect(() => {
     assignCardIcon();
@@ -126,22 +128,26 @@ export const Header = ({ details }) => {
   }, [movies]); //eslint-disable-line react-hooks/exhaustive-deps
 
   const assignCardIcon = () => {
-    // console.log("checking status..");
+    // console.log("checking status..", details.movieId);
     const mIfo = movies.find((i) => i.movieId === details.movieId);
-    if (mIfo) {
-      setToggleIcon(mIfo.myList);
+    if (mIfo?.myList) {
+      // setIconState(true);
+      setToggleIcon(true);
     } else {
+      // setIconState(false);
       setToggleIcon(false);
     }
   };
 
   const handleAdd = () => {
     setToggleIcon(true);
+    // setIconState(true);
   };
   const handleRemove = () => {
     setToggleIcon(false);
+    // setIconState(false);
   };
-  const handleMyListIcon = () => {
+  const saveToDatabase = (signal) => {
     if (toggleIcon === null) return;
     var mIfo = movies.find((i) => i.movieId === details.movieId);
 
@@ -176,25 +182,32 @@ export const Header = ({ details }) => {
 
     if (newObj && isInitialObj) {
       // console.log("delete the document");
-      dispatch(deleteMovieData({ uid: userId, mid: details.movieId }));
+      dispatch(deleteMovieData({ uid: userId, mid: details.movieId, signal }));
     } else if (newObj && !isInitialObj) {
       // console.log("upd");
       dispatch(
         updateMovieData({
           uid: userId,
           mid: details.movieId,
-          data: newObj,
+          body: newObj,
+          signal,
         })
       );
     } else if (!newObj && toggleIcon) {
       // console.log("add");
-      dispatch(addMovieData({ ...initial, myList: toggleIcon }));
+      var body = { ...initial, myList: toggleIcon };
+      dispatch(addMovieData({ body, signal }));
     }
   };
 
   useEffect(() => {
-    const timer = setTimeout(() => handleMyListIcon(), 350);
-    return () => clearTimeout(timer);
+    const controller = new AbortController();
+    saveToDatabase(controller.signal);
+    // const timer = setTimeout(() => saveToDatabase(controller.signal), 350);
+    return () => {
+      // clearTimeout(timer);
+      controller.abort();
+    };
   }, [toggleIcon]); //eslint-disable-line react-hooks/exhaustive-deps
 
   return (
@@ -203,8 +216,6 @@ export const Header = ({ details }) => {
         {parseFloat(details.imdbRating).toFixed(1)}
       </div>
       <div className={styles.options}>
-        {/* {!status ? (
-          <> */}
         {toggleIcon ? (
           <div
             // key={Math.random() * 999}
@@ -237,10 +248,6 @@ export const Header = ({ details }) => {
             <img src="/assets/bookmark-thin.png" alt="add" />
           </div>
         )}
-        {/* </>
-        ) : (
-          <div className={styles.spin}></div>
-        )} */}
       </div>
     </div>
   );

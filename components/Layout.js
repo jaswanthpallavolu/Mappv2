@@ -7,7 +7,7 @@ import { getAllUsers } from "../redux/features/peopleSlice";
 import Navbar from "./Navbar/Navbar";
 import socket from "../socket.connect";
 import { Notch } from "../pages/home";
-
+import customeStyles from "../styles/customstyles.module.css";
 export default function Layout({ children }) {
   const user = useSelector((state) => state.userAuth.user);
   const status = useSelector((state) => state.userAuth.status);
@@ -31,10 +31,10 @@ export default function Layout({ children }) {
   }, [status]); //eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <>
+    <div className={customeStyles.main_scrollbar}>
       <Navbar />
       <Notch />
       {children}
-    </>
+    </div>
   );
 }

@@ -15,8 +15,10 @@ const SearchBar = ({ prop }) => {
   const [showSuggBox, setShowSuggBox] = useState(false);
   const [onHovered, setOnHovered] = useState(false);
   const [recent, setRecent] = useState([]);
+  const [suggs, setSuggs] = useState(null);
 
   const handleRouteChange = () => {
+    setShowSuggBox(false);
     var word = searchValue;
     if (word) router.push(`/search/${word}`);
   };
@@ -50,7 +52,7 @@ const SearchBar = ({ prop }) => {
     if (word) setSearchValue(word);
     if (searchValue !== "") setShowClear(true);
     getRecentSearchList();
-  }, []);
+  }, [word]);
 
   return (
     <div
@@ -97,6 +99,8 @@ const SearchBar = ({ prop }) => {
       {showSuggBox && (
         <Suggestions
           props={{
+            suggs,
+            setSuggs,
             recent,
             setRecent,
             setSearchValue,
@@ -115,6 +119,8 @@ export default SearchBar;
 
 function Suggestions({ props }) {
   const {
+    suggs,
+    setSuggs,
     setSearchValue,
     recent,
     setRecent,
@@ -123,7 +129,6 @@ function Suggestions({ props }) {
     searchValue,
     router,
   } = props;
-  const [suggs, setSuggs] = useState(null);
 
   const fetchSuggestions = async (signal) => {
     await axios

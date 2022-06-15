@@ -62,6 +62,7 @@ export default function Carousel({ list, size }) {
         settings: {
           slidesToShow: 4,
           slidesToScroll: 3,
+          speed: 100,
         },
       },
       {
@@ -69,6 +70,7 @@ export default function Carousel({ list, size }) {
         settings: {
           slidesToShow: 3,
           slidesToScroll: 2,
+          speed: 100,
         },
       },
       {
@@ -76,6 +78,7 @@ export default function Carousel({ list, size }) {
         settings: {
           slidesToShow: 2,
           slidesToScroll: 2,
+          speed: 100,
         },
       },
     ],

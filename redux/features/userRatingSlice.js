@@ -4,28 +4,36 @@ import axios from "axios";
 //add userMovie data
 export const addMovieData = createAsyncThunk(
   "userData/addMovie",
-  async (obj, thunkAPI) => {
+  async ({ body, signal }, thunkAPI) => {
     var data;
     await axios
-      .post(`${process.env.NEXT_PUBLIC_USER_DATA_SERVER}/user/add/movie`, obj)
+      .post(
+        `${process.env.NEXT_PUBLIC_USER_DATA_SERVER}/user/add/movie`,
+        body,
+        { signal }
+      )
       .then((res) => (data = res.data))
       .catch((err) => console.log(err));
+    // console.log(data);
     return data;
   }
 );
 //delete userMovie data
 export const deleteMovieData = createAsyncThunk(
   "userData/deleteMovie",
-  async ({ uid, mid }, thunkAPI) => {
+  async ({ uid, mid, signal }, thunkAPI) => {
     var data;
     await axios
       .delete(
-        `${process.env.NEXT_PUBLIC_USER_DATA_SERVER}/user/${uid}/movie/${mid}`
+        `${process.env.NEXT_PUBLIC_USER_DATA_SERVER}/user/${uid}/movie/${mid}`,
+        { signal }
       )
       .then((res) => {
         data = res.data;
       })
       .catch((err) => console.log(err));
+    // console.log(data);
+
     return data;
   }
 );
@@ -33,15 +41,18 @@ export const deleteMovieData = createAsyncThunk(
 //update userMovie data
 export const updateMovieData = createAsyncThunk(
   "userData/updateMovie",
-  async ({ uid, mid, data }) => {
+  async ({ uid, mid, body, signal }) => {
     var data;
     await axios
       .put(
         `${process.env.NEXT_PUBLIC_USER_DATA_SERVER}/user/${uid}/movie/${mid}`,
-        data
+        body,
+        { signal }
       )
       .then((res) => (data = res.data))
       .catch((err) => console.log(err));
+    // console.log(data);
+
     return data;
   }
 );
@@ -101,29 +112,43 @@ const userRatings = createSlice({
       })
       .addCase(addMovieData.fulfilled, (state, action) => {
         // console.log(action.payload);
-        state.movies = [...state.movies, action.payload];
-        state.status = "succeeded";
+        if (action?.payload?._id) {
+          state.movies = [...state.movies, action.payload];
+          state.status = "succeeded";
+        }
       })
 
       .addCase(deleteMovieData.pending, (state) => {
         state.status = "loading";
       })
       .addCase(deleteMovieData.fulfilled, (state, action) => {
-        const result = state.movies.filter((i) => i._id !== action.payload._id);
-        state.movies = result;
-        state.status = "succeeded";
+        if (action?.payload?.movieId) {
+          const result = state.movies.filter(
+            (i) => i.movieId !== action.payload.movieId
+          );
+          state.movies = result;
+          state.status = "succeeded";
+        }
       })
       .addCase(updateMovieData.pending, (state) => {
         state.status = "loading";
       })
       .addCase(updateMovieData.fulfilled, (state, action) => {
         // console.log(action.payload);
-        var updatedList = state.movies?.map((i) => {
-          if (i._id === action.payload._id) return action.payload;
-          return i;
-        });
-        state.movies = updatedList ? updatedList : [{ ...action.payload }];
-        state.status = "succeeded";
+        if (action?.payload?._id) {
+          const result = state.movies.filter(
+            (i) => i._id !== action.payload._id
+          );
+          const updatedList = [...result, { ...action.payload }];
+
+          // var updatedList = state.movies?.map((i) => {
+          //   if (i._id === action.payload._id) return action.payload;
+          //   return i;
+          // });
+          //  ? updatedList : [{ ...action.payload }];
+          state.movies = updatedList;
+          state.status = "succeeded";
+        }
       });
   },
 });

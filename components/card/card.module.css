@@ -314,6 +314,7 @@
   }
   .title_block {
     align-items: center;
+    justify-content: center;
   }
 
   .options {

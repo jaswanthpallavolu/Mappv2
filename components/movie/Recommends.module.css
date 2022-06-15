@@ -38,6 +38,8 @@
   position: absolute;
   inset: 0;
   cursor: pointer;
+  border: 1px solid transparent;
+
   /* border: 1px solid red; */
 }
 .pcard:active {
@@ -49,7 +51,7 @@
   object-fit: cover;
   object-position: center;
 }
-.pcard:hover img {
+.pcard:hover {
   border: 1px solid var(--base-color);
 }
 .title {

@@ -5,6 +5,7 @@ import {
   updateMovieData,
   deleteMovieData,
   addMovieData,
+  fetchMovies,
 } from "../../redux/features/userRatingSlice";
 import _ from "lodash";
 
@@ -280,12 +281,14 @@ export const MovieDesktop = ({ details, setOpenTrailer, isMobile }) => {
 
 export function ActionIcons({ details, isMobile }) {
   const movies = useSelector((state) => state.userRatings.movies);
+  const status = useSelector((state) => state.userRatings.status);
+
   const userId = useSelector((state) => state.userAuth.user.uid);
 
   const authorized = useSelector((state) => state.userAuth.user.authorized);
 
   const dispatch = useDispatch();
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState(null);
 
   const toggleLike = () => {
     let a;
@@ -308,7 +311,9 @@ export function ActionIcons({ details, isMobile }) {
     setUserData((prev) => ({ ...prev, myList: !prev.myList }));
   };
 
-  const saveToDatabase = () => {
+  const saveToDatabase = (signal) => {
+    // if (!userData) return;
+    if (!userData || !movies.length || !details.movieId) return;
     const mIfo = movies.find((i) => i.movieId === details.movieId);
 
     if (mIfo && _.isEqual(mIfo, userData)) {
@@ -337,24 +342,30 @@ export function ActionIcons({ details, isMobile }) {
     const isInitialObj = _.isEqual(initial, newObj);
     if (newObj && isInitialObj && mIfo) {
       // console.log("delete the document");
-      dispatch(deleteMovieData({ uid: userId, mid: details.movieId }));
+      dispatch(deleteMovieData({ uid: userId, mid: details.movieId, signal }));
     } else if (mIfo && !isInitialObj) {
-      // console.log("upd");
+      // console.log("upd", newObj);
       dispatch(
         updateMovieData({
           uid: userId,
           mid: details.movieId,
-          data: newObj,
+          body: newObj,
+          signal,
         })
       );
     } else if (!mIfo && !isInitialObj) {
       // console.log("add");
-      dispatch(addMovieData({ ...newObj }));
+      dispatch(addMovieData({ body: newObj, signal }));
     }
   };
   useEffect(() => {
-    const timer = setTimeout(() => saveToDatabase(), 750);
-    return () => clearTimeout(timer);
+    const controller = new AbortController();
+    saveToDatabase(controller.signal);
+    // const timer = setTimeout(() => saveToDatabase(controller.signal), 350);
+    return () => {
+      // clearTimeout(timer);
+      controller.abort();
+    };
   }, [userData]); //eslint-disable-line react-hooks/exhaustive-deps
 
   const addToRecentlyViewed = () => {
@@ -376,7 +387,10 @@ export function ActionIcons({ details, isMobile }) {
     }
   };
   const initialize = () => {
-    const movie = movies.find((i) => i.movieId === details.movieId);
+    // console.log(movies.length);
+    // if (!movies.length || !details.movieId) return;
+    // console.log("checked");
+    const movie = movies?.find((i) => i.movieId === details.movieId);
     if (movie) {
       setUserData({ ...movie, title: String(movie.title).toLowerCase() });
     } else {
@@ -391,11 +405,15 @@ export function ActionIcons({ details, isMobile }) {
       setUserData(obj);
     }
   };
-
   useEffect(() => {
     addToRecentlyViewed();
-    // dispatch(fetchMovies(userId));
+  }, []);
+  useEffect(() => {
+    // if (status === "loaded") {
+
     initialize();
+    // }
+    // dispatch(fetchMovies(userId));
   }, [movies]); //eslint-disable-line react-hooks/exhaustive-deps
 
   return (
