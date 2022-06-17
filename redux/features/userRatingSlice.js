@@ -14,7 +14,7 @@ export const addMovieData = createAsyncThunk(
       )
       .then((res) => (data = res.data))
       .catch((err) => console.log(err));
-    // console.log(data);
+    // console.log("ADD", data);
     return data;
   }
 );
@@ -32,7 +32,7 @@ export const deleteMovieData = createAsyncThunk(
         data = res.data;
       })
       .catch((err) => console.log(err));
-    // console.log(data);
+    // console.log("DELETE", data);
 
     return data;
   }
@@ -51,7 +51,7 @@ export const updateMovieData = createAsyncThunk(
       )
       .then((res) => (data = res.data))
       .catch((err) => console.log(err));
-    // console.log(data);
+    // console.log("UPD", data);
 
     return data;
   }
@@ -135,11 +135,11 @@ const userRatings = createSlice({
       })
       .addCase(updateMovieData.fulfilled, (state, action) => {
         // console.log(action.payload);
-        if (action?.payload?._id) {
+        if (action?.payload?.movieId) {
           const result = state.movies.filter(
-            (i) => i._id !== action.payload._id
+            (i) => i.movieId !== action.payload.movieId
           );
-          const updatedList = [...result, { ...action.payload }];
+          const updatedList = [...result, action.payload];
 
           // var updatedList = state.movies?.map((i) => {
           //   if (i._id === action.payload._id) return action.payload;

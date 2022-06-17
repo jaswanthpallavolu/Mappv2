@@ -119,23 +119,23 @@ export const Header = ({ details }) => {
   const authorized = useSelector((state) => state.userAuth.user.authorized);
 
   const [toggleIcon, setToggleIcon] = useState(null);
-  const [iconState, setIconState] = useState(false);
+  const [processing, setProcessing] = useState(false);
 
   useEffect(() => {
     assignCardIcon();
     // const timer = setTimeout(() => assignCardIcon(), 50);
     // return () => clearTimeout(timer);
-  }, [movies]); //eslint-disable-line react-hooks/exhaustive-deps
+  }, [movies.find((i) => i.movieId === details.movieId)]); //eslint-disable-line react-hooks/exhaustive-deps
 
   const assignCardIcon = () => {
     // console.log("checking status..", details.movieId);
     const mIfo = movies.find((i) => i.movieId === details.movieId);
     if (mIfo?.myList) {
       // setIconState(true);
-      setToggleIcon(true);
+      if (!toggleIcon) setToggleIcon(true);
     } else {
       // setIconState(false);
-      setToggleIcon(false);
+      if (toggleIcon) setToggleIcon(false);
     }
   };
 
@@ -179,10 +179,11 @@ export const Header = ({ details }) => {
       myList: false,
     };
     const isInitialObj = _.isEqual(initial, newObj);
-
+    // setProcessing(true);
     if (newObj && isInitialObj) {
       // console.log("delete the document");
       dispatch(deleteMovieData({ uid: userId, mid: details.movieId, signal }));
+      // .then((o) => setProcessing(false));
     } else if (newObj && !isInitialObj) {
       // console.log("upd");
       dispatch(
@@ -193,17 +194,21 @@ export const Header = ({ details }) => {
           signal,
         })
       );
+      // .then((o) => setProcessing(false));
     } else if (!newObj && toggleIcon) {
       // console.log("add");
       var body = { ...initial, myList: toggleIcon };
       dispatch(addMovieData({ body, signal }));
+      // .then((o) =>
+      //   setProcessing(false)
+      // );
     }
   };
 
   useEffect(() => {
     const controller = new AbortController();
     saveToDatabase(controller.signal);
-    // const timer = setTimeout(() => saveToDatabase(controller.signal), 350);
+    // const timer = setTimeout(() => saveToDatabase(controller.signal), 250);
     return () => {
       // clearTimeout(timer);
       controller.abort();
