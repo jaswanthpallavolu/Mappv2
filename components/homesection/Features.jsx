@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./feature.module.css";
-import featureItem from "./FeatureItem";
+import FeatureItem from "./FeatureItem";
 
 function Features() {
     const featurelist = [
@@ -35,3 +35,5 @@ function Features() {
     );
 
 }
+
+export default Features;

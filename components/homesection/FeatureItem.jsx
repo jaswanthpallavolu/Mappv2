@@ -1,6 +1,6 @@
 import styles from "./feature.module.css";
 
-export default function featureItem(props) {
+export default function FeatureItem(props) {
     const { info } = props;
 
 
