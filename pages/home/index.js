@@ -2,10 +2,12 @@ import Layout from "../../components/Layout";
 import styles from "../../styles/Home.module.css";
 import Categories from "../../components/Home_categories/Categories";
 import { useEffect } from "react";
+import HomeSection from "../../components/homesection/homesection";
 function Home() {
   return (
     <div className={styles.home}>
       <div className={styles.container}>
+        <HomeSection />
         <Categories />
       </div>
     </div>

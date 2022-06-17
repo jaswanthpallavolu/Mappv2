@@ -1,8 +1,10 @@
-import styles from "./feature.module.css";
+import styles from "../../styles/Home.module.css";
 import { useSelector } from "react-redux";
+import Features from "./Features";
 
 function HomeSection() {
   const theme = useSelector((state) => state.global.theme);
+  const allUsers = useSelector((state) => state.people.allUsers);
   return (
     <section
       className={`${styles.section_one} ${
@@ -22,13 +24,7 @@ function HomeSection() {
           className="elfsight-app-d9a75cd2-55d3-4991-8ecd-783c94d527e4"
         ></div> */}
 
-        <ul className={styles.features}>
-          <li>
-            <b>Features :-</b>
-          </li>
-          <li>personalized Home page based on user activity,</li>
-          <li>recommendation system</li>
-        </ul>
+        <Features />
         <p>{"[ this website contains movie data between (1994-2020) ]"}</p>
         {allUsers?.length > 0 && (
           <div className={styles.stats}>

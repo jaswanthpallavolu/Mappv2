@@ -6,8 +6,9 @@ export default function FeatureItem(props) {
 
     return (
         <div className={styles.item}>
-            <h3></h3>
-            <p></p>
+            <i className={info.icon}></i>
+            <h3>{info.name}</h3>
+            <p>{info.description}</p>
         </div>
     );
 }
