@@ -60,10 +60,13 @@
   gap: var(--pad-bottom);
 }
 .right_content {
-  flex: 1;
+  flex: 2;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  /* align-items: flex-end; */
   gap: calc(var(--pad-bottom) * 1.5);
+  /* border: 1px solid red; */
 }
 
 .genre_values {
@@ -215,9 +218,10 @@
 
 /* CAST AND CREW */
 .castcrew {
+  /* border: 1px solid red; */
   display: flex;
-  flex-direction: column;
-  gap: var(--pad-bottom);
+  flex-direction: row-reverse;
+  gap: calc(var(--pad-bottom) * 2);
   width: max-content;
 }
 .castcrew ul {

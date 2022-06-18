@@ -21,7 +21,7 @@ export default function Login() {
 
   return (
     <>
-      {loading || status === "saving-user-details" ? (
+      {loading || status === "checking" ? (
         <div className={styles.l_loader}>
           {/* {status !== "saving-user-details" && (
             <> */}
@@ -49,7 +49,8 @@ export default function Login() {
           </div>
           <div className={styles.content}>
             <div className={styles.desc}>
-              {"You don't watch the movies the way you did as a kid"}
+              <p className={styles.desc1}>stay connected</p>
+              <p className={styles.desc2}>get movie recommendations</p>
             </div>
             <div className={styles.lbtn}>
               <button
@@ -59,7 +60,8 @@ export default function Login() {
                   setLoading(true);
                 }}
               >
-                SignIn with Google
+                <p>SignIn with Google</p>
+                <i className="fa-brands fa-google"></i>
               </button>
               <button
                 className={styles.guest}

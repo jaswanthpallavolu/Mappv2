@@ -9,7 +9,7 @@
   --img-height: max(50vh, 17rem);
   --mleft: 0.5rem;
   --div-gap: 1rem;
-  --trailer-txt: clamp(1.3rem, 5vw, 1.8rem);
+  --play-icon-width: 2.5em;
   background-color: var(--primary);
 
   /* overflow-x: hidden; */
@@ -148,22 +148,23 @@
 }
 .trailer {
   position: absolute;
-  top: -2.5%;
+  top: -3%;
   right: 5%;
-
-  background-color: var(--base-color);
-  padding: 0.55em 0.8em;
-  padding-right: 0.55em;
-  border-radius: 100%;
-
-  display: grid;
-  place-items: center;
-  text-align: center;
+  animation: fadeOut 0.75s ease-in-out;
 }
-.trailer i {
-  font-size: var(--trailer-txt);
-  border-radius: 100%;
-  color: var(--light-color);
+@keyframes fadeOut {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.trailer img {
+  width: var(--play-icon-width);
+  height: var(--play-icon-width);
 }
 .block2 {
   display: flex;

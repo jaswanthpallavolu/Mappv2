@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { auth } from "../../firebase_connect";
+import { getAuth } from "firebase/auth";
 import firebase from "@firebase/app-compat";
 import axios from "axios";
 
@@ -8,6 +9,7 @@ export const checkUser = createAsyncThunk(
   async (_, thunkAPI) => {
     var data;
     auth.onAuthStateChanged((user) => {
+      console.log("chg: ", user);
       if (user) {
         data = {
           username: user.displayName,
@@ -15,10 +17,9 @@ export const checkUser = createAsyncThunk(
           email: user.email,
           uid: user.uid,
         };
-        // console.log(data);
-        thunkAPI.dispatch(setCurrentUser(data));
         thunkAPI.dispatch(addToDB(data));
-      } else thunkAPI.dispatch(setCurrentUser(data));
+      }
+      thunkAPI.dispatch(setCurrentUser(data));
     });
   }
 );
@@ -36,7 +37,7 @@ export const loginWithGoogle = createAsyncThunk(
 );
 
 export const logout = createAsyncThunk("auth/logout", async () => {
-  return auth.signOut();
+  auth.signOut();
 });
 
 //add to database
@@ -56,7 +57,7 @@ const initialState = {
   user: {
     authorized: false,
   },
-  status: "notloaded",
+  status: "checking",
   error: null,
 };
 const Auth = createSlice({
@@ -64,9 +65,13 @@ const Auth = createSlice({
   initialState,
   reducers: {
     setCurrentUser: (state, action) => {
-      if (action.payload)
+      if (action.payload?.username)
         state.user = { ...state.user, ...action.payload, auth: true };
-      state.status = "suceeded";
+      else {
+        state.user = { auth: false };
+        state.status = "not-loggedIn";
+      }
+      // state.status = "checked";
     },
     setUserStatus: (state, action) => {
       state.status = action.payload;
@@ -74,31 +79,17 @@ const Auth = createSlice({
   },
   extraReducers(builder) {
     builder
-      .addCase(checkUser.pending, (state) => {
-        state.status = "saving-user-details";
-      })
-      .addCase(checkUser.fulfilled, (state, action) => {
-        // console.log(action.payload);
-        // state.status = "suceeded";
-      })
 
-      .addCase(loginWithGoogle.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(loginWithGoogle.fulfilled, (state) => {
-        state.status = "loaded";
-      })
-      .addCase(logout.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(logout.fulfilled, (state) => {
-        state.user = { authorized: false };
-        state.status = "loggedout";
-      })
+      // .addCase(loginWithGoogle.pending, (state) => {
+      //   state.status = "loading";
+      // })
+      // .addCase(loginWithGoogle.fulfilled, (state) => {
+      //   state.status = "loaded";
+      // })
 
-      .addCase(addToDB.pending, (state) => {
-        state.status = "saving-user-details";
-      })
+      // .addCase(addToDB.pending, (state) => {
+      //   state.status = "saving-user-details";
+      // })
       .addCase(addToDB.fulfilled, (state, action) => {
         state.user = { ...action.payload, authorized: true };
         state.status = "idle";

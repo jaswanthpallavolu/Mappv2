@@ -8,16 +8,31 @@ import Navbar from "./Navbar/Navbar";
 import socket from "../socket.connect";
 import { Notch } from "../pages/home";
 import customeStyles from "../styles/customstyles.module.css";
+import { getAuth } from "firebase/auth";
 export default function Layout({ children }) {
   const user = useSelector((state) => state.userAuth.user);
   const status = useSelector((state) => state.userAuth.status);
-  const userRatingStatus = useSelector((state) => state.userRatings.status);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     // console.log("123");
-    if (status === "idle") {
+    const auth = getAuth();
+
+    const user = auth.currentUser;
+    if (user) {
+      user.getIdToken().then((tokenId) => {
+        // console.log(tokenId);
+        // getAuth()
+        //   .verifyIdToken(tokenId)
+        //   .then((decodedToken) => {
+        //     const uid = decodedToken.uid;
+        //     console.log(uid);
+        //     // ...
+        //   });
+      });
+    }
+    if (status === "idle" && user) {
       socket.emit("add-user", user.uid);
       socket.emit("get-online-users", user.uid);
       dispatch(getAllUsers());
@@ -25,9 +40,9 @@ export default function Layout({ children }) {
       dispatch(fetchUserHistory(user.uid));
     }
 
-    if (status === "loggedout") {
-      dispatch(setEmpty());
-    }
+    // if (status === "loggedout") {
+    //   dispatch(setEmpty());
+    // }
   }, [status]); //eslint-disable-line react-hooks/exhaustive-deps
 
   return (

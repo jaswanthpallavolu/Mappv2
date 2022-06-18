@@ -171,7 +171,7 @@ export const MovieMobile = ({ details, setOpenTrailer, isMobile }) => {
             target="_blank"
             onClick={() => setOpenTrailer(true)}
           >
-            <i className="fa-solid fa-play"></i>
+            <img src="/assets/play-button.png" alt="t" />
           </div>
         ) : (
           ""

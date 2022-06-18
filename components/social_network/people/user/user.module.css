@@ -81,7 +81,7 @@
   padding: 0.25em 0.5em;
   /* border: 1px solid red; */
   background-color: var(--you_bg);
-  color: var(--light-shade);
+  color: var(--light-color);
   border-radius: 6px;
   font-size: 0.9em;
   /* border: 1px solid blue; */
@@ -134,10 +134,10 @@
 }
 .accept {
   background-color: var(--accent-light);
-  color: var(--light-shade);
+  color: var(--light-color);
 }
 .decline {
-  background-color: var(--light-shade);
+  background-color: var(--light-color);
   color: var(--accent-light);
   border: 1px solid var(--accent-light);
 }

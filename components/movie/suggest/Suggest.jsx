@@ -14,6 +14,9 @@ export function Suggest({ isMobile, movie }) {
   const authorized = useSelector((state) => state.userAuth.user.authorized);
   const sugOpened = useSelector((state) => state.global.showSuggestBox);
   const dispatch = useDispatch();
+  useEffect(() => {
+    return () => dispatch(setSuggestBox(false));
+  }, []);
   return (
     <>
       <div className={`${styles2.action_group} ${styles.suggest_icon}`}>
