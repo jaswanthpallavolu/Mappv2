@@ -63,8 +63,8 @@
   flex: 2;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  /* align-items: flex-end; */
+  justify-content: flex-start;
+
   gap: calc(var(--pad-bottom) * 1.5);
   /* border: 1px solid red; */
 }

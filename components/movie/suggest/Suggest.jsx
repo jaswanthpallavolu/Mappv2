@@ -24,7 +24,7 @@ export function Suggest({ isMobile, movie }) {
           className={styles2.icon}
           onClick={() =>
             authorized
-              ? dispatch(setSuggestBox())
+              ? dispatch(setSuggestBox(!sugOpened))
               : dispatch(setNotifSignIn(true))
           }
           style={{
@@ -52,7 +52,7 @@ export function SuggestBox({ movie }) {
 
   const dispatch = useDispatch();
   const closeBox = () => {
-    dispatch(setSuggestBox());
+    dispatch(setSuggestBox(false));
   };
 
   const friends = useSelector((state) => state.people.friends);

@@ -23,8 +23,8 @@ export const generalSlice = createSlice({
     setIsMobile: (state, action) => {
       state.isMobile = action.payload;
     },
-    setSuggestBox: (state) => {
-      state.showSuggestBox = !state.showSuggestBox;
+    setSuggestBox: (state, action) => {
+      state.showSuggestBox = action.payload;
     },
     setNotifSignIn: (state, action) => {
       state.notifSignIn = action.payload;

@@ -57,11 +57,11 @@
 }
 @keyframes slideIn {
   0% {
-    transform: translateY(-2%);
+    /* transform: translateY(-1%); */
     opacity: 0;
   }
   100% {
-    transform: translateY(0%);
+    /* transform: translateY(0%); */
     opacity: 1;
   }
 }

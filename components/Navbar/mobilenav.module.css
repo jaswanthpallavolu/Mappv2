@@ -7,6 +7,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  /* overflow-x: hidden; */
 }
 
 .mobnav_icons {
@@ -26,10 +27,11 @@
   width: 100vw;
   background: var(--primary);
   /* border-radius: 0 0 0 100%; */
-  opacity: 0;
-  transform: scale(0.5, 0.5);
-  transform-origin: right top;
-  transition: transform 0.3s ease-in-out, opacity 0.2s ease-in-out;
+  /* opacity: 0; */
+  transform: translateX(105%);
+  transform-origin: right;
+  transition: transform 0.35s ease-in-out;
+  /* , opacity 0.35s ease-in-out; */
   box-shadow: 0px 1px 5px var(--card-shadow);
 }
 
@@ -41,9 +43,11 @@
   /* padding-top: 6rem; */
 }
 .mobileNavItems.opened {
-  opacity: 1;
+  transition: transform 0.35s ease-in-out;
+  /* opacity: 1; */
   border-radius: 0;
-  transform: scale(1, 1);
+  transform: translateX(0);
+  /* transform: scale(1, 1); */
   /* transform-origin: top; */
 }
 
