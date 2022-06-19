@@ -8,7 +8,7 @@
   flex-direction: column;
   /* justify-content: flex-start; */
   gap: 2rem;
-  animation: animate1 0.35s linear 1;
+  /* animation: animate1 0.35s linear 1; */
 }
 @keyframes animate1 {
   0% {

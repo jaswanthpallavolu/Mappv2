@@ -4,7 +4,7 @@ import styles from "./lazyload.module.css";
 
 export default function LazyLoad({ children }) {
   const { ref, inView } = useInView({
-    rootMargin: "-50px 0px 0px 0px ",
+    rootMargin: "0px 0px -100px 0px ",
   });
   const [visible, setVisible] = useState(false);
   // const [hide, setHide] = useState(false);
