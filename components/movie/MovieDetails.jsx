@@ -313,7 +313,7 @@ export function ActionIcons({ details, isMobile }) {
 
   const saveToDatabase = (signal) => {
     // if (!userData) return;
-    if (!userData || !movies.length || !details.movieId) return;
+    if (!userData || !movies.length || !details.movieId || !authorized) return;
     const mIfo = movies.find((i) => i.movieId === details.movieId);
 
     if (mIfo && _.isEqual(mIfo, userData)) {
