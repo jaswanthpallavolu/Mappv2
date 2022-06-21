@@ -313,7 +313,7 @@ export function ActionIcons({ details, isMobile }) {
 
   const saveToDatabase = (signal) => {
     // if (!userData) return;
-    if (!userData || !movies.length || !details.movieId || !authorized) return;
+    if (!userData || !details.movieId || !authorized) return;
     const mIfo = movies.find((i) => i.movieId === details.movieId);
 
     if (mIfo && _.isEqual(mIfo, userData)) {
@@ -387,8 +387,8 @@ export function ActionIcons({ details, isMobile }) {
     }
   };
   const initialize = () => {
-    // console.log(movies.length);
-    if (!movies.length || !details.movieId) return;
+    // if (!movies.length || !details.movieId) return;
+    if (!userId || !details.movieId) return;
     // console.log("checked");
     const movie = movies?.find((i) => i.movieId === details.movieId);
     if (movie) {
@@ -409,12 +409,8 @@ export function ActionIcons({ details, isMobile }) {
     addToRecentlyViewed();
   }, []);
   useEffect(() => {
-    // if (status === "loaded") {
-
     initialize();
-    // }
-    // dispatch(fetchMovies(userId));
-  }, [movies.find((i) => i.movieId === details.movieId)]); //eslint-disable-line react-hooks/exhaustive-deps
+  }, [movies.find((i) => i.movieId === details.movieId), userId]); //eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className={styles.icons}>

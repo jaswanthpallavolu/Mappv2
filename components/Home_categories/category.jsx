@@ -109,7 +109,8 @@ export function Recommend({ name }) {
 
       {!result?.length && name === "collaborative" ? (
         <p className={styles.suggest_text}>
-          &quot; rate movies to get Recommendations &quot;
+          &quot; like <i className="far fa-thumbs-up"></i> movies to get
+          Recommendations &quot;
         </p>
       ) : (
         ""

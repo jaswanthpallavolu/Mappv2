@@ -6,7 +6,7 @@ import Card from "../../components/card/Card";
 import { useRouter } from "next/router";
 import { Loader1 } from "../../utils/loaders/Loading";
 import { useSelector } from "react-redux";
-import { Tag } from "../../components/Home_categories/Categories";
+import { Tag } from "../../components/Home_categories/category";
 import LazyLoad from "../../utils/lazyLoad/LazyLoad";
 
 function Search() {
@@ -60,7 +60,7 @@ function Search() {
           {result?.movies.length === 0 && result?.tags.length === 0 ? (
             <div className={styles.msg}>
               <h2>
-              <small>No Matches for</small> {word}
+                <small>No Matches for</small> {word}
               </h2>
             </div>
           ) : (

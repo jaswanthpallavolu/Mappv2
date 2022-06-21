@@ -166,6 +166,7 @@
   color: var(--btn-color1);
 
   animation: scaleIn 0.7s ease-in 1;
+  text-transform: capitalize;
 }
 
 .icons {

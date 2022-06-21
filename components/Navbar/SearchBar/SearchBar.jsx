@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import styles from "./searchbar.module.css";
 import customStyles from "../../../styles/customstyles.module.css";
 import axios from "axios";
+import { Loader1 } from "../.././../utils/loaders/Loading";
 
 const SearchBar = ({ prop }) => {
   const { navScrollTheme, theme, isMobile } = prop;
@@ -130,17 +131,21 @@ function Suggestions({ props }) {
     router,
   } = props;
 
+  const [loading, setLoading] = useState(false);
   const fetchSuggestions = async (signal) => {
+    // console.log("ftch");
+    setLoading(true);
     await axios
       .get(
         `${process.env.NEXT_PUBLIC_MOVIE_SERVER}/movies/search/matches/${searchValue}`,
         { signal }
       )
-      .then((res) =>
+      .then((res) => {
         setSuggs(
           res.data.suggestions?.map((i) => ({ sugg: i, type: "suggestion" }))
-        )
-      )
+        );
+        setLoading(false);
+      })
       .catch((err) => console.log(err));
   };
 
@@ -170,31 +175,36 @@ function Suggestions({ props }) {
     const controller = new AbortController();
     const timer = setTimeout(() => {
       if (searchValue === "") {
-        // var list = recent;
         var list = recent?.map((i) => ({ sugg: i, type: "recent" }));
-        // console.log(list);
-        setSuggs(list);
+        // console.log("rec");
+        if (JSON.stringify(list) !== JSON.stringify(suggs)) setSuggs(list);
       } else fetchSuggestions(controller.signal);
     }, 300);
 
     return () => {
       clearTimeout(timer);
       controller.abort();
+      setLoading(false);
     };
   }, [searchValue.replaceAll(" ", ""), recent]);
 
-  useEffect(() => {
-    const controller = new AbortController();
+  // useEffect(() => {
+  //   return () => setSuggs([]);
+  // }, []);
+  // useEffect(() => {
+  //   const controller = new AbortController();
 
-    if (searchValue === "") {
-      var list = recent?.map((i) => ({ sugg: i, type: "recent" }));
-      setSuggs(list);
-    } else fetchSuggestions(controller.signal);
+  //   if (searchValue === "") {
+  //     var list = recent?.map((i) => ({ sugg: i, type: "recent" }));
+  //     setSuggs(list);
+  //   } else {
+  //     fetchSuggestions(controller.signal);
+  //   }
 
-    return () => {
-      controller.abort();
-    };
-  }, []);
+  //   return () => {
+  //     controller.abort();
+  //   };
+  // }, []);
 
   return (
     <ul
@@ -203,29 +213,39 @@ function Suggestions({ props }) {
       onMouseOver={() => setOnHovered(true)}
       onMouseLeave={() => setOnHovered(false)}
     >
-      {suggs?.map((i, index) => {
-        if (i.type === "suggestion")
-          return (
-            <li key={index} className={styles.sugg}>
-              <i className="fa-solid fa-magnifying-glass"></i>
-              <p onClick={() => goToRoute(i.sugg)}>{i.sugg}</p>
-            </li>
-          );
-        else
-          return (
-            <li key={index} className={`${styles.sugg} ${styles.rsugg}`}>
-              {/* <div className={styles.recent}> */}
-              <i className="fa-solid fa-clock-rotate-left"></i>
-              <p onClick={() => goToRoute(i.sugg)}>{i.sugg}</p>
-              {/* </div> */}
-              <div className={styles.delete} onClick={() => deleteSugg(i.sugg)}>
-                <i className="fa-solid fa-trash-can"></i>
-              </div>
-            </li>
-          );
-      })}
-      {searchValue !== "" && suggs?.length === 0 && (
+      {!loading &&
+        suggs?.map((i, index) => {
+          if (i.type === "suggestion")
+            return (
+              <li key={index} className={styles.sugg}>
+                <i className="fa-solid fa-magnifying-glass"></i>
+                <p onClick={() => goToRoute(i.sugg)}>{i.sugg}</p>
+              </li>
+            );
+          else
+            return (
+              <li key={index} className={`${styles.sugg} ${styles.rsugg}`}>
+                {/* <div className={styles.recent}> */}
+                <i className="fa-solid fa-clock-rotate-left"></i>
+                <p onClick={() => goToRoute(i.sugg)}>{i.sugg}</p>
+                {/* </div> */}
+                <div
+                  className={styles.delete}
+                  onClick={() => deleteSugg(i.sugg)}
+                >
+                  <i className="fa-solid fa-trash-can"></i>
+                </div>
+              </li>
+            );
+        })}
+      {!loading && searchValue !== "" && suggs?.length === 0 && (
         <li className={styles.no_match}>no matches found</li>
+      )}
+      {loading && (
+        <div className={styles.loader_sec}>
+          {" "}
+          <Loader1 />
+        </div>
       )}
     </ul>
   );

@@ -72,6 +72,10 @@
 }
 
 .suggest_text {
+  /* display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em; */
   color: var(--font-primary);
   text-align: center;
   width: min(80%, 40rem);
@@ -81,6 +85,7 @@
   padding: 0.5em;
   font-size: var(--suggestSize);
   border: 1px solid var(--secondary);
+  text-transform: capitalize;
 }
 
 @media (max-width: 1200px) {

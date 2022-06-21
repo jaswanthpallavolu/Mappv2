@@ -75,6 +75,11 @@
 
   font-size: 1.3rem;
 }
+.loader_sec {
+  margin: 1rem auto;
+  display: grid;
+  justify-content: center;
+}
 
 @media (min-width: 601px) and (max-width: 1200px) {
   .search_bar {

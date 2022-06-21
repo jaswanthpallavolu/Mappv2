@@ -71,7 +71,7 @@ export default function Categories() {
     const controller = new AbortController();
     const signal = controller.signal;
     setLoading(true);
-    if (historyStatus === "loaded" || !user.authorized) fetchTags(signal);
+    // if (historyStatus === "loaded" || !user.authorized) fetchTags(signal);
 
     return () => controller.abort();
   }, [historyStatus]); //eslint-disable-line react-hooks/exhaustive-deps
@@ -90,7 +90,8 @@ export default function Categories() {
         </>
       ) : (
         <p className={styles.suggest_text}>
-          &quot; Login and rate movies to get Recommendations &quot;
+          &quot; Login and like <i className="far fa-thumbs-up"></i> movies to
+          get Recommendations &quot;
         </p>
       )}
       {user.authorized && <Recommend name="watched" />}
