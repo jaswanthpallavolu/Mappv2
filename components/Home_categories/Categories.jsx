@@ -71,7 +71,7 @@ export default function Categories() {
     const controller = new AbortController();
     const signal = controller.signal;
     setLoading(true);
-    // if (historyStatus === "loaded" || !user.authorized) fetchTags(signal);
+    if (historyStatus === "loaded" || !user.authorized) fetchTags(signal);
 
     return () => controller.abort();
   }, [historyStatus]); //eslint-disable-line react-hooks/exhaustive-deps
