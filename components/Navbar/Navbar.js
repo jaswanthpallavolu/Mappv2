@@ -78,7 +78,7 @@ function Navbar() {
     return () => {
       clearTimeout(timer);
     };
-  }, [notifSignIn]);
+  }, [notifSignIn]); //eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     changeBackground();

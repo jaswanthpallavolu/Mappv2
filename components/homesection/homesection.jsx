@@ -10,7 +10,7 @@ function HomeSection() {
       className={`${styles.section_one} ${
         theme === "light" ? styles.ltheme : styles.dtheme
       } `}
-      >
+    >
       <div className={styles.heading}>
         <div className={styles.title}>
           <h3>Recommend for You</h3>
@@ -25,7 +25,9 @@ function HomeSection() {
         ></div> */}
 
         <Features />
-        <p>{"[ this website contains movie data between (1994-2020) ]"}</p>
+        <p className={styles.note}>
+          {"[ this website contains movie data between (1994-2020) ]"}
+        </p>
         {allUsers?.length > 0 && (
           <div className={styles.stats}>
             <h4>Users count: {allUsers.length}</h4>

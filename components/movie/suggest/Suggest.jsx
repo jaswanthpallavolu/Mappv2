@@ -16,7 +16,7 @@ export function Suggest({ isMobile, movie }) {
   const dispatch = useDispatch();
   useEffect(() => {
     return () => dispatch(setSuggestBox(false));
-  }, []);
+  }, []); //eslint-disable-line react-hooks/exhaustive-deps
   return (
     <>
       <div className={`${styles2.action_group} ${styles.suggest_icon}`}>
@@ -205,7 +205,9 @@ function Friends({ props }) {
           ))}
         </div>
         {more < friendsList.length && (
-          <button onClick={seeMore}>see more</button>
+          <button className={styles.more} onClick={seeMore}>
+            see more
+          </button>
         )}
       </div>
     </>
@@ -272,7 +274,9 @@ function SearchResult({ props }) {
             <h4>no result</h4>
           )}
           {more < searchList.length && (
-            <button onClick={seeMore}>see more</button>
+            <button className={styles.more} onClick={seeMore}>
+              see more
+            </button>
           )}
         </div>
       ) : (

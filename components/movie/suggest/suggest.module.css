@@ -52,6 +52,7 @@
 }
 .send {
   margin: 0 auto;
+  margin-top: 5%;
   width: max-content;
   border: none;
   border-radius: 5px;
@@ -151,6 +152,10 @@
 
   color: var(--u-txt-color);
   text-transform: lowercase;
+}
+.more {
+  width: max-content;
+  margin: 0 auto;
 }
 
 /* END OF FRIEND STYLES */

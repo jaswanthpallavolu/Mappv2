@@ -53,7 +53,7 @@ const SearchBar = ({ prop }) => {
     if (word) setSearchValue(word);
     if (searchValue !== "") setShowClear(true);
     getRecentSearchList();
-  }, [word]);
+  }, [word]); //eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div
@@ -82,6 +82,7 @@ const SearchBar = ({ prop }) => {
         {showClear ? (
           <div
             onClick={() => {
+              setShowSuggBox(true);
               setSearchValue("");
               setShowClear(false);
               searchRef.current.focus();
@@ -186,25 +187,7 @@ function Suggestions({ props }) {
       controller.abort();
       setLoading(false);
     };
-  }, [searchValue.replaceAll(" ", ""), recent]);
-
-  // useEffect(() => {
-  //   return () => setSuggs([]);
-  // }, []);
-  // useEffect(() => {
-  //   const controller = new AbortController();
-
-  //   if (searchValue === "") {
-  //     var list = recent?.map((i) => ({ sugg: i, type: "recent" }));
-  //     setSuggs(list);
-  //   } else {
-  //     fetchSuggestions(controller.signal);
-  //   }
-
-  //   return () => {
-  //     controller.abort();
-  //   };
-  // }, []);
+  }, [searchValue.replaceAll(" ", ""), recent]); //eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <ul

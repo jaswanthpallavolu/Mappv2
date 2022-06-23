@@ -407,7 +407,7 @@ export function ActionIcons({ details, isMobile }) {
   };
   useEffect(() => {
     addToRecentlyViewed();
-  }, []);
+  }, []); //eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => {
     initialize();
   }, [movies.find((i) => i.movieId === details.movieId), userId]); //eslint-disable-line react-hooks/exhaustive-deps
