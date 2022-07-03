@@ -16,7 +16,7 @@ export default function MoviePage() {
 
   const [query, setQuery] = useState({});
   const [result, setResult] = useState();
-  const [result_len, setResultLen] = useState();
+  const [result_len, setResultLen] = useState(0);
   const [page, setPage] = useState(1);
   const moviesperpage = 24;
   const [sortby, setSortby] = useState(["year", 0]);
@@ -86,109 +86,12 @@ export default function MoviePage() {
     <>
       {query && (
         <>
-          <div className={styles.items}>
-            <p className={styles.title}>
-              {query?.genre?.length == 0 &&
-              query?.released == 2020 &&
-              query?.range == 3
-                ? "All Movies"
-                : "Filtered Result"}
-            </p>
-            <div className={styles.options}>
-              <button
-                className={
-                  query.genre?.length == 0 &&
-                  query.released == 2020 &&
-                  query.range == 3
-                    ? styles.filter_off
-                    : styles.filter
-                }
-                onClick={() => setModal(true)}
-              >
-                <FilterAltOutlined className={styles.icons} />
-                Filter
-              </button>
-              <div className={styles.sort_content}>
-                <SortOutlined className={styles.icons} />
-                <select
-                  name="sort"
-                  className={styles.sort}
-                  onChange={(e) => setSortby(e.target.value.split(","))}
-                >
-                  {filter_json["sortby"].map((i) => (
-                    <option value={Object.values(i)} key={Object.keys(i)}>
-                      {Object.keys(i)}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-          </div>
+          <OptionSection query={query} setModal={setModal} setSortby={setSortby} filter_json={filter_json}/>
           {loading ? (
             <div className={styles.loader}>
               <Loader1 />
             </div>
-          ) : (
-            <>
-              {result?.length > 0 ? (
-                <>
-                  <div className={styles.page_back}>
-                    <Pagination
-                      count={Math.ceil(result_len / moviesperpage)}
-                      onChange={(e, v) => setPage(v)}
-                      color={"secondary"}
-                      className={styles.pagination}
-                      renderItem={(item) => (
-                        <PaginationItem
-                          {...item}
-                          sx={{
-                            "&.Mui-selected": {
-                              backgroundColor: "var(--secondary)",
-                            },
-                          }}
-                        />
-                      )}
-                      page={page}
-                    />
-                  </div>
-                  {!loading ? (
-                    <div className={styles.movies}>
-                      {result
-                        ? result.map((i) => (
-                            <Card id={i} size={"medium"} key={i} />
-                          ))
-                        : ""}
-                    </div>
-                  ) : (
-                    ""
-                  )}
-                  <div className={styles.page_back}>
-                    <Pagination
-                      count={Math.ceil(result_len / moviesperpage)}
-                      onChange={(e, v) => setPage(v)}
-                      color={"secondary"}
-                      className={styles.pagination}
-                      renderItem={(item) => (
-                        <PaginationItem
-                          {...item}
-                          sx={{
-                            "&.Mui-selected": {
-                              backgroundColor: "var(--secondary)",
-                            },
-                          }}
-                        />
-                      )}
-                      page={page}
-                    />
-                  </div>
-                </>
-              ) : (
-                <div className={styles.msg}>
-                  <h1>No Result Found</h1>
-                </div>
-              )}
-            </>
-          )}
+          ) : (<ResultSection result={result} result_len={result_len} moviesperpage={moviesperpage} setPage={setPage} page={page} loading={loading}/>)}
           {modal ? (
             <FilterModal
               setQuery={setQuery}
@@ -202,4 +105,111 @@ export default function MoviePage() {
       )}
     </>
   );
+}
+
+export const ResultSection = ({result, result_len, moviesperpage, setPage, page, loading}) => {
+  return(
+    <>
+      {result?.length > 0 ? (
+        <>
+          <div className={styles.page_back}>
+            <Pagination
+              count={Math.ceil(result_len / moviesperpage) || 0}
+              onChange={(e, v) => setPage(v)}
+              color={"secondary"}
+              className={styles.pagination}
+              renderItem={(item) => (
+                <PaginationItem
+                  {...item}
+                  sx={{
+                    "&.Mui-selected": {
+                      backgroundColor: "var(--secondary)",
+                    },
+                  }}
+                />
+              )}
+              page={page}
+            />
+          </div>
+          {!loading ? (
+            <div className={styles.movies}>
+              {result
+                ? result.map((i) => (
+                    <Card id={i} size={"medium"} key={i} />
+                  ))
+                : ""}
+            </div>
+          ) : (
+            ""
+          )}
+          <div className={styles.page_back}>
+            <Pagination
+              count={Math.ceil(result_len / moviesperpage) || 0}
+              onChange={(e, v) => setPage(v)}
+              color={"secondary"}
+              className={styles.pagination}
+              renderItem={(item) => (
+                <PaginationItem
+                  {...item}
+                  sx={{
+                    "&.Mui-selected": {
+                      backgroundColor: "var(--secondary)",
+                    },
+                  }}
+                />
+              )}
+              page={page}
+            />
+          </div>
+        </>
+      ) : (
+        <div className={styles.msg}>
+          <h1>No Result Found</h1>
+        </div>
+      )}
+    </>
+  )
+}
+
+export const OptionSection = ({query, setModal, setSortby, filter_json}) =>{
+  return (
+    <div className={styles.items}>
+      <p className={styles.title}>
+        {query?.genre?.length == 0 &&
+        query?.released == 2020 &&
+        query?.range == 3
+          ? "All Movies"
+          : "Filtered Result"}
+      </p>
+      <div className={styles.options}>
+        <button
+          className={
+            query.genre?.length == 0 &&
+            query.released == 2020 &&
+            query.range == 3
+              ? styles.filter_off
+              : styles.filter
+          }
+          onClick={() => setModal(true)}
+        >
+          <FilterAltOutlined className={styles.icons} />
+          Filter
+        </button>
+        <div className={styles.sort_content}>
+          <SortOutlined className={styles.icons} />
+          <select
+            name="sort"
+            className={styles.sort}
+            onChange={(e) => setSortby(e.target.value.split(","))}
+          >
+            {filter_json["sortby"].map((i) => (
+              <option value={Object.values(i)} key={Object.keys(i)}>
+                {Object.keys(i)}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+    </div>
+  )
 }
