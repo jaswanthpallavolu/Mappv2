@@ -1,0 +1,206 @@
+.bar_default {
+  --bg-color: var(--light-color);
+  --place-holder: var(--accent-dark);
+  --text-color: var(--accent-dark);
+
+  --input-text-size: clamp(0.9rem, 3vw, 1.1rem);
+  --input-height: 2rem;
+
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+.dtbar {
+  --bg-color: var(--light-color);
+  --place-holder: var(--accent-dark);
+  --text-color: var(--accent-dark);
+}
+.ltbar {
+  /* --bg-color: rgb(33, 33, 33); */
+  --bg-color: var(--base-color);
+  --place-holder: var(--primary);
+  --text-color: var(--primary);
+}
+
+.search_bar {
+  position: relative;
+  grid-column: 3/4;
+  justify-self: center;
+
+  width: 80%;
+
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  gap: 2%;
+  border-radius: 5px;
+  padding: 0.2rem 0.5rem;
+}
+.search_bar ion-icon {
+  cursor: pointer;
+  color: var(--text-color) !important;
+  /* color: black !important; */
+}
+.search_bar ion-icon:first-child {
+  font-size: 1.5rem;
+}
+
+.search_bar .input {
+  position: relative;
+  width: 100%;
+  height: var(--input-height);
+}
+.search_bar input {
+  position: absolute;
+  width: 100%;
+  height: 2rem;
+
+  font-size: var(--input-text-size);
+  background: none;
+  border: none;
+  color: var(--text-color);
+}
+.search_bar input::placeholder {
+  color: var(--place-holder);
+  opacity: 0.75;
+  font-size: var(--input-text-size);
+}
+
+.search_bar input:focus {
+  outline: none;
+}
+.search_bar ion-icon:last-child {
+  position: absolute;
+  right: 2%;
+  height: 100%;
+
+  font-size: 1.3rem;
+}
+.loader_sec {
+  margin: 1rem auto;
+  display: grid;
+  justify-content: center;
+}
+
+@media (min-width: 601px) and (max-width: 1200px) {
+  .search_bar {
+    width: 100%;
+  }
+}
+
+/* FOR SUGGESTION BOX */
+.suggestions {
+  position: absolute;
+  top: 120%;
+  left: 0;
+  z-index: 3;
+  width: 100%;
+
+  padding: 0.25em;
+  max-height: 50vh;
+
+  background-color: var(--bg-color);
+  box-shadow: 0 1px 4px var(--accent-light);
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.suggestions .sugg {
+  position: relative;
+  width: 100%;
+  display: flex;
+  gap: 0.5em;
+  align-items: center;
+  padding: 0.25em 0.15em;
+  text-transform: lowercase;
+  /* border: 1px solid transparent; */
+
+  animation: fadeIn 0.35s ease-in-out;
+}
+
+.no_match {
+  padding: 0.25em 0.15em;
+  text-align: center;
+}
+/* .suggestions .sugg:hover {
+  border: 1px solid var(--text-color);
+} */
+.suggestions .sugg i {
+  font-size: 0.75rem;
+}
+.suggestions .sugg p {
+  width: 85%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  opacity: 0.85;
+}
+.suggestions .sugg p:hover {
+  opacity: 1;
+}
+.sugg .delete {
+  position: absolute;
+  right: 0.15em;
+  margin: auto 0;
+  z-index: 2;
+  cursor: pointer;
+}
+.sugg .delete i {
+  font-size: 0.7rem;
+}
+
+/* MOBILE CSS */
+.mob_searchbar {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0.25em 2em;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 1em;
+  background-color: var(--primary);
+
+  opacity: 0;
+  transform: scale(1, 0);
+  transform-origin: top;
+  transition: transform 0.25s ease-in-out, opacity 0.2s ease-in-out;
+}
+.mob_searchbar.opened {
+  opacity: 1;
+  transform: scale(1, 1);
+}
+.mob_searchbar button {
+  border: none;
+  background: none;
+  font-weight: 400;
+
+  padding: 0;
+
+  color: var(--font-primary);
+}
+.mob_searchbar button i {
+  font-size: clamp(0.9rem, 5vw, 1.2rem);
+}
+@media (max-width: 600px) {
+  .search_bar ion-icon {
+    cursor: default !important;
+  }
+  .mob_searchbar {
+    padding: 0.25em 0.5em;
+  }
+}
+@media (max-width: 600px) {
+  .suggestions {
+    top: var(--nav-height);
+    position: fixed;
+    width: 100vw;
+    max-height: max(50vh, 10rem);
+  }
+}

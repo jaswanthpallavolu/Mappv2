@@ -1,68 +1,55 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addToDB, setUserStatus } from "../redux/features/authSlice";
-import { fetchMovies } from "../redux/features/userDataSlice";
+import { addToDB } from "../redux/features/authSlice";
+import { fetchMovies, setEmpty } from "../redux/features/userRatingSlice";
+import { fetchUserHistory } from "../redux/features/userHistorySlice";
+import { getAllUsers } from "../redux/features/peopleSlice";
 import Navbar from "./Navbar/Navbar";
-import MovieModal from "./Moviedetails/MovieModal";
-import { useRouter } from "next/router";
-// import { route } from "next/dist/server/router";
-
+import socket from "../socket.connect";
+import { Notch } from "../pages/home";
+import customeStyles from "../styles/customstyles.module.css";
+import { getAuth } from "firebase/auth";
 export default function Layout({ children }) {
-  const all = useSelector((state) => state.currentUser.all);
-  const uid = useSelector((state) => state.currentUser.user.uid);
-  const user = useSelector((state) => state.currentUser.user);
-  const status = useSelector((state) => state.currentUser.status);
-  const movieModalState = useSelector((state) => state.movie.open);
-  const router = useRouter();
+  const user = useSelector((state) => state.userAuth.user);
+  const status = useSelector((state) => state.userAuth.status);
+
   const dispatch = useDispatch();
 
-  // domain/home/:word for word in the search bar
-  // const searchRef = useRef();
+  useEffect(() => {
+    // console.log("123");
+    const auth = getAuth();
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     if (!uid) router.replace("/login");
-  //   }, 2000);
-  // }, [uid]); //eslint-disable-line react-hooks/exhaustive-deps
-  const statusm = useSelector((state) => state.userData.status);
-  // const [loggedIn, setLoggedIn] = useState(false);
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     if (!uid) router.replace("/login");
-  //   }, 1000);
-  // }, [uid]);
-  useEffect(() => {
-    if (statusm === "succeeded") {
-      // setLoggedIn(true);
-      dispatch(fetchMovies(uid));
+    const user = auth.currentUser;
+    if (user) {
+      user.getIdToken().then((tokenId) => {
+        // console.log(tokenId);
+        // getAuth()
+        //   .verifyIdToken(tokenId)
+        //   .then((decodedToken) => {
+        //     const uid = decodedToken.uid;
+        //     console.log(uid);
+        //     // ...
+        //   });
+      });
     }
-    // if (statusm === "loaded") dispatch(reloadList());
-  }, [statusm, uid]); //eslint-disable-line react-hooks/exhaustive-deps
-  useEffect(() => {
-    if (status === "succeeded") {
-      // console.log(uid);
-      if (!uid) router.replace("/login");
-      const a = all.filter((i) => i === uid);
-      if (a.length === 0 && uid) {
-        dispatch(addToDB(user));
-      } else if (uid) {
-        dispatch(setUserStatus("idle"));
-        // console.log('old User')
-      }
-      dispatch(fetchMovies(uid));
-      // setTimeout(() => {
-      //   dispatch(fetchMovies(uid));
-      // }, 300);
+    if (status === "idle" && user) {
+      socket.emit("add-user", user.uid);
+      socket.emit("get-online-users", user.uid);
+      dispatch(getAllUsers());
+      dispatch(fetchMovies(user.uid));
+      dispatch(fetchUserHistory(user.uid));
     }
+
+    // if (status === "loggedout") {
+    //   dispatch(setEmpty());
+    // }
   }, [status]); //eslint-disable-line react-hooks/exhaustive-deps
 
-  if (uid) {
-    return (
-      <>
-        {!movieModalState ? <Navbar /> : ""}
-        {children}
-        <MovieModal />
-      </>
-    );
-  } else return "";
+  return (
+    <div className={customeStyles.main_scrollbar}>
+      <Navbar />
+      <Notch />
+      {children}
+    </div>
+  );
 }

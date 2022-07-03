@@ -18,53 +18,103 @@
 .content {
   position: absolute;
   left: 10%;
-  top: 25%;
-  width: 40%;
+  /* top: 30%; */
+  min-height: 100vh;
+  width: 50%;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: left;
-  gap: 1rem;
+
+  gap: 2em;
   color: white;
   /* margin-left: 10%; */
   /* border: 1px solid red; */
 }
 .content .desc {
-  flex: 0.5;
-  font-size: clamp(2rem, 5vw, 3.5rem);
+  /* flex: 0.5; */
+  text-transform: capitalize;
+
   /* height: max-content; */
 }
-.content .lbtn button {
-  flex: 0.5;
-  width: max-content;
-  padding: 0.8rem 1rem;
-  font-size: clamp(1.1rem, 3vw, 1.3rem);
 
-  color: white !important;
-  background: hsl(283, 90%, 32%, 1);
+.desc1 {
+  font-size: clamp(2.75rem, 5vw, 3.5rem);
+  font-weight: 700;
+  line-height: 100%;
+  margin-bottom: 0.25em;
+}
+.desc2 {
+  font-size: clamp(1.6rem, 4.5vw, 3rem);
+  font-weight: 100;
+  line-height: 100%;
+}
+.content .lbtn {
+  /* margin-top: 1em; */
+  display: flex;
+  justify-content: left;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.content .lbtn button {
+  /* flex: 0.5; */
+  display: flex;
+  gap: 0.5em;
+  align-items: center;
+  width: max-content;
+  margin-right: 1rem;
+  margin-bottom: 0.6em;
+  /* padding: 0.8rem 1rem; */
+  padding: 0.4rem 0.5em;
+  height: 2.5rem;
+  font-size: 1.2rem;
+
   border: none;
   box-shadow: 0px 0px 3px rgba(255, 255, 255, 0.6);
-  border-radius: 5px;
+  /* border-radius: 5px; */
+  cursor: pointer;
 }
-.content .lbtn button:hover {
+
+.signin {
+  color: white;
+  background: hsl(283, 90%, 32%, 1);
+}
+
+.guest {
+  background: white;
+  color: hsl(283, 90%, 32%, 1);
+}
+
+/* .signin:hover {
+  background: white;
+  color: hsl(283, 90%, 32%, 1);
+}
+
+.guest:hover {
+  color: white;
+  background: hsl(283, 90%, 32%, 1);
+} */
+
+/* .content .lbtn button:hover {
   background: white;
   color: hsl(283, 90%, 32%, 1) !important;
-}
+} */
 .content .lbtn button:active {
   transform: scale(0.97);
   transform-origin: right bottom;
 }
 
 /* LOADING STATE */
-.container .l_loader {
-  position: absolute;
-  inset: 0;
+.l_loader {
+  width: 100vw;
+  height: 100vh;
   background: hsl(0, 0%, 0%, 0.9);
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   gap: 1rem;
+
+  /* border: 1px solid red; */
 }
 .status {
   color: white;
@@ -78,11 +128,15 @@
   .content {
     position: absolute;
     left: 5%;
-    top: 25%;
+    /* top: 25%; */
     width: min(90%, 50vh);
-    backdrop-filter: blur(1px);
+    overflow-x: hidden;
+    /* backdrop-filter: blur(1px); */
     gap: 1rem;
     color: white;
     /* margin-left: 10%; */
+  }
+  .content .lbtn button {
+    box-shadow: none;
   }
 }

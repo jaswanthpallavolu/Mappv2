@@ -1,70 +1,77 @@
+.m_carousel {
+  margin: auto;
+  width: 90%;
+  height: max-content;
+  padding: 0 0.5rem;
+  /* animation: animate1 1s linear 1; */
+  /* border:1px solid red; */
+}
 
-.m_carousel{
-    margin:auto;
-    width:90%;
-    height:max-content;
-    padding:0 .5rem;
-    animation: animate1 .8s ease 1;
-    /* border:1px solid red; */
-}
- 
-@keyframes animate1{
-  0%{opacity:0}
-  100%{opacity: 1;}
-}
-/* .m_carousel .slick-list{
-  height:100vh;
-  border:1px solid red;
-}
-.m_carousel .slick-arrow.slick-prev,
-.m_carousel .slick-arrow.slick-next{
-    opacity: 0 !important;
-}
-.m_carousel:hover .slick-arrow.slick-prev,
-.m_carousel:hover .slick-arrow.slick-next{
-    opacity: 1 !important;
-} */
- 
- 
-/* .m_carousel .slick-arrow.slick-prev::before{
-  
-    font-family: "Font Awesome 5 Free";
-    content:'\f053';
-    color:var(--font-primary) !important;
-    font-weight: 900;
-    font-size: 2rem;
-     
+@keyframes animate1 {
+  0% {
+    opacity: 0;
+    transform: translateY(10%);
   }
- 
-.m_carousel .slick-arrow.slick-next::before{
-   
-    font-family: "Font Awesome 5 Free";
-    content:'\f054';
-    color:var(--font-primary) !important;
-    font-weight: 900;
-    font-size: 2rem;
+  100% {
+    opacity: 1;
+    transform: translateY(0%);
   }
- */
- .m_carousel .wrapper{
+}
+
+.m_carousel .wrapper {
   padding: 10% 0;
 }
-
-
-/* RESPONSIVE SLIDER */
- 
-@media (max-width:600px){
-  .m_carousel{
-    width: 95%;
+@media (max-width: 1200px) {
+  .m_carousel {
+    width: 100%;
   }
-  .m_carousel .slick-list{
-    height: max(30vh,16rem);
-  }
-  .m_carousel .slick-arrow.slick-prev,
-  .m_carousel .slick-arrow.slick-next{
-    opacity: 1 !important;
-  }
-  .m_carousel .wrapper{
-    padding: .3rem 0;
-  }
- 
 }
+/* RESPONSIVE SLIDER */
+@media (max-width: 1080px) {
+  .m_carousel {
+    width: 105%;
+  }
+}
+@media (min-width: 600px) and (max-width: 820px) {
+  .m_carousel {
+    width: 90%;
+  }
+}
+@media (max-width: 600px) {
+  .m_carousel {
+    width: 105%;
+    padding: 0;
+  }
+  .m_carousel .slick-list {
+    max-height: max(30vh, 16rem);
+  }
+  .m_carousel .wrapper {
+    padding: 0.3rem 0;
+  }
+}
+@media (max-width: 540px) {
+  .m_carousel {
+    width: 100%;
+  }
+}
+@media (max-width: 420px) {
+  .m_carousel {
+    width: 110%;
+  }
+}
+@media (max-width: 380px) {
+  .m_carousel {
+    width: 105%;
+  }
+}
+
+@media (max-width: 240px) {
+  .m_carousel {
+    width: 105%;
+  }
+}
+/* @media (max-width: 385px) {
+  .m_carousel {
+    width: 110%;
+  }
+} */

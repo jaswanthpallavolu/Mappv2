@@ -1,0 +1,207 @@
+.suggest_box {
+  --pad-l: 0.5em;
+
+  position: absolute;
+  left: -10%;
+
+  /* background-color: rgba(0, 0, 0, 0.25); */
+}
+.wrapper {
+  position: absolute;
+  background-color: var(--primary);
+  padding: var(--pad-l);
+  box-shadow: 0 0px 2px var(--accent-light);
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  --marg-b: 1.5rem;
+
+  --u-gap: 0.5em;
+  --u-img: 3rem;
+  --u-width: 4rem;
+  --u-txt-color: var(--font-primary);
+  --online: rgb(3, 255, 3);
+  --offline: grey;
+  --tick-bg: var(--light-color);
+  --tick-color: var(--accent-light);
+}
+/* .wrapper input {
+  margin: 0 auto;
+} */
+.recent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85em;
+  /* margin-bottom: var(--marg-b); */
+  color: var(--font-primary);
+}
+.recent p {
+  width: max-content;
+  text-transform: capitalize;
+  border-bottom: 2px solid var(--accent-light);
+}
+.recent h4 {
+  margin: 0 auto;
+}
+.friends {
+  /* margin: 0 auto; */
+  display: flex;
+  gap: var(--u-gap);
+  flex-wrap: wrap;
+}
+.send {
+  margin: 0 auto;
+  margin-top: 5%;
+  width: max-content;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--base-color);
+  color: var(--light-color);
+  font-size: 1rem;
+  padding: 0.15em 0.5em;
+}
+.send:active {
+  transform: scale(0.96);
+}
+.loader_section {
+  height: 10rem;
+  display: grid;
+  justify-content: center;
+}
+
+/* FRIEND STYLES */
+.friend {
+  position: relative;
+  width: var(--u-width);
+  height: max-content;
+
+  display: flex;
+  gap: 0.25em;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile_pic {
+  position: relative;
+  width: var(--u-img);
+  height: var(--u-img);
+  border-radius: 25px;
+  /* border: 1px solid transparent; */
+}
+.profile_pic .suggested {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 25px;
+
+  display: grid;
+  place-items: center;
+  color: var(--light-color);
+  font-size: 0.75em;
+}
+.profile_pic.status::after {
+  content: "";
+  position: absolute;
+  bottom: 0.1rem;
+  right: 0.2rem;
+  z-index: 2;
+  width: 0.6rem;
+  aspect-ratio: 1/1;
+  border-radius: 25px;
+  background-color: var(--online);
+}
+.profile_pic.status.online::after {
+  background-color: var(--online);
+}
+.profile_pic.status.offline::after {
+  background-color: var(--offline);
+}
+.profile_pic.tick::before {
+  content: "\f00c";
+  position: absolute;
+  font-family: "font awesome 6 free";
+  font-weight: 900;
+  top: 0;
+  right: 0;
+  z-index: 2;
+  font-size: 0.75rem;
+  padding: 0.125em 0.2em;
+
+  border-radius: 25px;
+  color: var(--tick-color);
+  background-color: var(--tick-bg);
+}
+.profile_pic img {
+  z-index: 1;
+  width: var(--u-img);
+  height: var(--u-img);
+  border-radius: 25px;
+  /* border: 2px solid var(--base-color); */
+  box-shadow: 0px 2px 5px var(--base-color);
+
+  object-fit: cover;
+  object-position: 50%;
+}
+.friend .username {
+  margin: 0;
+  width: 95%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  color: var(--u-txt-color);
+  text-transform: lowercase;
+}
+.more {
+  width: max-content;
+  margin: 0 auto;
+}
+
+/* END OF FRIEND STYLES */
+
+@media (min-width: 601px) {
+  .profile_pic {
+    cursor: pointer;
+  }
+  .suggest_icon {
+    position: relative;
+  }
+  .suggest_box {
+    bottom: 100%;
+    /* left: 0; */
+
+    z-index: 1;
+    width: 20rem;
+    margin-bottom: 1rem;
+    aspect-ratio: 1/1.25;
+  }
+  .wrapper {
+    inset: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .suggest_box {
+    position: fixed;
+    inset: 0;
+    --nav-height: 4.2rem;
+    top: var(--nav-height);
+    z-index: 5;
+
+    display: grid;
+    justify-items: center;
+
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  .wrapper {
+    /* bottom: 0; */
+
+    max-width: 25rem;
+    width: 96vw;
+    height: 70vh;
+    max-height: 45rem;
+    max-width: 25rem;
+  }
+}

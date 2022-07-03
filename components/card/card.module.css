@@ -10,6 +10,21 @@
   margin: 0 0.5rem;
   overflow: hidden;
 }
+/* .m_card:hover:active {
+  transform: scale(0.85);
+} */
+.title_block {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  border: 1px solid var(--accent-light);
+  padding: 0.3rem;
+  text-transform: capitalize;
+  text-align: center;
+  /* backdrop-filter: blur(10px); */
+}
+
 .m_card.large {
   --card-width: 15rem;
   --card-height: 22rem;
@@ -22,16 +37,97 @@
   --card-width: 10rem;
   --card-height: 15rem;
 }
+
+.m_card.extra_small {
+  --card-width: 8rem;
+  --card-height: 10rem;
+}
 .m_card:hover {
   transform: scale(1.05);
   transform-origin: center;
   transition: transform 0.5s ease-out;
 }
+
+/*  */
+
+/* MOVIE CARD sizes */
+.m_card.large .title {
+  font-size: clamp(1.2rem, 5vw, 1.4rem);
+}
+.m_card.medium .title {
+  font-size: clamp(0.8rem, 5vw, 1rem);
+}
+.m_card.medium .more {
+  font-size: clamp(0.8rem, 5vw, 0.9rem);
+}
+
+.m_card.small .title {
+  font-size: clamp(0.8rem, 5vw, 1.1rem);
+}
+.m_card.extra_small .title {
+  font-size: clamp(0.5rem, 3vw, 0.8rem);
+}
+.m_card.small .more {
+  font-size: clamp(0.8rem, 5vw, 0.8rem);
+}
+.m_card.extra_small .more {
+  font-size: clamp(0.5rem, 2vw, 0.5rem);
+}
+
+@media (min-width: 720px) and (max-width: 1080px) {
+  .m_card {
+    --card-width: min(12rem, 35vw) !important;
+    --card-height: calc(var(--card-width) * 1.5) !important;
+  }
+}
+@media (min-width: 601px) and (max-width: 719px) {
+  .m_card {
+    --card-width: min(10rem, 35vw) !important;
+    --card-height: calc(var(--card-width) * 1.5) !important;
+  }
+}
+@media (max-width: 600px) {
+  .m_card {
+    --card-width: min(8rem, 30vw) !important;
+    --card-height: calc(var(--card-width) * 1.5) !important;
+  }
+  .m_card .title {
+    font-size: clamp(0.7rem, 4vw, 0.9rem) !important;
+  }
+  .m_card .more {
+    font-size: clamp(0.5rem, 3vw, 0.9rem) !important;
+  }
+  .m_card .top {
+    top: 1%;
+  }
+  .options img {
+    padding: 2%;
+    width: 1.3em !important;
+    aspect-ratio: 1/1;
+  }
+  .title_block {
+    font-size: clamp(0.6rem, 4vw, 1rem);
+  }
+}
+
+@media (max-width: 310px) {
+  .m_card .title {
+    font-size: clamp(0.6rem, 4vw, 0.7rem) !important;
+  }
+}
+@media (max-width: 240px) {
+  .m_card {
+    --card-width: min(10rem, 42vw) !important;
+    --card-height: calc(var(--card-width) * 1.5) !important;
+  }
+}
+
 /* .m_card:hover{box-shadow: none;} */
 .m_card .image {
   position: relative;
   width: var(--card-width);
   height: var(--card-height);
+  color: var(--font-primary);
 }
 .m_card .image .poster {
   width: var(--card-width);
@@ -70,22 +166,26 @@
   transition: opacity 0.5s ease;
   position: absolute;
   top: 2%;
+  /* top: min(0.3rem, 0%); */
   z-index: 3;
 
-  padding: 0.5rem;
+  padding: 0.25em;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   width: 100%;
   color: white;
   text-transform: capitalize;
 }
 .m_card .top .imdb {
+  margin-left: 3%;
   position: relative;
   background: black;
   /* background: var(--secondary); */
   border-radius: 25px;
-  padding: 3%;
+  padding: min(0.4rem, 4%);
+  font-size: clamp(0.75rem, 3vw, 1rem);
+  /* width: min(2rem, 10vw); */
 }
 .m_card .top .imdb::after {
   content: "";
@@ -94,18 +194,145 @@
   z-index: -1;
   transform: scale(1.1);
   border-radius: 25px;
-  background: linear-gradient(180deg, var(--secondary), var(--third) 100%);
+  background: linear-gradient(
+    180deg,
+    var(--base-color),
+    var(--accent-light) 100%
+  );
 }
 
-.m_card .top .options img {
+.options {
+  margin-right: 3%;
+}
+.options i {
   cursor: pointer;
-  width: 2rem;
+
+  font-size: clamp(0.95rem, 3vw, 1.5rem);
+  font-weight: 100;
+  /* width: 2rem; */
   aspect-ratio: 1/1;
 }
-.m_card .top .options img:active {
-  transform: scale(0.8);
+.options img {
+  cursor: pointer;
+  width: 1.8rem;
+  aspect-ratio: 1/1;
 }
-/* TOOL TIP */
+.options img:active {
+  transform: scale(0.95);
+}
+
+/* ----- INFO ---- */
+.m_card .info {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+/* .m_card:hover:active .info {
+  transform: scale(0.98);
+} */
+.m_card:hover .info {
+  opacity: 1;
+  transition: opacity 1s ease;
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  width: 100%;
+
+  color: white;
+  text-transform: capitalize;
+}
+
+.m_card .info .title {
+  width: 95%;
+  margin-bottom: 0.3rem;
+  font-weight: 600;
+}
+
+.m_card .info .more {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 2%;
+  font-weight: 300;
+  cursor: default;
+}
+.m_card .info .more span {
+  width: 0.05rem;
+  height: 1rem;
+  margin: 0 0.1rem;
+  background: white;
+}
+/* .m_card .details {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  z-index: 3;
+  margin: 0 1% 1% 0;
+  padding: 0.1rem;
+  background: var(--secondary);
+  width: max-content;
+} */
+
+@media (max-width: 540px) {
+  .m_card .top {
+    opacity: 1;
+    padding: 0em;
+    right: 0.1em;
+    top: 0.1em;
+  }
+  .m_card .top .imdb {
+    opacity: 0;
+  }
+  .m_card:hover {
+    transform: scale(1) !important;
+  }
+  .m_card:hover .image::before,
+  .title,
+  .more {
+    opacity: 0;
+  }
+
+  .mob_title {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    padding: 0.2em 0.45em;
+    /* height: 3rem; */
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    color: var(--light-color);
+    background-color: rgba(0, 0, 0, 0.45);
+    font-size: 0.75em;
+    text-transform: capitalize;
+  }
+  .title_block {
+    align-items: center;
+    justify-content: center;
+  }
+
+  .options {
+    /* margin: 0; */
+    padding: 0.2em 0;
+    background-color: rgba(0, 0, 0, 0.35);
+    border-radius: 10%;
+  }
+  .options img {
+    backdrop-filter: blur(2px);
+    cursor: default !important;
+  }
+}
+
+/* TOOL TIP NOT USED */
 .m_card .top .options .tooltip {
   position: relative;
 }
@@ -156,112 +383,5 @@
   }
   100% {
     transform: rotate(360deg);
-  }
-}
-
-/* ----- INFO ---- */
-.m_card .info {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  cursor: pointer;
-}
-.m_card:hover .info {
-  opacity: 1;
-  transition: opacity 1s ease;
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-
-  padding: 0.5rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  width: 100%;
-
-  color: white;
-  text-transform: capitalize;
-}
-
-.m_card .info .title {
-  width: 95%;
-  margin-bottom: 0.3rem;
-  font-weight: 600;
-  font-size: clamp(1.2rem, 5vw, 1.4rem);
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.m_card .info .more {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 2%;
-  font-weight: 300;
-  cursor: default;
-}
-.m_card .info .more span {
-  width: 0.05rem;
-  height: 1rem;
-  margin: 0 0.1rem;
-  background: white;
-}
-.m_card .details {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  z-index: 3;
-  margin: 0 1% 1% 0;
-  padding: 0.1rem;
-  background: var(--secondary);
-  width: max-content;
-}
-
-/* .m_card.small .title{ font-size: clamp(.5rem,5vw,1.2rem);}
-.m_card.small .more{ font-size: clamp(.3rem,5vw,.75rem)} */
-
-/* 
-600px
-768px
-992px
-1200px
- */
-
-@media (max-width: 600px) {
-  .m_card {
-    --card-width: min(40vw, 10rem) !important;
-    --card-height: min(50vh, 15rem) !important;
-  }
-  .m_card .title {
-    font-size: clamp(0.6rem, 10vw, 1.2rem);
-  }
-  .m_card .more {
-    font-size: clamp(0.3rem, 5vw, 0.75rem);
-  }
-
-  .m_card .top .imdb {
-    padding: 0.2rem;
-    font-size: clamp(0.3rem, 5vw, 0.7rem);
-  }
-}
-@media (max-width: 480px) {
-  .m_card {
-    --card-width: min(50vw, 10rem) !important;
-    --card-height: min(80vw, 15rem) !important;
-  }
-  .m_card .top .options img {
-    width: 1.5rem;
-  }
-}
-@media (max-width: 360px) {
-  .m_card {
-    --card-width: min(45vw, 9rem) !important;
-    --card-height: min(80vw, 14rem) !important;
-  }
-  .m_card .title {
-    font-size: clamp(0.6rem, 2vw, 1rem);
-  }
-  .m_card .more {
-    font-size: clamp(0.3rem, 5vw, 0.7rem);
   }
 }

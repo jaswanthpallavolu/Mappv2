@@ -1,22 +1,25 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { auth } from "../../firebase_connect";
+import { getAuth } from "firebase/auth";
 import firebase from "@firebase/app-compat";
 import axios from "axios";
+
 export const checkUser = createAsyncThunk(
   "auth/checkUser",
   async (_, thunkAPI) => {
+    var data;
     auth.onAuthStateChanged((user) => {
+      console.log("chg: ", user);
       if (user) {
-        const data = {
+        data = {
           username: user.displayName,
           photoUrl: user.photoURL,
           email: user.email,
           uid: user.uid,
         };
-
-        thunkAPI.dispatch(setCurrentUser(data));
-      } else thunkAPI.dispatch(setCurrentUser(""));
-      thunkAPI.dispatch(getAllUsers());
+        thunkAPI.dispatch(addToDB(data));
+      }
+      thunkAPI.dispatch(setCurrentUser(data));
     });
   }
 );
@@ -34,41 +37,41 @@ export const loginWithGoogle = createAsyncThunk(
 );
 
 export const logout = createAsyncThunk("auth/logout", async () => {
-  return auth.signOut();
+  auth.signOut();
 });
 
-//list all users
-export const getAllUsers = createAsyncThunk("auth/allUsers", async () => {
-  var data;
-  await axios
-    .get(`${process.env.NEXT_PUBLIC_DATA_SERVER}/user/all`)
-    .then((res) => (data = res.data.users));
-  return data;
-});
 //add to database
 export const addToDB = createAsyncThunk("auth/addUser", async (user) => {
+  var data;
   await axios
-    .post(`${process.env.NEXT_PUBLIC_DATA_SERVER}/user/add`, user)
-    .then((res) => console.log("new User"));
+    .post(`${process.env.NEXT_PUBLIC_USER_DATA_SERVER}/user/add`, user)
+    .then((res) => {
+      data = res.data;
+      // console.log(data);
+    })
+    .catch((err) => console.log(err));
+  return data;
 });
 
 const initialState = {
   user: {
-    authenticated: false,
+    authorized: false,
   },
-  status: "notloaded",
+  status: "checking",
   error: null,
-  all: [],
 };
 const Auth = createSlice({
-  name: "auth",
+  name: "Auth",
   initialState,
   reducers: {
     setCurrentUser: (state, action) => {
-      if (action.payload) {
-        state.user = action.payload;
-        state.user.authenticated = true;
+      if (action.payload?.username)
+        state.user = { ...state.user, ...action.payload, auth: true };
+      else {
+        state.user = { auth: false };
+        state.status = "not-loggedIn";
       }
+      // state.status = "checked";
     },
     setUserStatus: (state, action) => {
       state.status = action.payload;
@@ -76,26 +79,19 @@ const Auth = createSlice({
   },
   extraReducers(builder) {
     builder
-      .addCase(checkUser.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(loginWithGoogle.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(logout.pending, (state) => {
-        state.user = { authenticated: false };
-        state.status = "loading";
-      })
-      .addCase(logout.fulfilled, (state) => {
-        state.user = { authenticated: false };
-        state.status = "done";
-      })
-      .addCase(getAllUsers.fulfilled, (state, action) => {
-        state.all = action.payload;
-        state.status = "succeeded";
-      })
+
+      // .addCase(loginWithGoogle.pending, (state) => {
+      //   state.status = "loading";
+      // })
+      // .addCase(loginWithGoogle.fulfilled, (state) => {
+      //   state.status = "loaded";
+      // })
+
+      // .addCase(addToDB.pending, (state) => {
+      //   state.status = "saving-user-details";
+      // })
       .addCase(addToDB.fulfilled, (state, action) => {
-        state.all = action.payload;
+        state.user = { ...action.payload, authorized: true };
         state.status = "idle";
       });
   },

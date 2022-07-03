@@ -1,73 +1,27 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect, useMemo } from "react";
 import styles from "./card.module.css";
+import _ from "lodash";
 import axios from "axios";
-import styled from "styled-components";
-import { Skeleton } from "@mui/material";
-import Image from "next/image";
+// import styled from "styled-components";
+import Skeleton from "../../utils/skeleton/Skeleton";
+// import Image from "next/image";
 
 import { useSelector, useDispatch } from "react-redux";
 import {
   addMovieData,
   deleteMovieData,
   updateMovieData,
-} from "../../redux/features/userDataSlice";
-// import { fetchMovies } from '../../redux/features/userDataSlice'
-import { setOpen, setMovieDetails } from "../../redux/features/movieSlice";
+} from "../../redux/features/userRatingSlice";
+import { setNotifSignIn } from "../../redux/features/generalSlice";
+// import { setOpen, setMovieDetails } from "../../redux/features/movieSlice";
+import { useRouter } from "next/router";
 
-const MCard = styled.div.attrs((props) => ({
-  className: `m_card ${props.size}`,
-}))`
-  ${(props) =>
-    props.size === "large" &&
-    `
-    --card-width:15rem;
-    --card-height:22rem;
-    `}
-  ${(props) =>
-    props.size === "medium" &&
-    `
-    --card-width:12rem;
-    --card-height:18rem;
-    `}
-    ${(props) =>
-    props.size === "small" &&
-    `
-    --card-width:10rem;
-    --card-height:15rem;
-    `}
-`;
 export default function Card({ id, size }) {
-  const [details, setDetais] = useState();
+  const router = useRouter();
+
+  const [details, setDetails] = useState();
   const [loading, setLoading] = useState(true);
-  const [inList, setInList] = useState();
 
-  const dispatch = useDispatch();
-  const uid = useSelector((state) => state.currentUser.user.uid);
-  const movies = useSelector((state) => state.userData.movies);
-  const [myList, setMyList] = useState([]);
-  // const moviesInfo = useSelector(state => state.userData.myList)
-  const loadStatus = useSelector((state) => state.userData.status);
-
-  //   useEffect(() => {}, []);
-  useEffect(() => {
-    if (loadStatus !== "loading") {
-      var list = movies.filter((i) => i.myList === true);
-      //   list = list?.map((i) => i.movieId)?.reverse();
-      if (JSON.stringify(list) !== JSON.stringify(myList)) setMyList(list);
-    }
-  }, [loadStatus]); //eslint-disable-line react-hooks/exhaustive-deps
-  // const status = useSelector(state => state.userData.status)
-
-  const [status, setStatus] = useState(false);
-  const fix = async () => {
-    const mIfo = await myList.find((i) => i.movieId === details.movieId);
-    if (mIfo) {
-      setInList(mIfo.myList);
-    } else {
-      setInList(false);
-    }
-    setStatus(false);
-  };
   const fetchMovie = async (signal) => {
     setLoading(true);
     await axios
@@ -76,7 +30,7 @@ export default function Card({ id, size }) {
       })
       .then((data) => {
         const res = data.data;
-        setDetais(res);
+        setDetails(res.details);
         setLoading(false);
       })
       .catch((err) => {
@@ -96,122 +50,210 @@ export default function Card({ id, size }) {
     };
   }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
-  useEffect(() => {
-    if (details?.movieId) fix();
-  }, [myList, details]); //eslint-disable-line react-hooks/exhaustive-deps
-
-  const handleAdd = () => {
-    setStatus(true);
-    var obj = {
-      uid: uid,
-      movieId: details.movieId,
-      title: details.title,
-      liked: 0,
-      watched: false,
-      myList: true,
-    };
-    const mIfo = myList.find((i) => i.movieId === details.movieId);
-    if (!mIfo) dispatch(addMovieData(obj));
-    else
-      dispatch(
-        updateMovieData({
-          uid,
-          mid: details.movieId,
-          data: { ...mIfo, myList: true },
-        })
-      );
-    // console.log(`added:${obj.title}`);
-
-    // setTimeout(() => { fix() }, 1000)
-  };
-  const handleDelete = async () => {
-    setStatus(true);
-    const mIfo = await myList.find((i) => i.movieId === details.movieId);
-    if (mIfo.liked === 0 && !mIfo.watched)
-      dispatch(deleteMovieData({ uid, mid: details.movieId }));
-    else
-      dispatch(
-        updateMovieData({
-          uid,
-          mid: details.movieId,
-          data: { ...mIfo, myList: false },
-        })
-      );
-  };
+  function GetPoster(details) {
+    if (details.poster1 !== "") return details.poster1;
+    else if (details.poster2 !== "") return details.poster2;
+    else if (details?.small_Image !== "") return details?.small_Image;
+    else return details.largeImage;
+  }
   return (
-    <MCard className={styles.m_card} id="movie_card" size={size}>
+    <div
+      className={`${styles.m_card} ${size === "small" ? styles.small : ""}  ${
+        size === "medium" ? styles.medium : ""
+      } ${!size || size === "large" ? styles.large : ""}`}
+      id="movie_card"
+    >
       {!loading && details ? (
         <>
           <div className={styles.image}>
             {/* <Image objectFit='cover' layout='fill' className={styles.poster} src={details.poster} priority alt="name1" /> */}
-            <img
-              className={styles.poster}
-              src={details.poster}
-              alt="img not loaded"
-            />
-          </div>
 
-          <div className={styles.top}>
-            <div className={styles.imdb}>
-              {parseFloat(details.imdbRating).toFixed(1)}
-            </div>
-            <div className={styles.options}>
-              {!status ? (
-                <>
-                  {inList ? (
-                    <div
-                      className={styles.tooltip}
-                      onClick={handleDelete}
-                      data-title="remove from list"
-                    >
-                      <img src="/assets/x-mark.png" alt="tick" />
-                    </div>
-                  ) : (
-                    <div
-                      className={styles.tooltip}
-                      onClick={handleAdd}
-                      data-title="add to list"
-                    >
-                      <img src="/assets/plus-circle-thin.png" alt="add" />
-                    </div>
-                  )}
-                </>
-              ) : (
-                <div className={styles.spin}></div>
-              )}
-            </div>
+            {GetPoster(details) !== "" ? (
+              <img
+                className={styles.poster}
+                src={GetPoster(details)}
+                alt={details.title}
+              />
+            ) : (
+              <div className={styles.title_block}>{details.title}</div>
+            )}
           </div>
-
+          <Header details={details} />
           <div
             className={styles.info}
             onClick={() => {
-              dispatch(setMovieDetails(details));
-              dispatch(setOpen(true));
+              router.push(
+                `/movies/${details.movieId}?movie=${details.title.replaceAll(
+                  " ",
+                  "-"
+                )}&year=${details.year}`
+              );
             }}
           >
-            <div className={styles.title} id="card_title">
-              {String(details.title).substring(0, 40)}
+            <div data-title={details.title} className={`${styles.title}`}>
+              {String(details.title).substring(0, 50)}
             </div>
-            <div className={styles.more} id="card_more">
+            <div className={styles.more}>
               <div className={styles.durt}>{details.runtime}</div>
-              {/* <span></span>
-                        <div className={styles.rate}>{details.Rated}</div> */}
               <span></span>
+              {/* 
+                        <div className={styles.rate}>{details.Rated}</div>
+              <span></span> */}
               <div className={styles.year}>{details.year}</div>
             </div>
           </div>
-          {/* <div className="details">View</div> */}
+          <div className={styles.mob_title}>{details.title}</div>
         </>
       ) : (
-        <Skeleton
-          style={{
-            height: "100%",
-            width: "100%",
-            background: "rgba(255,255,255,.5)",
-          }}
-          animation="wave"
-        />
+        <Skeleton />
       )}
-    </MCard>
+    </div>
   );
 }
+
+// this component handles all logic of add to/remove from  mylist operations
+export const Header = ({ details }) => {
+  const dispatch = useDispatch();
+  const userId = useSelector((state) => state.userAuth.user.uid);
+  const movies = useSelector((state) => state.userRatings.movies);
+  const authorized = useSelector((state) => state.userAuth.user.authorized);
+
+  const [toggleIcon, setToggleIcon] = useState(null);
+  const [processing, setProcessing] = useState(false);
+
+  useEffect(() => {
+    assignCardIcon();
+    // const timer = setTimeout(() => assignCardIcon(), 50);
+    // return () => clearTimeout(timer);
+  }, [movies.find((i) => i.movieId === details.movieId)]); //eslint-disable-line react-hooks/exhaustive-deps
+
+  const assignCardIcon = () => {
+    // console.log("checking status..", details.movieId);
+    const mIfo = movies.find((i) => i.movieId === details.movieId);
+    if (mIfo?.myList) {
+      // setIconState(true);
+      if (!toggleIcon) setToggleIcon(true);
+    } else {
+      // setIconState(false);
+      if (toggleIcon) setToggleIcon(false);
+    }
+  };
+
+  const handleAdd = () => {
+    setToggleIcon(true);
+    // setIconState(true);
+  };
+  const handleRemove = () => {
+    setToggleIcon(false);
+    // setIconState(false);
+  };
+  const saveToDatabase = (signal) => {
+    if (toggleIcon === null) return;
+    var mIfo = movies.find((i) => i.movieId === details.movieId);
+
+    if (mIfo) {
+      // var keys = Object.keys(obj);
+      // mIfo = Object.entries(mIfo).filter(([key, value]) => {
+      //   keys.includes(key);
+      // });
+      var { liked, movieId, watched, title, uid, myList } = mIfo;
+      var newObj = {
+        liked,
+        movieId,
+        watched,
+        myList: toggleIcon,
+        title: String(title).toLowerCase(),
+        uid,
+      };
+      if (_.isEqual({ ...newObj, myList }, newObj)) {
+        // console.log("no need of update");
+        return;
+      }
+    }
+    var initial = {
+      uid: userId,
+      movieId: details.movieId,
+      title: details.title,
+      liked: 0,
+      watched: false,
+      myList: false,
+    };
+    const isInitialObj = _.isEqual(initial, newObj);
+    // setProcessing(true);
+    if (newObj && isInitialObj) {
+      // console.log("delete the document");
+      dispatch(deleteMovieData({ uid: userId, mid: details.movieId, signal }));
+      // .then((o) => setProcessing(false));
+    } else if (newObj && !isInitialObj) {
+      // console.log("upd");
+      dispatch(
+        updateMovieData({
+          uid: userId,
+          mid: details.movieId,
+          body: newObj,
+          signal,
+        })
+      );
+      // .then((o) => setProcessing(false));
+    } else if (!newObj && toggleIcon) {
+      // console.log("add");
+      var body = { ...initial, myList: toggleIcon };
+      dispatch(addMovieData({ body, signal }));
+      // .then((o) =>
+      //   setProcessing(false)
+      // );
+    }
+  };
+
+  useEffect(() => {
+    const controller = new AbortController();
+    saveToDatabase(controller.signal);
+    // const timer = setTimeout(() => saveToDatabase(controller.signal), 250);
+    return () => {
+      // clearTimeout(timer);
+      controller.abort();
+    };
+  }, [toggleIcon]); //eslint-disable-line react-hooks/exhaustive-deps
+
+  return (
+    <div className={styles.top}>
+      <div className={styles.imdb}>
+        {parseFloat(details.imdbRating).toFixed(1)}
+      </div>
+      <div className={styles.options}>
+        {toggleIcon ? (
+          <div
+            // key={Math.random() * 999}
+            title="remove from list"
+            id="mylist-action"
+            // className={styles.tooltip}
+            onClick={() => authorized && handleRemove()}
+            data-title="remove from list"
+            data-id={details.movieId}
+          >
+            {/* <ion-icon name="bookmark"></ion-icon> */}
+            {/* <i className="fa-solid fa-bookmark"></i> */}
+            {/* <img src="/assets/x-mark.png" alt="tick" /> */}
+            <img src="/assets/bmark_selected.png" alt="tick" />
+          </div>
+        ) : (
+          <div
+            // key={Math.random() * 999}
+            title="add to list"
+            // id="mylist-action"
+            // className={styles.tooltip}
+            onClick={() =>
+              authorized ? handleAdd() : dispatch(setNotifSignIn(true))
+            }
+            data-title="add to list"
+          >
+            {/* <ion-icon name="bookmark-outline"></ion-icon> */}
+            {/* <i className="fa-regular fa-bookmark"></i> */}
+            {/* <img src="/assets/plus-circle-thin.png" alt="add" /> */}
+            <img src="/assets/bookmark-thin.png" alt="add" />
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};

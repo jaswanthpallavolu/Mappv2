@@ -1,33 +1,13 @@
 import Layout from "../../components/Layout";
 import styles from "../../styles/Home.module.css";
-import Categories from "../../components/categories/Categories";
-// import { useSelector } from "react-redux";
+import Categories from "../../components/Home_categories/Categories";
 import { useEffect } from "react";
-// import { useRouter } from "next/router";
-
+import HomeSection from "../../components/homesection/homesection";
 function Home() {
-  // const router = useRouter();
-  // const user = useSelector((state) => state.currentUser.user.authenticated);
-  // useEffect(() => {
-  //   if (!user) router.replace("/login");
-  // }, [user]); //eslint-disable-line react-hooks/exhaustive-deps
-
   return (
     <div className={styles.home}>
-      <Notch />
       <div className={styles.container}>
-        <section className={styles.one}>
-          <div className={styles.heading}>
-            <p>Movie</p>
-            <p>Recommendation</p>
-          </div>
-
-          <div
-            style={{ marginBottom: "10%", maxWidth: "90vw", padding: ".5rem" }}
-            className="elfsight-app-d9a75cd2-55d3-4991-8ecd-783c94d527e4"
-          ></div>
-        </section>
-
+        <HomeSection />
         <Categories />
       </div>
     </div>
