@@ -4,12 +4,9 @@ import store from "../redux/store";
 import Head from "next/head";
 import Script from "next/script";
 import React, { useEffect } from "react";
-import {
-  checkUser,
-  setUserStatus,
-  setCurrentUser,
-  addToDB,
-} from "../redux/features/authSlice";
+import { setCurrentUser, addToDB } from "../redux/features/authSlice";
+import { getAllUsers } from "../redux/features/peopleSlice";
+
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import ThemeCustomProvider from "../components/ThemeCustomProvider";
@@ -29,8 +26,7 @@ Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
 Router.events.on("routeChangeError", () => NProgress.done());
 
-// store.dispatch(getAllUsers());
-// store.dispatch(checkUser());
+store.dispatch(getAllUsers());
 
 function MyApp({ Component, pageProps }) {
   const Layout = Component?.Layout ? Component.Layout : React.Fragment;
