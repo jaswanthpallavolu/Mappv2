@@ -26,11 +26,11 @@ function HomeSection() {
 
         <Features />
         <p className={styles.note}>
-          {"[ this website contains movie data between (1994-2020) ]"}
+          {"this website contains movie data between (1994-2020)"}
         </p>
         {allUsers?.length > 0 && (
           <div className={styles.stats}>
-            <h4>Users count: {allUsers.length}</h4>
+            <p>Users count: {allUsers.length}</p>
           </div>
         )}
       </div>

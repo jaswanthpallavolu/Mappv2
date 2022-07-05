@@ -138,22 +138,20 @@ export const Tag = ({ tagname }) => {
   const [result, setResult] = useState([]);
 
   const fetchMoviesByTag = async (signal) => {
-    setLoading(true);
     const url = `${
       process.env.NEXT_PUBLIC_MOVIE_SERVER
     }/movies/tags/${tagname.replace(" ", "+")}`;
-    if (url) {
-      await axios
-        .get(url, { signal })
-        .then((res) => {
-          setResult(res.data.movies);
-          setLoading(false);
-        })
-        .catch((err) => {
-          console.log(err);
-          setLoading(false);
-        });
-    }
+
+    await axios
+      .get(url, { signal })
+      .then((res) => {
+        setResult(res.data.movies);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
   };
 
   useEffect(() => {

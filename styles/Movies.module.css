@@ -14,8 +14,12 @@
   position: fixed;
   width: 100vw;
   height: 100vh;
+  background: var(--light-color);
+}
+.container.dtheme::before {
   background: linear-gradient(180deg, var(--secondary), var(--primary) 90%);
 }
+
 .container h1 {
   color: var(--font-primary);
 }
@@ -52,7 +56,7 @@
   padding: 1.5rem;
 }
 .pagination button {
-  color: var(--font-primary) !important;
+  color: var(--font-primary);
 }
 .page-item.active .page-link {
   background-color: red !important;

@@ -11,18 +11,17 @@ import FilterModal from "./FilterModal";
 
 export default function MoviePage() {
   const uid = useSelector((state) => state.userAuth.user.uid);
-
   const [modal, setModal] = useState(false);
 
   const [query, setQuery] = useState({});
-  const [result, setResult] = useState();
+  const [result, setResult] = useState(null);
   const [result_len, setResultLen] = useState(0);
   const [page, setPage] = useState(1);
   const moviesperpage = 24;
   const [sortby, setSortby] = useState(["year", 0]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  const fetchFilterMovies = async () => {
+  const fetchFilterMovies = async (signal) => {
     setLoading(true);
     const final_query = query;
     final_query.page = page;
@@ -32,14 +31,19 @@ export default function MoviePage() {
     final_query["sort"] = s;
 
     await axios
-      .post(`${process.env.NEXT_PUBLIC_MOVIE_SERVER}/movies/filter/`, {
-        query: final_query,
-      })
+      .post(
+        `${process.env.NEXT_PUBLIC_MOVIE_SERVER}/movies/filter/`,
+        {
+          query: final_query,
+        },
+        { signal }
+      )
       .then((res) => {
         setResult(res.data.movies);
         setResultLen(res.data.total_movies);
         setLoading(false);
-      });
+      })
+      .catch((err) => console.log(err));
   };
 
   useEffect(() => {
@@ -67,7 +71,9 @@ export default function MoviePage() {
   }, [uid]);
 
   useEffect(() => {
-    query ? fetchFilterMovies() : "";
+    const controller = new AbortController();
+    query && fetchFilterMovies(controller.signal);
+    return () => controller.abort();
   }, [query, page, sortby]); //eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
@@ -77,29 +83,43 @@ export default function MoviePage() {
   useEffect(() => {
     if (window) {
       localStorage.setItem(`filter_${uid}`, JSON.stringify(query));
-    } else {
-      return true;
     }
+    // else {
+    //   return true;
+    // }
   }, [uid, query]);
 
+  // console.log({ query, loading, len: result?.length });
   return (
     <>
       {query && (
         <>
-          <OptionSection query={query} setModal={setModal} setSortby={setSortby} filter_json={filter_json}/>
+          <OptionSection
+            query={query}
+            setModal={setModal}
+            setSortby={setSortby}
+            filter_json={filter_json}
+          />
           {loading ? (
             <div className={styles.loader}>
               <Loader1 />
             </div>
-          ) : (<ResultSection result={result} result_len={result_len} moviesperpage={moviesperpage} setPage={setPage} page={page} loading={loading}/>)}
-          {modal ? (
+          ) : (
+            <ResultSection
+              result={result}
+              result_len={result_len}
+              moviesperpage={moviesperpage}
+              setPage={setPage}
+              page={page}
+              loading={loading}
+            />
+          )}
+          {modal && (
             <FilterModal
               setQuery={setQuery}
               setModal={setModal}
               query={query}
             />
-          ) : (
-            ""
           )}
         </>
       )}
@@ -107,8 +127,15 @@ export default function MoviePage() {
   );
 }
 
-export const ResultSection = ({result, result_len, moviesperpage, setPage, page, loading}) => {
-  return(
+export const ResultSection = ({
+  result,
+  result_len,
+  moviesperpage,
+  setPage,
+  page,
+  loading,
+}) => {
+  return (
     <>
       {result?.length > 0 ? (
         <>
@@ -124,6 +151,7 @@ export const ResultSection = ({result, result_len, moviesperpage, setPage, page,
                   sx={{
                     "&.Mui-selected": {
                       backgroundColor: "var(--secondary)",
+                      color: "var(--light-color)",
                     },
                   }}
                 />
@@ -131,16 +159,12 @@ export const ResultSection = ({result, result_len, moviesperpage, setPage, page,
               page={page}
             />
           </div>
-          {!loading ? (
+          {!loading && (
             <div className={styles.movies}>
               {result
-                ? result.map((i) => (
-                    <Card id={i} size={"medium"} key={i} />
-                  ))
+                ? result.map((i) => <Card id={i} size={"medium"} key={i} />)
                 : ""}
             </div>
-          ) : (
-            ""
           )}
           <div className={styles.page_back}>
             <Pagination
@@ -168,10 +192,10 @@ export const ResultSection = ({result, result_len, moviesperpage, setPage, page,
         </div>
       )}
     </>
-  )
-}
+  );
+};
 
-export const OptionSection = ({query, setModal, setSortby, filter_json}) =>{
+export const OptionSection = ({ query, setModal, setSortby, filter_json }) => {
   return (
     <div className={styles.items}>
       <p className={styles.title}>
@@ -211,5 +235,5 @@ export const OptionSection = ({query, setModal, setSortby, filter_json}) =>{
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
