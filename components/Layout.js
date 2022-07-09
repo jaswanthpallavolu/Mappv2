@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addToDB } from "../redux/features/authSlice";
+import { getAllUsers } from "../redux/features/peopleSlice";
 import { fetchMovies, setEmpty } from "../redux/features/userRatingSlice";
 import { fetchUserHistory } from "../redux/features/userHistorySlice";
 import Navbar from "./Navbar/Navbar";
@@ -18,7 +18,7 @@ export default function Layout({ children }) {
     if (status === "idle" && user) {
       socket.emit("add-user", user.uid);
       socket.emit("get-online-users", user.uid);
-
+      dispatch(getAllUsers());
       dispatch(fetchMovies(user.uid));
       dispatch(fetchUserHistory(user.uid));
     }
@@ -26,7 +26,7 @@ export default function Layout({ children }) {
     // if (status === "loggedout") {
     //   dispatch(setEmpty());
     // }
-  }, [status]); //eslint-disable-line react-hooks/exhaustive-deps
+  }, [status, user]); //eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className={customeStyles.main_scrollbar}>

@@ -17,6 +17,7 @@ const SearchBar = ({ prop }) => {
   const [onHovered, setOnHovered] = useState(false);
   const [recent, setRecent] = useState([]);
   const [suggs, setSuggs] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleRouteChange = () => {
     setShowSuggBox(false);
@@ -54,6 +55,38 @@ const SearchBar = ({ prop }) => {
     if (searchValue !== "") setShowClear(true);
     getRecentSearchList();
   }, [word]); //eslint-disable-line react-hooks/exhaustive-deps
+  const fetchSuggestions = async (signal) => {
+    // console.log("ftch");
+    setLoading(true);
+    await axios
+      .get(
+        `${process.env.NEXT_PUBLIC_MOVIE_SERVER}/movies/search/matches/${searchValue}`,
+        { signal }
+      )
+      .then((res) => {
+        setSuggs(
+          res.data.suggestions?.map((i) => ({ sugg: i, type: "suggestion" }))
+        );
+        setLoading(false);
+      })
+      .catch((err) => console.log(err));
+  };
+  useEffect(() => {
+    const controller = new AbortController();
+    const timer = setTimeout(() => {
+      if (searchValue === "") {
+        var list = recent?.map((i) => ({ sugg: i, type: "recent" }));
+        // console.log("rec");
+        if (JSON.stringify(list) !== JSON.stringify(suggs)) setSuggs(list);
+      } else fetchSuggestions(controller.signal);
+    }, 300);
+
+    return () => {
+      clearTimeout(timer);
+      controller.abort();
+      setLoading(false);
+    };
+  }, [searchValue.replaceAll(" ", ""), recent]); //eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div
@@ -101,6 +134,7 @@ const SearchBar = ({ prop }) => {
       {showSuggBox && (
         <Suggestions
           props={{
+            loading,
             suggs,
             setSuggs,
             recent,
@@ -123,6 +157,7 @@ function Suggestions({ props }) {
   const {
     suggs,
     setSuggs,
+    loading,
     setSearchValue,
     recent,
     setRecent,
@@ -131,24 +166,6 @@ function Suggestions({ props }) {
     searchValue,
     router,
   } = props;
-
-  const [loading, setLoading] = useState(false);
-  const fetchSuggestions = async (signal) => {
-    // console.log("ftch");
-    setLoading(true);
-    await axios
-      .get(
-        `${process.env.NEXT_PUBLIC_MOVIE_SERVER}/movies/search/matches/${searchValue}`,
-        { signal }
-      )
-      .then((res) => {
-        setSuggs(
-          res.data.suggestions?.map((i) => ({ sugg: i, type: "suggestion" }))
-        );
-        setLoading(false);
-      })
-      .catch((err) => console.log(err));
-  };
 
   const deleteSugg = (sug) => {
     var list = recent;
@@ -171,23 +188,6 @@ function Suggestions({ props }) {
     window.localStorage.setItem("search-recent", JSON.stringify(list));
     router.push(`/search/${name}`);
   };
-
-  useEffect(() => {
-    const controller = new AbortController();
-    const timer = setTimeout(() => {
-      if (searchValue === "") {
-        var list = recent?.map((i) => ({ sugg: i, type: "recent" }));
-        // console.log("rec");
-        if (JSON.stringify(list) !== JSON.stringify(suggs)) setSuggs(list);
-      } else fetchSuggestions(controller.signal);
-    }, 300);
-
-    return () => {
-      clearTimeout(timer);
-      controller.abort();
-      setLoading(false);
-    };
-  }, [searchValue.replaceAll(" ", ""), recent]); //eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <ul
@@ -226,7 +226,6 @@ function Suggestions({ props }) {
       )}
       {loading && (
         <div className={styles.loader_sec}>
-          {" "}
           <Loader1 />
         </div>
       )}

@@ -66,9 +66,9 @@ const Auth = createSlice({
   reducers: {
     setCurrentUser: (state, action) => {
       if (action.payload?.username)
-        state.user = { ...state.user, ...action.payload, auth: true };
+        state.user = { ...state.user, ...action.payload, authorized: true };
       else {
-        state.user = { auth: false };
+        state.user = { authorized: false };
         state.status = "not-loggedIn";
       }
       // state.status = "checked";
