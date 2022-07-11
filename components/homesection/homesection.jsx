@@ -13,7 +13,7 @@ function HomeSection() {
     >
       <div className={styles.heading}>
         <div className={styles.title}>
-          <h3>Recommend for You</h3>
+          <h3>Recommend You</h3>
           <p>a movie recommendation web app</p>
         </div>
         {/* <div
