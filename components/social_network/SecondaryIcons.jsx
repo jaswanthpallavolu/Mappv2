@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from "react";
-import navstyles from "../Navbar/Navbar.module.css";
-import styles from "./iconsection.module.css";
-import People from "./people/People";
-import Notification from "./notifications/Notification";
-import MyList from "../Home_categories/MyList";
+import React, { useEffect, useState } from "react"
+import navstyles from "../Navbar/Navbar.module.css"
+import styles from "./iconsection.module.css"
+import People from "./people/People"
+import Notification from "./notifications/Notification"
+import MyList from "../Home_categories/MyList"
 import {
   fetchNotifications,
   addNotification,
   removeNotification,
-} from "../../redux/features/notificationSlice";
+} from "../../redux/features/notificationSlice"
 
 import {
+  getAllUsers,
   setOnlineUsers,
   removeReceivedRequest,
   addReceivedRequest,
@@ -18,25 +19,25 @@ import {
   addFriend,
   removeFriend,
   fetchFriends,
-} from "../../redux/features/peopleSlice";
-import { useRouter } from "next/router";
-import socket from "../../socket.connect";
-import { useDispatch, useSelector } from "react-redux";
+} from "../../redux/features/peopleSlice"
+import { useRouter } from "next/router"
+import socket from "../../socket.connect"
+import { useDispatch, useSelector } from "react-redux"
 
 export default function SecondaryIcons({ isMobile }) {
-  const router = useRouter();
+  const router = useRouter()
   const [sectionOpened, setSectionOpened] = useState({
     mylist: false,
     notification: false,
     people: false,
-  });
+  })
   const closeAll = () => {
     setSectionOpened({
       mylist: false,
       notification: false,
       people: false,
-    });
-  };
+    })
+  }
   useEffect(() => {
     if (
       (sectionOpened.mylist ||
@@ -44,13 +45,13 @@ export default function SecondaryIcons({ isMobile }) {
         sectionOpened.people) &&
       isMobile
     ) {
-      document.body.style.overflow = "hidden";
-    } else document.body.style.overflow = "visible";
-  }, [sectionOpened, isMobile]);
+      document.body.style.overflow = "hidden"
+    } else document.body.style.overflow = "visible"
+  }, [sectionOpened, isMobile])
 
   useEffect(() => {
-    closeAll();
-  }, [router.pathname]);
+    closeAll()
+  }, [router.pathname])
 
   return (
     <>
@@ -90,7 +91,7 @@ export default function SecondaryIcons({ isMobile }) {
           />
         )}
     </>
-  );
+  )
 }
 
 export const MyListIcon = ({
@@ -126,8 +127,8 @@ export const MyListIcon = ({
         </div>
       )}
     </>
-  );
-};
+  )
+}
 
 export const NotificationIcon = ({
   sectionOpened,
@@ -135,36 +136,36 @@ export const NotificationIcon = ({
   isMobile,
   closeAll,
 }) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
   const notifications = useSelector(
     (state) => state.userNotifications.notifications
-  );
-  const uid = useSelector((state) => state.userAuth.user.uid);
+  )
+  const uid = useSelector((state) => state.userAuth.user.uid)
 
   const addNotif = ({ request }) => {
     if (request?._id) {
       // console.log("new-notif", request);
-      dispatch(addNotification(request));
+      dispatch(addNotification(request))
     }
-  };
+  }
   const removeNotif = ({ request }) => {
     // console.log("deleted-notif", request);
-    dispatch(removeNotification({ id: request._id }));
+    dispatch(removeNotification({ id: request._id }))
 
     // dispatch(setNotifications([...notifications, { ...res }]));
-  };
+  }
   useEffect(() => {
-    socket.on("receive-new-notification", addNotif);
-    socket.on("remove-notification", removeNotif);
+    socket.on("receive-new-notification", addNotif)
+    socket.on("remove-notification", removeNotif)
 
     return () => {
-      socket.off("receive-new-notification", addNotif);
-      socket.off("remove-notification", removeNotif);
-    };
-  }, [socket]); //eslint-disable-line react-hooks/exhaustive-deps
+      socket.off("receive-new-notification", addNotif)
+      socket.off("remove-notification", removeNotif)
+    }
+  }, [socket]) //eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => {
-    dispatch(fetchNotifications(uid));
-  }, []); //eslint-disable-line react-hooks/exhaustive-deps
+    dispatch(fetchNotifications(uid))
+  }, []) //eslint-disable-line react-hooks/exhaustive-deps
   return (
     <>
       <div
@@ -183,7 +184,7 @@ export const NotificationIcon = ({
               mylist: false,
               notification: !sectionOpened.notification,
               people: false,
-            });
+            })
           }}
         >
           <ion-icon
@@ -202,8 +203,8 @@ export const NotificationIcon = ({
         </div>
       )}
     </>
-  );
-};
+  )
+}
 
 export const PeopleIcon = ({
   sectionOpened,
@@ -211,28 +212,33 @@ export const PeopleIcon = ({
   isMobile,
   closeAll,
 }) => {
-  const uid = useSelector((state) => state.userAuth.user.uid);
-  const receivedRequests = useSelector(
-    (state) => state.people.receivedRequests
-  );
+  const uid = useSelector((state) => state.userAuth.user.uid)
+  const receivedRequests = useSelector((state) => state.people.receivedRequests)
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
   const updateOnlineUsers = (res) => {
     const onlineUsers = res.users?.map((i) => {
-      return i["userId"];
-    });
+      return i["userId"]
+    })
     // console.log("online:", onlineUsers);
-    dispatch(setOnlineUsers(onlineUsers));
-  };
+
+    dispatch(setOnlineUsers(onlineUsers))
+  }
   const receiveFriendReq = ({ request }) => {
     // console.log(request);
-    dispatch(addReceivedRequest(request));
-  };
+    dispatch(getAllUsers())
+    dispatch(addReceivedRequest(request))
+  }
   const deleteReceivedReq = (res) => {
-    dispatch(removeReceivedRequest(res));
-    dispatch(removeSentRequest({ senderId: res.senderId }));
-  };
+    dispatch(removeReceivedRequest(res))
+    dispatch(removeSentRequest({ senderId: res.senderId }))
+  }
+  // handling decline request
+  const deleteSendReq = (res) => {
+    // dispatch(removeReceivedRequest(res))
+    dispatch(removeSentRequest({ senderId: res.receiverId }))
+  }
   const reqAccept = (res) => {
     // console.log("r-acpt", res.senderId);
     dispatch(
@@ -241,31 +247,33 @@ export const PeopleIcon = ({
         added: new Date().toLocaleString(),
         _id: res.receiverId,
       })
-    );
-  };
+    )
+  }
   const unFriend = (res) => {
     // console.log(res);
-    dispatch(removeFriend({ uid: res.senderId }));
-  };
+    dispatch(removeFriend({ uid: res.senderId }))
+  }
   useEffect(() => {
-    socket.on("updated-online-users", updateOnlineUsers);
-    socket.on("receive-friend-request", receiveFriendReq);
-    socket.on("remove-received-request", deleteReceivedReq);
-    socket.on("request-accepted", reqAccept);
-    socket.on("nolonger-friend", unFriend);
+    socket.on("updated-online-users", updateOnlineUsers)
+    socket.on("receive-friend-request", receiveFriendReq)
+    socket.on("remove-received-request", deleteReceivedReq)
+    socket.on("remove-send-request", deleteSendReq)
+    socket.on("request-accepted", reqAccept)
+    socket.on("nolonger-friend", unFriend)
 
     return () => {
-      socket.off("updated-online-users", updateOnlineUsers);
-      socket.off("receive-friend-request", receiveFriendReq);
-      socket.off("remove-received-request", deleteReceivedReq);
-      socket.off("request-accepted", reqAccept);
-      socket.off("nolonger-friend", unFriend);
-    };
-  }, [socket]); //eslint-disable-line react-hooks/exhaustive-deps
+      socket.off("updated-online-users", updateOnlineUsers)
+      socket.off("receive-friend-request", receiveFriendReq)
+      socket.off("remove-received-request", deleteReceivedReq)
+      socket.off("remove-send-request", deleteSendReq)
+      socket.off("request-accepted", reqAccept)
+      socket.off("nolonger-friend", unFriend)
+    }
+  }, [socket]) //eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    dispatch(fetchFriends(uid));
-  }, []); //eslint-disable-line react-hooks/exhaustive-deps
+    dispatch(fetchFriends(uid))
+  }, []) //eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
@@ -284,7 +292,7 @@ export const PeopleIcon = ({
               mylist: false,
               notification: false,
               people: !sectionOpened.people,
-            });
+            })
           }}
         >
           <ion-icon
@@ -302,8 +310,8 @@ export const PeopleIcon = ({
         </div>
       )}
     </>
-  );
-};
+  )
+}
 
 export const TitleHeader = ({ title, close }) => {
   return (
@@ -311,5 +319,5 @@ export const TitleHeader = ({ title, close }) => {
       <h3 className={styles.title}>{title}</h3>
       <i onClick={close} className="fa-solid fa-xmark"></i>
     </div>
-  );
-};
+  )
+}

@@ -1,53 +1,54 @@
-import "../styles/globals.css";
-import { Provider } from "react-redux";
-import store from "../redux/store";
-import Head from "next/head";
-import Script from "next/script";
-import React, { useEffect } from "react";
-import { setCurrentUser, addToDB } from "../redux/features/authSlice";
-import { getAllUsers } from "../redux/features/peopleSlice";
+import "../styles/globals.css"
+import { Provider } from "react-redux"
+import store from "../redux/store"
+import Head from "next/head"
+import Script from "next/script"
+import React, { useEffect } from "react"
+import { setCurrentUser, addToDB } from "../redux/features/authSlice"
+import { getAllUsers } from "../redux/features/peopleSlice"
 
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import ThemeCustomProvider from "../components/ThemeCustomProvider";
-import { auth } from "../firebase_connect";
-import NProgress from "nprogress";
-import "nprogress/nprogress.css";
-import Router from "next/router";
+import "slick-carousel/slick/slick.css"
+import "slick-carousel/slick/slick-theme.css"
+import ThemeCustomProvider from "../components/ThemeCustomProvider"
+import { auth } from "../firebase_connect"
+import NProgress from "nprogress"
+import "nprogress/nprogress.css"
+import Router from "next/router"
 
 NProgress.configure({
   minimum: 0.3,
   easing: "ease",
   speed: 800,
   showSpinner: false,
-});
+})
 
-Router.events.on("routeChangeStart", () => NProgress.start());
-Router.events.on("routeChangeComplete", () => NProgress.done());
-Router.events.on("routeChangeError", () => NProgress.done());
+Router.events.on("routeChangeStart", () => NProgress.start())
+Router.events.on("routeChangeComplete", () => NProgress.done())
+Router.events.on("routeChangeError", () => NProgress.done())
 
 // store.dispatch(getAllUsers());
 
 function MyApp({ Component, pageProps }) {
-  const Layout = Component?.Layout ? Component.Layout : React.Fragment;
+  const Layout = Component?.Layout ? Component.Layout : React.Fragment
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      // console.log("chg: ", user);
-      var data;
+      var data
       if (user) {
         data = {
           username: user.displayName,
           photoUrl: user.photoURL,
           email: user.email,
           uid: user.uid,
-        };
-        store.dispatch(addToDB(data));
+        }
+        store.dispatch(addToDB(data))
       }
-      store.dispatch(setCurrentUser(data));
-    });
-    return unsubscribe;
-  }, []);
+      store.dispatch(setCurrentUser(data))
+      // console.log("chg: ", data)
+    })
+
+    return unsubscribe
+  }, [])
 
   return (
     <Provider store={store}>
@@ -164,7 +165,7 @@ function MyApp({ Component, pageProps }) {
         </Layout>
       </ThemeCustomProvider>
     </Provider>
-  );
+  )
 }
 
-export default MyApp;
+export default MyApp

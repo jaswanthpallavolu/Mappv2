@@ -1,23 +1,23 @@
-import React, { useEffect, useRef, useState } from "react";
-import styles from "./people.module.css";
-import secStyles from "../iconsection.module.css";
-import customStyles from "../../../styles/customstyles.module.css";
-import fstyles from "./friends.module.css";
-import Friends from "./Friends";
-import { FriendRequest } from "./user/User";
-import { useSelector } from "react-redux";
-import { TitleHeader } from "../SecondaryIcons";
+import React, { useEffect, useRef, useState } from "react"
+import styles from "./people.module.css"
+import secStyles from "../iconsection.module.css"
+import customStyles from "../../../styles/customstyles.module.css"
+import fstyles from "./friends.module.css"
+import Friends from "./Friends"
+import { FriendRequest } from "./user/User"
+import { useSelector } from "react-redux"
+import { TitleHeader } from "../SecondaryIcons"
 
 export default function People({ closeAll }) {
-  const [selectedSection, setSelectedSection] = useState(true);
-  const theme = useSelector((state) => state.global.theme);
+  const [selectedSection, setSelectedSection] = useState(true)
+  const theme = useSelector((state) => state.global.theme)
 
-  const [requser, setRequser] = useState([]);
+  const [requser, setRequser] = useState([])
 
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState("")
   const searchHandle = (searchterm) => {
-    setSearch(searchterm);
-  };
+    setSearch(searchterm)
+  }
 
   return (
     <div className={secStyles.icon_section}>
@@ -48,16 +48,14 @@ export default function People({ closeAll }) {
         )}
       </div>
     </div>
-  );
+  )
 }
 
 export function SectionMenu(props) {
-  const receivedRequests = useSelector(
-    (state) => state.people.receivedRequests
-  );
-  const { selectedSection, setSelectedSection } = props.states;
-  const leftHandle = () => setSelectedSection(true);
-  const rightHandle = () => setSelectedSection(false);
+  const receivedRequests = useSelector((state) => state.people.receivedRequests)
+  const { selectedSection, setSelectedSection } = props.states
+  const leftHandle = () => setSelectedSection(true)
+  const rightHandle = () => setSelectedSection(false)
 
   return (
     <div className={styles.Toggle}>
@@ -79,14 +77,14 @@ export function SectionMenu(props) {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 export function SearchBar(props) {
-  const input = useRef("");
+  const input = useRef("")
   const getTerm = () => {
-    props.termHandle(input.current.value);
-  };
+    props.termHandle(input.current.value)
+  }
 
   return (
     <div className={styles.search}>
@@ -104,39 +102,37 @@ export function SearchBar(props) {
         <ion-icon name="search-outline"></ion-icon>
       </div>
     </div>
-  );
+  )
 }
 
 export function RequestSection() {
-  const [requser, setRequser] = useState([]);
-  const uid = useSelector((state) => state.userAuth.user.uid);
-  const allUsers = useSelector((state) => state.people.allUsers);
-  const receivedRequests = useSelector(
-    (state) => state.people.receivedRequests
-  );
+  const [requser, setRequser] = useState([])
+  const uid = useSelector((state) => state.userAuth.user.uid)
+  const allUsers = useSelector((state) => state.people.allUsers)
+  const receivedRequests = useSelector((state) => state.people.receivedRequests)
   const fecthRequests = () => {
     const details = receivedRequests.map((i) => {
-      return i.uid;
-    });
-    // console.log(details);
-    details = allUsers?.filter((i) => details.includes(i.uid));
-    setRequser(details);
-  };
+      return i.uid
+    })
+
+    details = allUsers?.filter((i) => details.includes(i.uid))
+    setRequser(details)
+  }
 
   // const searchRequests = (word) => {
   //   // console.log(word);
   // };
 
   useEffect(() => {
-    fecthRequests(uid);
+    if (allUsers) fecthRequests(uid)
     // if (searchTerm !== "") {
     //   searchRequests(searchTerm);
     // }
-  }, [receivedRequests]); //eslint-disable-line react-hooks/exhaustive-deps
+  }, [receivedRequests, allUsers]) //eslint-disable-line react-hooks/exhaustive-deps
 
-  useEffect(() => {
-    fecthRequests(uid);
-  }, []); //eslint-disable-line react-hooks/exhaustive-deps
+  // useEffect(() => {
+  //   fecthRequests(uid)
+  // }, []) //eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div key={requser.length}>
@@ -149,5 +145,5 @@ export function RequestSection() {
         </div>
       </div>
     </div>
-  );
+  )
 }
