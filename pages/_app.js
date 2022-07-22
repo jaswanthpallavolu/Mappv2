@@ -26,7 +26,7 @@ Router.events.on("routeChangeStart", () => NProgress.start())
 Router.events.on("routeChangeComplete", () => NProgress.done())
 Router.events.on("routeChangeError", () => NProgress.done())
 
-// store.dispatch(getAllUsers());
+store.dispatch(getAllUsers())
 
 function MyApp({ Component, pageProps }) {
   const Layout = Component?.Layout ? Component.Layout : React.Fragment
