@@ -1,13 +1,13 @@
-import { ThemeProvider } from "styled-components";
-import { GlobalStyles } from "../styles/global";
-import { darkTheme, lightTheme } from "../styles/theme";
-import { useSelector } from "react-redux";
-export default function ThemeCustomProvider({ children }) {
-  const theme = useSelector((state) => state.global.theme);
-  return (
-    <ThemeProvider theme={theme === "dark" ? darkTheme : lightTheme}>
-      <GlobalStyles />
-      {children}
-    </ThemeProvider>
-  );
+import {ThemeProvider} from 'styled-components'
+import {GlobalStyles} from '../styles/global'
+import {darkTheme, lightTheme} from '../styles/theme'
+import {useSelector} from 'react-redux'
+export default function ThemeCustomProvider({children}) {
+	const theme = useSelector((state) => state.global.theme)
+	return (
+		<ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
+			<GlobalStyles />
+			{children}
+		</ThemeProvider>
+	)
 }

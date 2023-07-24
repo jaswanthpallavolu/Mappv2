@@ -1,35 +1,35 @@
 /* ****** CUSTOM SCROLL BAR */
 .custom_scrollbar {
-  --track: transparent;
-  --scroll: rgb(110, 110, 110);
-  overflow-y: scroll;
-  margin-bottom: 0.5em;
-  /* border-bottom: 1px solid var(--accent-light); */
+	--track: transparent;
+	--scroll: rgb(110, 110, 110);
+	overflow-y: scroll;
+	margin-bottom: 0.5em;
+	/* border-bottom: 1px solid var(--accent-light); */
 }
 .custom_scrollbar::-webkit-scrollbar {
-  /* width */
-  width: 5px;
+	/* width */
+	width: 5px;
 }
 
 .custom_scrollbar::-webkit-scrollbar-track {
-  /* Track */
-  /* box-shadow: inset 0 0 5px grey; */
-  border-radius: 8px;
+	/* Track */
+	/* box-shadow: inset 0 0 5px grey; */
+	border-radius: 8px;
 }
 .custom_scrollbar::-webkit-scrollbar-thumb {
-  /* Handle */
-  background: var(--scroll);
-  border-radius: 10px;
+	/* Handle */
+	background: var(--scroll);
+	border-radius: 10px;
 }
 
 .custom_scrollbar::-webkit-scrollbar-thumb:hover {
-  /* Handle on hover */
-  background: var(--scroll);
+	/* Handle on hover */
+	background: var(--scroll);
 }
 
 .custom_scrollbar::-webkit-scrollbar-track-piece {
-  /* not handle on */
-  background: var(--track);
+	/* not handle on */
+	background: var(--track);
 }
 
 /* END OF CUSTOM SCROLL BAR */

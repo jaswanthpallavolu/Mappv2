@@ -1,189 +1,189 @@
 .home {
-  position: relative;
-  z-index: 1;
-  /* width: 100%;
+	position: relative;
+	z-index: 1;
+	/* width: 100%;
   height: 100vh; */
 }
 .home::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
+	content: '';
+	position: absolute;
+	inset: 0;
+	z-index: -1;
 
-  /* overflow: hidden; */
+	/* overflow: hidden; */
 }
 .home .container {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  overflow-x: hidden;
+	position: relative;
+	z-index: 1;
+	display: flex;
+	flex-direction: column;
+	overflow-x: hidden;
 }
 .section_one {
-  position: relative;
-  /* min-height: 100vh; */
-  display: flex;
-  flex-direction: column;
+	position: relative;
+	/* min-height: 100vh; */
+	display: flex;
+	flex-direction: column;
 
-  /* border: 1px solid red; */
+	/* border: 1px solid red; */
 }
 .section_one.dtheme {
-  background: linear-gradient(180deg, var(--base-color), var(--primary));
-  --t-color1: var(--light-shade);
-  --t-color2: var(--light-shade);
+	background: linear-gradient(180deg, var(--base-color), var(--primary));
+	--t-color1: var(--light-shade);
+	--t-color2: var(--light-shade);
 }
 .section_one.ltheme {
-  background-color: var(--primary);
-  --t-color1: var(--accent-light);
-  --t-color2: var(--accent-light);
+	background-color: var(--primary);
+	--t-color1: var(--accent-light);
+	--t-color2: var(--accent-light);
 }
 
 .section_one .heading {
-  margin: 0 auto;
-  margin-top: 5rem;
-  /* height: 50vh; */
-  width: 90%;
-  /* aspect-ratio: 3.5/1; */
-  padding: 0.5rem;
+	margin: 0 auto;
+	margin-top: 5rem;
+	/* height: 50vh; */
+	width: 90%;
+	/* aspect-ratio: 3.5/1; */
+	padding: 0.5rem;
 
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 0.5em;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 0.5em;
 
-  font-weight: 400;
-  color: var(--font-primary);
-  /* border: 1px dashed var(--font-primary); */
-  text-transform: capitalize;
+	font-weight: 400;
+	color: var(--font-primary);
+	/* border: 1px dashed var(--font-primary); */
+	text-transform: capitalize;
 }
 /* .title {
   margin-bottom: min(5%, 2rem);
 } */
 .title h3 {
-  margin: 0;
-  font-size: clamp(1.3rem, 8vw, 2.5rem);
-  line-height: 100%;
+	margin: 0;
+	font-size: clamp(1.3rem, 8vw, 2.5rem);
+	line-height: 100%;
 
-  background-image: linear-gradient(45deg, var(--t-color1), var(--t-color2));
-  background-clip: text;
-  color: transparent;
+	background-image: linear-gradient(45deg, var(--t-color1), var(--t-color2));
+	background-clip: text;
+	color: transparent;
 }
 .title p {
-  font-size: clamp(0.7rem, 3vw, 1.1rem);
-  text-align: center;
+	font-size: clamp(0.7rem, 3vw, 1.1rem);
+	text-align: center;
 }
 .note {
-  font-size: clamp(0.6rem, 3vw, 1.1rem);
+	font-size: clamp(0.6rem, 3vw, 1.1rem);
 }
 
 .stats {
-  margin-top: 0.5em;
-  border: 1px solid var(--font-primary);
-  /* border-radius: 1rem 0.25rem 1rem 0.25rem; */
-  padding: 0.5em 0.75em;
+	margin-top: 0.5em;
+	border: 1px solid var(--font-primary);
+	/* border-radius: 1rem 0.25rem 1rem 0.25rem; */
+	padding: 0.5em 0.75em;
 }
 .stats p {
-  font-size: clamp(0.9rem, 3vw, 1.2rem);
+	font-size: clamp(0.9rem, 3vw, 1.2rem);
 }
 
 .notch {
-  position: fixed;
-  bottom: 1rem;
-  right: 2vw;
-  z-index: 3;
-  font-size: clamp(1.8rem, 3vw, 2.5rem);
-  color: var(--font-primary);
-  cursor: pointer;
-  transition: all ease 0.2s;
+	position: fixed;
+	bottom: 1rem;
+	right: 2vw;
+	z-index: 3;
+	font-size: clamp(1.8rem, 3vw, 2.5rem);
+	color: var(--font-primary);
+	cursor: pointer;
+	transition: all ease 0.2s;
 
-  /* border: 1px solid red; */
+	/* border: 1px solid red; */
 }
 
 /* FEATURE SECTION */
 .features {
-  display: flex;
-  gap: 1em;
-  flex-wrap: wrap;
-  justify-content: center;
-  width: 100%;
-  max-height: 40vh;
-  margin: 1em 0.5em;
-  padding: 0.5rem 0;
+	display: flex;
+	gap: 1em;
+	flex-wrap: wrap;
+	justify-content: center;
+	width: 100%;
+	max-height: 40vh;
+	margin: 1em 0.5em;
+	padding: 0.5rem 0;
 
-  --title-size: clamp(0.7rem, 3vw, 1rem);
-  --des-size: clamp(0.6rem, 3vw, 0.9rem);
-  --icon-size: clamp(1.2rem, 4vw, 1.75rem);
+	--title-size: clamp(0.7rem, 3vw, 1rem);
+	--des-size: clamp(0.6rem, 3vw, 0.9rem);
+	--icon-size: clamp(1.2rem, 4vw, 1.75rem);
 
-  /* overflow-x: scroll; */
+	/* overflow-x: scroll; */
 }
 
 .feature {
-  /* background-color: var(--base-color); */
-  width: min(90%, 20rem);
-  color: var(--font-primary);
-  padding: min(1.5em, 1rem);
+	/* background-color: var(--base-color); */
+	width: min(90%, 20rem);
+	color: var(--font-primary);
+	padding: min(1.5em, 1rem);
 }
 .dtheme .feature {
-  box-shadow: 0 0 2px var(--light-shade);
+	box-shadow: 0 0 2px var(--light-shade);
 }
 .ltheme .feature {
-  box-shadow: 0 0 2px var(--base-color);
+	box-shadow: 0 0 2px var(--base-color);
 }
 .row {
-  display: flex;
-  align-items: center;
-  gap: 0.5em;
-  margin-bottom: 0.25em;
+	display: flex;
+	align-items: center;
+	gap: 0.5em;
+	margin-bottom: 0.25em;
 }
 .feature h3 {
-  font-size: var(--title-size);
-  font-weight: 400;
+	font-size: var(--title-size);
+	font-weight: 400;
 }
 .feature i {
-  font-size: var(--icon-size);
+	font-size: var(--icon-size);
 }
 .feature p {
-  text-align: left;
-  font-size: var(--des-size);
-  text-transform: lowercase;
-  font-weight: 100;
+	text-align: left;
+	font-size: var(--des-size);
+	text-transform: lowercase;
+	font-weight: 100;
 }
 
 @media (min-width: 1279px) {
 }
 
 @media (max-width: 1279px) {
-  .features {
-    overflow-y: scroll;
-    align-items: flex-start;
-  }
+	.features {
+		overflow-y: scroll;
+		align-items: flex-start;
+	}
 }
 
 @media (max-width: 540px) {
-  .features {
-    max-height: 25vh;
-  }
+	.features {
+		max-height: 25vh;
+	}
 }
 
 /* END OF FEATURE SECTION */
 
 @media (min-width: 601px) {
-  .section_one {
-    padding-top: 1em;
-  }
-  .section_one .heading {
-    min-height: 18rem;
-  }
+	.section_one {
+		padding-top: 1em;
+	}
+	.section_one .heading {
+		min-height: 18rem;
+	}
 }
 @media (max-width: 1279px) {
-  .section_one .heading {
-    width: 98%;
-  }
+	.section_one .heading {
+		width: 98%;
+	}
 }
 @media (max-width: 600px) {
-  .home .section_one .heading {
-    width: 98%;
-    aspect-ratio: 2/1.2;
-  }
+	.home .section_one .heading {
+		width: 98%;
+		aspect-ratio: 2/1.2;
+	}
 }

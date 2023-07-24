@@ -1,39 +1,39 @@
 .skeleton {
-  position: absolute;
-  inset: 0;
-  background-color: var(--skeleton-color);
-  /* background: linear-gradient(
+	position: absolute;
+	inset: 0;
+	background-color: var(--skeleton-color);
+	/* background: linear-gradient(
     to right,
     rgba(255, 255, 255, 0),
     rgba(255, 255, 255, 0.2) 20%  
   ); */
 
-  /* background-repeat: repeat-y;
+	/* background-repeat: repeat-y;
   background-size: 70%;
   background-position: 0 0; */
-  /* animation: shine 1s linear infinite alternate; */
+	/* animation: shine 1s linear infinite alternate; */
 }
 
 .skeleton::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  width: 0%;
-  height: 95%;
-  margin: auto 0;
-  animation: shine 0.8s linear infinite;
-  background-color: rgb(255, 255, 255, 0.1);
+	content: '';
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	width: 0%;
+	height: 95%;
+	margin: auto 0;
+	animation: shine 0.8s linear infinite;
+	background-color: rgb(255, 255, 255, 0.1);
 }
 @keyframes shine {
-  0% {
-    opacity: 1;
-    width: 0%;
-    /* background-color: rgb(255, 255, 255, 0.5); */
-  }
-  100% {
-    opacity: 0.25;
-    width: 100%;
-    /* background-color: rgb(255, 255, 255, 0.5); */
-  }
+	0% {
+		opacity: 1;
+		width: 0%;
+		/* background-color: rgb(255, 255, 255, 0.5); */
+	}
+	100% {
+		opacity: 0.25;
+		width: 100%;
+		/* background-color: rgb(255, 255, 255, 0.5); */
+	}
 }

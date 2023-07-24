@@ -9,17 +9,19 @@ yarn dev
 ```
 
 ## About the project
-Recommend you - a movie recommendation and social networking web app. 
+
+Recommend you - a movie recommendation and social networking web app.
 
 Main features of this website:
+
 1. Recommendation system
 2. Personalized home page based on user activity
-3.  Connect with friends
+3. Connect with friends
 4. suggest movies to friends
 
 ## project demo
-https://user-images.githubusercontent.com/63146202/199281728-5ed11211-5ae4-4f3c-8c52-9e40bcb7c7e8.mp4
 
+https://user-images.githubusercontent.com/63146202/199281728-5ed11211-5ae4-4f3c-8c52-9e40bcb7c7e8.mp4
 
 `Frontend:` NextJS, Redux-toolkit, CSS
 
@@ -34,9 +36,3 @@ This project is an improvisation of my previous project, movie-app (https://lnkd
 #### you can check the demo video in the below post
 
 https://www.linkedin.com/posts/jaswanth-p_fullstackproject-mernstack-webdevelopment-activity-6952204435649359873-LhRH?utm_source=share&utm_medium=member_desktop
-
-
-
-
-
-

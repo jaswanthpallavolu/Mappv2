@@ -1,6 +1,46 @@
 {
-    "genres": ["Action", "Adventure", "Animation", "Biography", "Comedy", "Crime", "Drama", "Family", "Fantasy", "History", "Horror", "Music", "Musical", "Mystery", "Romance", "Sci-Fi", "Sport", "Thriller", "War", "Western"],
-    "released": [{"all":2020},{"2019":2019},{"2018":2018},{"2017":2017},{"2016":2016},{"older":2015}],
-    "rating": [{"all":3},{"9":9},{"8":8},{"7":7},{"6":6},{"below":5}],
-    "sortby": [{"Released : Descending":["year",0]},{"Released : Ascending":["year",1]},{"Rating : High to Low":["imdbRating",0]},{"Rating : Low to High":["imdbRating",1]}]
+	"genres": [
+		"Action",
+		"Adventure",
+		"Animation",
+		"Biography",
+		"Comedy",
+		"Crime",
+		"Drama",
+		"Family",
+		"Fantasy",
+		"History",
+		"Horror",
+		"Music",
+		"Musical",
+		"Mystery",
+		"Romance",
+		"Sci-Fi",
+		"Sport",
+		"Thriller",
+		"War",
+		"Western"
+	],
+	"released": [
+		{"all": 2020},
+		{"2019": 2019},
+		{"2018": 2018},
+		{"2017": 2017},
+		{"2016": 2016},
+		{"older": 2015}
+	],
+	"rating": [
+		{"all": 3},
+		{"9": 9},
+		{"8": 8},
+		{"7": 7},
+		{"6": 6},
+		{"below": 5}
+	],
+	"sortby": [
+		{"Released : Descending": ["year", 0]},
+		{"Released : Ascending": ["year", 1]},
+		{"Rating : High to Low": ["imdbRating", 0]},
+		{"Rating : Low to High": ["imdbRating", 1]}
+	]
 }
