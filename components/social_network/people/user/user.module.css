@@ -1,195 +1,195 @@
 .user_container {
-  width: 98%;
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+	width: 98%;
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
 
-  height: 3rem;
+	height: 3rem;
 
-  --box-margin: calc(var(--margin-l) * 2);
-  gap: var(--box-margin);
-  padding: 1.5em 0.5em;
+	--box-margin: calc(var(--margin-l) * 2);
+	gap: var(--box-margin);
+	padding: 1.5em 0.5em;
 
-  border: 1px solid var(--border);
-  margin: 0 auto;
-  margin-bottom: var(--box-margin);
+	border: 1px solid var(--border);
+	margin: 0 auto;
+	margin-bottom: var(--box-margin);
 
-  background-color: var(--user-block-color);
+	background-color: var(--user-block-color);
 }
 .main_details {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: var(--box-margin);
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: var(--box-margin);
 
-  font-weight: 500;
-  font-size: larger;
+	font-weight: 500;
+	font-size: larger;
 
-  /* border: 1px solid blue; */
-  max-width: 70%;
-  color: var(--user-txt-color);
+	/* border: 1px solid blue; */
+	max-width: 70%;
+	color: var(--user-txt-color);
 }
 
 .pic {
-  position: relative;
-  width: 2.2rem;
-  aspect-ratio: 1/1;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  text-transform: uppercase;
+	position: relative;
+	width: 2.2rem;
+	aspect-ratio: 1/1;
+	display: grid;
+	place-items: center;
+	border-radius: 50%;
+	text-transform: uppercase;
 }
 .pic::before {
-  content: "";
-  position: absolute;
-  bottom: 5%;
-  right: 5%;
-  z-index: 3;
-  width: 0.5rem;
-  height: 0.5rem;
-  border-radius: 50%;
-  margin: -1%;
+	content: '';
+	position: absolute;
+	bottom: 5%;
+	right: 5%;
+	z-index: 3;
+	width: 0.5rem;
+	height: 0.5rem;
+	border-radius: 50%;
+	margin: -1%;
 }
 .pic.green::before {
-  background-color: var(--online);
+	background-color: var(--online);
 }
 .pic.grey::before {
-  background-color: var(--offline);
+	background-color: var(--offline);
 }
 
 .info {
-  max-width: 80%;
+	max-width: 80%;
 }
 .name {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  font-size: var(--username-size);
-  /* border: 1px solid blue; */
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	font-size: var(--username-size);
+	/* border: 1px solid blue; */
 }
 .status {
-  font-weight: 400;
-  color: var(--status);
-  font-size: 0.65em;
-  text-align: left;
+	font-weight: 400;
+	color: var(--status);
+	font-size: 0.65em;
+	text-align: left;
 }
 
 /* users Options */
 .you {
-  /* width: max-content; */
-  padding: 0.25em 0.5em;
-  /* border: 1px solid red; */
-  background-color: var(--you_bg);
-  color: var(--light-color);
-  border-radius: 6px;
-  font-size: 0.9em;
-  /* border: 1px solid blue; */
+	/* width: max-content; */
+	padding: 0.25em 0.5em;
+	/* border: 1px solid red; */
+	background-color: var(--you_bg);
+	color: var(--light-color);
+	border-radius: 6px;
+	font-size: 0.9em;
+	/* border: 1px solid blue; */
 }
 
 .extend {
-  /* max-width: 20%; */
-  display: none;
-  justify-content: center;
-  align-items: center;
-  gap: calc(var(--margin-l) * 2);
-  /* border: 1px solid red; */
+	/* max-width: 20%; */
+	display: none;
+	justify-content: center;
+	align-items: center;
+	gap: calc(var(--margin-l) * 2);
+	/* border: 1px solid red; */
 }
 
 .user_container:hover .extend {
-  display: flex;
+	display: flex;
 }
 .extend i {
-  display: grid;
-  place-items: center;
-  color: var(--uicon-color);
-  font-size: 1.1rem;
+	display: grid;
+	place-items: center;
+	color: var(--uicon-color);
+	font-size: 1.1rem;
 }
 .cursor {
-  cursor: pointer;
+	cursor: pointer;
 }
 .disable > i {
-  opacity: 0 !important;
+	opacity: 0 !important;
 }
 
 /* REQUEST SECTION */
 
 .options {
-  margin-top: var(--margin-l);
-  display: flex;
-  gap: calc(var(--margin-l) * 2);
+	margin-top: var(--margin-l);
+	display: flex;
+	gap: calc(var(--margin-l) * 2);
 }
 .request .main_details {
-  max-width: 60%;
+	max-width: 60%;
 }
 .request .info {
-  max-width: 70%;
+	max-width: 70%;
 }
 .accept,
 .decline {
-  border: none;
-  padding: 0.25em 0.5em;
-  border-radius: 2px;
-  cursor: pointer;
+	border: none;
+	padding: 0.25em 0.5em;
+	border-radius: 2px;
+	cursor: pointer;
 }
 .accept {
-  background-color: var(--accent-light);
-  color: var(--light-color);
+	background-color: var(--accent-light);
+	color: var(--light-color);
 }
 .decline {
-  background-color: var(--light-color);
-  color: var(--accent-light);
-  border: 1px solid var(--accent-light);
+	background-color: var(--light-color);
+	color: var(--accent-light);
+	border: 1px solid var(--accent-light);
 }
 
 /* PROFILE PIC */
 .profile_pic {
-  position: relative;
-  z-index: 2;
-  display: grid;
+	position: relative;
+	z-index: 2;
+	display: grid;
 }
 .profile_pic img {
-  z-index: 2;
-  width: var(--profile-height);
-  height: var(--profile-height);
-  border-radius: var(--img-radius);
+	z-index: 2;
+	width: var(--profile-height);
+	height: var(--profile-height);
+	border-radius: var(--img-radius);
 }
 .profile_pic::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  border-radius: var(--img-radius);
-  transform: scale(var(--scale-bg));
-  background: var(--pic-bg);
-  filter: blur(var(--bg-blur));
+	content: '';
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	border-radius: var(--img-radius);
+	transform: scale(var(--scale-bg));
+	background: var(--pic-bg);
+	filter: blur(var(--bg-blur));
 }
 .profile_pic::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  border-radius: var(--img-radius);
-  transform: scale(var(--scale-bg));
-  background: var(--pic-bg);
-  filter: blur(var(--bg-blur));
+	content: '';
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	border-radius: var(--img-radius);
+	transform: scale(var(--scale-bg));
+	background: var(--pic-bg);
+	filter: blur(var(--bg-blur));
 }
 /* END OF PROFILE PIC */
 
 @media (max-width: 560px) {
-  .user_container {
-    height: max-content;
-    padding: 0.5em 0.5em;
-    flex-wrap: wrap;
-  }
+	.user_container {
+		height: max-content;
+		padding: 0.5em 0.5em;
+		flex-wrap: wrap;
+	}
 
-  .request .main_details {
-    max-width: 90%;
-  }
-  .request .info {
-    max-width: 80%;
-  }
-  .extend {
-    display: flex;
-  }
+	.request .main_details {
+		max-width: 90%;
+	}
+	.request .info {
+		max-width: 80%;
+	}
+	.extend {
+		display: flex;
+	}
 }

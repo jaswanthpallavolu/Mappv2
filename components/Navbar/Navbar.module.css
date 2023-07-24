@@ -1,51 +1,51 @@
 .navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 10;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 10;
 
-  /* font-size: 2rem; */
-  transition: all 0.35s ease-out;
+	/* font-size: 2rem; */
+	transition: all 0.35s ease-out;
 
-  /* SIZES */
-  --nav-height: 4rem;
-  --icon-size: 1.8rem;
-  --navlink-fontsize: 1.3rem;
+	/* SIZES */
+	--nav-height: 4rem;
+	--icon-size: 1.8rem;
+	--navlink-fontsize: 1.3rem;
 
-  /* COLORS */
-  --nav-link-color: var(--light-color);
-  --nav-link-active-color: var(--light-color);
-  --icon-color: var(--light-color);
+	/* COLORS */
+	--nav-link-color: var(--light-color);
+	--nav-link-active-color: var(--light-color);
+	--icon-color: var(--light-color);
 
-  /* PROFILE */
-  --profile-height: 2.2rem;
-  --img-radius: 25px;
-  --scale-bg: 1.125;
-  --pic-bg: var(--light-color);
-  --burger-color: var(--light-color);
+	/* PROFILE */
+	--profile-height: 2.2rem;
+	--img-radius: 25px;
+	--scale-bg: 1.125;
+	--pic-bg: var(--light-color);
+	--burger-color: var(--light-color);
 
-  --logo-size: 2.8rem;
+	--logo-size: 2.8rem;
 
-  user-select: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
+	user-select: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
 
-  --login-color: var(--light-color);
-  --login-bg: #000;
+	--login-color: var(--light-color);
+	--login-bg: #000;
 }
 
 /* ALL TOGGLING PROPERTIES  */
 
 .toggle_style {
-  box-shadow: 0px 0px 3px var(--accent-light);
-  --login-bg: var(--base-color);
-  /* --login-color: var(--accent-dark); */
+	box-shadow: 0px 0px 3px var(--accent-light);
+	--login-bg: var(--base-color);
+	/* --login-color: var(--accent-dark); */
 }
 .navbar.hold_style.light_theme {
-  background-color: var(--base-color);
-  box-shadow: 0px 0px 3px var(--accent-light);
+	background-color: var(--base-color);
+	box-shadow: 0px 0px 3px var(--accent-light);
 }
 
 /* .dark_theme {
@@ -57,21 +57,21 @@
   --login-bg: var(--accent-light);
 } */
 .toggle_style.dark_theme {
-  background-color: var(--primary);
-  /* --login-color: var(--light-color);
+	background-color: var(--primary);
+	/* --login-color: var(--light-color);
   --login-bg: var(--accent-light); */
 }
 /* .toggle_style.dark_theme {
 } */
 .toggle_style.light_theme {
-  background-color: var(--primary) !important;
-  /* COLORS */
-  --nav-link-color: var(--font-primary);
-  --nav-link-active-color: var(--font-primary);
-  --icon-color: var(--font-primary);
-  --burger-color: var(--font-primary);
+	background-color: var(--primary) !important;
+	/* COLORS */
+	--nav-link-color: var(--font-primary);
+	--nav-link-active-color: var(--font-primary);
+	--icon-color: var(--font-primary);
+	--burger-color: var(--font-primary);
 
-  /* --login-color: var(--light-color);
+	/* --login-color: var(--light-color);
   --login-bg: var(--accent-light); */
 }
 /* .btn_default {
@@ -89,186 +89,186 @@
 /* ---------DESKTOP NAV ------- */
 
 .desktop_nav {
-  height: var(--nav-height);
-  width: 100vw;
-  display: grid;
-  align-items: center;
-  grid-template-columns: 0.2fr minmax(120px, 1fr) minmax(120px, 1.5fr) minmax(
-      120px,
-      1.25fr
-    );
+	height: var(--nav-height);
+	width: 100vw;
+	display: grid;
+	align-items: center;
+	grid-template-columns: 0.2fr minmax(120px, 1fr) minmax(120px, 1.5fr) minmax(
+			120px,
+			1.25fr
+		);
 }
 
 @media (max-width: 860px) {
-  .desktop_nav {
-    grid-template-columns: 0.2fr minmax(100px, 0.5fr) minmax(100px, 0.85fr) minmax(
-        100px,
-        0.95fr
-      );
-  }
+	.desktop_nav {
+		grid-template-columns: 0.2fr minmax(100px, 0.5fr) minmax(100px, 0.85fr) minmax(
+				100px,
+				0.95fr
+			);
+	}
 }
 
 .logo {
-  margin: auto;
-  display: grid;
-  align-items: center;
-  grid-column: 1/2;
+	margin: auto;
+	display: grid;
+	align-items: center;
+	grid-column: 1/2;
 }
 .logo img {
-  width: var(--logo-size);
-  height: var(--logo-size);
-  border-radius: 100%;
-  box-shadow: 0px 0 5px var(--accent-light);
+	width: var(--logo-size);
+	height: var(--logo-size);
+	border-radius: 100%;
+	box-shadow: 0px 0 5px var(--accent-light);
 }
 
 /* NAV LINKS */
 .navlinks {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  gap: 5%;
-  grid-column: 2/3;
-  /* border: 1px solid red; */
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	justify-content: center;
+	gap: 5%;
+	grid-column: 2/3;
+	/* border: 1px solid red; */
 }
 .navlink.navactive::after {
-  transform: scale(1, 1);
+	transform: scale(1, 1);
 }
 .navlinks li {
-  display: grid;
-  place-items: center;
+	display: grid;
+	place-items: center;
 }
 .navbar ion-icon {
-  text-decoration: none;
-  font-size: var(--icon-size);
-  color: var(--icon-color);
+	text-decoration: none;
+	font-size: var(--icon-size);
+	color: var(--icon-color);
 
-  display: grid;
-  place-items: center;
-  cursor: pointer;
+	display: grid;
+	place-items: center;
+	cursor: pointer;
 }
 .navlink {
-  position: relative;
-  width: max-content;
+	position: relative;
+	width: max-content;
 }
 .navbar.toggle_style .navlink a,
 .navlink a {
-  color: var(--nav-link-color);
-  font-size: var(--navlink-fontsize);
-  font-weight: 100;
+	color: var(--nav-link-color);
+	font-size: var(--navlink-fontsize);
+	font-weight: 100;
 }
 .navlink::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -5%;
-  width: 100%;
-  height: 0.15rem;
-  background: var(--nav-link-active-color);
-  transform: scale(0, 1);
-  transform-origin: center;
-  transition: transform 0.35s ease-in-out;
+	content: '';
+	position: absolute;
+	left: 0;
+	bottom: -5%;
+	width: 100%;
+	height: 0.15rem;
+	background: var(--nav-link-active-color);
+	transform: scale(0, 1);
+	transform-origin: center;
+	transition: transform 0.35s ease-in-out;
 }
 .navlink:hover::after {
-  transform: scale(1, 1);
+	transform: scale(1, 1);
 }
 
 /* END OF NAV LINKS */
 
 /* LOGIN BUTTON */
 .login_section {
-  grid-column: 4/5;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  width: 80%;
+	grid-column: 4/5;
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+	width: 80%;
 
-  /* gap: 5rem; */
+	/* gap: 5rem; */
 }
 .login_btn {
-  width: max-content;
+	width: max-content;
 
-  padding: 0.5em 0.8em;
-  border: none;
+	padding: 0.5em 0.8em;
+	border: none;
 
-  font-size: 15px;
-  font-weight: 100;
-  border-radius: 20px;
-  cursor: pointer;
-  background-color: var(--login-bg);
-  color: var(--login-color);
-  --btn-scale: 1.1;
-  /* animation: shake 0.5s linear 3; */
+	font-size: 15px;
+	font-weight: 100;
+	border-radius: 20px;
+	cursor: pointer;
+	background-color: var(--login-bg);
+	color: var(--login-color);
+	--btn-scale: 1.1;
+	/* animation: shake 0.5s linear 3; */
 }
 .login_btn.shake_it {
-  background-color: var(--accent-light);
-  /* color: var(--accent-dark); */
-  animation: shake 0.5s linear 4;
+	background-color: var(--accent-light);
+	/* color: var(--accent-dark); */
+	animation: shake 0.5s linear 4;
 }
 @keyframes shake {
-  0% {
-    transform: scale(var(--btn-scale)) rotate(-7deg);
-  }
-  25% {
-    transform: scale(var(--btn-scale)) rotate(7deg);
-  }
-  50% {
-    transform: scale(var(--btn-scale)) rotate(-7deg);
-  }
-  75% {
-    transform: scale(var(--btn-scale)) rotate(7deg);
-  }
-  100% {
-    transform: scale(var(--btn-scale)) rotate(0deg);
-  }
+	0% {
+		transform: scale(var(--btn-scale)) rotate(-7deg);
+	}
+	25% {
+		transform: scale(var(--btn-scale)) rotate(7deg);
+	}
+	50% {
+		transform: scale(var(--btn-scale)) rotate(-7deg);
+	}
+	75% {
+		transform: scale(var(--btn-scale)) rotate(7deg);
+	}
+	100% {
+		transform: scale(var(--btn-scale)) rotate(0deg);
+	}
 }
 
 /* PROFILE */
 .desktop_nav .nav_options {
-  grid-column: 4/5;
-  display: flex;
-  justify-self: center;
-  align-items: center;
-  gap: 0.5em;
-  /* border: 1px solid red; */
+	grid-column: 4/5;
+	display: flex;
+	justify-self: center;
+	align-items: center;
+	gap: 0.5em;
+	/* border: 1px solid red; */
 }
 .desktop_nav .theme {
-  margin-right: 2%;
-  width: 2.5rem;
-  aspect-ratio: 1/1;
-  color: var(--font-primary);
-  border-radius: 5px;
-  cursor: pointer;
-  display: grid;
-  place-items: center;
-  font-size: 2rem;
+	margin-right: 2%;
+	width: 2.5rem;
+	aspect-ratio: 1/1;
+	color: var(--font-primary);
+	border-radius: 5px;
+	cursor: pointer;
+	display: grid;
+	place-items: center;
+	font-size: 2rem;
 }
 .desktop_nav .theme:active {
-  transform: scale(0.95);
+	transform: scale(0.95);
 }
 
 .logout {
-  cursor: pointer;
-  color: var(--font-primary);
+	cursor: pointer;
+	color: var(--font-primary);
 }
 @media (max-width: 740px) {
-  .navbar {
-    --icon-size: 1.5rem;
-  }
-  .search_bar {
-    display: flex;
-    gap: 0 !important;
-    height: 2rem;
-  }
+	.navbar {
+		--icon-size: 1.5rem;
+	}
+	.search_bar {
+		display: flex;
+		gap: 0 !important;
+		height: 2rem;
+	}
 
-  .logo {
-    margin: 0;
-    margin-left: 5%;
-  }
-  .logo img {
-    --logo-size: 2.25rem;
-  }
+	.logo {
+		margin: 0;
+		margin-left: 5%;
+	}
+	.logo img {
+		--logo-size: 2.25rem;
+	}
 }
 /* ---------END OF DESKTOP NAV ------- */
 
@@ -282,51 +282,51 @@
 
 /* CLEARING SOME CSS FOR BETTER MOBILE LAYOUT */
 @media (max-width: 600px) {
-  .navbar ion-icon {
-    cursor: default !important;
-  }
+	.navbar ion-icon {
+		cursor: default !important;
+	}
 }
 
 /* SOCIAL ICONS */
 .secondary_icon {
-  position: relative;
-  color: var(--font-primary);
-  /* border: 1px solid red; */
+	position: relative;
+	color: var(--font-primary);
+	/* border: 1px solid red; */
 }
 .secondary_icon.notify > div > ion-icon:before {
-  content: "";
-  position: absolute;
-  background-color: #fa3e3e;
-  top: 0;
-  right: 0;
-  width: 0.35em;
-  aspect-ratio: 1/1;
-  border-radius: 50%;
+	content: '';
+	position: absolute;
+	background-color: #fa3e3e;
+	top: 0;
+	right: 0;
+	width: 0.35em;
+	aspect-ratio: 1/1;
+	border-radius: 50%;
 }
 .secondary_icon.notify_people > div > ion-icon:before {
-  content: attr(data-count);
-  position: absolute;
-  background-color: #fa3e3e;
-  top: 0;
-  right: 0;
+	content: attr(data-count);
+	position: absolute;
+	background-color: #fa3e3e;
+	top: 0;
+	right: 0;
 
-  font-size: 0.35em;
-  padding: 0 0.35em;
-  border-radius: 50%;
-  color: white;
+	font-size: 0.35em;
+	padding: 0 0.35em;
+	border-radius: 50%;
+	color: white;
 }
 
 .secondary_icon > div:first-child {
-  margin: 0;
-  padding: 0;
-  padding: 0.1em;
-  color: var(--font-primary);
-  height: max-content;
-  display: grid;
-  place-items: center;
+	margin: 0;
+	padding: 0;
+	padding: 0.1em;
+	color: var(--font-primary);
+	height: max-content;
+	display: grid;
+	place-items: center;
 }
 
 .disable ion-icon {
-  cursor: default !important;
-  opacity: 0.2;
+	cursor: default !important;
+	opacity: 0.2;
 }

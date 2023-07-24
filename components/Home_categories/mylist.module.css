@@ -1,44 +1,44 @@
 .mylist {
-  /* border: 1px solid red; */
-  margin: 0rem 0.5rem;
-  margin-top: min(2rem, 10%);
-  /* margin-bottom: max(1.5rem, 3%); */
+	/* border: 1px solid red; */
+	margin: 0rem 0.5rem;
+	margin-top: min(2rem, 10%);
+	/* margin-bottom: max(1.5rem, 3%); */
 
-  display: flex;
-  flex-direction: column;
-  /* justify-content: flex-start; */
-  gap: 2rem;
-  /* animation: animate1 0.35s linear 1; */
+	display: flex;
+	flex-direction: column;
+	/* justify-content: flex-start; */
+	gap: 2rem;
+	/* animation: animate1 0.35s linear 1; */
 }
 @keyframes animate1 {
-  0% {
-    opacity: 0;
-    /* transform: translateY(10%); */
-  }
-  100% {
-    opacity: 1;
-    /* transform: translateY(0%); */
-  }
+	0% {
+		opacity: 0;
+		/* transform: translateY(10%); */
+	}
+	100% {
+		opacity: 1;
+		/* transform: translateY(0%); */
+	}
 }
 .mylist > .head {
-  position: relative;
-  left: 6%;
-  margin-bottom: min(-2.5%, -1.5rem);
-  width: 80vw;
-  /* width: max-content; */
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-weight: 300;
-  font-size: clamp(1.1rem, 5vw, 1.9rem);
-  color: var(--font-primary);
+	position: relative;
+	left: 6%;
+	margin-bottom: min(-2.5%, -1.5rem);
+	width: 80vw;
+	/* width: max-content; */
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	font-weight: 300;
+	font-size: clamp(1.1rem, 5vw, 1.9rem);
+	color: var(--font-primary);
 }
 
 .mylist > .head .name {
-  position: relative;
-  left: 0;
-  bottom: 0;
-  text-transform: capitalize;
+	position: relative;
+	left: 0;
+	bottom: 0;
+	text-transform: capitalize;
 }
 /* .mylist > .head .name::before{
     content: '';
@@ -50,60 +50,60 @@
     background: var(--third);
 } */
 .mylist > .head span {
-  width: 0;
-  height: 0;
-  --l: 0.5em;
-  /* --l: min(1.4rem, 2.58vw); */
-  border-top: var(--l) solid transparent;
-  border-bottom: var(--l) solid transparent;
-  border-left: var(--l) solid var(--secondary);
+	width: 0;
+	height: 0;
+	--l: 0.5em;
+	/* --l: min(1.4rem, 2.58vw); */
+	border-top: var(--l) solid transparent;
+	border-bottom: var(--l) solid transparent;
+	border-left: var(--l) solid var(--secondary);
 }
 
 .emptyList {
-  margin: 3% 0;
-  /* height: 30vh; */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  /* border: 1px solid red; */
+	margin: 3% 0;
+	/* height: 30vh; */
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	/* border: 1px solid red; */
 }
 .suggest_text {
-  color: var(--font-primary);
-  text-align: center;
-  width: min(80%, 40rem);
-  margin: 0 auto;
-  /* margin-bottom: min(2rem, 20%); */
-  padding: 0.5rem 0.5rem;
-  font-size: var(--suggestSize);
-  border: 1px solid var(--secondary);
+	color: var(--font-primary);
+	text-align: center;
+	width: min(80%, 40rem);
+	margin: 0 auto;
+	/* margin-bottom: min(2rem, 20%); */
+	padding: 0.5rem 0.5rem;
+	font-size: var(--suggestSize);
+	border: 1px solid var(--secondary);
 }
 
 .mylistLoader {
-  min-height: min(55vh, 35rem);
-  display: grid;
-  align-items: center;
-  place-items: center;
+	min-height: min(55vh, 35rem);
+	display: grid;
+	align-items: center;
+	place-items: center;
 }
 
 @media (max-width: 1200px) {
-  .mylist > .head {
-    left: 3%;
-  }
+	.mylist > .head {
+		left: 3%;
+	}
 }
 
 @media (max-width: 600px) {
-  /* .mylist {
+	/* .mylist {
     margin-bottom: 10%;
   } */
-  .emptyList {
-    /* height: 30vh; */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .mylist > .head .name::after {
-    border-top: 2vh solid transparent;
-    border-bottom: 2vh solid transparent;
-    border-left: 2vh solid var(--third);
-  }
+	.emptyList {
+		/* height: 30vh; */
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	.mylist > .head .name::after {
+		border-top: 2vh solid transparent;
+		border-bottom: 2vh solid transparent;
+		border-left: 2vh solid var(--third);
+	}
 }

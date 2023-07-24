@@ -1,39 +1,39 @@
 .modal {
-  position: fixed;
-  z-index: 99;
-  width: 100vw;
-  height: 100vh;
-  background-color: black;
+	position: fixed;
+	z-index: 99;
+	width: 100vw;
+	height: 100vh;
+	background-color: black;
 
-  display: grid;
-  place-items: center;
-  align-items: center;
+	display: grid;
+	place-items: center;
+	align-items: center;
 }
 .closebg {
-  position: absolute;
-  inset: 0;
+	position: absolute;
+	inset: 0;
 
-  color: white;
+	color: white;
 }
 .closebg ion-icon {
-  position: absolute;
-  right: 1%;
-  top: 1%;
-  font-size: 2rem;
-  cursor: pointer;
+	position: absolute;
+	right: 1%;
+	top: 1%;
+	font-size: 2rem;
+	cursor: pointer;
 }
 .modal iframe {
-  position: absolute;
-  z-index: 6;
-  width: 90vw;
-  aspect-ratio: 16/10;
-  max-height: 98vh;
-  border: 1px solid var(--base-color);
+	position: absolute;
+	z-index: 6;
+	width: 90vw;
+	aspect-ratio: 16/10;
+	max-height: 98vh;
+	border: 1px solid var(--base-color);
 }
 
 @media (max-width: 600px) {
-  .modal iframe {
-    width: 95vw;
-    max-height: 90vh;
-  }
+	.modal iframe {
+		width: 95vw;
+		max-height: 90vh;
+	}
 }
