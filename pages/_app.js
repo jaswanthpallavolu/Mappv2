@@ -44,7 +44,6 @@ function MyApp({Component, pageProps}) {
 				store.dispatch(addToDB(data))
 			}
 			store.dispatch(setCurrentUser(data))
-			// console.log("chg: ", data)
 		})
 
 		return unsubscribe

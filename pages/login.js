@@ -15,7 +15,7 @@ export default function Login() {
 	const authorized = useSelector((state) => state.userAuth.user.authorized)
 
 	useEffect(() => {
-		// console.log(`login:${access}`);
+		console.log(`authorized:${authorized}`)
 		if (authorized) router.replace('/home', undefined, {shallow: true})
 	}, [authorized]) //eslint-disable-line react-hooks/exhaustive-deps
 

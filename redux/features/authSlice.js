@@ -28,6 +28,9 @@ export const loginWithGoogle = createAsyncThunk(
 	'auth/userLogin',
 	(_, thunkAPI) => {
 		var provider = new firebase.auth.GoogleAuthProvider()
+		provider.setCustomParameters({
+			prompt: 'select_account',
+		})
 		auth.signInWithRedirect(provider)
 			// .signInWithPopup(provider)
 			.then((userCred) => {})
@@ -46,7 +49,6 @@ export const addToDB = createAsyncThunk('auth/addUser', async (user) => {
 		.post(`${process.env.NEXT_PUBLIC_USER_DATA_SERVER}/user/add`, user)
 		.then((res) => {
 			data = res.data
-			// console.log(data);
 		})
 		.catch((err) => console.log(err))
 	return data
